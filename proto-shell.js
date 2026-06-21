@@ -62,7 +62,7 @@
   }
 
   function defaultState() {
-    return { visited: [], lessons: [], toolsUsed: [], xp: 0, streak: { count: 0, last: '' }, achievements: [], monthly: 0, goal: null, goals: [], payday: null };
+    return { visited: [], lessons: [], toolsUsed: [], xp: 0, streak: { count: 0, last: '' }, achievements: [], monthly: 0, goal: null, goals: [], activeGoal: 0, payday: null };
   }
 
   function readState() {
@@ -80,9 +80,21 @@
         s.monthly = typeof p.monthly === 'number' ? p.monthly : 0;
         s.goal = p.goal && typeof p.goal === 'object' ? p.goal : null;
         s.goals = Array.isArray(p.goals) ? p.goals : [];
+        s.activeGoal = typeof p.activeGoal === 'number' ? p.activeGoal : 0;
         s.payday = p.payday && typeof p.payday === 'object' ? p.payday : null;
       }
     } catch (err) { /* ignore */ }
+    // Unify the goal model: goals[] is the source of truth; a legacy single goal
+    // (from early onboarding) is migrated into the list so every screen agrees.
+    if (!s.goals.length && s.goal && s.goal.target) s.goals = [s.goal];
+    s.goals = s.goals.filter(function (g) { return g && g.target; });
+    if (s.goals.length) {
+      if (s.activeGoal < 0 || s.activeGoal >= s.goals.length) s.activeGoal = 0;
+      s.goal = s.goals[s.activeGoal]; // keep the singular `goal` mirroring the active one
+    } else {
+      s.activeGoal = 0;
+      s.goal = null;
+    }
     // migrate legacy visited list
     try {
       var legacy = localStorage.getItem('wv_proto_visited');
@@ -109,6 +121,50 @@
     syncAchievements(s);
     writeState(s);
     return s;
+  }
+
+  /* ---------- unified goal model ----------
+     goals[] is the single source of truth. `goal` always mirrors the active goal
+     (goals[activeGoal]) so older screens that read `state.goal` stay correct. */
+  function getGoals() {
+    return readState().goals;
+  }
+  function getActiveGoalIndex() {
+    var s = readState();
+    return s.goals.length ? s.activeGoal : -1;
+  }
+  function getActiveGoal() {
+    var s = readState();
+    return s.goals.length ? s.goals[s.activeGoal] : null;
+  }
+  // Insert or replace a goal. index null/undefined → append a new goal.
+  // The written goal becomes the active one. Returns its index.
+  function saveGoal(goalObj, index) {
+    if (!goalObj || !goalObj.target) return -1;
+    var s = readState();
+    var goals = s.goals.slice();
+    var idx;
+    if (typeof index === 'number' && index >= 0 && index < goals.length) {
+      goals[index] = goalObj; idx = index;
+    } else {
+      goals.push(goalObj); idx = goals.length - 1;
+    }
+    patchState({ goals: goals, goal: goalObj, activeGoal: idx, monthly: goalObj.monthly || s.monthly || 0 });
+    return idx;
+  }
+  function setActiveGoal(index) {
+    var s = readState();
+    if (!s.goals.length) return;
+    var idx = Math.max(0, Math.min(s.goals.length - 1, index || 0));
+    patchState({ activeGoal: idx, goal: s.goals[idx] });
+  }
+  function removeGoal(index) {
+    var s = readState();
+    var goals = s.goals.slice();
+    if (index < 0 || index >= goals.length) return;
+    goals.splice(index, 1);
+    var idx = Math.max(0, Math.min(goals.length - 1, s.activeGoal));
+    patchState({ goals: goals, activeGoal: goals.length ? idx : 0, goal: goals.length ? goals[idx] : null });
   }
 
   function levelFromXp(xp) {
@@ -307,6 +363,12 @@
     ACHIEVEMENTS: ACHIEVEMENTS,
     getState: readState,
     patchState: patchState,
+    getGoals: getGoals,
+    getActiveGoal: getActiveGoal,
+    getActiveGoalIndex: getActiveGoalIndex,
+    saveGoal: saveGoal,
+    setActiveGoal: setActiveGoal,
+    removeGoal: removeGoal,
     levelFromXp: levelFromXp,
     nextLesson: nextLesson,
     icon: icon

@@ -742,7 +742,14 @@
       goalObj.financedAmount = financeCtx.financedAmount;
       goalObj.restTerm = financeCtx.rest;
     }
-    window.WVShell.patchState({ monthly: MONTHLY, goal: goalObj });
+    // Upsert into the unified goals[] list. During onboarding we keep editing the
+    // same (active) slot rather than appending a new goal on every keystroke.
+    if (typeof window.WVShell.saveGoal === 'function') {
+      var idx = window.WVShell.getActiveGoalIndex();
+      window.WVShell.saveGoal(goalObj, idx >= 0 ? idx : undefined);
+    } else {
+      window.WVShell.patchState({ monthly: MONTHLY, goal: goalObj });
+    }
   }
 
   // ── Card selection ──

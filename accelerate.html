@@ -331,7 +331,8 @@
 (function () {
   var S = window.WVShell;
   var st = (S && S.getState) ? S.getState() : {};
-  var g = (st && st.goal && st.goal.target) ? st.goal : null;
+  var g = (S && S.getActiveGoal) ? S.getActiveGoal()
+        : ((st && st.goal && st.goal.target) ? st.goal : null);
 
   // ── Plan inputs (with graceful fallbacks if reached without a goal) ──
   var GOAL_NAME    = g && g.name ? g.name : 'your goal';
@@ -472,7 +473,6 @@
     if (!S || !S.patchState) return;
     var rate = RETURNS[retIdx].rate;
     var yrs = yearsToTarget(monthly, TARGET, rate);
-    var patch = { monthly: monthly };
     if (g) {
       // Start from the existing goal so financing context (price, downPct,
       // financedAmount, restTerm) survives, then update the plan fields.
@@ -481,9 +481,15 @@
       goalObj.monthly = monthly;
       goalObj.years = (isFinite(yrs) && yrs <= 100) ? Math.round(yrs * 10) / 10 : null;
       goalObj.returnRate = rate;
-      patch.goal = goalObj;
+      if (S.saveGoal) {
+        var idx = S.getActiveGoalIndex();
+        S.saveGoal(goalObj, idx >= 0 ? idx : undefined);
+      } else {
+        S.patchState({ monthly: monthly, goal: goalObj });
+      }
+    } else {
+      S.patchState({ monthly: monthly });
     }
-    S.patchState(patch);
   }
 
   // ── Slider wiring (0..100 maps to BASE_MONTHLY..SLIDER_MAX) ──

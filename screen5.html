@@ -265,6 +265,21 @@
       color:var(--act1);
       font-weight: 700;
     }
+    .sim-context {
+      display: flex; align-items: center; gap: 8px;
+      margin: 0 16px 4px; padding: 9px 12px;
+      border-radius: 12px;
+      background: rgba(255, 180, 171, 0.10);
+      border: 1px solid rgba(255, 180, 171, 0.22);
+      font-size: 12.5px; font-weight: 600; color: var(--s-pri, #e8efec);
+      letter-spacing: -0.01em;
+    }
+    .sim-context[hidden] { display: none; }
+    .sim-context-dot {
+      width: 7px; height: 7px; border-radius: 99px; flex: 0 0 auto;
+      background: #ffb4ab; box-shadow: 0 0 0 3px rgba(255,180,171,0.18);
+    }
+    .sim-context b { color: #ffb4ab; font-weight: 800; }
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
 </head>
@@ -277,6 +292,11 @@
       <span class="nav-back">&#8592;</span>
       <span class="nav-title">Simulator</span>
       <span class="nav-toggle">Compare</span>
+    </div>
+
+    <div class="sim-context" id="simContext" hidden>
+      <span class="sim-context-dot"></span>
+      <span id="simContextText">Simulating your plan</span>
     </div>
 
     <div class="chart-area">
@@ -738,6 +758,28 @@
     setSlider(sliderStart, 'start');
     setSlider(sliderReturn, 'return');
     setSlider(sliderYears, 'years');
+
+    // Reflect the real goal being worked on: the dashed "Goal" line + crossing
+    // marker should match the user's actual target, not a hardcoded $60k.
+    const S = window.WVShell;
+    const active = (S && S.getActiveGoal) ? S.getActiveGoal() : null;
+    const tgt = parseFloat(p.get('target'));
+    if (!isNaN(tgt) && tgt > 0) goalTarget = tgt;
+    else if (active && active.target) goalTarget = active.target;
+
+    // Show a context banner so it's clear what the chart is simulating.
+    const name = p.get('name') || (active && active.name);
+    if (goalTarget > 0 && (p.has('target') || p.has('monthly') || active)) {
+      const ctxEl = document.getElementById('simContext');
+      const ctxText = document.getElementById('simContextText');
+      if (ctxEl && ctxText) {
+        const fmtT = '$' + Math.round(goalTarget).toLocaleString('en-US');
+        ctxText.innerHTML = name
+          ? 'Simulating <b>' + String(name).replace(/[<>&]/g, '') + '</b> &middot; goal ' + fmtT
+          : 'Your goal line: <b>' + fmtT + '</b>';
+        ctxEl.hidden = false;
+      }
+    }
   }
 
   window.addEventListener('load', init);

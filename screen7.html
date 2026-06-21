@@ -811,10 +811,13 @@
       const years = Math.max(1, Math.round(months / 12));
 
       const st = window.WVShell.getState();
-      const goals = Array.isArray(st.goals) ? st.goals.slice() : [];
-      if (goals[editIndex]) {
-        goals[editIndex] = { name: name, target: target, monthly: monthly, years: years };
-        window.WVShell.patchState({ goals: goals, monthly: monthly });
+      const existing = (Array.isArray(st.goals) && st.goals[editIndex]) ? st.goals[editIndex] : {};
+      const goalObj = Object.assign({}, existing, { name: name, target: target, monthly: monthly, years: years, returnRate: rate / 100 });
+      if (typeof window.WVShell.saveGoal === 'function') {
+        window.WVShell.saveGoal(goalObj, editIndex);
+      } else {
+        const goals = Array.isArray(st.goals) ? st.goals.slice() : [];
+        if (goals[editIndex]) { goals[editIndex] = goalObj; window.WVShell.patchState({ goals: goals, monthly: monthly }); }
       }
       window.location.href = 'dashboard.html';
     }
@@ -822,10 +825,14 @@
     function handleDelete() {
       if (editIndex === null || !window.WVShell) return;
       if (!window.confirm('Delete this goal? This can\'t be undone.')) return;
-      const st = window.WVShell.getState();
-      const goals = Array.isArray(st.goals) ? st.goals.slice() : [];
-      goals.splice(editIndex, 1);
-      window.WVShell.patchState({ goals: goals });
+      if (typeof window.WVShell.removeGoal === 'function') {
+        window.WVShell.removeGoal(editIndex);
+      } else {
+        const st = window.WVShell.getState();
+        const goals = Array.isArray(st.goals) ? st.goals.slice() : [];
+        goals.splice(editIndex, 1);
+        window.WVShell.patchState({ goals: goals });
+      }
       window.location.href = 'dashboard.html';
     }
 
@@ -1081,10 +1088,15 @@
       }
       const years = Math.max(1, Math.round(months / 12));
 
-      const st = window.WVShell.getState();
-      const goals = Array.isArray(st.goals) ? st.goals.slice() : [];
-      goals.push({ name: name, target: target, monthly: monthly, years: years });
-      window.WVShell.patchState({ goals: goals, monthly: monthly });
+      const goalObj = { id: selectedGoal, name: name, target: target, monthly: monthly, years: years, returnRate: rate / 100 };
+      if (typeof window.WVShell.saveGoal === 'function') {
+        window.WVShell.saveGoal(goalObj);
+      } else {
+        const st = window.WVShell.getState();
+        const goals = Array.isArray(st.goals) ? st.goals.slice() : [];
+        goals.push(goalObj);
+        window.WVShell.patchState({ goals: goals, monthly: monthly });
+      }
     }
 
     function showSuccess() {
@@ -1097,19 +1109,20 @@
         setTimeout(() => spawnParticle(overlay), i * 40);
       }
 
-      // Once the celebration animation has played, head to the dashboard.
+      // Once the celebration animation has played, show the payoff screen — where
+      // the user can open the Simulator or learn how to reach the goal faster.
       let done = false;
-      const goToDashboard = () => {
+      const goToPayoff = () => {
         if (done) return;
         done = true;
-        window.location.href = 'dashboard.html';
+        window.location.href = 'goal.html?from=builder';
       };
-      const redirectTimer = setTimeout(goToDashboard, 1900);
+      const redirectTimer = setTimeout(goToPayoff, 1900);
 
       // Let an impatient tap skip straight there.
       setTimeout(() => {
         overlay.style.cursor = 'pointer';
-        overlay.onclick = () => { clearTimeout(redirectTimer); goToDashboard(); };
+        overlay.onclick = () => { clearTimeout(redirectTimer); goToPayoff(); };
       }, 700);
     }
 

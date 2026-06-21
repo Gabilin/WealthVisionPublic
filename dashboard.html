@@ -230,10 +230,12 @@
         var track = document.getElementById('goalTrack');
         var dotsWrap = document.getElementById('goalDots');
 
-        // Normalize state: prefer a goals[] array, fall back to a single goal{}.
-        var goals = [];
-        if (Array.isArray(st.goals)) goals = st.goals.filter(function (g) { return g && g.target; });
-        else if (st.goal && st.goal.target) goals = [st.goal];
+        // Unified goal model: goals[] is the source of truth (with legacy fallback).
+        var goals = (S.getGoals) ? S.getGoals() : [];
+        if (!goals.length) {
+          if (Array.isArray(st.goals)) goals = st.goals.filter(function (g) { return g && g.target; });
+          else if (st.goal && st.goal.target) goals = [st.goal];
+        }
 
         if (!goals.length) {
           // No goal yet (onboarding skipped) — suggest creating one. Tapping opens the wizard.
@@ -273,10 +275,13 @@
 
         // Build one floating slide per goal — full stats inline, no extra view.
         data.forEach(function (d, i) {
+          var ratePct = (d.g.returnRate ? Math.round(d.g.returnRate * 100) : 7);
           var sim = new URLSearchParams();
           if (d.monthly > 0) sim.set('monthly', d.monthly);
           if (d.years && isFinite(d.years)) sim.set('years', Math.max(1, Math.round(d.years)));
-          sim.set('return', 7);
+          sim.set('return', ratePct);
+          sim.set('target', Math.round(d.g.target));
+          if (d.g.name) sim.set('name', d.g.name);
 
           var slide = document.createElement('div');
           slide.className = 'goal-hero';
@@ -294,7 +299,7 @@
             '<div class="gh-stats">' +
               statCard('Monthly', d.monthly > 0 ? money(d.monthly) : 'Not set') +
               statCard('Time to goal', d.years ? '~' + d.years + ' yrs' : '—') +
-              statCard('Expected return', '7%') +
+              statCard('Expected return', ratePct + '%') +
               statCard('Est. completion', d.completion) +
             '</div>';
           track.appendChild(slide);

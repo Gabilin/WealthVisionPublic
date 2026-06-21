@@ -114,6 +114,18 @@
     .gd-btn-link { background: transparent; color: var(--text-mid); font-weight: 700; box-shadow: none; padding: 10px; }
     .gd-btn-link:active { transform: scale(0.97); }
 
+    /* pinned action footer so the primary CTA is always reachable */
+    .gd-foot {
+      position: relative; z-index: 3; flex: 0 0 auto;
+      padding: 12px 18px calc(14px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, var(--app-bg) 72%, transparent);
+      border-top: 1px solid var(--hairline);
+      display: flex; flex-direction: column; gap: 9px;
+    }
+    .gd-foot .gd-btn { padding: 14px; }
+    .gd-foot-row { display: flex; gap: 9px; }
+    .gd-foot-row .gd-btn { flex: 1 1 0; min-width: 0; }
+
     /* onboarding celebration + next steps */
     .gd-celebrate {
       margin-top: 18px; border-radius: 18px; padding: 16px 16px 14px;
@@ -148,6 +160,7 @@
       <div class="gd-scroll" id="gdScroll">
         <!-- populated by JS -->
       </div>
+      <div class="gd-foot" id="gdFoot"><!-- actions, populated by JS --></div>
     </div>
   </div>
 
@@ -157,6 +170,7 @@
       var S = window.WVShell;
       var RATE = 0.07;
       var scroll = document.getElementById('gdScroll');
+      var foot = document.getElementById('gdFoot');
 
       function esc(s) {
         return String(s).replace(/[&<>"']/g, function (c) {
@@ -179,17 +193,22 @@
       }
 
       var st = S.getState();
-      var g = st.goal;
+      var g = (S.getActiveGoal) ? S.getActiveGoal() : st.goal;
+      var activeIdx = (S.getActiveGoalIndex) ? S.getActiveGoalIndex() : 0;
 
       // Honor a return assumption chosen in the Path-to-Goal step (falls back to 7%).
       if (g && typeof g.returnRate === 'number' && g.returnRate > 0) RATE = g.returnRate;
 
-      var onboarding = new URLSearchParams(window.location.search).get('from') === 'onboarding';
-      if (onboarding) {
+      var fromParam = new URLSearchParams(window.location.search).get('from');
+      var onboarding = fromParam === 'onboarding';
+      var builder = fromParam === 'builder';
+      var payoff = onboarding || builder; // celebratory “you’re all set” framing
+      if (payoff) {
         var topTitle = document.querySelector('.gd-top-title');
         if (topTitle) topTitle.textContent = "You're all set";
       }
       if (!g || !g.target) {
+        if (foot) foot.style.display = 'none';
         scroll.innerHTML =
           '<div class="gd-empty">' +
           '<div class="gd-ic">' + S.icon('target') + '</div>' +
@@ -223,7 +242,8 @@
       var timeline = years ? ('~' + years + ' years') : 'Set a monthly amount';
       var monthlyLabel = monthly > 0 ? (money(monthly) + '/mo') : 'Not set';
 
-      var celebrateHtml = onboarding
+      var eyebrowLabel = payoff ? 'Your new goal' : 'Savings goal';
+      var celebrateHtml = payoff
         ? '<div class="gd-celebrate">' +
             '<div class="gd-celebrate-eyebrow">' + S.icon('sprout') + 'Goal created</div>' +
             '<div class="gd-celebrate-title">Nice — your plan is in motion.</div>' +
@@ -231,21 +251,24 @@
           '</div>'
         : '';
 
-      var actionsHtml = onboarding
-        ? '<div class="gd-actions">' +
-            '<a class="gd-btn gd-btn-primary" id="simBtn">' + S.icon('spark') + 'Try it in the Simulator</a>' +
-            '<a class="gd-btn gd-btn-ghost" href="learn.html">' + S.icon('learn') + 'Learn how to invest smarter</a>' +
-            '<a class="gd-btn gd-btn-link" href="dashboard.html">Skip to my dashboard &#8594;</a>' +
-          '</div>'
-        : '<div class="gd-actions">' +
-            '<a class="gd-btn gd-btn-primary" id="simBtn">' + S.icon('spark') + 'Open in Simulator</a>' +
-            '<a class="gd-btn gd-btn-ghost" href="screen7.html">Edit goal</a>' +
+      var bolt = S.icon('spark');
+      var actionsHtml = payoff
+        ? '<a class="gd-btn gd-btn-primary" id="simBtn">' + S.icon('spark') + 'Try it in the Simulator</a>' +
+          '<div class="gd-foot-row">' +
+            '<a class="gd-btn gd-btn-ghost" href="accelerate.html">' + bolt + 'Reach it faster</a>' +
+            '<a class="gd-btn gd-btn-ghost" href="learn.html">' + S.icon('learn') + 'Learn</a>' +
+          '</div>' +
+          '<a class="gd-btn gd-btn-link" href="dashboard.html">Go to my dashboard &#8594;</a>'
+        : '<a class="gd-btn gd-btn-primary" id="simBtn">' + S.icon('spark') + 'Open in Simulator</a>' +
+          '<div class="gd-foot-row">' +
+            '<a class="gd-btn gd-btn-ghost" href="accelerate.html">' + bolt + 'Reach it faster</a>' +
+            '<a class="gd-btn gd-btn-ghost" href="screen7.html?edit=' + activeIdx + '">Edit goal</a>' +
           '</div>';
 
       scroll.innerHTML =
         '<div class="gd-hero">' +
           '<div class="gd-ic">' + S.icon('target') + '</div>' +
-          '<div class="gd-eyebrow">' + (onboarding ? 'Your new goal' : 'Savings goal') + '</div>' +
+          '<div class="gd-eyebrow">' + eyebrowLabel + '</div>' +
           '<div class="gd-name">' + esc(g.name) + '</div>' +
           '<div class="gd-target">Target <b>' + money(g.target) + '</b></div>' +
           (g.financedAmount
@@ -275,9 +298,9 @@
           '<div class="gd-stat"><div class="k">Time to goal</div><div class="v">' + timeline + '</div></div>' +
           '<div class="gd-stat"><div class="k">Expected return</div><div class="v">' + Math.round(RATE * 100) + '%</div></div>' +
           '<div class="gd-stat"><div class="k">Est. completion</div><div class="v">' + completion + '</div></div>' +
-        '</div>' +
+        '</div>';
 
-        actionsHtml;
+      foot.innerHTML = actionsHtml;
 
       // animate progress bar after paint
       requestAnimationFrame(function () {
@@ -292,6 +315,8 @@
         if (monthly > 0) params.set('monthly', monthly);
         if (years && isFinite(years)) params.set('years', Math.max(1, Math.round(years)));
         params.set('return', Math.round(RATE * 100));
+        params.set('target', Math.round(g.target));
+        if (g.name) params.set('name', g.name);
         simBtn.href = 'screen5.html?' + params.toString();
       }
 
