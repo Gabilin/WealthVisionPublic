@@ -242,7 +242,8 @@
       compass: '<circle cx="12" cy="12" r="9"/><path d="M16 8l-2.2 6.2L7.5 16l2.2-6.2z"/>',
       cap: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-4.5"/><path d="M22 9.2V14"/>',
       sun: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/>',
-      moon: '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>'
+      moon: '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+      reset: '<path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3 8"/><path d="M3 3.5V8h4.5"/>'
     };
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (paths[name] || '') + '</svg>';
   }
@@ -320,7 +321,31 @@
       wireBacks();
       wireOnboarding(file);
     }
+    mountResetButton();
     void s;
+  }
+
+  /* ---------- dev reset control (lives outside the phone frame) ----------
+     Wipes all prototype state and reloads from the splash so the first-run
+     onboarding plays from the very beginning. */
+  function mountResetButton() {
+    if (document.getElementById('wv-reset-btn')) return;
+    var btn = document.createElement('button');
+    btn.id = 'wv-reset-btn';
+    btn.className = 'wv-reset-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Reset prototype and restart onboarding');
+    btn.innerHTML = icon('reset') + '<span>Reset</span>';
+    btn.addEventListener('click', function () {
+      try {
+        Object.keys(localStorage)
+          .filter(function (k) { return k.indexOf('wv_') === 0; })
+          .forEach(function (k) { localStorage.removeItem(k); });
+      } catch (err) { /* ignore */ }
+      var base = window.location.pathname.replace(/[^/]*$/, '');
+      window.location.href = base + 'index.html';
+    });
+    document.body.appendChild(btn);
   }
 
   /* ---------- theme ---------- */

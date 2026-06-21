@@ -49,6 +49,44 @@
 .dom-pink   { --accent: #ff6f9c; --accent-rgb: 255, 111, 156; }
 .dom-gold   { --accent: #f4b740; --accent-rgb: 244, 183, 64; }
 
+/* ---------- dev reset control (floats outside the phone frame) ---------- */
+.wv-reset-btn {
+  position: fixed;
+  top: 22px;
+  left: 22px;
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px 9px 11px;
+  border-radius: 12px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #cdd8e0;
+  background: rgba(18, 24, 32, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  backdrop-filter: blur(10px) saturate(1.1);
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, color 140ms ease, background 140ms ease;
+}
+.wv-reset-btn:hover {
+  color: #ffffff;
+  border-color: rgba(0, 245, 212, 0.5);
+  background: rgba(24, 32, 42, 0.96);
+}
+.wv-reset-btn:active { transform: scale(0.94); }
+.wv-reset-btn svg { width: 16px; height: 16px; color: #00f5d4; }
+
+/* On real phones the frame fills the screen — collapse to a discreet icon */
+@media (max-width: 600px) {
+  .wv-reset-btn { top: 12px; left: 12px; padding: 9px; opacity: 0.85; }
+  .wv-reset-btn span { display: none; }
+}
+
 /* ---------- glass surfaces ---------- */
 .wv-glass {
   background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
