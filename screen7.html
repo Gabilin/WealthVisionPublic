@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 7: Goal Creation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
+    .device-frame{--act1:var(--ac);}
+    .device-frame[data-theme="light"]{--act1:#6a4fe0;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: var(--s-bg);
+      border: 1px solid var(--wa6);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+      /* signature: violet = goals / aspiration */
+      --ac: #9b87ff;
+      --ac-rgb: 155,135,255;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    /* violet ambience unique to Goal Builder */
+    .screen::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 240px;
+      background: radial-gradient(120% 100% at 50% 0%, rgba(var(--ac-rgb),0.16), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .top-bar, .progress-track, .step-content, .bottom-area { position: relative; z-index: 1; }
+
+    /* Top bar */
+    .top-bar {
+      padding: 56px 24px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .close-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--wa6);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .close-btn:hover { background: var(--wa12); }
+    .close-btn svg { width: 18px; height: 18px; stroke: var(--s-sec); stroke-width: 2; fill: none; }
+    .step-indicator {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--s-mid);
+      letter-spacing: 0.02em;
+    }
+    .top-spacer { width: 36px; }
+
+    /* Progress bar */
+    .progress-track {
+      height: 3px;
+      background: var(--wa6);
+      margin: 0 24px 24px;
+      border-radius: 2px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--ac), #c4b6ff);
+      border-radius: 2px;
+      transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* Step content */
+    .step-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 24px;
+      scrollbar-width: none;
+    }
+    .step-content::-webkit-scrollbar { display: none; }
+
+    .step-panel {
+      display: none;
+      animation: fadeUp 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .step-panel.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Step 1: Goal Type */
+    .step-headline {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--s-hi);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .step-subtext {
+      font-size: 14px;
+      color: var(--s-mid);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .goal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .goal-card {
+      background: var(--wa4);
+      border: 1.5px solid var(--wa6);
+      border-radius: 16px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+    .goal-card:hover {
+      background: var(--wa7);
+      border-color: var(--wa10);
+    }
+    .goal-card.selected {
+      background: rgba(var(--ac-rgb),0.10);
+      border-color: rgba(var(--ac-rgb),0.45);
+    }
+    .goal-card svg {
+      width: 36px;
+      height: 36px;
+    }
+    .goal-card-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--s-hi);
+      line-height: 1.3;
+    }
+    .goal-card-desc {
+      font-size: 12px;
+      color: var(--s-mid);
+      line-height: 1.4;
+    }
+
+    /* Step 2: Configure */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--s-sec);
+      margin-bottom: 8px;
+      display: block;
+      letter-spacing: 0.01em;
+    }
+    .form-helper {
+      font-size: 12px;
+      color: var(--s-mid);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .form-input {
+      width: 100%;
+      height: 52px;
+      background: var(--wa4);
+      border: 1.5px solid var(--wa8);
+      border-radius: 14px;
+      padding: 0 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--s-hi);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: rgba(var(--ac-rgb),0.55);
+    }
+    .form-input::placeholder {
+      color: var(--s-mid);
+      font-weight: 400;
+    }
+    .dollar-input-wrap {
+      position: relative;
+    }
+    .dollar-input-wrap::before {
+      content: '$';
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--s-mid);
+      pointer-events: none;
+    }
+    .dollar-input-wrap .form-input {
+      padding-left: 30px;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .slider-row input[type="range"] {
+      flex: 1;
+      height: 4px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--wa8);
+      border-radius: 2px;
+      outline: none;
+    }
+    .slider-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--ac);
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(var(--ac-rgb),0.4);
+    }
+    .slider-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--s-hi);
+      min-width: 60px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Projection line */
+    .projection-line {
+      background: rgba(var(--ac-rgb),0.08);
+      border: 1px solid rgba(var(--ac-rgb),0.18);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .projection-line .proj-label {
+      font-size: 12px;
+      color: var(--s-mid);
+      margin-bottom: 4px;
+    }
+    .projection-line .proj-value {
+      font-size: 16px;
+      font-weight: 700;
+      color:var(--act1);
+    }
+    .projection-line .proj-detail {
+      font-size: 13px;
+      color: var(--s-sec);
+      margin-top: 4px;
+    }
+
+    /* Step 3: Confirmation */
+    .confirm-card {
+      background: var(--wa4);
+      border: 1.5px solid var(--wa8);
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .confirm-icon {
+      margin-bottom: 16px;
+    }
+    .confirm-icon svg { width: 48px; height: 48px; }
+    .confirm-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--s-hi);
+      margin-bottom: 20px;
+    }
+    .confirm-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .confirm-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .confirm-stat-label {
+      font-size: 13px;
+      color: var(--s-mid);
+    }
+    .confirm-stat-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--s-hi);
+      font-variant-numeric: tabular-nums;
+    }
+    .confirm-stat-value.highlight {
+      color:var(--act1);
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .confirm-divider {
+      height: 1px;
+      background: var(--wa6);
+      margin: 0 -24px;
+    }
+
+    /* Mini chart in confirmation */
+    .confirm-chart-wrap {
+      margin: 20px 0 4px;
+      height: 100px;
+      position: relative;
+    }
+    .confirm-chart-wrap canvas {
+      width: 100%;
+      height: 100%;
+    }
+    .goal-line-label {
+      font-size: 11px;
+      color: var(--s-mid);
+      text-align: right;
+      margin-top: 2px;
+    }
+
+    .edit-link {
+      display: inline-block;
+      font-size: 14px;
+      color:var(--c-peri);
+      text-decoration: none;
+      cursor: pointer;
+      padding: 8px;
+      margin-top: 4px;
+      transition: color 0.2s;
+    }
+    .edit-link:hover { color: var(--s-hi); }
+
+    /* Bottom CTA */
+    .bottom-area {
+      padding: 16px 24px 40px;
+      flex-shrink: 0;
+    }
+    .cta-btn {
+      width: 100%;
+      height: 56px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--ac), #7d68f0);
+      color: #1a1238;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: -0.01em;
+    }
+    .cta-btn:hover { filter: brightness(1.08); }
+    .cta-btn:active { transform: scale(0.98); }
+    .cta-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .delete-btn {
+      width: 100%;
+      height: 48px;
+      margin-top: 10px;
+      border: 1px solid rgba(255,140,130,0.32);
+      border-radius: 16px;
+      background: rgba(255,140,130,0.08);
+      color: #ff9d92;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .delete-btn:hover { background: rgba(255,140,130,0.16); }
+    .delete-btn:active { transform: scale(0.98); }
+
+    /* Warning toast */
+    .warning-toast {
+      background: rgba(255,180,171,0.1);
+      border: 1px solid rgba(255,180,171,0.2);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-top: 12px;
+      display: none;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .warning-toast.show { display: flex; }
+    .warning-toast svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+    .warning-toast-text {
+      font-size: 13px;
+      color:var(--c-red);
+      line-height: 1.5;
+    }
+
+    /* Success overlay */
+    .success-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(16,20,26,0.95);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 40px;
+    }
+    .success-overlay.show {
+      display: flex;
+      animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .success-check {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(var(--ac-rgb),0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .success-check svg { width: 36px; height: 36px; stroke: var(--ac); stroke-width: 2.5; fill: none; }
+    .success-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--s-hi);
+      margin-bottom: 8px;
+    }
+    .success-sub {
+      font-size: 14px;
+      color: var(--s-mid);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* Particles */
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    @keyframes particleFly {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+    }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+  <div class="device-frame">
+    <div class="screen">
+
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <button class="close-btn" onclick="handleClose()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <span class="step-indicator" id="stepLabel">Step 1 of 3</span>
+        <div class="top-spacer"></div>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width: 33.3%"></div>
+      </div>
+
+      <!-- Step 1: Choose Goal Type -->
+      <div class="step-content">
+        <div class="step-panel active" id="step1">
+          <h2 class="step-headline">What are you saving for?</h2>
+          <p class="step-subtext">Pick a goal. You can add more later.</p>
+
+          <div class="goal-grid">
+            <div class="goal-card" data-goal="house" onclick="selectGoal(this)">
+              <svg viewBox="0 0 36 36" fill="none">
+                <path d="M18 4L3 16h3v14h10v-8h4v8h10V16h3L18 4z" fill="none" stroke="#9b87ff" stroke-width="1.8" stroke-linejoin="round"/>
+                <rect x="14" y="22" width="8" height="8" rx="1" fill="rgba(155,135,255,0.15)" stroke="#9b87ff" stroke-width="1"/>
+              </svg>
+              <span class="goal-card-name">House down payment</span>
+              <span class="goal-card-desc">Avg: $60,000</span>
+            </div>
+
+            <div class="goal-card" data-goal="freedom" onclick="selectGoal(this)">
+              <svg viewBox="0 0 36 36" fill="none">
+                <circle cx="18" cy="18" r="13" stroke="#bbc3ff" stroke-width="1.8" fill="none"/>
+                <path d="M12 18l4 4 8-8" stroke="#bbc3ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+              <span class="goal-card-name">Financial freedom</span>
+              <span class="goal-card-desc">Never work because you have to</span>
+            </div>
+
+            <div class="goal-card" data-goal="education" onclick="selectGoal(this)">
+              <svg viewBox="0 0 36 36" fill="none">
+                <path d="M18 6L4 14l14 8 14-8L18 6z" fill="rgba(187,195,255,0.15)" stroke="#bbc3ff" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M8 17v8c0 2 4.5 5 10 5s10-3 10-5v-8" stroke="#bbc3ff" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <line x1="32" y1="14" x2="32" y2="28" stroke="#bbc3ff" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              <span class="goal-card-name">Kid's education</span>
+              <span class="goal-card-desc">Avg: $120,000</span>
+            </div>
+
+            <div class="goal-card" data-goal="car" onclick="selectGoal(this)">
+              <svg viewBox="0 0 36 36" fill="none">
+                <rect x="4" y="16" width="28" height="10" rx="3" stroke="#9b87ff" stroke-width="1.8" fill="none"/>
+                <path d="M8 16l3-7h14l3 7" stroke="#9b87ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <circle cx="11" cy="26" r="2.5" fill="rgba(155,135,255,0.15)" stroke="#9b87ff" stroke-width="1.5"/>
+                <circle cx="25" cy="26" r="2.5" fill="rgba(155,135,255,0.15)" stroke="#9b87ff" stroke-width="1.5"/>
+              </svg>
+              <span class="goal-card-name">New car (cash)</span>
+              <span class="goal-card-desc">Avg: $35,000</span>
+            </div>
+
+            <div class="goal-card" data-goal="emergency" onclick="selectGoal(this)">
+              <svg viewBox="0 0 36 36" fill="none">
+                <rect x="6" y="10" width="24" height="16" rx="3" stroke="#9b87ff" stroke-width="1.8" fill="none"/>
+                <circle cx="18" cy="18" r="5" stroke="#9b87ff" stroke-width="1.5" fill="rgba(155,135,255,0.1)"/>
+                <line x1="18" y1="15" x2="18" y2="21" stroke="#9b87ff" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="15" y1="18" x2="21" y2="18" stroke="#9b87ff" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="goal-card-name">Emergency fund</span>
+              <span class="goal-card-desc">6 months expenses</span>
+            </div>
+
+            <div class="goal-card" data-goal="custom" onclick="selectGoal(this)">
+              <svg viewBox="0 0 36 36" fill="none">
+                <circle cx="18" cy="18" r="13" stroke="#83948f" stroke-width="1.8" stroke-dasharray="4 3" fill="none"/>
+                <line x1="18" y1="12" x2="18" y2="24" stroke="#83948f" stroke-width="2" stroke-linecap="round"/>
+                <line x1="12" y1="18" x2="24" y2="18" stroke="#83948f" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span class="goal-card-name">Custom goal</span>
+              <span class="goal-card-desc">Name your own</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Configure -->
+        <div class="step-panel" id="step2">
+          <h2 class="step-headline" id="configHeadline">Configure your goal</h2>
+          <p class="step-subtext">Set a target and how you'll get there.</p>
+
+          <!-- Goal name (shown for custom, or editable for others) -->
+          <div class="form-group" id="goalNameGroup">
+            <label class="form-label">Goal name</label>
+            <input type="text" class="form-input" id="goalNameInput" placeholder="e.g., Dream vacation">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Target amount</label>
+            <div class="dollar-input-wrap">
+              <input type="text" class="form-input" id="targetAmountInput" placeholder="60,000" inputmode="numeric">
+            </div>
+            <p class="form-helper" id="targetHelper">Average down payment in the US: $60,000</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Monthly contribution</label>
+            <div class="slider-row">
+              <input type="range" id="monthlySlider" min="25" max="2000" value="200" step="25">
+              <span class="slider-value" id="monthlyValue">$200</span>
+            </div>
+            <p class="form-helper">Based on your simulator scenario of $200/mo total</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Expected annual return</label>
+            <div class="slider-row">
+              <input type="range" id="returnSlider" min="1" max="15" value="7" step="0.5">
+              <span class="slider-value" id="returnValue">7%</span>
+            </div>
+          </div>
+
+          <div class="projection-line" id="projectionLine">
+            <div class="proj-label">Estimated completion</div>
+            <div class="proj-value" id="projYears">~13 years</div>
+            <div class="proj-detail" id="projDate">Around July 2039</div>
+          </div>
+
+          <div class="warning-toast" id="warningToast">
+            <svg viewBox="0 0 20 20" fill="none">
+              <path d="M10 2L1 18h18L10 2z" stroke="#ffb4ab" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+              <line x1="10" y1="8" x2="10" y2="12" stroke="#ffb4ab" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="10" cy="15" r="0.8" fill="#ffb4ab"/>
+            </svg>
+            <span class="warning-toast-text" id="warningText"></span>
+          </div>
+        </div>
+
+        <!-- Step 3: Confirmation -->
+        <div class="step-panel" id="step3">
+          <h2 class="step-headline">You're all set</h2>
+          <p class="step-subtext">Here's your savings plan at a glance.</p>
+
+          <div class="confirm-card">
+            <div class="confirm-icon" id="confirmIcon"></div>
+            <div class="confirm-name" id="confirmGoalName">House Down Payment</div>
+
+            <div class="confirm-stats">
+              <div class="confirm-stat-row">
+                <span class="confirm-stat-label">Target</span>
+                <span class="confirm-stat-value" id="confirmTarget">$60,000</span>
+              </div>
+              <div class="confirm-divider"></div>
+              <div class="confirm-stat-row">
+                <span class="confirm-stat-label">Monthly contribution</span>
+                <span class="confirm-stat-value" id="confirmMonthly">$200/mo</span>
+              </div>
+              <div class="confirm-divider"></div>
+              <div class="confirm-stat-row">
+                <span class="confirm-stat-label">Expected return</span>
+                <span class="confirm-stat-value" id="confirmReturn">7%</span>
+              </div>
+              <div class="confirm-divider"></div>
+              <div class="confirm-stat-row">
+                <span class="confirm-stat-label">Estimated completion</span>
+                <span class="confirm-stat-value highlight" id="confirmDate">July 2039</span>
+              </div>
+            </div>
+
+            <div class="confirm-chart-wrap">
+              <canvas id="confirmChart"></canvas>
+            </div>
+            <div class="goal-line-label">Growth path to your goal</div>
+          </div>
+
+          <a class="edit-link" onclick="goToStep(2)">← Edit details</a>
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="bottom-area">
+        <button class="cta-btn" id="ctaBtn" disabled onclick="handleCTA()">Select a goal</button>
+        <button class="delete-btn" id="deleteBtn" onclick="handleDelete()" style="display:none">Delete goal</button>
+      </div>
+
+    </div>
+
+    <!-- Success overlay -->
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-check">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="success-title">Goal created!</div>
+      <div class="success-sub" id="successSub">You're now tracking your House Down Payment.</div>
+    </div>
+  </div>
+
+  <script>
+    // ── State ──
+    let currentStep = 1;
+    let selectedGoal = null;
+    let editIndex = null; // when editing an existing goal, its index in goals[]
+
+    const GOALS = {
+      house:     { name: 'House Down Payment',  target: 60000,  helper: 'Average down payment in the US: $60,000' },
+      freedom:   { name: 'Financial Freedom',   target: 500000, helper: 'A common target for financial independence' },
+      education: { name: "Kid's Education",     target: 120000, helper: 'Average 4-year college cost: $120,000' },
+      car:       { name: 'New Car (Cash)',       target: 35000,  helper: 'Average new car price: $35,000' },
+      emergency: { name: 'Emergency Fund',       target: 15000,  helper: '6 months of expenses (~$15,000)' },
+      custom:    { name: '',                     target: 10000,  helper: 'Set any target you like' }
+    };
+
+    // ── Step 1: Goal selection ──
+    function selectGoal(el) {
+      document.querySelectorAll('.goal-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedGoal = el.dataset.goal;
+      const btn = document.getElementById('ctaBtn');
+      btn.disabled = false;
+      btn.textContent = 'Next →';
+    }
+
+    // ── Navigation ──
+    function goToStep(step) {
+      currentStep = step;
+      document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('step' + step).classList.add('active');
+      const editing = editIndex !== null;
+      document.getElementById('stepLabel').textContent = editing ? 'Edit goal' : `Step ${step} of 3`;
+      document.getElementById('progressFill').style.width = editing ? '100%' : `${(step / 3) * 100}%`;
+
+      const btn = document.getElementById('ctaBtn');
+      if (step === 1) {
+        btn.textContent = selectedGoal ? 'Next →' : 'Select a goal';
+        btn.disabled = !selectedGoal;
+      } else if (step === 2) {
+        btn.textContent = editing ? 'Apply changes' : 'Review →';
+        btn.disabled = false;
+      } else if (step === 3) {
+        btn.textContent = 'Start Tracking';
+        btn.disabled = false;
+        populateConfirmation();
+        drawConfirmChart();
+      }
+    }
+
+    function handleCTA() {
+      if (editIndex !== null) { applyEdit(); return; }
+      if (currentStep === 1 && selectedGoal) {
+        setupStep2();
+        goToStep(2);
+      } else if (currentStep === 2) {
+        goToStep(3);
+      } else if (currentStep === 3) {
+        showSuccess();
+      }
+    }
+
+    function handleClose() {
+      if (editIndex !== null) {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+      if (currentStep > 1) {
+        goToStep(currentStep - 1);
+      }
+    }
+
+    // ── Edit mode ──
+    function initEditMode() {
+      const idxParam = new URLSearchParams(location.search).get('edit');
+      if (idxParam === null) return;
+      const idx = parseInt(idxParam, 10);
+      const st = (window.WVShell && window.WVShell.getState) ? window.WVShell.getState() : null;
+      const goals = st && Array.isArray(st.goals) ? st.goals : [];
+      if (!goals[idx]) return; // invalid index → fall back to create flow
+
+      editIndex = idx;
+      const g = goals[idx];
+      selectedGoal = 'custom'; // treat as freeform so name stays editable
+
+      document.getElementById('goalNameGroup').style.display = 'block';
+      document.getElementById('goalNameInput').value = g.name || '';
+      document.getElementById('targetAmountInput').value = formatNumber(g.target || 0);
+      document.getElementById('targetHelper').textContent = 'Update your target and monthly plan.';
+      document.getElementById('configHeadline').textContent = 'Edit goal';
+      document.querySelector('#step2 .step-subtext').textContent = 'Change the parameters of your goal.';
+
+      const ms = document.getElementById('monthlySlider');
+      const monthly = Math.min(2000, Math.max(25, Math.round((g.monthly || 200) / 25) * 25));
+      ms.value = monthly;
+      document.getElementById('monthlyValue').textContent = '$' + formatNumber(monthly);
+
+      goToStep(2);
+      updateProjection();
+      document.getElementById('deleteBtn').style.display = 'block';
+    }
+
+    function applyEdit() {
+      if (!window.WVShell || typeof window.WVShell.patchState !== 'function') {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+      const name = document.getElementById('goalNameInput').value.trim() || 'My Goal';
+      const target = parseNumber(document.getElementById('targetAmountInput').value);
+      const monthly = +document.getElementById('monthlySlider').value;
+      const rate = +document.getElementById('returnSlider').value;
+
+      const monthlyRate = (rate / 100) / 12;
+      let balance = 0, months = 0;
+      while (balance < target && months < 600) {
+        balance = balance * (1 + monthlyRate) + monthly;
+        months++;
+      }
+      const years = Math.max(1, Math.round(months / 12));
+
+      const st = window.WVShell.getState();
+      const goals = Array.isArray(st.goals) ? st.goals.slice() : [];
+      if (goals[editIndex]) {
+        goals[editIndex] = { name: name, target: target, monthly: monthly, years: years };
+        window.WVShell.patchState({ goals: goals, monthly: monthly });
+      }
+      window.location.href = 'dashboard.html';
+    }
+
+    function handleDelete() {
+      if (editIndex === null || !window.WVShell) return;
+      if (!window.confirm('Delete this goal? This can\'t be undone.')) return;
+      const st = window.WVShell.getState();
+      const goals = Array.isArray(st.goals) ? st.goals.slice() : [];
+      goals.splice(editIndex, 1);
+      window.WVShell.patchState({ goals: goals });
+      window.location.href = 'dashboard.html';
+    }
+
+    window.addEventListener('DOMContentLoaded', initEditMode);
+
+    // ── Step 2 setup ──
+    function setupStep2() {
+      const goal = GOALS[selectedGoal];
+      const nameGroup = document.getElementById('goalNameGroup');
+      const nameInput = document.getElementById('goalNameInput');
+      const targetInput = document.getElementById('targetAmountInput');
+      const helper = document.getElementById('targetHelper');
+      const headline = document.getElementById('configHeadline');
+
+      if (selectedGoal === 'custom') {
+        nameGroup.style.display = 'block';
+        nameInput.value = '';
+        nameInput.placeholder = 'e.g., Dream vacation';
+        headline.textContent = 'Configure your goal';
+      } else {
+        nameGroup.style.display = 'none';
+        nameInput.value = goal.name;
+        headline.textContent = goal.name;
+      }
+
+      targetInput.value = formatNumber(goal.target);
+      helper.textContent = goal.helper;
+      updateProjection();
+    }
+
+    // ── Sliders ──
+    document.getElementById('monthlySlider').addEventListener('input', function() {
+      document.getElementById('monthlyValue').textContent = '$' + formatNumber(+this.value);
+      updateProjection();
+    });
+    document.getElementById('returnSlider').addEventListener('input', function() {
+      document.getElementById('returnValue').textContent = parseFloat(parseFloat(this.value).toFixed(1)) + '%';
+      updateProjection();
+    });
+    document.getElementById('targetAmountInput').addEventListener('input', function() {
+      const raw = this.value.replace(/[^0-9]/g, '');
+      if (raw) this.value = formatNumber(+raw);
+      updateProjection();
+    });
+
+    // ── Projection calc ──
+    function updateProjection() {
+      const target = parseNumber(document.getElementById('targetAmountInput').value);
+      const monthly = +document.getElementById('monthlySlider').value;
+      const rate = +document.getElementById('returnSlider').value / 100;
+      const warning = document.getElementById('warningToast');
+      const warningText = document.getElementById('warningText');
+
+      if (target < 100 || monthly <= 0) {
+        document.getElementById('projYears').textContent = '—';
+        document.getElementById('projDate').textContent = '';
+        warning.classList.remove('show');
+        return;
+      }
+
+      // Calculate years to reach target
+      const monthlyRate = rate / 12;
+      let balance = 0;
+      let months = 0;
+      const maxMonths = 50 * 12;
+
+      while (balance < target && months < maxMonths) {
+        balance = balance * (1 + monthlyRate) + monthly;
+        months++;
+      }
+
+      const years = months / 12;
+
+      if (months >= maxMonths) {
+        document.getElementById('projYears').textContent = '50+ years';
+        document.getElementById('projDate').textContent = "That's a long time";
+        warning.classList.add('show');
+        warningText.textContent = `At this rate, you'll need over 50 years. Consider increasing your monthly amount or lowering your target.`;
+      } else {
+        const yStr = years < 1 ? 'Less than 1 year' : `~${Math.round(years)} year${Math.round(years) !== 1 ? 's' : ''}`;
+        document.getElementById('projYears').textContent = yStr;
+        const futureDate = new Date();
+        futureDate.setMonth(futureDate.getMonth() + months);
+        const moName = futureDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        document.getElementById('projDate').textContent = `Around ${moName}`;
+
+        if (years > 40) {
+          warning.classList.add('show');
+          warningText.textContent = `At $${formatNumber(monthly)}/mo, you'll need ~${Math.round(years)} years. Consider increasing your monthly amount.`;
+        } else {
+          warning.classList.remove('show');
+        }
+      }
+    }
+
+    // ── Step 3: Confirmation ──
+    function populateConfirmation() {
+      const goalData = GOALS[selectedGoal];
+      const name = selectedGoal === 'custom'
+        ? (document.getElementById('goalNameInput').value || 'Custom Goal')
+        : goalData.name;
+      const target = parseNumber(document.getElementById('targetAmountInput').value);
+      const monthly = +document.getElementById('monthlySlider').value;
+      const rate = +document.getElementById('returnSlider').value;
+
+      document.getElementById('confirmGoalName').textContent = name;
+      document.getElementById('confirmTarget').textContent = '$' + formatNumber(target);
+      document.getElementById('confirmMonthly').textContent = '$' + formatNumber(monthly) + '/mo';
+      document.getElementById('confirmReturn').textContent = parseFloat(rate.toFixed(1)) + '%';
+
+      // Recalc date
+      const monthlyRate = (rate / 100) / 12;
+      let balance = 0, months = 0;
+      while (balance < target && months < 600) {
+        balance = balance * (1 + monthlyRate) + monthly;
+        months++;
+      }
+      const futureDate = new Date();
+      futureDate.setMonth(futureDate.getMonth() + months);
+      const dateStr = futureDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      document.getElementById('confirmDate').textContent = months >= 600 ? '50+ years' : dateStr;
+
+      // Set icon
+      const iconContainer = document.getElementById('confirmIcon');
+      const card = document.querySelector(`.goal-card[data-goal="${selectedGoal}"]`);
+      if (card) {
+        iconContainer.innerHTML = card.querySelector('svg').outerHTML;
+      }
+
+      document.getElementById('successSub').textContent = `You're now tracking your ${name}.`;
+    }
+
+    // ── Confirmation chart ──
+    function drawConfirmChart() {
+      const canvas = document.getElementById('confirmChart');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      const W = rect.width, H = rect.height;
+
+      const target = parseNumber(document.getElementById('targetAmountInput').value);
+      const monthly = +document.getElementById('monthlySlider').value;
+      const rate = (+document.getElementById('returnSlider').value / 100) / 12;
+
+      // Generate data
+      let balance = 0;
+      const points = [0];
+      let months = 0;
+      while (balance < target * 1.1 && months < 600) {
+        balance = balance * (1 + rate) + monthly;
+        months++;
+        if (months % 3 === 0) points.push(balance);
+      }
+      if (points.length < 2) points.push(target);
+
+      const maxVal = Math.max(...points, target) * 1.05;
+      const padL = 4, padR = 4, padT = 8, padB = 8;
+      const cW = W - padL - padR, cH = H - padT - padB;
+
+      function x(i) { return padL + (i / (points.length - 1)) * cW; }
+      function y(v) { return padT + cH - (v / maxVal) * cH; }
+
+      // Animate the drawing
+      let progress = 0;
+      const duration = 1200;
+      const startTime = performance.now();
+
+      function animate(now) {
+        progress = Math.min((now - startTime) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const drawCount = Math.max(2, Math.ceil(points.length * ease));
+
+        ctx.clearRect(0, 0, W, H);
+
+        // Goal line
+        const gy = y(target);
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = 'rgba(131,148,143,0.3)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padL, gy);
+        ctx.lineTo(W - padR, gy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Area fill
+        ctx.beginPath();
+        ctx.moveTo(x(0), y(points[0]));
+        for (let i = 1; i < drawCount; i++) {
+          ctx.lineTo(x(i), y(points[i]));
+        }
+        ctx.lineTo(x(drawCount - 1), H - padB);
+        ctx.lineTo(padL, H - padB);
+        ctx.closePath();
+        const grad = ctx.createLinearGradient(0, padT, 0, H - padB);
+        grad.addColorStop(0, 'rgba(155,135,255,0.22)');
+        grad.addColorStop(1, 'rgba(155,135,255,0.01)');
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Line
+        ctx.beginPath();
+        ctx.moveTo(x(0), y(points[0]));
+        for (let i = 1; i < drawCount; i++) {
+          ctx.lineTo(x(i), y(points[i]));
+        }
+        ctx.strokeStyle = '#9b87ff';
+        ctx.lineWidth = 2.5;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // Endpoint dot
+        if (progress > 0.1) {
+          const lastI = drawCount - 1;
+          ctx.beginPath();
+          ctx.arc(x(lastI), y(points[lastI]), 4, 0, Math.PI * 2);
+          ctx.fillStyle = '#9b87ff';
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(x(lastI), y(points[lastI]), 8, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(155,135,255,0.15)';
+          ctx.fill();
+        }
+
+        if (progress < 1) requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    }
+
+    // ── Success overlay ──
+    function saveGoal() {
+      if (!window.WVShell || typeof window.WVShell.patchState !== 'function') return;
+      const goalData = GOALS[selectedGoal];
+      const name = selectedGoal === 'custom'
+        ? (document.getElementById('goalNameInput').value || 'Custom Goal')
+        : goalData.name;
+      const target = parseNumber(document.getElementById('targetAmountInput').value);
+      const monthly = +document.getElementById('monthlySlider').value;
+      const rate = +document.getElementById('returnSlider').value;
+
+      // Months until the target is hit (compound monthly).
+      const monthlyRate = (rate / 100) / 12;
+      let balance = 0, months = 0;
+      while (balance < target && months < 600) {
+        balance = balance * (1 + monthlyRate) + monthly;
+        months++;
+      }
+      const years = Math.max(1, Math.round(months / 12));
+
+      const st = window.WVShell.getState();
+      const goals = Array.isArray(st.goals) ? st.goals.slice() : [];
+      goals.push({ name: name, target: target, monthly: monthly, years: years });
+      window.WVShell.patchState({ goals: goals, monthly: monthly });
+    }
+
+    function showSuccess() {
+      const overlay = document.getElementById('successOverlay');
+      overlay.classList.add('show');
+      saveGoal();
+
+      // Particles
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => spawnParticle(overlay), i * 40);
+      }
+
+      // Once the celebration animation has played, head to the dashboard.
+      let done = false;
+      const goToDashboard = () => {
+        if (done) return;
+        done = true;
+        window.location.href = 'dashboard.html';
+      };
+      const redirectTimer = setTimeout(goToDashboard, 1900);
+
+      // Let an impatient tap skip straight there.
+      setTimeout(() => {
+        overlay.style.cursor = 'pointer';
+        overlay.onclick = () => { clearTimeout(redirectTimer); goToDashboard(); };
+      }, 700);
+    }
+
+    function spawnParticle(container) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const colors = ['#9b87ff', '#c4b6ff', '#bbc3ff', '#dfe2eb'];
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.left = (40 + Math.random() * 60) + '%';
+      p.style.top = (35 + Math.random() * 20) + '%';
+      p.style.setProperty('--tx', (Math.random() - 0.5) * 120 + 'px');
+      p.style.setProperty('--ty', (Math.random() - 0.8) * 100 + 'px');
+      p.style.animation = `particleFly ${0.6 + Math.random() * 0.4}s ease-out forwards`;
+      container.appendChild(p);
+      setTimeout(() => p.remove(), 1200);
+    }
+
+    // ── Helpers ──
+    function formatNumber(n) {
+      return Math.round(n).toLocaleString('en-US');
+    }
+    function parseNumber(s) {
+      return parseInt(String(s).replace(/[^0-9]/g, ''), 10) || 0;
+    }
+  </script>
+  <script src="./proto-shell.js"></script>
+</body>
+</html>

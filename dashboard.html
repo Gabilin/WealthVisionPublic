@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="proto-shell.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #080a0e;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    .device-frame {
+      width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
+      position: relative; background: #10141a;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+
+    /* hero — main learn CTA (Learn domain = violet) */
+    .hero {
+      position: relative;
+      border-radius: 22px;
+      padding: 20px;
+      margin-top: 22px;
+      background:
+        radial-gradient(120% 120% at 100% 0%, rgba(155,135,255,0.20), transparent 55%),
+        linear-gradient(165deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(16px) saturate(1.15);
+      backdrop-filter: blur(16px) saturate(1.15);
+      border: 1px solid rgba(155,135,255,0.26);
+      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+      overflow: hidden;
+    }
+    .hero::after {
+      content: ''; position: absolute; right: -40px; top: -40px;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(155,135,255,0.28), transparent 70%);
+    }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #b9a9ff;
+    }
+    .hero-lesson { display: flex; align-items: baseline; gap: 8px; margin-top: 8px; }
+    .hero-num {
+      font-size: 12px; font-weight: 700; color: #1c1340;
+      background: #9b87ff; border-radius: 8px; padding: 2px 8px;
+    }
+    .hero-title {
+      font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--text-hi);
+      margin-top: 12px; line-height: 1.2;
+    }
+    .hero-meta { font-size: 12.5px; color: var(--text-mid); margin-top: 6px; }
+    .hero-bar { margin-top: 16px; height: 7px; border-radius: 99px; background: rgba(127,127,160,0.18); overflow: hidden; }
+    .hero-bar > i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg,#9b87ff,#c4b6ff); }
+    .hero-cta {
+      margin-top: 18px; width: 100%; border: none; cursor: pointer;
+      background: #9b87ff; color: #1a1238; font-weight: 800; font-size: 15px;
+      padding: 14px; border-radius: 14px; letter-spacing: -0.01em;
+      box-shadow: 0 12px 26px rgba(155,135,255,0.30);
+      transition: transform 140ms ease;
+    }
+    .hero-cta:active { transform: scale(0.97); }
+
+    /* ── Floating goal carousel — slides sit directly on the app gradient (no card) ── */
+    .goal-carousel { margin: 0 -18px; }
+    .goal-track {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .goal-track::-webkit-scrollbar { height: 0; width: 0; }
+    .goal-hero {
+      flex: 0 0 100%; width: 100%; scroll-snap-align: center; position: relative;
+      display: block; border: none; background: transparent;
+      font-family: inherit; color: inherit; cursor: pointer;
+      text-align: center; padding: 16px 26px 10px;
+      transition: transform 140ms ease;
+    }
+    .goal-hero:active { transform: scale(0.99); }
+    .goal-hero.is-add { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .goal-dots { display: flex; justify-content: center; gap: 6px; height: 6px; margin-top: 6px; }
+    .goal-dot { width: 6px; height: 6px; border-radius: 99px; background: rgba(127,127,160,0.38);
+      transition: width 240ms cubic-bezier(0.16,1,0.3,1), background 240ms ease; }
+    .goal-dot.active { width: 18px; background: #00f5d4; }
+    .gh-eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-mid); }
+    .gh-name { font-size: 14.5px; font-weight: 600; color: var(--text-hi); margin-top: 8px; letter-spacing: -0.01em; }
+    .gh-amount { font-size: 44px; font-weight: 900; letter-spacing: -0.03em; color: var(--text-hi);
+      margin-top: 6px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .gh-progress { max-width: 250px; margin: 16px auto 0; }
+    .gh-bar { height: 6px; border-radius: 99px; background: rgba(127,127,160,0.28); overflow: hidden; }
+    .gh-bar > i { display: block; height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg,#00f5d4,#67ffe7);
+      transition: width 800ms cubic-bezier(0.16,1,0.3,1); }
+    .gh-meta { font-size: 12.5px; color: var(--text-mid); margin-top: 9px; font-variant-numeric: tabular-nums; }
+
+    /* per-goal action buttons (top-right of each slide) */
+    .gh-tools { position: absolute; top: 6px; right: 22px; display: flex; gap: 8px; z-index: 2; }
+    .gh-iconbtn { width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; color: var(--text-hi); font-family: inherit;
+      background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline); box-shadow: inset 0 1px 0 var(--hi-glow);
+      transition: transform 140ms ease; text-decoration: none; }
+    .gh-iconbtn:active { transform: scale(0.9); }
+    .gh-iconbtn svg { width: 18px; height: 18px; }
+    .gh-iconbtn.sim { color: #04201b; border: none;
+      background: linear-gradient(120deg,#00f5d4,#46e6d0); box-shadow: 0 8px 20px rgba(0,245,212,0.26); }
+
+    /* inline goal stats grid */
+    .gh-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px auto 0; max-width: 300px; text-align: left; }
+    .gh-stat { border-radius: 14px; padding: 11px 13px;
+      background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline); box-shadow: inset 0 1px 0 var(--hi-glow); }
+    .gh-stat .k { font-size: 11px; font-weight: 600; color: var(--text-mid); letter-spacing: 0.01em; }
+    .gh-stat .v { font-size: 17px; font-weight: 800; color: var(--text-hi); margin-top: 4px;
+      letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+
+    .gh-pill {
+      display: inline-flex; align-items: center; gap: 7px; margin-top: 16px;
+      padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--text-hi);
+      background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline); box-shadow: inset 0 1px 0 var(--hi-glow);
+    }
+    .gh-pill svg { width: 15px; height: 15px; }
+
+    /* floating goal — empty / suggestion / add-goal state */
+    .gh-emoji { width: 56px; height: 56px; margin: 0 auto 14px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(160deg, rgba(0,245,212,0.22), rgba(0,245,212,0.06));
+      color: #00f5d4; box-shadow: inset 0 0 0 1px rgba(0,245,212,0.30); }
+    .gh-emoji svg { width: 28px; height: 28px; }
+    .gh-empty-title { font-size: 23px; font-weight: 800; color: var(--text-hi); letter-spacing: -0.02em; margin-top: 4px; }
+    .gh-empty-sub { font-size: 13px; color: var(--text-mid); margin: 8px auto 0; max-width: 280px; line-height: 1.45; }
+    .gh-pill-cta { background: linear-gradient(120deg,#00f5d4,#46e6d0); color: #04201b; border: none; box-shadow: 0 10px 24px rgba(0,245,212,0.24); }
+
+    /* horizontal strips */
+    .h-strip { display: flex; gap: 12px; overflow-x: auto; padding: 2px 0 4px; scroll-snap-type: x mandatory; }
+    .h-strip::-webkit-scrollbar { height: 0; }
+
+
+    .tool-card {
+      flex: 0 0 auto; width: 168px; scroll-snap-align: start; text-decoration: none;
+      border-radius: 18px; padding: 16px; position: relative; overflow: hidden;
+      background:
+        radial-gradient(130% 120% at 0% 0%, rgba(var(--accent-rgb),0.16), transparent 52%),
+        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1);
+      border: 1px solid rgba(var(--accent-rgb),0.24);
+      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+    }
+    .tool-card .ic { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      background: rgba(var(--accent-rgb),0.16); color: var(--accent); margin-bottom: 12px; }
+    .tool-card .ic svg { width: 22px; height: 22px; }
+    .tool-card .t { font-size: 14.5px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.01em; }
+    .tool-card .d { font-size: 11.5px; color: var(--text-mid); margin-top: 4px; line-height: 1.35; }
+    .tool-card .wv-badge-new { position: absolute; top: 14px; right: 14px; }
+  </style>
+</head>
+<body data-wv-tab="home">
+  <div class="device-frame">
+    <div class="wv-hub">
+      <div class="wv-top">
+        <div>
+          <div class="wv-hello">Welcome back</div>
+          <div class="wv-page-title" id="greeting">Good evening</div>
+        </div>
+      </div>
+
+      <div class="wv-scroll">
+        <div class="goal-carousel" id="goalCarousel">
+          <div class="goal-track" id="goalTrack"></div>
+          <div class="goal-dots" id="goalDots"></div>
+        </div>
+
+        <section class="hero">
+          <div class="hero-eyebrow">Today's lesson</div>
+          <div class="hero-lesson"><span class="hero-num" id="heroNum">1</span></div>
+          <div class="hero-title" id="heroTitle">Inflation</div>
+          <div class="hero-meta" id="heroMeta">3 min · Learning Academy</div>
+          <div class="hero-bar"><i id="heroBar" style="width:0%"></i></div>
+          <button class="hero-cta" id="heroCta">Continue learning</button>
+        </section>
+
+        <div class="wv-section-head">
+          <div class="wv-section-title">Fresh tools</div>
+          <a class="wv-see-all" href="tools.html">See all</a>
+        </div>
+        <div class="h-strip" id="toolStrip"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="proto-shell.js"></script>
+  <script>
+    (function () {
+      var S = window.WVShell;
+      var st = S.getState();
+      var next = S.nextLesson(st) || S.LESSONS[S.LESSONS.length - 1];
+      var nextIdx = S.LESSONS.findIndex(function (l) { return l.file === next.file; });
+
+      // Time-aware greeting (no login, so no name)
+      var hr = new Date().getHours();
+      document.getElementById('greeting').textContent =
+        hr < 12 ? 'Good morning' : (hr < 18 ? 'Good afternoon' : 'Good evening');
+
+      // ── Goal: the dashboard's primary focus (inline stats, swipeable, + add slide) ──
+      (function () {
+        var esc = function (s) {
+          return String(s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+          });
+        };
+        var money = function (n) { return '$' + Number(n || 0).toLocaleString('en-US'); };
+        var pctLabel = function (p) { return (p < 1 ? '<1' : Math.round(p)) + '%'; };
+        var pencilSvg =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';
+        var plusSvg =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
+
+        var track = document.getElementById('goalTrack');
+        var dotsWrap = document.getElementById('goalDots');
+
+        // Normalize state: prefer a goals[] array, fall back to a single goal{}.
+        var goals = [];
+        if (Array.isArray(st.goals)) goals = st.goals.filter(function (g) { return g && g.target; });
+        else if (st.goal && st.goal.target) goals = [st.goal];
+
+        if (!goals.length) {
+          // No goal yet (onboarding skipped) — suggest creating one. Tapping opens the wizard.
+          dotsWrap.style.display = 'none';
+          var empty = document.createElement('button');
+          empty.className = 'goal-hero is-add';
+          empty.type = 'button';
+          empty.innerHTML =
+            '<div class="gh-emoji">' + S.icon('target') + '</div>' +
+            '<div class="gh-eyebrow">Get started</div>' +
+            '<div class="gh-empty-title">Set your first goal</div>' +
+            '<div class="gh-empty-sub">Tell us what you\'re saving for and we\'ll map the path to it.</div>' +
+            '<span class="gh-pill gh-pill-cta">' + plusSvg + 'Create a goal</span>';
+          empty.addEventListener('click', function () { window.location.href = 'screen7.html'; });
+          track.appendChild(empty);
+          return;
+        }
+
+        // Derive per-goal display data once.
+        var data = goals.map(function (g) {
+          var monthly = g.monthly || st.monthly || 0;
+          var years = g.years || null;
+          var contributed = monthly; // one month in (prototype has no real balance yet)
+          var pct = g.target > 0 ? Math.max(2, Math.min(100, contributed / g.target * 100)) : 2;
+          var completion = '—';
+          if (years && isFinite(years)) {
+            var d = new Date();
+            d.setMonth(d.getMonth() + Math.round(years * 12));
+            completion = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+          }
+          return { g: g, monthly: monthly, years: years, contributed: contributed, pct: pct, completion: completion };
+        });
+
+        function statCard(k, v) {
+          return '<div class="gh-stat"><div class="k">' + k + '</div><div class="v">' + v + '</div></div>';
+        }
+
+        // Build one floating slide per goal — full stats inline, no extra view.
+        data.forEach(function (d, i) {
+          var sim = new URLSearchParams();
+          if (d.monthly > 0) sim.set('monthly', d.monthly);
+          if (d.years && isFinite(d.years)) sim.set('years', Math.max(1, Math.round(d.years)));
+          sim.set('return', 7);
+
+          var slide = document.createElement('div');
+          slide.className = 'goal-hero';
+          slide.setAttribute('data-i', i);
+          slide.innerHTML =
+            '<div class="gh-tools">' +
+              '<a class="gh-iconbtn" href="screen7.html?edit=' + i + '" aria-label="Edit goal">' + pencilSvg + '</a>' +
+              '<a class="gh-iconbtn sim" href="screen5.html?' + sim.toString() + '" aria-label="Open in Simulator">' + S.icon('spark') + '</a>' +
+            '</div>' +
+            '<div class="gh-eyebrow">' + (data.length > 1 ? 'Goal ' + (i + 1) + ' of ' + data.length : 'Your goal') + '</div>' +
+            '<div class="gh-name">' + esc(d.g.name) + '</div>' +
+            '<div class="gh-amount">' + money(d.g.target) + '</div>' +
+            '<div class="gh-progress"><div class="gh-bar"><i style="width:0%"></i></div></div>' +
+            '<div class="gh-meta">' + money(d.contributed) + ' of ' + money(d.g.target) + ' · ' + pctLabel(d.pct) + '</div>' +
+            '<div class="gh-stats">' +
+              statCard('Monthly', d.monthly > 0 ? money(d.monthly) : 'Not set') +
+              statCard('Time to goal', d.years ? '~' + d.years + ' yrs' : '—') +
+              statCard('Expected return', '7%') +
+              statCard('Est. completion', d.completion) +
+            '</div>';
+          track.appendChild(slide);
+        });
+
+        // Always end with an "Add goal" slide so users can swipe to create another.
+        var add = document.createElement('button');
+        add.className = 'goal-hero is-add';
+        add.type = 'button';
+        add.innerHTML =
+          '<div class="gh-emoji">' + plusSvg + '</div>' +
+          '<div class="gh-empty-title">Add a goal</div>' +
+          '<div class="gh-empty-sub">Track another milestone alongside this one.</div>' +
+          '<span class="gh-pill gh-pill-cta">' + plusSvg + 'Add a goal</span>';
+        add.addEventListener('click', function () { window.location.href = 'screen7.html'; });
+        track.appendChild(add);
+
+        requestAnimationFrame(function () {
+          track.querySelectorAll('.gh-bar > i').forEach(function (b, i) {
+            b.style.width = Math.round(data[i].pct) + '%';
+          });
+        });
+
+        // Paging dots — one per goal plus the trailing add slide.
+        var pages = data.length + 1;
+        var dots = [];
+        for (var p = 0; p < pages; p++) {
+          var dot = document.createElement('span');
+          dot.className = 'goal-dot' + (p === 0 ? ' active' : '');
+          dotsWrap.appendChild(dot);
+          dots.push(dot);
+        }
+        var active = 0;
+        track.addEventListener('scroll', function () {
+          var i = Math.round(track.scrollLeft / track.clientWidth);
+          if (i !== active && dots[i]) {
+            dots[active].classList.remove('active');
+            dots[i].classList.add('active');
+            active = i;
+          }
+        }, { passive: true });
+
+        // Tapping a dot jumps to that page.
+        dots.forEach(function (dot, i) {
+          dot.style.cursor = 'pointer';
+          dot.addEventListener('click', function () {
+            track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+          });
+        });
+
+        // Desktop: drag-to-scroll. Native overflow-x only responds to touch/trackpad,
+        // so without this a mouse user can't swipe between goals.
+        var down = false, startX = 0, startScroll = 0, moved = false;
+        track.style.cursor = 'grab';
+        track.addEventListener('pointerdown', function (e) {
+          if (e.pointerType === 'touch') return; // native touch scrolling already works
+          down = true; moved = false;
+          startX = e.clientX; startScroll = track.scrollLeft;
+          track.style.scrollSnapType = 'none';
+          track.style.cursor = 'grabbing';
+        });
+        window.addEventListener('pointermove', function (e) {
+          if (!down) return;
+          var dx = e.clientX - startX;
+          if (Math.abs(dx) > 4) moved = true;
+          track.scrollLeft = startScroll - dx;
+        });
+        window.addEventListener('pointerup', function () {
+          if (!down) return;
+          down = false;
+          track.style.cursor = 'grab';
+          track.style.scrollSnapType = 'x mandatory';
+          if (moved) {
+            var i = Math.max(0, Math.min(pages - 1, Math.round(track.scrollLeft / track.clientWidth)));
+            track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+          }
+        });
+        // Swallow the click that follows a drag so it doesn't navigate.
+        track.addEventListener('click', function (e) {
+          if (moved) { e.preventDefault(); e.stopPropagation(); }
+        }, true);
+      })();
+
+      var allDone = st.lessons.length >= S.LESSONS.length;
+      document.getElementById('heroNum').textContent = nextIdx + 1;
+      document.getElementById('heroTitle').textContent = allDone ? 'You finished every lesson' : next.title;
+      document.getElementById('heroMeta').textContent = allDone ? 'Review anytime · Learning Academy' : (next.mins + ' min · Learning Academy');
+      document.querySelector('.hero-eyebrow').textContent = allDone ? 'Keep it sharp' : "Today's lesson";
+      document.getElementById('heroBar').style.width = Math.round(st.lessons.length / S.LESSONS.length * 100) + '%';
+      var cta = document.getElementById('heroCta');
+      cta.textContent = allDone ? 'Review a lesson' : (st.lessons.length === 0 ? 'Start learning' : 'Continue learning');
+      cta.addEventListener('click', function () { window.location.href = next.file; });
+
+      var toolStrip = document.getElementById('toolStrip');
+      S.TOOLS.slice().sort(function (a, b) { return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0); }).forEach(function (t) {
+        var a = document.createElement('a');
+        a.className = 'tool-card dom-' + (t.dom || 'teal');
+        a.href = t.file;
+        a.innerHTML =
+          (t.isNew ? '<span class="wv-badge-new">New</span>' : '') +
+          '<div class="ic">' + S.icon(t.icon) + '</div>' +
+          '<div class="t">' + t.title + '</div><div class="d">' + t.desc + '</div>';
+        toolStrip.appendChild(a);
+      });
+    })();
+  </script>
+</body>
+</html>

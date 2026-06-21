@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 6: Compare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
+    .device-frame{--act1:#46a8ff;--act2:#ffa03c;}
+    .device-frame[data-theme="light"]{--act1:#1f6fd0;--act2:#c06a14;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: var(--s-bg);
+      border: 1px solid var(--wa6);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Nav ── */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 58px 24px 12px;
+      flex-shrink: 0;
+    }
+    .nav-back { color: var(--s-mid); font-size: 20px; cursor: pointer; padding: 4px; line-height: 1; }
+    .nav-back:active { color: var(--s-hi); }
+    .nav-title { font-size: 17px; font-weight: 700; color: var(--s-hi); letter-spacing: -0.01em; }
+    .nav-toggle {
+      font-size: 13px; font-weight: 600; color: var(--s-mid); cursor: pointer;
+      padding: 6px 12px; border-radius: 8px;
+      border: 1px solid var(--wa8); background: var(--wa3);
+    }
+    .nav-toggle:active { opacity: 0.6; }
+
+    /* ── Preset chips ── */
+    .presets {
+      display: flex;
+      gap: 8px;
+      padding: 4px 24px 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex-shrink: 0;
+    }
+    .presets::-webkit-scrollbar { display: none; }
+    .preset-chip {
+      flex-shrink: 0;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--wa8);
+      background: var(--wa3);
+      color: var(--s-sec);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease-out;
+      white-space: nowrap;
+    }
+    .preset-chip:active { transform: scale(0.96); }
+    .preset-chip.active {
+      background: rgba(70, 168, 255, 0.12);
+      border-color: rgba(70, 168, 255, 0.35);
+      color:var(--act1);
+    }
+
+    /* ── Chart ── */
+    .chart-area {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      flex-shrink: 0;
+    }
+    .chart-canvas { width: 100%; height: 100%; display: block; }
+
+    /* ── Legend ── */
+    .chart-legend {
+      display: flex;
+      gap: 20px;
+      padding: 8px 24px 0;
+      flex-shrink: 0;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .legend-dot--a { background: #46a8ff; }
+    .legend-dot--b { background: #ffa03c; }
+    .legend-label { font-size: 12px; font-weight: 500; color: var(--s-mid); }
+
+    /* ── Gap annotation ── */
+    .gap-annotation {
+      text-align: center;
+      padding: 0 0 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color:var(--act2);
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+    .gap-annotation.visible { opacity: 1; }
+
+    /* ── Controls scroll ── */
+    .controls-area {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 24px 0;
+      scrollbar-width: none;
+    }
+    .controls-area::-webkit-scrollbar { display: none; }
+
+    /* ── Two-column controls ── */
+    .controls-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 16px;
+    }
+    .col-header {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.005em;
+      padding: 8px 0 12px;
+    }
+    .col-header--a { color:var(--act1); }
+    .col-header--b { color:var(--act2); }
+
+    .ctrl {
+      margin-bottom: 16px;
+    }
+    .ctrl-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--s-mid);
+      margin-bottom: 4px;
+      letter-spacing: 0.02em;
+    }
+    .ctrl-val {
+      font-size: 15px;
+      font-weight: 700;
+      color:var(--c-val);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 6px;
+    }
+    .ctrl-val--b { color:var(--c-valb); }
+
+    .slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 4px; border-radius: 2px;
+      background: var(--wa6); outline: none;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      cursor: pointer; border: 2px solid var(--s-bg);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+    }
+    .slider::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      cursor: pointer; border: 2px solid var(--s-bg);
+    }
+    .slider--a::-webkit-slider-thumb { background: #46a8ff; }
+    .slider--a::-moz-range-thumb { background: #46a8ff; }
+    .slider--b::-webkit-slider-thumb { background: #ffa03c; }
+    .slider--b::-moz-range-thumb { background: #ffa03c; }
+
+    /* ── Results table ── */
+    .results-table {
+      margin-top: 8px;
+      padding: 16px 0 40px;
+      border-top: 1px solid var(--wa4);
+    }
+    .res-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      padding: 6px 0;
+      align-items: baseline;
+    }
+    .res-header {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 0 0 8px;
+    }
+    .res-header:nth-child(1) { color: var(--s-mid); }
+    .res-header:nth-child(2) { color:var(--act1); }
+    .res-header:nth-child(3) { color:var(--act2); }
+    .res-label {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--s-mid);
+    }
+    .res-val {
+      font-size: 14px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .res-val--a { color:var(--c-val); }
+    .res-val--b { color:var(--c-valb); }
+    .res-diff {
+      font-size: 12px;
+      font-weight: 600;
+      color:var(--act2);
+      text-align: right;
+      padding-top: 10px;
+    }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+
+<div class="device-frame">
+  <div class="screen">
+
+    <div class="nav-bar">
+      <span class="nav-back">&#8592;</span>
+      <span class="nav-title">Compare</span>
+      <span class="nav-toggle">Basic</span>
+    </div>
+
+    <div class="presets" id="presets">
+      <button class="preset-chip" data-preset="early">Start 5 years earlier</button>
+      <button class="preset-chip" data-preset="double">Double contribution</button>
+      <button class="preset-chip" data-preset="lump">Add lump sum $5K</button>
+      <button class="preset-chip" data-preset="return">Higher return 10%</button>
+    </div>
+
+    <div class="chart-area">
+      <canvas class="chart-canvas" id="chart"></canvas>
+    </div>
+
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot legend-dot--a"></div><span class="legend-label">Your plan</span></div>
+      <div class="legend-item"><div class="legend-dot legend-dot--b"></div><span class="legend-label">What if...</span></div>
+    </div>
+
+    <div class="controls-area">
+
+      <div class="gap-annotation" id="gapAnnotation"></div>
+
+      <div class="controls-columns">
+        <div class="col-header col-header--a">Your Plan</div>
+        <div class="col-header col-header--b">What If...</div>
+
+        <!-- Monthly -->
+        <div class="ctrl">
+          <div class="ctrl-label">Monthly</div>
+          <div class="ctrl-val" id="valA_m">$200</div>
+          <input type="range" class="slider slider--a" id="sA_m" min="0" max="5000" step="25" value="200">
+        </div>
+        <div class="ctrl">
+          <div class="ctrl-label">Monthly</div>
+          <div class="ctrl-val ctrl-val--b" id="valB_m">$200</div>
+          <input type="range" class="slider slider--b" id="sB_m" min="0" max="5000" step="25" value="200">
+        </div>
+
+        <!-- Return -->
+        <div class="ctrl">
+          <div class="ctrl-label">Return</div>
+          <div class="ctrl-val" id="valA_r">7%</div>
+          <input type="range" class="slider slider--a" id="sA_r" min="1" max="15" step="0.5" value="7">
+        </div>
+        <div class="ctrl">
+          <div class="ctrl-label">Return</div>
+          <div class="ctrl-val ctrl-val--b" id="valB_r">7%</div>
+          <input type="range" class="slider slider--b" id="sB_r" min="1" max="15" step="0.5" value="7">
+        </div>
+
+        <!-- Years -->
+        <div class="ctrl">
+          <div class="ctrl-label">Years</div>
+          <div class="ctrl-val" id="valA_y">30</div>
+          <input type="range" class="slider slider--a" id="sA_y" min="1" max="50" step="1" value="30">
+        </div>
+        <div class="ctrl">
+          <div class="ctrl-label">Years</div>
+          <div class="ctrl-val ctrl-val--b" id="valB_y">30</div>
+          <input type="range" class="slider slider--b" id="sB_y" min="1" max="50" step="1" value="30">
+        </div>
+
+        <!-- Start -->
+        <div class="ctrl">
+          <div class="ctrl-label">Starting</div>
+          <div class="ctrl-val" id="valA_s">$0</div>
+          <input type="range" class="slider slider--a" id="sA_s" min="0" max="100000" step="500" value="0">
+        </div>
+        <div class="ctrl">
+          <div class="ctrl-label">Starting</div>
+          <div class="ctrl-val ctrl-val--b" id="valB_s">$0</div>
+          <input type="range" class="slider slider--b" id="sB_s" min="0" max="100000" step="500" value="0">
+        </div>
+      </div>
+
+      <!-- Results table -->
+      <div class="results-table">
+        <div class="res-row">
+          <span class="res-header"></span>
+          <span class="res-header">Your Plan</span>
+          <span class="res-header">What If</span>
+        </div>
+        <div class="res-row">
+          <span class="res-label">Final value</span>
+          <span class="res-val res-val--a" id="resA_f">$227,413</span>
+          <span class="res-val res-val--b" id="resB_f">$227,413</span>
+        </div>
+        <div class="res-row">
+          <span class="res-label">Contributed</span>
+          <span class="res-val res-val--a" id="resA_c">$72,000</span>
+          <span class="res-val res-val--b" id="resB_c">$72,000</span>
+        </div>
+        <div class="res-row">
+          <span class="res-label">Earned</span>
+          <span class="res-val res-val--a" id="resA_e">$155,413</span>
+          <span class="res-val res-val--b" id="resB_e">$155,413</span>
+        </div>
+        <div class="res-diff" id="resDiff"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('chart');
+  const ctx    = canvas.getContext('2d');
+  const dpr    = window.devicePixelRatio || 1;
+  const gapEl  = document.getElementById('gapAnnotation');
+
+  // Slider refs
+  const sA = { m: document.getElementById('sA_m'), r: document.getElementById('sA_r'), y: document.getElementById('sA_y'), s: document.getElementById('sA_s') };
+  const sB = { m: document.getElementById('sB_m'), r: document.getElementById('sB_r'), y: document.getElementById('sB_y'), s: document.getElementById('sB_s') };
+  const vA = { m: document.getElementById('valA_m'), r: document.getElementById('valA_r'), y: document.getElementById('valA_y'), s: document.getElementById('valA_s') };
+  const vB = { m: document.getElementById('valB_m'), r: document.getElementById('valB_r'), y: document.getElementById('valB_y'), s: document.getElementById('valB_s') };
+  const resA = { f: document.getElementById('resA_f'), c: document.getElementById('resA_c'), e: document.getElementById('resA_e') };
+  const resB = { f: document.getElementById('resB_f'), c: document.getElementById('resB_c'), e: document.getElementById('resB_e') };
+  const resDiff = document.getElementById('resDiff');
+  const presetBtns = document.querySelectorAll('.preset-chip');
+
+  function getParams(sliders) {
+    return {
+      monthly: +sliders.m.value,
+      rate: +sliders.r.value / 100,
+      years: +sliders.y.value,
+      start: +sliders.s.value,
+    };
+  }
+
+  function computeCurve(p) {
+    const months = p.years * 12;
+    const mr = p.rate / 12;
+    const pts = [];
+    const step = Math.max(1, Math.floor(months / 150));
+    for (let m = 0; m <= months; m += step) {
+      const contrib = p.monthly * m + p.start;
+      const total = m === 0 ? p.start
+        : p.start * Math.pow(1 + mr, m) + p.monthly * ((Math.pow(1 + mr, m) - 1) / mr);
+      pts.push({ year: m / 12, contributions: contrib, total });
+    }
+    if (pts[pts.length - 1].year < p.years) {
+      const m = months;
+      const contrib = p.monthly * m + p.start;
+      const total = p.start * Math.pow(1 + mr, m) + p.monthly * ((Math.pow(1 + mr, m) - 1) / mr);
+      pts.push({ year: p.years, contributions: contrib, total });
+    }
+    return pts;
+  }
+
+  function sizeCanvas() {
+    const p = canvas.parentElement;
+    canvas.width  = p.clientWidth * dpr;
+    canvas.height = p.clientHeight * dpr;
+    canvas.style.width  = p.clientWidth + 'px';
+    canvas.style.height = p.clientHeight + 'px';
+  }
+
+  function fmt(v) { return '$' + Math.round(v).toLocaleString('en-US'); }
+  function fmtShort(v) {
+    if (Math.abs(v) >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+    if (Math.abs(v) >= 1e3) return (v >= 0 ? '+$' : '-$') + Math.round(Math.abs(v) / 1e3) + 'K';
+    return (v >= 0 ? '+' : '') + fmt(v);
+  }
+
+  function drawChart() {
+    const pA = getParams(sA);
+    const pB = getParams(sB);
+    const curveA = computeCurve(pA);
+    const curveB = computeCurve(pB);
+
+    const w = canvas.width / dpr;
+    const h = canvas.height / dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    const maxYears = Math.max(pA.years, pB.years);
+    const maxVal = Math.max(curveA[curveA.length - 1].total, curveB[curveB.length - 1].total) * 1.08 || 1;
+
+    const padL = 16, padR = 16, padT = 10, padB = 24;
+    const cL = padL, cR = w - padR, cT = padT, cB = h - padB;
+    const cW = cR - cL, cH = cB - cT;
+
+    const xOf = yr => cL + (yr / maxYears) * cW;
+    const yOf = v  => cB - (v / maxVal) * cH;
+
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // X-axis labels
+    ctx.font = '500 10px Inter, sans-serif';
+    ctx.fillStyle = 'rgba(131, 148, 143, 0.4)';
+    ctx.textAlign = 'center';
+    const steps = maxYears <= 10 ? maxYears : (maxYears <= 30 ? Math.ceil(maxYears / 5) : Math.ceil(maxYears / 10));
+    const yStep = maxYears / steps;
+    for (let y = 0; y <= maxYears; y += yStep) {
+      ctx.fillText(y === 0 ? 'Now' : Math.round(y) + 'y', xOf(y), cB + 16);
+    }
+
+    // ── Draw curve function ──
+    function drawCurve(data, lineColor, glowColor, areaColor, lineW) {
+      // Area fill
+      ctx.beginPath();
+      ctx.moveTo(xOf(data[0].year), cB);
+      for (const d of data) ctx.lineTo(xOf(d.year), yOf(d.total));
+      ctx.lineTo(xOf(data[data.length - 1].year), cB);
+      ctx.closePath();
+      const g = ctx.createLinearGradient(0, cT, 0, cB);
+      g.addColorStop(0, areaColor);
+      g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g;
+      ctx.fill();
+
+      // Line glow
+      ctx.beginPath();
+      for (let i = 0; i < data.length; i++) {
+        const x = xOf(data[i].year), y = yOf(data[i].total);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = glowColor;
+      ctx.lineWidth = 8;
+      ctx.shadowColor = glowColor;
+      ctx.shadowBlur = 8;
+      ctx.stroke();
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+
+      // Line crisp
+      ctx.beginPath();
+      for (let i = 0; i < data.length; i++) {
+        const x = xOf(data[i].year), y = yOf(data[i].total);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineW;
+      ctx.stroke();
+    }
+
+    // Draw A (teal) first, then B (orange) on top
+    drawCurve(curveA, '#46a8ff', 'rgba(70, 168, 255, 0.12)', 'rgba(70, 168, 255, 0.10)', 2.5);
+    drawCurve(curveB, '#ffa03c', 'rgba(255, 160, 60, 0.12)', 'rgba(255, 160, 60, 0.10)', 2.5);
+
+    // Endpoint dots
+    const endA = curveA[curveA.length - 1];
+    const endB = curveB[curveB.length - 1];
+    [{ d: endA, c: '#46a8ff' }, { d: endB, c: '#ffa03c' }].forEach(({ d, c }) => {
+      ctx.beginPath();
+      ctx.arc(xOf(d.year), yOf(d.total), 4, 0, Math.PI * 2);
+      ctx.fillStyle = c;
+      ctx.fill();
+    });
+
+    // Gap annotation between endpoints
+    if (Math.abs(endB.total - endA.total) > 1) {
+      const diff = endB.total - endA.total;
+      const midY = (yOf(endA.total) + yOf(endB.total)) / 2;
+      // Dashed line connecting endpoints
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(xOf(endA.year), yOf(endA.total));
+      ctx.lineTo(xOf(endB.year), yOf(endB.total));
+      ctx.strokeStyle = 'rgba(255, 160, 60, 0.3)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Update results
+    updateResults(pA, pB, curveA, curveB);
+  }
+
+  function updateResults(pA, pB, cA, cB) {
+    const endA = cA[cA.length - 1];
+    const endB = cB[cB.length - 1];
+
+    vA.m.textContent = fmt(pA.monthly);
+    vA.r.textContent = parseFloat((pA.rate * 100).toFixed(1)) + '%';
+    vA.y.textContent = pA.years;
+    vA.s.textContent = fmt(pA.start);
+    vB.m.textContent = fmt(pB.monthly);
+    vB.r.textContent = parseFloat((pB.rate * 100).toFixed(1)) + '%';
+    vB.y.textContent = pB.years;
+    vB.s.textContent = fmt(pB.start);
+
+    resA.f.textContent = fmt(endA.total);
+    resA.c.textContent = fmt(endA.contributions);
+    resA.e.textContent = fmt(endA.total - endA.contributions);
+    resB.f.textContent = fmt(endB.total);
+    resB.c.textContent = fmt(endB.contributions);
+    resB.e.textContent = fmt(endB.total - endB.contributions);
+
+    const diff = endB.total - endA.total;
+    if (Math.abs(diff) > 1) {
+      resDiff.textContent = 'Difference: ' + fmtShort(diff);
+      gapEl.textContent = fmtShort(diff) + ' by changing your plan';
+      gapEl.classList.add('visible');
+    } else {
+      resDiff.textContent = '';
+      gapEl.classList.remove('visible');
+    }
+  }
+
+  // ── Slider events ──
+  Object.values(sA).concat(Object.values(sB)).forEach(s => {
+    s.addEventListener('input', drawChart);
+  });
+
+  // ── Preset chips ──
+  presetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      presetBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const p = btn.dataset.preset;
+      // Reset B to match A first
+      sB.m.value = sA.m.value;
+      sB.r.value = sA.r.value;
+      sB.y.value = sA.y.value;
+      sB.s.value = sA.s.value;
+      // Apply preset
+      if (p === 'early')  sB.y.value = Math.min(50, +sA.y.value + 5);
+      if (p === 'double') sB.m.value = Math.min(5000, +sA.m.value * 2);
+      if (p === 'lump')   sB.s.value = Math.min(100000, +sA.s.value + 5000);
+      if (p === 'return') sB.r.value = Math.min(15, 10);
+      drawChart();
+    });
+  });
+
+  // ── Init ──
+  function init() {
+    sizeCanvas();
+    drawChart();
+  }
+  window.addEventListener('load', init);
+  window.addEventListener('resize', () => { sizeCanvas(); drawChart(); });
+})();
+</script>
+
+  <script src="./proto-shell.js"></script>
+</body>
+</html>
+

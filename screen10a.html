@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 10: Can I Buy?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
+    .device-frame{--act1:var(--ac);}
+    .device-frame[data-theme="light"]{--act1:#0e8f63;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: var(--s-bg);
+      border: 1px solid var(--wa6);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+      /* signature: green = money / affordability */
+      --ac: #22c993;
+      --ac-rgb: 34,201,147;
+    }
+    /* soft green ambience unique to this tool */
+    .screen::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 220px;
+      background: radial-gradient(120% 100% at 50% 0%, rgba(var(--ac-rgb),0.14), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .top-nav, .scroll-content, .bottom-area { position: relative; z-index: 1; }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Top nav ── */
+    .top-nav {
+      padding: 56px 24px 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .back-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--wa6);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: var(--wa12); }
+    .back-btn svg { width: 18px; height: 18px; stroke: var(--s-sec); stroke-width: 2; fill: none; }
+    .nav-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--s-hi);
+    }
+
+    /* ── Scroll ── */
+    .scroll-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 24px 24px;
+      scrollbar-width: none;
+    }
+    .scroll-content::-webkit-scrollbar { display: none; }
+
+    /* ── Intro ── */
+    .intro {
+      margin-bottom: 24px;
+    }
+    .intro-text {
+      font-size: 14px;
+      color: var(--s-mid);
+      line-height: 1.6;
+    }
+    .intro-text strong { color: var(--s-sec); }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 24px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .section-num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: rgba(var(--ac-rgb),0.14);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color:var(--act1);
+      flex-shrink: 0;
+    }
+    .section-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--s-hi);
+    }
+    .section-card {
+      background:
+        linear-gradient(180deg, var(--glass-top), var(--glass-bot)),
+        var(--wa1);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      padding: 16px;
+      backdrop-filter: blur(14px) saturate(1.1);
+      -webkit-backdrop-filter: blur(14px) saturate(1.1);
+      box-shadow: inset 0 1px 0 var(--hi-glow);
+    }
+
+    /* ── Form rows ── */
+    .form-row {
+      margin-bottom: 16px;
+    }
+    .form-row:last-child { margin-bottom: 0; }
+    .form-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--s-sec);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .form-label svg { width: 14px; height: 14px; stroke: var(--s-mid); stroke-width: 1.8; fill: none; }
+    .form-helper {
+      font-size: 11px;
+      color: var(--s-mid);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* ── Dollar input ── */
+    .dollar-wrap {
+      position: relative;
+    }
+    .dollar-wrap::before {
+      content: '$';
+      position: absolute;
+      left: 14px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px; font-weight: 600; color: var(--s-mid);
+      pointer-events: none;
+    }
+    .dollar-wrap input {
+      padding-left: 28px;
+    }
+
+    /* ── Pct input ── */
+    .pct-wrap {
+      position: relative;
+    }
+    .pct-wrap::after {
+      content: '%';
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px; font-weight: 600; color: var(--s-mid);
+      pointer-events: none;
+    }
+    .pct-wrap input {
+      padding-right: 32px;
+    }
+
+    /* ── Months input ── */
+    .months-wrap {
+      position: relative;
+    }
+    .months-wrap::after {
+      content: 'mo';
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px; font-weight: 500; color: var(--s-mid);
+      pointer-events: none;
+    }
+    .months-wrap input {
+      padding-right: 38px;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      background: var(--wa4);
+      border: 1.5px solid var(--wa8);
+      border-radius: 12px;
+      padding: 0 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--s-hi);
+      outline: none;
+      transition: border-color 0.2s;
+      font-variant-numeric: tabular-nums;
+    }
+    .form-input:focus {
+      border-color: rgba(var(--ac-rgb),0.55);
+    }
+    .form-input::placeholder {
+      color: rgba(131,148,143,0.6);
+      font-weight: 400;
+    }
+
+    .text-input {
+      width: 100%;
+      height: 48px;
+      background: var(--wa4);
+      border: 1.5px solid var(--wa8);
+      border-radius: 12px;
+      padding: 0 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--s-hi);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .text-input:focus {
+      border-color: rgba(var(--ac-rgb),0.55);
+    }
+    .text-input::placeholder {
+      color: rgba(131,148,143,0.6);
+      font-weight: 400;
+    }
+
+    /* ── Two-col ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* ── Quick presets ── */
+    .preset-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .preset-chip {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--wa8);
+      background: var(--wa3);
+      color: var(--s-sec);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .preset-chip:hover {
+      background: var(--wa6);
+      border-color: var(--wa12);
+    }
+    .preset-chip.active {
+      background: rgba(var(--ac-rgb),0.10);
+      border-color: rgba(var(--ac-rgb),0.35);
+      color:var(--act1);
+    }
+    .preset-chip svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+
+    /* ── Term chips ── */
+    .term-chips {
+      display: flex;
+      gap: 6px;
+    }
+    .term-chip {
+      flex: 1;
+      height: 40px;
+      border-radius: 10px;
+      border: 1.5px solid var(--wa8);
+      background: var(--wa3);
+      color: var(--s-sec);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .term-chip.active {
+      background: rgba(var(--ac-rgb),0.10);
+      border-color: rgba(var(--ac-rgb),0.35);
+      color:var(--act1);
+    }
+
+    /* ── Live preview ── */
+    .preview-bar {
+      background: var(--wa3);
+      border: 1px solid var(--wa6);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      transition: opacity 0.3s;
+    }
+    .preview-bar.hidden { opacity: 0.3; pointer-events: none; }
+    .preview-label {
+      font-size: 12px;
+      color: var(--s-mid);
+    }
+    .preview-amount {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--s-hi);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .preview-sub {
+      font-size: 11px;
+      color: var(--s-mid);
+      margin-top: 2px;
+    }
+    .preview-right {
+      text-align: right;
+    }
+
+    /* ── Bottom CTA ── */
+    .bottom-area {
+      padding: 12px 24px 40px;
+      flex-shrink: 0;
+    }
+    .cta-btn {
+      width: 100%;
+      height: 56px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--ac), #1fb98a);
+      color: #06241a;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: -0.01em;
+    }
+    .cta-btn:hover { filter: brightness(1.08); }
+    .cta-btn:active { transform: scale(0.98); }
+    .cta-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+    .cta-btn.ghost { background: var(--wa6); color: var(--s-hi); }
+    .cta-btn.ghost:hover { filter: none; background: var(--wa8); }
+    .btn-row { display: flex; gap: 10px; }
+    .btn-row #backBtn { flex: 0 0 104px; }
+    .btn-row #ctaBtn { flex: 1; }
+
+    /* ── Stepper ── */
+    .stepper { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+    .step { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; color:var(--s-mid); }
+    .step .step-num { width:24px; height:24px; border-radius:50%; background:var(--wa6); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--s-mid); transition:all .3s; }
+    .step.active { color:var(--s-hi); }
+    .step.active .step-num { background:linear-gradient(135deg,var(--ac),#1fb98a); color:#06241a; }
+    .step.done .step-num { background:rgba(var(--ac-rgb),0.16); color:var(--act1); }
+    .step-line { flex:1; height:2px; border-radius:1px; background:var(--wa6); transition:background .3s; }
+    .step-line.active { background:rgba(var(--ac-rgb),0.45); }
+
+    /* ── Segmented control ── */
+    .segmented { display:flex; gap:4px; padding:4px; background:var(--wa4); border:1px solid var(--wa6); border-radius:12px; }
+    .seg-opt { flex:1; height:40px; border:none; border-radius:9px; background:transparent; color:var(--s-mid); font-family:'Inter',sans-serif; font-size:13px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; transition:all .2s; }
+    .seg-opt svg { width:15px; height:15px; stroke:currentColor; stroke-width:1.8; fill:none; }
+    .seg-opt.active { background:rgba(var(--ac-rgb),0.14); color:var(--act1); box-shadow:inset 0 0 0 1px rgba(var(--ac-rgb),0.28); }
+
+    /* ── For-work toggle ── */
+    .switch-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; background:var(--wa3); border:1px solid var(--wa6); border-radius:14px; margin-bottom:24px; cursor:pointer; transition:all .2s; }
+    .switch-row.on { background:rgba(var(--ac-rgb),0.08); border-color:rgba(var(--ac-rgb),0.3); }
+    .switch-info { display:flex; align-items:center; gap:11px; }
+    .switch-info svg { width:18px; height:18px; stroke:var(--s-sec); stroke-width:1.8; fill:none; flex-shrink:0; }
+    .switch-row.on .switch-info svg { stroke:var(--act1); }
+    .switch-text { font-size:13px; font-weight:600; color:var(--s-hi); }
+    .switch-desc { font-size:11px; color:var(--s-mid); margin-top:1px; }
+    .switch { width:42px; height:24px; border-radius:12px; background:var(--wa8); position:relative; transition:background .2s; flex-shrink:0; }
+    .switch::after { content:''; position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:#fff; transition:transform .2s; box-shadow:0 1px 3px rgba(0,0,0,0.35); }
+    .switch-row.on .switch { background:var(--ac); }
+    .switch-row.on .switch::after { transform:translateX(18px); }
+
+    /* ── Collapsible ── */
+    .collapse { overflow:hidden; max-height:420px; opacity:1; transition:max-height .35s ease, opacity .25s ease; }
+    .collapse.hide { max-height:0; opacity:0; }
+
+    /* ── Verdict pane ── */
+    #step2 { animation:fadeUp .45s cubic-bezier(0.16,1,0.3,1); }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+
+    /* ── Verdict hero ── */
+    .verdict-hero { text-align:center; padding:8px 0 24px; }
+    .verdict-badge { display:inline-flex; align-items:center; gap:8px; padding:8px 20px; border-radius:50px; font-size:14px; font-weight:700; letter-spacing:0.03em; margin-bottom:12px; }
+    .verdict-badge.yes { background:rgba(var(--ac-rgb),0.14); color:var(--act1); border:1px solid rgba(var(--ac-rgb),0.28); }
+    .verdict-badge.stretch { background:rgba(255,193,7,0.12); color:var(--c-amber); border:1px solid rgba(255,193,7,0.25); }
+    .verdict-badge.no { background:rgba(255,180,171,0.12); color:var(--c-red); border:1px solid rgba(255,180,171,0.25); }
+    .verdict-badge svg { width:18px; height:18px; stroke:currentColor; stroke-width:2.5; fill:none; }
+    .verdict-item { font-size:18px; font-weight:700; color:var(--s-hi); margin-bottom:4px; }
+    .verdict-payment { font-size:36px; font-weight:900; color:var(--s-hi); font-variant-numeric:tabular-nums; letter-spacing:-0.02em; line-height:1.1; }
+    .verdict-payment-sub { font-size:14px; color:var(--s-mid); margin-top:4px; }
+    .verdict-reason { font-size:14px; color:var(--s-sec); line-height:1.5; margin-top:14px; max-width:300px; margin-left:auto; margin-right:auto; }
+
+    /* ── Gauge ── */
+    .gauge-section { margin-bottom:24px; }
+    .gauge-wrap { position:relative; width:100%; height:40px; }
+    .gauge-track { position:absolute; top:14px; left:0; right:0; height:12px; border-radius:6px; overflow:hidden; background:var(--wa4); }
+    .gauge-fill { height:100%; border-radius:6px; transition:width 1s cubic-bezier(0.16,1,0.3,1); }
+    .gauge-needle { position:absolute; top:4px; width:4px; height:32px; border-radius:2px; background:var(--s-hi); transition:left 1s cubic-bezier(0.16,1,0.3,1); box-shadow:0 0 6px rgba(0,0,0,0.4); }
+    .gauge-labels { display:flex; justify-content:space-between; margin-top:8px; }
+    .gauge-labels span { font-size:11px; color:var(--s-mid); }
+    .gauge-score { text-align:center; margin-top:6px; }
+    .gauge-score-num { font-size:16px; font-weight:700; font-variant-numeric:tabular-nums; }
+    .gauge-score-label { font-size:11px; color:var(--s-mid); margin-top:2px; }
+
+    /* ── Breakdown ── */
+    .breakdown-section { margin-bottom:24px; }
+    .section-title { font-size:14px; font-weight:600; color:var(--s-sec); margin-bottom:14px; letter-spacing:0.01em; }
+    .budget-bar-wrap { background:var(--wa3); border:1px solid var(--wa6); border-radius:16px; padding:16px; }
+    .budget-bar { height:28px; border-radius:8px; overflow:hidden; display:flex; margin-bottom:14px; background:var(--wa4); }
+    .bar-seg { height:100%; transition:width 0.8s cubic-bezier(0.16,1,0.3,1); position:relative; }
+    .bar-needs { background:#5c6bc0; }
+    .bar-debts { background:#ef5350; }
+    .bar-payment { background:#ffc107; border-left:1px solid rgba(0,0,0,0.2); }
+    .bar-savings { background:var(--ac); border-left:1px solid rgba(0,0,0,0.2); }
+    .bar-free { background:var(--wa6); }
+    .budget-legend { display:flex; flex-direction:column; gap:8px; }
+    .legend-row { display:flex; align-items:center; justify-content:space-between; }
+    .legend-left { display:flex; align-items:center; gap:8px; }
+    .legend-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+    .legend-name { font-size:13px; color:var(--s-sec); }
+    .legend-value { font-size:13px; font-weight:600; color:var(--s-hi); font-variant-numeric:tabular-nums; }
+    .legend-pct { font-size:11px; color:var(--s-mid); margin-left:4px; }
+
+    /* ── Stats ── */
+    .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px; }
+    .stat-card { background:var(--wa3); border:1px solid var(--wa6); border-radius:14px; padding:14px; }
+    .stat-label { font-size:11px; color:var(--s-mid); margin-bottom:4px; }
+    .stat-value { font-size:17px; font-weight:700; color:var(--s-hi); font-variant-numeric:tabular-nums; }
+    .stat-value.good { color:var(--act1); }
+    .stat-value.warn { color:var(--c-amber); }
+    .stat-value.bad { color:var(--c-red); }
+    .stat-sub { font-size:10px; color:var(--s-mid); margin-top:2px; }
+
+    /* ── Opportunity cost ── */
+    .opp-card { background:linear-gradient(135deg, rgba(2,49,222,0.1), rgba(187,195,255,0.06)); border:1px solid rgba(187,195,255,0.12); border-radius:16px; padding:16px; margin-bottom:24px; }
+    .opp-title { font-size:13px; font-weight:600; color:var(--c-peri); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+    .opp-title svg { width:14px; height:14px; stroke:#bbc3ff; stroke-width:2; fill:none; }
+    .opp-text { font-size:13px; color:var(--s-sec); line-height:1.5; }
+    .opp-text strong { color:var(--c-peri); font-weight:700; }
+    .opp-cta { margin-top:12px; width:100%; height:44px; border-radius:12px; border:1px solid rgba(187,195,255,0.3); background:rgba(187,195,255,0.1); color:var(--c-peri); font-family:'Inter',sans-serif; font-size:13px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; transition:all 0.2s; }
+    .opp-cta:hover { background:rgba(187,195,255,0.16); }
+    .opp-cta svg { width:15px; height:15px; stroke:currentColor; stroke-width:2; fill:none; }
+
+    /* ── Term comparison ── */
+    .term-section { margin-bottom:24px; }
+    .term-table { background:var(--wa3); border:1px solid var(--wa6); border-radius:16px; padding:6px 4px; overflow:hidden; }
+    .term-row { display:grid; grid-template-columns:1fr 1fr 1fr; align-items:center; padding:11px 14px; border-radius:10px; transition:background 0.2s; }
+    .term-row.head { padding:8px 14px 6px; }
+    .term-row.head span { font-size:10px; color:var(--s-mid); text-transform:uppercase; letter-spacing:0.04em; }
+    .term-row.current { background:rgba(var(--ac-rgb),0.10); border:1px solid rgba(var(--ac-rgb),0.20); }
+    .term-row .tt-term { font-size:13px; font-weight:700; color:var(--s-hi); }
+    .term-row.current .tt-term { color:var(--act1); }
+    .term-row .tt-pay, .term-row .tt-int { font-size:13px; font-variant-numeric:tabular-nums; text-align:right; }
+    .term-row .tt-pay { color:var(--s-hi); font-weight:600; }
+    .term-row .tt-int { color:var(--c-red); }
+    .term-note { font-size:11px; color:var(--s-mid); margin-top:10px; text-align:center; line-height:1.4; }
+
+    /* ── Max afford ── */
+    .max-card { background:var(--wa3); border:1px solid var(--wa6); border-radius:14px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+    .max-label { font-size:13px; color:var(--s-mid); }
+    .max-value { font-size:18px; font-weight:700; color:var(--act1); font-variant-numeric:tabular-nums; }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+  <div class="device-frame">
+    <div class="screen">
+
+      <!-- Top nav -->
+      <div class="top-nav">
+        <button class="back-btn">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="nav-title">Can I Buy?</span>
+      </div>
+
+      <div class="scroll-content">
+
+        <!-- Intro -->
+        <div class="intro">
+          <p class="intro-text">Tell us what you want and how you'd pay. We'll weigh it against the <strong>50/30/20 rule</strong>, <strong>DTI limits</strong> and your <strong>cash cushion</strong> — then give a clear verdict.</p>
+        </div>
+
+        <!-- Stepper -->
+        <div class="stepper">
+          <div class="step active" id="stepDot1"><span class="step-num">1</span>Item</div>
+          <div class="step-line" id="stepLine1"></div>
+          <div class="step" id="stepDot2"><span class="step-num">2</span>Budget</div>
+          <div class="step-line" id="stepLine2"></div>
+          <div class="step" id="stepDot3"><span class="step-num">3</span>Verdict</div>
+        </div>
+
+        <!-- ══════════ STEP 1 — DETAILS ══════════ -->
+        <div id="step1">
+
+          <!-- ─── Card A: What you want ─── -->
+          <div id="paneItem">
+
+          <!-- Section 1: What you want -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-num">1</div>
+              <span class="section-label">What do you want?</span>
+            </div>
+
+            <!-- Quick presets -->
+            <div class="preset-row">
+              <button class="preset-chip" onclick="selectPreset('car', this)" data-price="35000" data-rate="6.5" data-term="48">
+                <svg viewBox="0 0 14 14"><rect x="1" y="6" width="12" height="5" rx="1.5"/><path d="M3 6l1.5-3h5l1.5 3"/><circle cx="4" cy="11" r="1.2"/><circle cx="10" cy="11" r="1.2"/></svg>
+                Car
+              </button>
+              <button class="preset-chip" onclick="selectPreset('laptop', this)" data-price="2500" data-rate="0" data-term="12">
+                <svg viewBox="0 0 14 14"><rect x="1.5" y="2" width="11" height="8" rx="1.5"/><line x1="0" y1="12" x2="14" y2="12"/></svg>
+                Laptop
+              </button>
+              <button class="preset-chip" onclick="selectPreset('phone', this)" data-price="1199" data-rate="0" data-term="24">
+                <svg viewBox="0 0 14 14"><rect x="3" y="1" width="8" height="12" rx="2"/><line x1="6" y1="11" x2="8" y2="11"/></svg>
+                Phone
+              </button>
+              <button class="preset-chip" onclick="selectPreset('vacation', this)" data-price="5000" data-rate="18" data-term="12">
+                <svg viewBox="0 0 14 14"><circle cx="7" cy="5" r="3"/><line x1="7" y1="8" x2="7" y2="13"/><line x1="4" y1="11" x2="7" y2="13"/><line x1="10" y1="11" x2="7" y2="13"/></svg>
+                Vacation
+              </button>
+              <button class="preset-chip" onclick="selectPreset('furniture', this)" data-price="3000" data-rate="0" data-term="18">
+                <svg viewBox="0 0 14 14"><rect x="1" y="5" width="12" height="5" rx="1"/><line x1="2" y1="10" x2="2" y2="13"/><line x1="12" y1="10" x2="12" y2="13"/><path d="M3 5V3a1 1 0 011-1h6a1 1 0 011 1v2"/></svg>
+                Furniture
+              </button>
+            </div>
+
+            <div class="section-card">
+              <div class="form-row">
+                <label class="form-label">Total price</label>
+                <div class="dollar-wrap">
+                  <input type="text" class="form-input" id="priceInput" placeholder="25,000" inputmode="numeric">
+                </div>
+              </div>
+
+              <!-- Payment method -->
+              <div class="form-row">
+                <label class="form-label" style="margin-bottom:8px;">How will you pay?</label>
+                <div class="segmented" id="paySeg">
+                  <button class="seg-opt active" data-pay="finance" onclick="selectPay('finance', this)">
+                    <svg viewBox="0 0 16 16"><rect x="1" y="4" width="14" height="9" rx="1.5"/><line x1="1" y1="7" x2="15" y2="7"/></svg>
+                    Finance
+                  </button>
+                  <button class="seg-opt" data-pay="full" onclick="selectPay('full', this)">
+                    <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5"/><path d="M8 5v6M6.5 6.5h3a1.5 1.5 0 010 3H6.5"/></svg>
+                    Pay in full
+                  </button>
+                </div>
+              </div>
+
+              <!-- Finance-only fields -->
+              <div class="collapse" id="financeFields">
+                <div class="two-col">
+                  <div class="form-row">
+                    <label class="form-label">Interest rate (APR)</label>
+                    <div class="pct-wrap">
+                      <input type="text" class="form-input" id="rateInput" placeholder="6.5" inputmode="decimal">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <label class="form-label">Loan term</label>
+                    <div class="months-wrap">
+                      <input type="text" class="form-input" id="termInput" placeholder="48" inputmode="numeric">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row" style="margin-bottom:0;">
+                  <label class="form-label" style="margin-bottom:8px;">Quick terms</label>
+                  <div class="term-chips">
+                    <button class="term-chip" onclick="pickTerm(12, this)">12 mo</button>
+                    <button class="term-chip" onclick="pickTerm(24, this)">24 mo</button>
+                    <button class="term-chip" onclick="pickTerm(36, this)">36 mo</button>
+                    <button class="term-chip" onclick="pickTerm(48, this)">48 mo</button>
+                    <button class="term-chip" onclick="pickTerm(60, this)">60 mo</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pay-in-full note -->
+              <div class="collapse hide" id="fullNote">
+                <p class="form-helper" style="margin-top:0;">No loan — we'll check this against your savings and emergency buffer instead of a monthly payment.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- For-work toggle -->
+          <div class="switch-row" id="workToggle" onclick="toggleWork()">
+            <div class="switch-info">
+              <svg viewBox="0 0 18 18"><rect x="2" y="5.5" width="14" height="10" rx="1.5"/><path d="M6 5.5V4.5A1.5 1.5 0 017.5 3h3A1.5 1.5 0 0112 4.5v1"/></svg>
+              <div>
+                <div class="switch-text">It's for work</div>
+                <div class="switch-desc">Counts as a necessary tool, not fun money</div>
+              </div>
+            </div>
+            <div class="switch"></div>
+          </div>
+
+          </div><!-- /paneItem -->
+
+          <!-- ─── Card B: Your money ─── -->
+          <div id="paneBudget" style="display:none;">
+
+          <!-- Section 2: Your money -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-num">2</div>
+              <span class="section-label">Your money</span>
+            </div>
+            <div class="section-card">
+              <div class="form-row">
+                <label class="form-label">
+                  <svg viewBox="0 0 14 14"><rect x="1" y="6" width="12" height="7" rx="1.5"/><path d="M4 6V4a3 3 0 016 0v2"/></svg>
+                  Monthly take-home pay
+                </label>
+                <div class="dollar-wrap">
+                  <input type="text" class="form-input" id="incomeInput" value="4,500" inputmode="numeric">
+                </div>
+                <p class="form-helper">After taxes — what hits your bank account</p>
+              </div>
+              <div class="form-row">
+                <label class="form-label">
+                  <svg viewBox="0 0 14 14"><rect x="1" y="2" width="12" height="10" rx="1.5"/><line x1="1" y1="6" x2="13" y2="6"/></svg>
+                  Monthly fixed expenses
+                </label>
+                <div class="dollar-wrap">
+                  <input type="text" class="form-input" id="expensesInput" value="2,200" inputmode="numeric">
+                </div>
+                <p class="form-helper">Rent, utilities, groceries, insurance, subscriptions</p>
+              </div>
+              <div class="form-row">
+                <label class="form-label">
+                  <svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="6"/><line x1="7" y1="4" x2="7" y2="10"/><line x1="5" y1="5.5" x2="9" y2="5.5"/><line x1="5" y1="8.5" x2="9" y2="8.5"/></svg>
+                  Existing debt payments
+                </label>
+                <div class="dollar-wrap">
+                  <input type="text" class="form-input" id="debtInput" value="350" inputmode="numeric">
+                </div>
+                <p class="form-helper">Car loan, student loans, credit card minimums</p>
+              </div>
+
+              <!-- Savings (pay-in-full only) -->
+              <div class="collapse hide" id="savingsField">
+                <div class="form-row" style="margin-bottom:0;">
+                  <label class="form-label">
+                    <svg viewBox="0 0 14 14"><path d="M2 4.5h8.5a1 1 0 011 1V6h1v3h-1v.5a1 1 0 01-1 1H2a1 1 0 01-1-1v-4a1 1 0 011-1z"/><circle cx="10" cy="7.5" r="0.7" fill="currentColor" stroke="none"/></svg>
+                    Savings available now
+                  </label>
+                  <div class="dollar-wrap">
+                    <input type="text" class="form-input" id="savingsInput" value="8,000" inputmode="numeric">
+                  </div>
+                  <p class="form-helper">Cash you could spend without selling investments</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live preview -->
+          <div class="preview-bar hidden" id="previewBar">
+            <div>
+              <div class="preview-label" id="previewLabel">Est. monthly payment</div>
+              <div class="preview-amount" id="previewPayment">$0</div>
+            </div>
+            <div class="preview-right">
+              <div class="preview-label" id="previewSubLabel">Total interest</div>
+              <div class="preview-sub" id="previewInterest" style="font-size:14px; font-weight:600; color:var(--s-hi);">$0</div>
+            </div>
+          </div>
+
+          </div><!-- /paneBudget -->
+
+        </div><!-- /step1 -->
+
+        <!-- ══════════ STEP 2 — VERDICT ══════════ -->
+        <div id="step2" style="display:none;">
+
+          <div class="verdict-hero">
+            <div class="verdict-badge" id="verdictBadge">
+              <svg id="verdictIcon" viewBox="0 0 18 18"></svg>
+              <span id="verdictText">YES</span>
+            </div>
+            <div class="verdict-item" id="verdictItem"></div>
+            <div class="verdict-payment" id="verdictPayment"></div>
+            <div class="verdict-payment-sub" id="verdictPaymentSub"></div>
+            <div class="verdict-reason" id="verdictReason"></div>
+          </div>
+
+          <div class="gauge-section">
+            <div class="gauge-wrap">
+              <div class="gauge-track"><div class="gauge-fill" id="gaugeFill" style="width:0%;"></div></div>
+              <div class="gauge-needle" id="gaugeNeedle" style="left:0%;"></div>
+            </div>
+            <div class="gauge-labels"><span>Tight</span><span>Comfortable</span></div>
+            <div class="gauge-score">
+              <div class="gauge-score-num" id="gaugeScoreNum">0</div>
+              <div class="gauge-score-label">Comfort Score</div>
+            </div>
+          </div>
+
+          <div class="breakdown-section">
+            <div class="section-title" id="breakdownTitle">How it fits your budget</div>
+            <div class="budget-bar-wrap">
+              <div class="budget-bar" id="budgetBar"></div>
+              <div class="budget-legend" id="budgetLegend"></div>
+            </div>
+          </div>
+
+          <div class="stats-grid" id="statsGrid"></div>
+
+          <div class="opp-card">
+            <div class="opp-title">
+              <svg viewBox="0 0 14 14"><polyline points="2 10 5 4 8 7 12 2"/></svg>
+              Opportunity cost
+            </div>
+            <div class="opp-text" id="oppText"></div>
+            <a class="opp-cta" id="oppCta" href="#">
+              Invest this instead in the Simulator
+              <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+            </a>
+          </div>
+
+          <div class="term-section" id="termSection">
+            <div class="section-title">Same item, different terms</div>
+            <div class="term-table">
+              <div class="term-row head">
+                <span>Term</span>
+                <span style="text-align:right">Monthly</span>
+                <span style="text-align:right">Total interest</span>
+              </div>
+              <div id="termRows"></div>
+            </div>
+            <div class="term-note">Shorter terms mean higher payments but far less interest paid overall.</div>
+          </div>
+
+          <div class="max-card">
+            <span class="max-label" id="maxLabel">Max you can safely afford</span>
+            <span class="max-value" id="maxAfford">$0</span>
+          </div>
+
+        </div><!-- /step2 -->
+
+      </div>
+
+      <!-- CTA -->
+      <div class="bottom-area">
+        <button class="cta-btn" id="nextBtn" disabled onclick="goToBudget()">Next</button>
+        <div class="btn-row" id="budgetBtns" style="display:none;">
+          <button class="cta-btn ghost" id="backBtn" onclick="backToItem()">Back</button>
+          <button class="cta-btn" id="ctaBtn" disabled onclick="showVerdict()">Check Affordability</button>
+        </div>
+        <button class="cta-btn ghost" id="editBtn" style="display:none;" onclick="backToEdit()">Edit details</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ── State ──
+    var payMode = 'finance';
+    var forWork = false;
+    var selectedItemName = '';
+
+    // ── Input formatting ──
+    ['incomeInput', 'expensesInput', 'debtInput', 'priceInput', 'savingsInput'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', function () {
+        var raw = this.value.replace(/[^0-9]/g, '');
+        if (raw) this.value = parseInt(raw).toLocaleString('en-US');
+        updatePreview();
+      });
+    });
+    document.getElementById('rateInput').addEventListener('input', updatePreview);
+    document.getElementById('termInput').addEventListener('input', updatePreview);
+
+    function parseNum(id) { var el = document.getElementById(id); return el ? (parseInt(el.value.replace(/[^0-9]/g, ''), 10) || 0) : 0; }
+    function parseDec(id) { var el = document.getElementById(id); return el ? (parseFloat(el.value) || 0) : 0; }
+    function fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+    function clamp(n) { return Math.max(0, Math.min(100, n)); }
+
+    // ── Presets ──
+    function selectPreset(type, btn) {
+      document.querySelectorAll('.preset-chip').forEach(function (c) { c.classList.remove('active'); });
+      btn.classList.add('active');
+      var names = { car: 'Used car', laptop: 'MacBook Pro', phone: 'iPhone 16 Pro', vacation: 'Dream vacation', furniture: 'Living room set' };
+      selectedItemName = names[type] || '';
+      document.getElementById('priceInput').value = parseInt(btn.dataset.price).toLocaleString('en-US');
+      document.getElementById('rateInput').value = btn.dataset.rate;
+      document.getElementById('termInput').value = btn.dataset.term;
+      document.querySelectorAll('.term-chip').forEach(function (c) {
+        c.classList.toggle('active', c.textContent.trim() === btn.dataset.term + ' mo');
+      });
+      updatePreview();
+    }
+
+    function pickTerm(months, btn) {
+      document.querySelectorAll('.term-chip').forEach(function (c) { c.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('termInput').value = months;
+      updatePreview();
+    }
+
+    // ── Payment mode ──
+    function selectPay(mode, btn) {
+      payMode = mode;
+      document.querySelectorAll('#paySeg .seg-opt').forEach(function (o) { o.classList.remove('active'); });
+      btn.classList.add('active');
+      var fin = (mode === 'finance');
+      document.getElementById('financeFields').classList.toggle('hide', !fin);
+      document.getElementById('fullNote').classList.toggle('hide', fin);
+      document.getElementById('savingsField').classList.toggle('hide', fin);
+      updatePreview();
+    }
+
+    function toggleWork() {
+      forWork = !forWork;
+      document.getElementById('workToggle').classList.toggle('on', forWork);
+    }
+
+    // ── Payment math ──
+    function calcPayment(P, apr, n) {
+      if (n <= 0 || P <= 0) return 0;
+      if (apr <= 0) return P / n;
+      var r = apr / 100 / 12;
+      return P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    }
+
+    // ── Live preview ──
+    function updatePreview() {
+      var price = parseNum('priceInput');
+      var income = parseNum('incomeInput');
+      var bar = document.getElementById('previewBar');
+      var nextBtn = document.getElementById('nextBtn');
+      var checkBtn = document.getElementById('ctaBtn');
+      var priceOk;
+
+      if (payMode === 'finance') {
+        var rate = parseDec('rateInput');
+        var term = parseInt(document.getElementById('termInput').value) || 0;
+        if (price > 0 && term > 0) {
+          var pay = calcPayment(price, rate, term);
+          var interest = pay * term - price;
+          document.getElementById('previewLabel').textContent = 'Est. monthly payment';
+          document.getElementById('previewPayment').textContent = '$' + fmt(pay);
+          document.getElementById('previewSubLabel').textContent = 'Total interest';
+          document.getElementById('previewInterest').textContent = interest > 0 ? '$' + fmt(interest) : '$0';
+          document.getElementById('previewInterest').style.color = 'var(--s-hi)';
+          bar.classList.remove('hidden');
+        } else { bar.classList.add('hidden'); }
+        priceOk = price > 0 && term > 0;
+      } else {
+        var savings = parseNum('savingsInput');
+        if (price > 0) {
+          var left = savings - price;
+          document.getElementById('previewLabel').textContent = 'Pay in full today';
+          document.getElementById('previewPayment').textContent = '$' + fmt(price);
+          document.getElementById('previewSubLabel').textContent = 'Cash left after';
+          var leftEl = document.getElementById('previewInterest');
+          leftEl.textContent = '$' + fmt(Math.max(0, left));
+          leftEl.style.color = left < 0 ? '#ffb4ab' : 'var(--s-hi)';
+          bar.classList.remove('hidden');
+        } else { bar.classList.add('hidden'); }
+        priceOk = price > 0;
+      }
+
+      if (nextBtn) nextBtn.disabled = !priceOk;
+      if (checkBtn) checkBtn.disabled = !(priceOk && income > 0);
+    }
+
+    // ── Step navigation ──
+    function setStep(n) {
+      document.getElementById('stepDot1').className = 'step' + (n === 1 ? ' active' : ' done');
+      document.getElementById('stepDot2').className = 'step' + (n === 2 ? ' active' : (n > 2 ? ' done' : ''));
+      document.getElementById('stepDot3').className = 'step' + (n === 3 ? ' active' : '');
+      document.getElementById('stepLine1').classList.toggle('active', n >= 2);
+      document.getElementById('stepLine2').classList.toggle('active', n >= 3);
+    }
+
+    function goToBudget() {
+      document.getElementById('paneItem').style.display = 'none';
+      document.getElementById('paneBudget').style.display = 'block';
+      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('budgetBtns').style.display = 'flex';
+      document.getElementById('editBtn').style.display = 'none';
+      setStep(2);
+      updatePreview();
+      document.querySelector('.scroll-content').scrollTop = 0;
+    }
+
+    function backToItem() {
+      document.getElementById('paneBudget').style.display = 'none';
+      document.getElementById('paneItem').style.display = 'block';
+      document.getElementById('budgetBtns').style.display = 'none';
+      document.getElementById('nextBtn').style.display = 'block';
+      setStep(1);
+      document.querySelector('.scroll-content').scrollTop = 0;
+    }
+
+    function showVerdict() {
+      computeVerdict();
+      document.getElementById('step1').style.display = 'none';
+      document.getElementById('step2').style.display = 'block';
+      document.getElementById('budgetBtns').style.display = 'none';
+      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('editBtn').style.display = 'block';
+      setStep(3);
+      document.querySelector('.scroll-content').scrollTop = 0;
+    }
+
+    function backToEdit() {
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('step1').style.display = 'block';
+      document.getElementById('paneItem').style.display = 'none';
+      document.getElementById('paneBudget').style.display = 'block';
+      document.getElementById('budgetBtns').style.display = 'flex';
+      document.getElementById('editBtn').style.display = 'none';
+      setStep(2);
+      document.querySelector('.scroll-content').scrollTop = 0;
+    }
+
+    // ── Render helpers ──
+    function renderHero(verdict, item, big, sub, reason) {
+      var badge = document.getElementById('verdictBadge');
+      var icon = document.getElementById('verdictIcon');
+      var text = document.getElementById('verdictText');
+      badge.className = 'verdict-badge ' + verdict;
+      if (verdict === 'yes') { text.textContent = 'YES, YOU CAN'; icon.innerHTML = '<polyline points="15 4 7 13 3 9"/>'; }
+      else if (verdict === 'stretch') { text.textContent = 'STRETCH'; icon.innerHTML = '<path d="M9 2L2 16h14L9 2z"/><line x1="9" y1="7" x2="9" y2="11"/><circle cx="9" cy="13.5" r="0.5" fill="currentColor" stroke="none"/>'; }
+      else { text.textContent = 'NOT RIGHT NOW'; icon.innerHTML = '<line x1="14" y1="4" x2="4" y2="14"/><line x1="4" y1="4" x2="14" y2="14"/>'; }
+      document.getElementById('verdictItem').textContent = item;
+      document.getElementById('verdictPayment').textContent = big;
+      document.getElementById('verdictPaymentSub').textContent = sub;
+      document.getElementById('verdictReason').textContent = reason;
+    }
+
+    function renderGauge(score) {
+      var color = score >= 70 ? '#22c993' : score >= 40 ? '#ffc107' : '#ffb4ab';
+      setTimeout(function () {
+        var fill = document.getElementById('gaugeFill');
+        fill.style.width = score + '%';
+        fill.style.background = 'linear-gradient(90deg, ' + color + '88, ' + color + ')';
+        document.getElementById('gaugeNeedle').style.left = 'calc(' + score + '% - 2px)';
+      }, 180);
+      var el = document.getElementById('gaugeScoreNum');
+      el.textContent = score;
+      el.style.color = color;
+    }
+
+    function legendRow(color, name, value, pct) {
+      return '<div class="legend-row"><div class="legend-left"><div class="legend-dot" style="background:' + color + '"></div><span class="legend-name">' + name + '</span></div>' +
+        '<span class="legend-value">' + value + (pct !== null ? '<span class="legend-pct">' + pct + '</span>' : '') + '</span></div>';
+    }
+
+    function statCard(label, value, cls, sub) {
+      return '<div class="stat-card"><div class="stat-label">' + label + '</div><div class="stat-value ' + (cls || '') + '">' + value + '</div><div class="stat-sub">' + sub + '</div></div>';
+    }
+
+    // ── Verdict computation ──
+    function computeVerdict() {
+      var income = parseNum('incomeInput');
+      var expenses = parseNum('expensesInput');
+      var debts = parseNum('debtInput');
+      var price = parseNum('priceInput');
+      var item = selectedItemName || 'This item';
+      var grossIncome = income / 0.72;
+      var available = income - expenses - debts;
+      var savingsTarget = income * 0.20;
+      var wantsBudget = income * 0.30;
+
+      if (payMode === 'finance') {
+        var rate = parseDec('rateInput');
+        var term = parseInt(document.getElementById('termInput').value) || 0;
+        var payment = calcPayment(price, rate, term);
+        var totalPaid = payment * term;
+        var totalInterest = totalPaid - price;
+        var remaining = available - payment;
+        var dti = (debts + payment) / grossIncome;
+        var p2i = payment / income;
+
+        var verdict, reason;
+        if (payment > available) {
+          verdict = 'no';
+          reason = 'The $' + fmt(payment) + '/mo payment exceeds your available budget of $' + fmt(available) + '. Consider a lower price or longer term.';
+        } else if (dti > 0.43) {
+          verdict = 'no';
+          reason = 'This pushes your debt-to-income ratio to ' + (dti * 100).toFixed(0) + '%, well above the safe 36% ceiling. Lenders would flag this.';
+        } else if (dti > 0.36) {
+          verdict = 'stretch';
+          reason = 'Your DTI would be ' + (dti * 100).toFixed(0) + '%, above the recommended 36% limit. Possible but financially risky.';
+        } else if (!forWork && payment > wantsBudget * 0.5) {
+          verdict = 'stretch';
+          reason = 'The payment takes ' + ((payment / wantsBudget) * 100).toFixed(0) + '% of your discretionary budget. Expect a real squeeze.';
+        } else if (remaining < savingsTarget) {
+          verdict = 'stretch';
+          reason = 'You can make payments, but your savings rate drops to ' + ((remaining / income) * 100).toFixed(0) + '% — below the recommended 20%.';
+        } else {
+          verdict = 'yes';
+          reason = 'Payment is ' + (p2i * 100).toFixed(0) + '% of income with ' + (dti * 100).toFixed(0) + '% DTI. You still save ' + ((remaining / income) * 100).toFixed(0) + '% of income.' + (forWork ? ' As a work tool, it can pay for itself.' : ' Smart buy.');
+        }
+
+        var comfort = Math.round(100 * (1 - payment / Math.max(available, 1)));
+        if (dti > 0.36) comfort = Math.min(comfort, 40);
+        if (dti > 0.43) comfort = Math.min(comfort, 15);
+        comfort = clamp(comfort);
+
+        renderHero(verdict, item, '$' + fmt(payment), '/month for ' + term + ' months', reason);
+        renderGauge(comfort);
+
+        document.getElementById('breakdownTitle').textContent = 'How it fits your monthly budget';
+        var expPct = expenses / income * 100, debtPct = debts / income * 100, payPct = payment / income * 100;
+        var savPct = Math.max(0, remaining / income * 100);
+        var freePct = Math.max(0, 100 - expPct - debtPct - payPct - savPct);
+        document.getElementById('budgetBar').innerHTML =
+          '<div class="bar-seg bar-needs" style="width:' + expPct.toFixed(1) + '%"></div>' +
+          '<div class="bar-seg bar-debts" style="width:' + debtPct.toFixed(1) + '%"></div>' +
+          '<div class="bar-seg bar-payment" style="width:' + payPct.toFixed(1) + '%"></div>' +
+          '<div class="bar-seg bar-savings" style="width:' + savPct.toFixed(1) + '%"></div>' +
+          '<div class="bar-seg bar-free" style="width:' + freePct.toFixed(1) + '%"></div>';
+        document.getElementById('budgetLegend').innerHTML =
+          legendRow('#5c6bc0', 'Fixed expenses', '$' + fmt(expenses), expPct.toFixed(1) + '%') +
+          legendRow('#ef5350', 'Existing debts', '$' + fmt(debts), debtPct.toFixed(1) + '%') +
+          legendRow('#ffc107', 'New payment', '$' + fmt(payment), payPct.toFixed(1) + '%') +
+          legendRow('#22c993', 'Remaining', '$' + fmt(Math.max(0, remaining)), savPct.toFixed(1) + '%');
+
+        var dtiCls = dti <= 0.36 ? 'good' : dti <= 0.43 ? 'warn' : 'bad';
+        var savRate = Math.max(0, remaining / income);
+        var savCls = savRate >= 0.20 ? 'good' : savRate >= 0.10 ? 'warn' : 'bad';
+        document.getElementById('statsGrid').innerHTML =
+          statCard('Debt-to-Income', (dti * 100).toFixed(1) + '%', dtiCls, 'Safe limit: 36%') +
+          statCard('Payment / Income', (p2i * 100).toFixed(1) + '%', '', 'Vehicle guideline: \u226415%') +
+          statCard('Savings rate after', (savRate * 100).toFixed(0) + '%', savCls, 'Target: \u226520%') +
+          statCard('Total interest paid', totalInterest > 0 ? '$' + fmt(totalInterest) : '$0', '', 'Over ' + term + ' months');
+
+        var mRate = 0.07 / 12, fv = 0;
+        for (var i = 0; i < term; i++) { fv = (fv + payment) * (1 + mRate); }
+        document.getElementById('oppText').innerHTML = 'If you invested <strong>$' + fmt(payment) + '/mo</strong> for ' + term + ' months at 7% instead, you would have <strong>$' + fmt(fv) + '</strong> — that is $' + fmt(fv - totalPaid) + ' in growth.';
+        document.getElementById('oppCta').href = 'screen5.html?monthly=' + Math.round(payment) + '&years=' + Math.max(1, Math.round(term / 12)) + '&return=7';
+
+        document.getElementById('termSection').style.display = 'block';
+        document.getElementById('termRows').innerHTML = [24, 36, 48, 60].map(function (t) {
+          var pay = calcPayment(price, rate, t);
+          var interest = Math.max(0, pay * t - price);
+          var cur = t === term;
+          return '<div class="term-row' + (cur ? ' current' : '') + '"><span class="tt-term">' + t + ' mo' + (cur ? ' \u00b7' : '') + '</span><span class="tt-pay">$' + fmt(pay) + '</span><span class="tt-int">' + (interest > 0 ? '+$' + fmt(interest) : '$0') + '</span></div>';
+        }).join('');
+
+        var maxPayment = Math.min(available * 0.7, wantsBudget, grossIncome * 0.36 - debts);
+        var maxPrice;
+        if (rate <= 0) { maxPrice = maxPayment * term; }
+        else { var r = rate / 100 / 12; maxPrice = maxPayment * (Math.pow(1 + r, term) - 1) / (r * Math.pow(1 + r, term)); }
+        document.getElementById('maxLabel').textContent = 'Max you can safely finance';
+        document.getElementById('maxAfford').textContent = '$' + fmt(Math.max(0, maxPrice));
+
+      } else {
+        // ══ PAY IN FULL ══
+        var savings = parseNum('savingsInput');
+        var surplus = income - expenses - debts;
+        var emMonths = forWork ? 2 : 3;
+        var emergencyFund = expenses * emMonths;
+        var cashAfter = savings - price;
+        var shortfall = price - savings;
+        var monthsToSave = surplus > 0 ? Math.ceil(shortfall / surplus) : Infinity;
+        var bufferMonths = expenses > 0 ? cashAfter / expenses : 0;
+
+        var v, reason2;
+        if (savings < price) {
+          v = 'no';
+          reason2 = surplus > 0
+            ? 'You have $' + fmt(savings) + ' saved — $' + fmt(shortfall) + ' short. At your current surplus you could be ready in about ' + monthsToSave + ' month' + (monthsToSave > 1 ? 's' : '') + '.'
+            : 'You have $' + fmt(savings) + ' saved — $' + fmt(shortfall) + ' short, with no monthly surplus to close the gap. Paying in full is not realistic yet.';
+        } else if (cashAfter < expenses) {
+          v = 'no';
+          reason2 = 'Paying in full leaves only $' + fmt(Math.max(0, cashAfter)) + ' — under a single month of expenses. Earning $' + fmt(income) + '/mo does not make a $' + fmt(price) + ' purchase safe if it drains your cushion.';
+        } else if (cashAfter < emergencyFund) {
+          v = 'stretch';
+          reason2 = 'You can cover it, but you would be left with $' + fmt(cashAfter) + ' — below your recommended ' + emMonths + '-month emergency fund of $' + fmt(emergencyFund) + '.' + (forWork ? ' Since it is a work tool, the trade-off may be worth it.' : '');
+        } else {
+          v = 'yes';
+          reason2 = 'You would still have $' + fmt(cashAfter) + ' afterwards — about ' + bufferMonths.toFixed(1) + ' months of expenses in reserve.' + (forWork ? ' A solid investment in your work.' : ' Comfortably affordable.');
+        }
+
+        var comfort2;
+        if (savings < price) { comfort2 = clamp(Math.round(savings / price * 35)); }
+        else { comfort2 = clamp(Math.round(100 * Math.min(1, cashAfter / Math.max(emergencyFund * 1.5, 1)))); }
+
+        renderHero(v, item, '$' + fmt(price), 'paid in full today', reason2);
+        renderGauge(comfort2);
+
+        document.getElementById('breakdownTitle').textContent = 'Impact on your savings';
+        var barHTML, legendHTML;
+        if (savings >= price) {
+          var total = Math.max(savings, 1);
+          var buyPct = price / total * 100;
+          var leftPct = Math.max(0, cashAfter / total * 100);
+          barHTML = '<div class="bar-seg bar-payment" style="width:' + buyPct.toFixed(1) + '%"></div>' +
+            '<div class="bar-seg bar-savings" style="width:' + leftPct.toFixed(1) + '%"></div>';
+          legendHTML = legendRow('#ffc107', 'This purchase', '$' + fmt(price), (price / total * 100).toFixed(0) + '%') +
+            legendRow('#22c993', 'Cash left after', '$' + fmt(Math.max(0, cashAfter)), (Math.max(0, cashAfter) / total * 100).toFixed(0) + '%') +
+            legendRow('#5c6bc0', emMonths + '-mo emergency fund', '$' + fmt(emergencyFund), null);
+        } else {
+          var total2 = Math.max(price, 1);
+          var havePct = savings / total2 * 100;
+          var shortPct = Math.max(0, shortfall / total2 * 100);
+          barHTML = '<div class="bar-seg bar-savings" style="width:' + havePct.toFixed(1) + '%"></div>' +
+            '<div class="bar-seg bar-debts" style="width:' + shortPct.toFixed(1) + '%"></div>';
+          legendHTML = legendRow('#22c993', 'You have', '$' + fmt(savings), (savings / total2 * 100).toFixed(0) + '%') +
+            legendRow('#ef5350', 'Still need', '$' + fmt(shortfall), (shortfall / total2 * 100).toFixed(0) + '%') +
+            legendRow('#5c6bc0', 'Total price', '$' + fmt(price), null);
+        }
+        document.getElementById('budgetBar').innerHTML = barHTML;
+        document.getElementById('budgetLegend').innerHTML = legendHTML;
+
+        var cashCls = cashAfter < expenses ? 'bad' : cashAfter < emergencyFund ? 'warn' : 'good';
+        var bufCls = bufferMonths >= emMonths ? 'good' : bufferMonths >= 1 ? 'warn' : 'bad';
+        var spentPct = savings > 0 ? Math.min(100, price / savings * 100) : 100;
+        document.getElementById('statsGrid').innerHTML =
+          statCard('Cash after purchase', '$' + fmt(Math.max(0, cashAfter)), cashCls, 'Stay above $' + fmt(emergencyFund)) +
+          statCard('Emergency buffer', (savings >= price ? bufferMonths.toFixed(1) : '0') + ' mo', bufCls, 'Target: ' + emMonths + ' months') +
+          statCard('Savings spent', spentPct.toFixed(0) + '%', spentPct > 80 ? 'bad' : spentPct > 50 ? 'warn' : 'good', 'Of your $' + fmt(savings) + ' cash') +
+          statCard('Months to rebuild', (surplus > 0 ? Math.ceil(price / surplus) : '\u2014'), '', 'At $' + fmt(Math.max(0, surplus)) + '/mo surplus');
+
+        var years = 5;
+        var fvLump = price * Math.pow(1.07, years);
+        document.getElementById('oppText').innerHTML = 'If you invested <strong>$' + fmt(price) + '</strong> for ' + years + ' years at 7% instead, it could grow to <strong>$' + fmt(fvLump) + '</strong> — that is $' + fmt(fvLump - price) + ' in growth.';
+        document.getElementById('oppCta').href = 'screen5.html?years=' + years + '&return=7';
+
+        document.getElementById('termSection').style.display = 'none';
+
+        document.getElementById('maxLabel').textContent = 'Max you can safely pay in full';
+        document.getElementById('maxAfford').textContent = '$' + fmt(Math.max(0, savings - emergencyFund));
+      }
+    }
+
+    updatePreview();
+  </script>
+  <script src="./proto-shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 5: Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
+    .device-frame{--act1:#00f5d4;}
+    .device-frame[data-theme="light"]{--act1:#058b78;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: var(--s-bg);
+      border: 1px solid var(--wa6);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Nav ── */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 58px 24px 12px;
+      flex-shrink: 0;
+    }
+    .nav-back {
+      color: var(--s-mid);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+    }
+    .nav-back:active { color: var(--s-hi); }
+    .nav-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--s-hi);
+      letter-spacing: -0.01em;
+    }
+    .nav-toggle {
+      font-size: 13px;
+      font-weight: 600;
+      color:var(--act1);
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 245, 212, 0.2);
+      background: rgba(0, 245, 212, 0.06);
+      transition: all 0.15s ease-out;
+    }
+    .nav-toggle:active { opacity: 0.6; }
+
+    /* ── Chart area ── */
+    .chart-area {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      flex-shrink: 0;
+      padding: 0 0 0;
+    }
+    .chart-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: crosshair;
+    }
+
+    /* Tooltip */
+    .chart-tooltip {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(16, 20, 26, 0.92);
+      border: 1px solid var(--wa10);
+      border-radius: 12px;
+      padding: 10px 14px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease-out;
+      z-index: 5;
+      white-space: nowrap;
+    }
+    .chart-tooltip.visible { opacity: 1; }
+    .tooltip-year {
+      font-size: 12px;
+      font-weight: 600;
+      color:var(--act1);
+      letter-spacing: 0.02em;
+    }
+    .tooltip-total {
+      font-size: 16px;
+      font-weight: 900;
+      color:var(--c-val);
+      margin-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .tooltip-detail {
+      font-size: 11px;
+      color: var(--s-mid);
+      margin-top: 2px;
+    }
+
+    /* ── Controls scroll ── */
+    .controls-area {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 24px 0;
+      scrollbar-width: none;
+    }
+    .controls-area::-webkit-scrollbar { display: none; }
+
+    /* ── Control row ── */
+    .control-row {
+      margin-bottom: 22px;
+    }
+    .control-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .control-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--s-mid);
+    }
+    .control-value {
+      font-size: 15px;
+      font-weight: 700;
+      color:var(--c-val);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Slider ── */
+    .slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--wa6);
+      outline: none;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #00f5d4;
+      cursor: pointer;
+      border: 3px solid var(--s-bg);
+      box-shadow: 0 0 0 1px rgba(0, 245, 212, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    .slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #00f5d4;
+      cursor: pointer;
+      border: 3px solid var(--s-bg);
+      box-shadow: 0 0 0 1px rgba(0, 245, 212, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ── Segmented control ── */
+    .segmented {
+      display: flex;
+      border-radius: 10px;
+      background: var(--wa4);
+      border: 1px solid var(--wa6);
+      padding: 3px;
+      gap: 2px;
+    }
+    .seg-btn {
+      flex: 1;
+      padding: 8px 0;
+      border: none;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--s-mid);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease-out;
+    }
+    .seg-btn.active {
+      background: rgba(0, 245, 212, 0.12);
+      color:var(--act1);
+      font-weight: 600;
+    }
+    .seg-btn:active { transform: scale(0.97); }
+
+    /* ── Results ── */
+    .results {
+      margin-top: 4px;
+      padding: 20px 0 40px;
+      border-top: 1px solid var(--wa4);
+    }
+    .result-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 6px 0;
+    }
+    .result-label {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--s-mid);
+    }
+    .result-value {
+      font-size: 15px;
+      font-weight: 700;
+      color:var(--c-val);
+      font-variant-numeric: tabular-nums;
+    }
+    .result-value--hero {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .result-value--earned {
+      color:var(--act1);
+    }
+    .result-insight {
+      font-size: 14px;
+      color: var(--s-sec);
+      margin-top: 12px;
+      line-height: 20px;
+    }
+    .result-insight strong {
+      color:var(--act1);
+      font-weight: 700;
+    }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+
+<div class="device-frame">
+  <div class="screen">
+
+    <div class="nav-bar">
+      <span class="nav-back">&#8592;</span>
+      <span class="nav-title">Simulator</span>
+      <span class="nav-toggle">Compare</span>
+    </div>
+
+    <div class="chart-area">
+      <canvas class="chart-canvas" id="chart"></canvas>
+      <div class="chart-tooltip" id="tooltip">
+        <div class="tooltip-year" id="ttYear">Year 15</div>
+        <div class="tooltip-total" id="ttTotal">$89,412</div>
+        <div class="tooltip-detail" id="ttDetail">put in: $36,000 &middot; earned: $53,412</div>
+      </div>
+    </div>
+
+    <div class="controls-area">
+
+      <div class="control-row">
+        <div class="control-header">
+          <span class="control-label">Monthly contribution</span>
+          <span class="control-value" id="valMonthly">$200</span>
+        </div>
+        <input type="range" class="slider" id="sliderMonthly" min="0" max="10000" step="25" value="200">
+      </div>
+
+      <div class="control-row">
+        <div class="control-header">
+          <span class="control-label">Starting amount</span>
+          <span class="control-value" id="valStart">$0</span>
+        </div>
+        <input type="range" class="slider" id="sliderStart" min="0" max="200000" step="500" value="0">
+      </div>
+
+      <div class="control-row">
+        <div class="control-header">
+          <span class="control-label">Annual return</span>
+          <span class="control-value" id="valReturn">7%</span>
+        </div>
+        <input type="range" class="slider" id="sliderReturn" min="1" max="15" step="0.5" value="7">
+      </div>
+
+      <div class="control-row">
+        <div class="control-header">
+          <span class="control-label">Time horizon</span>
+          <span class="control-value" id="valYears">30 years</span>
+        </div>
+        <input type="range" class="slider" id="sliderYears" min="1" max="50" step="1" value="30">
+      </div>
+
+      <div class="control-row">
+        <div class="control-header">
+          <span class="control-label">Contribution frequency</span>
+        </div>
+        <div class="segmented" id="freqControl">
+          <button class="seg-btn" data-freq="weekly">Weekly</button>
+          <button class="seg-btn active" data-freq="monthly">Monthly</button>
+          <button class="seg-btn" data-freq="yearly">Yearly</button>
+        </div>
+      </div>
+
+      <div class="results" id="results">
+        <div class="result-row">
+          <span class="result-label">Final value</span>
+          <span class="result-value result-value--hero" id="resFinal">$227,413</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Total contributed</span>
+          <span class="result-value" id="resContrib">$72,000</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Total earned (interest)</span>
+          <span class="result-value result-value--earned" id="resEarned">$155,413</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Growth multiple</span>
+          <span class="result-value" id="resMultiple">3.16&times;</span>
+        </div>
+        <div class="result-insight" id="resInsight">That's <strong>$155K</strong> you never had to earn.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ── DOM ──
+  const canvas       = document.getElementById('chart');
+  const ctx          = canvas.getContext('2d');
+  const dpr          = window.devicePixelRatio || 1;
+  const tooltipEl    = document.getElementById('tooltip');
+  const ttYear       = document.getElementById('ttYear');
+  const ttTotal      = document.getElementById('ttTotal');
+  const ttDetail     = document.getElementById('ttDetail');
+
+  const sliderMonthly = document.getElementById('sliderMonthly');
+  const sliderStart   = document.getElementById('sliderStart');
+  const sliderReturn  = document.getElementById('sliderReturn');
+  const sliderYears   = document.getElementById('sliderYears');
+  const valMonthly    = document.getElementById('valMonthly');
+  const valStart      = document.getElementById('valStart');
+  const valReturn     = document.getElementById('valReturn');
+  const valYears      = document.getElementById('valYears');
+
+  const resFinal    = document.getElementById('resFinal');
+  const resContrib  = document.getElementById('resContrib');
+  const resEarned   = document.getElementById('resEarned');
+  const resMultiple = document.getElementById('resMultiple');
+  const resInsight  = document.getElementById('resInsight');
+
+  const freqBtns = document.querySelectorAll('#freqControl .seg-btn');
+
+  // ── State ──
+  let monthly   = 200;
+  let startAmt  = 0;
+  let annualReturn = 7;
+  let years     = 30;
+  let freq      = 'monthly'; // weekly, monthly, yearly
+  let goalTarget = 60000;
+
+  let chartData = [];
+  let playheadX = -1; // -1 = hidden
+
+  // ── Calculations ──
+  function freqMultiplier() {
+    if (freq === 'weekly') return 52;
+    if (freq === 'yearly') return 1;
+    return 12;
+  }
+
+  function computeData() {
+    const periods = years * freqMultiplier();
+    const periodicRate = annualReturn / 100 / freqMultiplier();
+    const periodicContrib = monthly; // treat slider value as per-period amount
+
+    const pts = [];
+    const step = Math.max(1, Math.floor(periods / 200));
+    for (let p = 0; p <= periods; p += step) {
+      const contributions = periodicContrib * p + startAmt;
+      const total = p === 0
+        ? startAmt
+        : startAmt * Math.pow(1 + periodicRate, p) +
+          periodicContrib * ((Math.pow(1 + periodicRate, p) - 1) / periodicRate);
+      pts.push({
+        period: p,
+        year: p / freqMultiplier(),
+        contributions,
+        total,
+        earned: total - contributions,
+      });
+    }
+    // Ensure last point
+    if (pts[pts.length - 1].period !== periods) {
+      const p = periods;
+      const contributions = periodicContrib * p + startAmt;
+      const total = startAmt * Math.pow(1 + periodicRate, p) +
+        periodicContrib * ((Math.pow(1 + periodicRate, p) - 1) / periodicRate);
+      pts.push({ period: p, year: years, contributions, total, earned: total - contributions });
+    }
+    chartData = pts;
+  }
+
+  // ── Canvas ──
+  function sizeCanvas() {
+    const p = canvas.parentElement;
+    canvas.width  = p.clientWidth * dpr;
+    canvas.height = p.clientHeight * dpr;
+    canvas.style.width  = p.clientWidth + 'px';
+    canvas.style.height = p.clientHeight + 'px';
+  }
+
+  function drawChart() {
+    const w = canvas.width / dpr;
+    const h = canvas.height / dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    if (!chartData.length) return;
+
+    const N = chartData.length;
+    const maxV = chartData[N - 1].total * 1.08 || 1;
+    const padL = 16, padR = 16, padT = 10, padB = 28;
+    const cL = padL, cR = w - padR, cT = padT, cB = h - padB;
+    const cW = cR - cL, cH = cB - cT;
+
+    const xOf = i => cL + (i / (N - 1)) * cW;
+    const yOf = v => cB - (v / maxV) * cH;
+
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // ── X-axis labels ──
+    ctx.font = '500 10px Inter, sans-serif';
+    ctx.fillStyle = 'rgba(131, 148, 143, 0.4)';
+    ctx.textAlign = 'center';
+    const labelCount = years <= 10 ? years : (years <= 30 ? Math.ceil(years / 5) : Math.ceil(years / 10));
+    const labelStep = years / labelCount;
+    for (let y = 0; y <= years; y += labelStep) {
+      const i = Math.round((y / years) * (N - 1));
+      const x = xOf(i);
+      ctx.fillText(y === 0 ? 'Now' : `${Math.round(y)}y`, x, cB + 18);
+    }
+
+    // ── Goal line ──
+    if (goalTarget > 0 && goalTarget < maxV) {
+      const gy = yOf(goalTarget);
+      ctx.setLineDash([6, 4]);
+      ctx.strokeStyle = 'rgba(255, 180, 171, 0.35)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(cL, gy);
+      ctx.lineTo(cR, gy);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.font = '600 10px Inter, sans-serif';
+      ctx.fillStyle = 'rgba(255, 180, 171, 0.6)';
+      ctx.textAlign = 'right';
+      ctx.fillText('Goal: ' + fmtShort(goalTarget), cR - 8, gy - 6);
+
+      // Find crossing point
+      for (let i = 1; i < N; i++) {
+        if (chartData[i - 1].total < goalTarget && chartData[i].total >= goalTarget) {
+          const frac = (goalTarget - chartData[i - 1].total) / (chartData[i].total - chartData[i - 1].total);
+          const cx = xOf(i - 1) + frac * (xOf(i) - xOf(i - 1));
+          // Pulsing dot
+          ctx.beginPath();
+          ctx.arc(cx, gy, 8, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255, 180, 171, 0.15)';
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(cx, gy, 3, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffb4ab';
+          ctx.fill();
+
+          const crossYear = Math.round(chartData[i - 1].year + frac * (chartData[i].year - chartData[i - 1].year));
+          ctx.textAlign = 'center';
+          ctx.fillStyle = 'rgba(255, 180, 171, 0.7)';
+          ctx.fillText(`Year ${crossYear}`, cx, gy - 14);
+          break;
+        }
+      }
+    }
+
+    // ── Indigo area (contributions) ──
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), cB);
+    for (let i = 0; i < N; i++) ctx.lineTo(xOf(i), yOf(chartData[i].contributions));
+    ctx.lineTo(xOf(N - 1), cB);
+    ctx.closePath();
+    const gI = ctx.createLinearGradient(0, cT, 0, cB);
+    gI.addColorStop(0, 'rgba(2, 49, 222, 0.45)');
+    gI.addColorStop(0.5, 'rgba(2, 49, 222, 0.18)');
+    gI.addColorStop(1, 'rgba(2, 49, 222, 0.04)');
+    ctx.fillStyle = gI;
+    ctx.fill();
+
+    // ── Teal area (interest gap) ──
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = xOf(i), y = yOf(chartData[i].contributions);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    for (let i = N - 1; i >= 0; i--) {
+      ctx.lineTo(xOf(i), yOf(chartData[i].total));
+    }
+    ctx.closePath();
+    const gT = ctx.createLinearGradient(0, cT, 0, cB);
+    gT.addColorStop(0, 'rgba(0, 245, 212, 0.32)');
+    gT.addColorStop(0.4, 'rgba(0, 245, 212, 0.12)');
+    gT.addColorStop(1, 'rgba(0, 245, 212, 0.02)');
+    ctx.fillStyle = gT;
+    ctx.fill();
+
+    // ── Contributions line ──
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = xOf(i), y = yOf(chartData[i].contributions);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(187, 195, 255, 0.45)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // ── Total line glow ──
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = xOf(i), y = yOf(chartData[i].total);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(0, 245, 212, 0.15)';
+    ctx.lineWidth = 8;
+    ctx.shadowColor = 'rgba(0, 245, 212, 0.18)';
+    ctx.shadowBlur = 10;
+    ctx.stroke();
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+
+    // ── Total line crisp ──
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = xOf(i), y = yOf(chartData[i].total);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // ── Playhead ──
+    if (playheadX >= 0 && playheadX <= 1) {
+      const idx = Math.round(playheadX * (N - 1));
+      const px = xOf(idx);
+      const d = chartData[idx];
+
+      // Vertical line
+      ctx.beginPath();
+      ctx.moveTo(px, cT);
+      ctx.lineTo(px, cB);
+      ctx.strokeStyle = 'rgba(223, 226, 235, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Dot on total line
+      ctx.beginPath();
+      ctx.arc(px, yOf(d.total), 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#00f5d4';
+      ctx.fill();
+
+      // Dot on contributions line
+      ctx.beginPath();
+      ctx.arc(px, yOf(d.contributions), 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#bbc3ff';
+      ctx.fill();
+    }
+  }
+
+  // ── Formats ──
+  function fmt(v) {
+    return '$' + Math.round(v).toLocaleString('en-US');
+  }
+  function fmtShort(v) {
+    if (v >= 1e7) return '$' + (v / 1e6).toFixed(1) + 'M';
+    if (v >= 1e6) return '$' + (v / 1e6).toFixed(2) + 'M';
+    return fmt(v);
+  }
+  function fmtK(v) {
+    const abs = Math.abs(v);
+    if (abs >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+    if (abs >= 1e3) return '$' + Math.round(v / 1e3) + 'K';
+    return fmt(v);
+  }
+
+  // ── Update everything ──
+  function update() {
+    monthly     = +sliderMonthly.value;
+    startAmt    = +sliderStart.value;
+    annualReturn = +sliderReturn.value;
+    years       = +sliderYears.value;
+
+    valMonthly.textContent = fmt(monthly);
+    valStart.textContent   = fmt(startAmt);
+    valReturn.textContent  = annualReturn + '%';
+    valYears.textContent   = years + (years === 1 ? ' year' : ' years');
+
+    computeData();
+    drawChart();
+    updateResults();
+  }
+
+  function updateResults() {
+    if (!chartData.length) return;
+    const last = chartData[chartData.length - 1];
+
+    resFinal.textContent    = fmtShort(last.total);
+    resContrib.textContent  = fmt(last.contributions);
+    resEarned.textContent   = fmt(last.earned);
+
+    const mult = last.contributions > 0 ? (last.total / last.contributions).toFixed(2) : '0';
+    resMultiple.innerHTML   = mult + '&times;';
+
+    const earnedK = fmtK(last.earned);
+    resInsight.innerHTML    = `That's <strong>${earnedK}</strong> you never had to earn.`;
+  }
+
+  // ── Slider events ──
+  [sliderMonthly, sliderStart, sliderReturn, sliderYears].forEach(s => {
+    s.addEventListener('input', update);
+  });
+
+  // ── Frequency toggle ──
+  freqBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      freqBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      freq = btn.dataset.freq;
+      update();
+    });
+  });
+
+  // ── Chart interaction (playhead) ──
+  function handleChartInteraction(clientX) {
+    const rect = canvas.getBoundingClientRect();
+    const x = (clientX - rect.left) / rect.width;
+    playheadX = Math.max(0, Math.min(1, x));
+
+    const N = chartData.length;
+    const idx = Math.round(playheadX * (N - 1));
+    const d = chartData[idx];
+
+    ttYear.textContent  = 'Year ' + Math.round(d.year);
+    ttTotal.textContent = fmtShort(d.total);
+    ttDetail.textContent = 'put in: ' + fmt(d.contributions) + ' · earned: ' + fmt(d.earned);
+    tooltipEl.classList.add('visible');
+
+    // Position tooltip
+    const tipX = playheadX * rect.width;
+    tooltipEl.style.left = Math.max(80, Math.min(rect.width - 80, tipX)) + 'px';
+
+    drawChart();
+  }
+
+  function hidePlayhead() {
+    playheadX = -1;
+    tooltipEl.classList.remove('visible');
+    drawChart();
+  }
+
+  canvas.addEventListener('mousedown', (e) => handleChartInteraction(e.clientX));
+  canvas.addEventListener('mousemove', (e) => {
+    if (e.buttons) handleChartInteraction(e.clientX);
+  });
+  canvas.addEventListener('mouseup', hidePlayhead);
+  canvas.addEventListener('mouseleave', hidePlayhead);
+
+  canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    handleChartInteraction(e.touches[0].clientX);
+  }, { passive: false });
+  canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    handleChartInteraction(e.touches[0].clientX);
+  }, { passive: false });
+  canvas.addEventListener('touchend', hidePlayhead);
+
+  // ── Init ──
+  function init() {
+    applyUrlParams();
+    sizeCanvas();
+    update();
+  }
+
+  // Pre-fill sliders from query params (e.g. opened from Can I Buy? or a lesson)
+  function applyUrlParams() {
+    const p = new URLSearchParams(window.location.search);
+    function setSlider(slider, key) {
+      if (!p.has(key)) return;
+      const v = parseFloat(p.get(key));
+      if (isNaN(v)) return;
+      const clamped = Math.max(+slider.min, Math.min(+slider.max, v));
+      slider.value = clamped;
+    }
+    setSlider(sliderMonthly, 'monthly');
+    setSlider(sliderStart, 'start');
+    setSlider(sliderReturn, 'return');
+    setSlider(sliderYears, 'years');
+  }
+
+  window.addEventListener('load', init);
+  window.addEventListener('resize', () => { sizeCanvas(); drawChart(); });
+})();
+</script>
+
+  <script src="./proto-shell.js"></script>
+</body>
+</html>
+

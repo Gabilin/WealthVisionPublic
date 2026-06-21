@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #080a0e;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    .device-frame {
+      width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
+      position: relative; background: #10141a;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+    .splash {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 26px;
+      background:
+        radial-gradient(120% 90% at 50% 12%, rgba(0,245,212,0.12), transparent 55%),
+        #080a0e;
+    }
+    .logo-mark {
+      width: 112px; height: 112px;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark svg { width: 112px; height: 112px; overflow: visible; }
+    .lm-curve {
+      fill: none; stroke: #00f5d4; stroke-width: 6;
+      stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 180; stroke-dashoffset: 180;
+      filter: drop-shadow(0 4px 14px rgba(0,245,212,0.45));
+      animation: draw 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
+    }
+    .lm-dot {
+      fill: #00f5d4; opacity: 0; transform-origin: center;
+      filter: drop-shadow(0 0 8px rgba(0,245,212,0.7));
+      animation: pop 0.4s cubic-bezier(0.16,1,0.3,1) 1s forwards;
+    }
+    .lm-ring {
+      fill: none; stroke: rgba(0,245,212,0.25); stroke-width: 2;
+      opacity: 0;
+      animation: ring 0.7s ease-out 1.05s forwards;
+    }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes pop { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes ring { 0% { opacity: 0.6; transform: scale(0.7); transform-origin: 84px 30px; } 100% { opacity: 0; transform: scale(1.7); transform-origin: 84px 30px; } }
+
+    .wordmark {
+      opacity: 0; transform: translateY(8px);
+      animation: rise 0.6s cubic-bezier(0.16,1,0.3,1) 0.85s forwards;
+      text-align: center;
+    }
+    .wordmark .name {
+      font-size: 27px; font-weight: 800; letter-spacing: -0.02em; color: #f3fbf9;
+    }
+    .wordmark .name b { color: #00f5d4; font-weight: 800; }
+    .wordmark .tag {
+      margin-top: 7px; font-size: 13px; color: #8ea29c; letter-spacing: 0.01em;
+    }
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+    .loader {
+      position: absolute; bottom: 64px; left: 50%; transform: translateX(-50%);
+      width: 120px; height: 3px; border-radius: 99px; overflow: hidden;
+      background: rgba(255,255,255,0.08);
+      opacity: 0; animation: rise 0.5s ease 1.1s forwards;
+    }
+    .loader > i {
+      display: block; height: 100%; width: 0; border-radius: 99px;
+      background: linear-gradient(90deg, #00f5d4, #67ffe7);
+      animation: fill 0.9s cubic-bezier(0.4,0,0.2,1) 1.15s forwards;
+    }
+    @keyframes fill { to { width: 100%; } }
+
+    /* Fill real phone screens edge-to-edge (desktop keeps the mock) */
+    @media (max-width: 600px) {
+      body { display: block; min-height: 100vh; min-height: 100dvh; background: #080a0e; }
+      .device-frame {
+        width: 100vw; height: 100vh; height: 100dvh;
+        max-width: 100%; border-radius: 0; border: 0; box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="device-frame">
+    <div class="splash">
+      <div class="logo-mark">
+        <svg viewBox="0 0 112 112">
+          <path class="lm-curve" d="M14 86 C 36 84, 50 70, 60 52 S 78 20, 96 14" />
+          <circle class="lm-ring" cx="96" cy="14" r="9" />
+          <circle class="lm-dot" cx="96" cy="14" r="6.5" />
+        </svg>
+      </div>
+      <div class="wordmark">
+        <div class="name">Wealth<b>Vision</b></div>
+        <div class="tag">Watch your future unfold</div>
+      </div>
+      <div class="loader"><i></i></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function hasProgress() {
+        try {
+          var raw = localStorage.getItem('wv_state');
+          if (raw) {
+            var p = JSON.parse(raw);
+            if (p && Array.isArray(p.visited) && p.visited.length > 0) return true;
+          }
+          var legacy = localStorage.getItem('wv_proto_visited');
+          if (legacy && JSON.parse(legacy).length > 0) return true;
+        } catch (e) { /* ignore */ }
+        return false;
+      }
+      var dest = hasProgress() ? 'dashboard.html' : 'screen1.html';
+      setTimeout(function () { window.location.href = dest; }, 2100);
+    })();
+  </script>
+</body>
+</html>

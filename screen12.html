@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 12: Dollar-Cost Averaging</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
+    .device-frame{--act1:#46a8ff;}
+    .device-frame[data-theme="light"]{--act1:#1f6fd0;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{background:#080a0e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa6);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25)}
+    .screen{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
+    .top-nav{padding:56px 24px 12px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+    .back-btn{width:36px;height:36px;border-radius:50%;background:var(--wa6);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .back-btn svg{width:18px;height:18px;stroke:var(--s-sec);stroke-width:2;fill:none}
+    .nav-title{flex:1;font-size:20px;font-weight:700;color:var(--s-hi)}
+    .nav-counter{font-size:13px;font-weight:600;color:var(--s-mid);font-variant-numeric:tabular-nums}
+    .deck-viewport{flex:1;position:relative;overflow:hidden;touch-action:pan-y}
+    .deck-track{display:flex;height:100%;will-change:transform;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+    .deck-track.dragging{transition:none}
+    .card{width:393px;height:100%;flex-shrink:0;padding:16px 24px 0;display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none}
+    .card::-webkit-scrollbar{display:none}
+    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;padding:16px 0 36px;flex-shrink:0}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--wa12);transition:all 0.35s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
+    .dot.active{width:24px;border-radius:4px;background:#46a8ff}
+    .section-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:8px;background:rgba(70,168,255,0.10);font-size:11px;font-weight:600;color:var(--act1);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
+    .section-title{font-size:22px;font-weight:800;color:var(--s-hi);line-height:1.25;margin-bottom:6px;letter-spacing:-0.02em}
+    .section-sub{font-size:14px;color:var(--s-mid);line-height:1.5;margin-bottom:20px}
+    .swipe-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:auto;padding:14px 0 4px;font-size:12px;color:var(--wa20);animation:hintPulse 2s ease-in-out infinite}
+    .swipe-hint svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none}
+    @keyframes hintPulse{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:.8;transform:translateX(4px)}}
+
+    /* ── Card content ── */
+    .content-card{background:var(--wa3);border:1px solid var(--wa6);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .hero-stat{text-align:center;padding:16px 0;flex:1;display:flex;flex-direction:column;justify-content:center}
+    .hero-stat .label{font-size:13px;color:var(--s-mid);margin-bottom:6px}
+    .hero-stat .value{font-size:48px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-0.03em;line-height:1}
+    .hero-stat .context{font-size:14px;color:var(--s-mid);line-height:1.4;margin-top:8px}
+
+    .chart-wrap{flex:1;min-height:180px;margin-bottom:16px;position:relative}
+    .chart-wrap canvas{width:100%;height:100%}
+
+    .legend{display:flex;flex-direction:column;gap:10px}
+    .legend-row{display:flex;align-items:center;justify-content:space-between}
+    .legend-left{display:flex;align-items:center;gap:8px}
+    .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+    .legend-name{font-size:13px;color:var(--s-sec)}
+    .legend-val{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+
+    .insight-box{margin-top:14px;padding:14px;border-radius:12px;font-size:14px;line-height:1.5;text-align:center}
+    .insight-box.teal{background:rgba(70,168,255,0.07);border:1px solid rgba(70,168,255,0.14);color:var(--act1)}
+    .insight-box.amber{background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.12);color:var(--c-amber)}
+
+    .visual-row{display:flex;gap:10px;margin-bottom:16px}
+    .visual-col{flex:1;background:var(--wa3);border:1px solid var(--wa6);border-radius:12px;padding:16px 12px;text-align:center}
+    .visual-col .vc-label{font-size:11px;color:var(--s-mid);margin-bottom:6px}
+    .visual-col .vc-val{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+    .visual-col .vc-sub{font-size:10px;color:var(--s-mid);margin-top:4px}
+
+    .month-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:16px}
+    .month-cell{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0a0e14;transition:all 0.3s}
+
+    .takeaway-card{background:linear-gradient(135deg,rgba(2,49,222,0.12),rgba(70,168,255,0.07));border:1px solid rgba(70,168,255,0.16);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .takeaway-list{display:flex;flex-direction:column;gap:16px;flex:1}
+    .takeaway-item{display:flex;gap:12px;align-items:flex-start}
+    .takeaway-num{width:28px;height:28px;border-radius:50%;background:rgba(70,168,255,0.16);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--act1);flex-shrink:0}
+    .takeaway-text{font-size:15px;color:var(--s-sec);line-height:1.55}
+    .takeaway-text strong{color:var(--s-hi);font-weight:600}
+    .cta-btn{width:100%;height:56px;border:none;border-radius:14px;background:linear-gradient(135deg,#46a8ff,#2d7fe0);color:#04183a;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:auto;flex-shrink:0}
+    .cta-btn:hover{filter:brightness(1.08)}
+    .cta-btn:active{transform:scale(0.98)}
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+<div class="device-frame"><div class="screen">
+  <div class="top-nav">
+    <button class="back-btn"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <span class="nav-title">Dollar-Cost Averaging</span>
+    <span class="nav-counter" id="navCounter">1 / 4</span>
+  </div>
+
+  <div class="deck-viewport" id="deckViewport">
+    <div class="deck-track" id="deckTrack">
+
+      <!-- Card 1: The Timing Trap -->
+      <div class="card" data-card="0">
+        <div class="section-badge">1 / 4 — The Timing Trap</div>
+        <div class="section-title">Nobody can time<br>the market</div>
+        <div class="section-sub">Even professionals get it wrong. Here's the proof.</div>
+        <div class="content-card">
+          <div class="chart-wrap"><canvas id="volatilityChart"></canvas></div>
+          <div class="visual-row">
+            <div class="visual-col">
+              <div class="vc-label">Best day of 2024</div>
+              <div class="vc-val" style="color:var(--act1)">+2.3%</div>
+              <div class="vc-sub">Missed it? Too bad.</div>
+            </div>
+            <div class="visual-col">
+              <div class="vc-label">Worst day of 2024</div>
+              <div class="vc-val" style="color:var(--c-red)">-3.1%</div>
+              <div class="vc-sub">Dodged it? Lucky.</div>
+            </div>
+          </div>
+          <div class="insight-box amber">
+            Missing the <strong>10 best days</strong> over 20 years cuts your returns in half. Those days are impossible to predict.
+          </div>
+        </div>
+        <div class="swipe-hint" id="swipeHint"><span>Swipe to continue</span><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></div>
+      </div>
+
+      <!-- Card 2: The DCA Strategy -->
+      <div class="card" data-card="1">
+        <div class="section-badge">2 / 4 — The Strategy</div>
+        <div class="section-title">Invest the same<br>amount every month</div>
+        <div class="section-sub">$200/month, every month. You buy more shares when prices are low, fewer when high. This is DCA.</div>
+        <div class="content-card">
+          <div style="font-size:13px;color:var(--s-mid);margin-bottom:10px">12 months of investing $200/month:</div>
+          <div class="month-grid" id="monthGrid"></div>
+          <div class="visual-row">
+            <div class="visual-col">
+              <div class="vc-label">Total invested</div>
+              <div class="vc-val" style="color:var(--s-hi)">$2,400</div>
+            </div>
+            <div class="visual-col">
+              <div class="vc-label">Avg cost/share</div>
+              <div class="vc-val" style="color:var(--act1)" id="avgCost">$46.28</div>
+            </div>
+            <div class="visual-col">
+              <div class="vc-label">Current price</div>
+              <div class="vc-val" style="color:var(--c-peri)">$52</div>
+            </div>
+          </div>
+          <div class="insight-box teal">
+            You paid an <strong>average of $46.28</strong> per share even though the price ranged from $38 to $55. That's the magic — volatility works FOR you.
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: DCA vs Lump Sum vs Timing -->
+      <div class="card" data-card="2">
+        <div class="section-badge">3 / 4 — The Comparison</div>
+        <div class="section-title">DCA vs trying<br>to time it</div>
+        <div class="section-sub">$24,000 invested over 10 years. Three approaches.</div>
+        <div class="content-card">
+          <div class="chart-wrap"><canvas id="compareChart"></canvas></div>
+          <div class="legend">
+            <div class="legend-row">
+              <div class="legend-left"><div class="legend-dot" style="background:#46a8ff"></div><span class="legend-name">DCA ($200/month)</span></div>
+              <span class="legend-val" style="color:var(--act1)" id="dcaVal">$34,200</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left"><div class="legend-dot" style="background:#bbc3ff"></div><span class="legend-name">Lump sum (day 1)</span></div>
+              <span class="legend-val" style="color:var(--c-peri)" id="lumpVal">$39,600</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left"><div class="legend-dot" style="background:#ffb4ab"></div><span class="legend-name">Waited for "dip"</span></div>
+              <span class="legend-val" style="color:var(--c-red)" id="waitVal">$28,100</span>
+            </div>
+          </div>
+          <div class="insight-box teal">
+            Lump sum wins slightly <strong>66% of the time</strong>, but DCA removes the stress. Waiting for the "perfect moment" usually means missing gains.
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Key Takeaway -->
+      <div class="card" data-card="3">
+        <div class="section-badge">4 / 4 — Key Takeaway</div>
+        <div class="section-title">Time in the market<br>beats timing</div>
+        <div class="section-sub">The best strategy for most people.</div>
+        <div class="takeaway-card">
+          <div class="hero-stat" style="padding:8px 0 16px">
+            <div class="label">Your DCA superpower</div>
+            <div class="value" style="color:var(--act1)">Autopilot</div>
+            <div class="context">Set it. Forget it. Let compounding do the work.</div>
+          </div>
+          <div class="takeaway-list">
+            <div class="takeaway-item">
+              <div class="takeaway-num">1</div>
+              <div class="takeaway-text"><strong>Pick a fixed amount</strong> — $50, $200, $500/month. Whatever you can sustain.</div>
+            </div>
+            <div class="takeaway-item">
+              <div class="takeaway-num">2</div>
+              <div class="takeaway-text"><strong>Invest on the same day</strong> — 1st of the month, every month. Automate it.</div>
+            </div>
+            <div class="takeaway-item">
+              <div class="takeaway-num">3</div>
+              <div class="takeaway-text"><strong>Never stop</strong> — crashes are sales. You're buying more shares for less.</div>
+            </div>
+          </div>
+          <button class="cta-btn" onclick="alert('Opens Simulator')">Try DCA in Simulator</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pagination" id="pagination">
+    <div class="dot active" onclick="goToCard(0)"></div>
+    <div class="dot" onclick="goToCard(1)"></div>
+    <div class="dot" onclick="goToCard(2)"></div>
+    <div class="dot" onclick="goToCard(3)"></div>
+  </div>
+</div></div>
+
+<script>
+// ═══ SWIPE DECK ENGINE (shared) ═══
+const track=document.getElementById('deckTrack'),viewport=document.getElementById('deckViewport'),dots=document.querySelectorAll('.dot'),counter=document.getElementById('navCounter');
+const CARD_W=393,TOTAL=4;let current=0,startX=0,deltaX=0,isDragging=false;
+function goToCard(idx){current=Math.max(0,Math.min(TOTAL-1,idx));track.classList.remove('dragging');track.style.transform=`translateX(${-current*CARD_W}px)`;dots.forEach((d,i)=>d.classList.toggle('active',i===current));counter.textContent=`${current+1} / ${TOTAL}`;const h=document.getElementById('swipeHint');if(h&&current>0)h.style.display='none';if(current===2)setTimeout(drawCompareChart,100)}
+viewport.addEventListener('pointerdown',e=>{if(e.target.closest('input,button'))return;isDragging=true;startX=e.clientX;deltaX=0;track.classList.add('dragging');viewport.setPointerCapture(e.pointerId)});
+viewport.addEventListener('pointermove',e=>{if(!isDragging)return;deltaX=e.clientX-startX;const o=-current*CARD_W+deltaX;if((current===0&&deltaX>0)||(current===TOTAL-1&&deltaX<0)){track.style.transform=`translateX(${-current*CARD_W+deltaX*0.25}px)`}else{track.style.transform=`translateX(${o}px)`}});
+viewport.addEventListener('pointerup',e=>{if(!isDragging)return;isDragging=false;viewport.releasePointerCapture(e.pointerId);const t=CARD_W*0.2;if(deltaX<-t&&current<TOTAL-1)goToCard(current+1);else if(deltaX>t&&current>0)goToCard(current-1);else goToCard(current)});
+viewport.addEventListener('pointercancel',()=>{isDragging=false;goToCard(current)});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')goToCard(current+1);if(e.key==='ArrowLeft')goToCard(current-1)});
+
+// ═══ Card 1: Volatility Chart ═══
+function drawVolatilityChart(){
+  const c=document.getElementById('volatilityChart');if(!c)return;
+  const dpr=window.devicePixelRatio||1,r=c.parentElement.getBoundingClientRect();
+  c.width=r.width*dpr;c.height=r.height*dpr;c.style.width=r.width+'px';c.style.height=r.height+'px';
+  const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
+  const W=r.width,H=r.height,pL=8,pR=8,pT=8,pB=20;
+  const prices=[100,103,98,105,95,108,92,110,99,115,88,120,105,112,97,125,90,130,118,135,95,128,140,132,145];
+  const max=Math.max(...prices)*1.05,min=Math.min(...prices)*0.95;
+  function x(i){return pL+(i/(prices.length-1))*(W-pL-pR)}
+  function y(v){return pT+(H-pT-pB)-(v-min)/(max-min)*(H-pT-pB)}
+  // Area fill
+  ctx.beginPath();ctx.moveTo(x(0),y(prices[0]));
+  for(let i=1;i<prices.length;i++)ctx.lineTo(x(i),y(prices[i]));
+  ctx.lineTo(x(prices.length-1),H-pB);ctx.lineTo(x(0),H-pB);ctx.closePath();
+  const grd=ctx.createLinearGradient(0,0,0,H);grd.addColorStop(0,'rgba(187,195,255,0.12)');grd.addColorStop(1,'rgba(187,195,255,0)');
+  ctx.fillStyle=grd;ctx.fill();
+  // Line
+  ctx.beginPath();ctx.moveTo(x(0),y(prices[0]));
+  for(let i=1;i<prices.length;i++)ctx.lineTo(x(i),y(prices[i]));
+  ctx.strokeStyle='#bbc3ff';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.stroke();
+  // Highlight best/worst
+  let bestI=0,worstI=0;
+  for(let i=1;i<prices.length;i++){const chg=prices[i]-prices[i-1];if(chg>prices[bestI+1]-prices[bestI])bestI=i-1;if(chg<prices[worstI+1]-prices[worstI])worstI=i-1}
+  [[bestI+1,'#46a8ff'],[worstI+1,'#ffb4ab']].forEach(([idx,col])=>{ctx.beginPath();ctx.arc(x(idx),y(prices[idx]),5,0,Math.PI*2);ctx.fillStyle=col;ctx.fill()});
+  ctx.fillStyle='#83948f';ctx.font='11px Inter';ctx.textAlign='center';
+  ctx.fillText('Jan',x(0),H-4);ctx.fillText('Jul',x(12),H-4);ctx.fillText('Dec',x(24),H-4);
+}
+setTimeout(drawVolatilityChart,200);
+
+// ═══ Card 2: Month Grid ═══
+const monthPrices=[50,48,45,42,38,40,43,47,50,53,55,52];
+const grid=document.getElementById('monthGrid');
+monthPrices.forEach((p,i)=>{
+  const shares=(200/p);
+  const intensity=1-(p-38)/(55-38);
+  const r=Math.round(0+intensity*0),g=Math.round(100+intensity*155),b=Math.round(100+intensity*112);
+  const cell=document.createElement('div');
+  cell.className='month-cell';
+  cell.style.background=`rgba(${r},${g},${b},${0.3+intensity*0.5})`;
+  cell.style.color=intensity>0.5?'#0a0e14':'#dfe2eb';
+  cell.textContent=`$${p}`;
+  cell.title=`Month ${i+1}: $${p}/share → ${shares.toFixed(1)} shares`;
+  grid.appendChild(cell);
+});
+const totalShares=monthPrices.reduce((s,p)=>s+200/p,0);
+document.getElementById('avgCost').textContent='$'+(2400/totalShares).toFixed(2);
+
+// ═══ Card 3: Compare Chart ═══
+function drawCompareChart(){
+  const c=document.getElementById('compareChart');if(!c)return;
+  const dpr=window.devicePixelRatio||1,r=c.parentElement.getBoundingClientRect();
+  if(r.width===0)return;
+  c.width=r.width*dpr;c.height=r.height*dpr;c.style.width=r.width+'px';c.style.height=r.height+'px';
+  const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
+  const W=r.width,H=r.height,pL=4,pR=4,pT=8,pB=24;
+  const years=10,base=24000,rate=0.07;
+  const dcaData=[],lumpData=[],waitData=[];
+  for(let y=0;y<=years;y++){
+    // DCA: $200/month invested gradually
+    let dcaTotal=0;for(let m=0;m<y*12;m++)dcaTotal+=200*Math.pow(1+rate/12,(y*12-m));
+    dcaData.push(dcaTotal);
+    lumpData.push(base*Math.pow(1+rate,y));
+    // Waiter: sat in cash for 3 years, then invested remainder
+    if(y<=3)waitData.push(base);else waitData.push(base*Math.pow(1+rate,y-3));
+  }
+  const maxVal=Math.max(lumpData[years],dcaData[years])*1.08;
+  function x(i){return pL+(i/years)*(W-pL-pR)}
+  function y(v){return pT+(H-pT-pB)-(v/maxVal)*(H-pT-pB)}
+  function drawCurve(data,color,w){ctx.beginPath();ctx.moveTo(x(0),y(data[0]));for(let i=1;i<=years;i++)ctx.lineTo(x(i),y(data[i]));ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineJoin='round';ctx.stroke()}
+  drawCurve(waitData,'#ffb4ab',2);
+  drawCurve(dcaData,'#46a8ff',3);
+  drawCurve(lumpData,'#bbc3ff',2.5);
+  [[dcaData,'#46a8ff'],[lumpData,'#bbc3ff'],[waitData,'#ffb4ab']].forEach(([d,col])=>{ctx.beginPath();ctx.arc(x(years),y(d[years]),4,0,Math.PI*2);ctx.fillStyle=col;ctx.fill()});
+  ctx.fillStyle='#83948f';ctx.font='11px Inter';ctx.textAlign='center';
+  ctx.fillText('Now',x(0),H-6);ctx.fillText('5y',x(5),H-6);ctx.fillText('10y',x(10),H-6);
+  document.getElementById('dcaVal').textContent='$'+Math.round(dcaData[years]).toLocaleString('en-US');
+  document.getElementById('lumpVal').textContent='$'+Math.round(lumpData[years]).toLocaleString('en-US');
+  document.getElementById('waitVal').textContent='$'+Math.round(waitData[years]).toLocaleString('en-US');
+}
+</script>
+  <script src="./proto-shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 2: Your Scenario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Device frame ── */
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: #10141a;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.3),
+        0 25px 60px rgba(0, 0, 0, 0.5),
+        0 50px 120px rgba(0, 0, 0, 0.25);
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 0 24px;
+    }
+
+    /* ── Back arrow ── */
+    .back-arrow {
+      position: absolute;
+      top: 58px;
+      left: 24px;
+      z-index: 10;
+      color: #83948f;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px 4px;
+      line-height: 1;
+      transition: color 0.2s ease-out;
+    }
+    .back-arrow:active { color: #dfe2eb; }
+
+    /* ── Top section: question ── */
+    .question-area {
+      padding-top: 92px;
+      margin-bottom: 8px;
+    }
+
+    .headline {
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #dfe2eb;
+    }
+
+    .subtext {
+      font-size: 15px;
+      line-height: 22px;
+      font-weight: 400;
+      color: #83948f;
+      margin-top: 8px;
+    }
+
+    /* ── Input area ── */
+    .input-area {
+      margin-top: 32px;
+    }
+
+    .amount-display {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: baseline;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0, 245, 212, 0.3);
+      transition: border-color 0.2s ease-out;
+    }
+    .amount-display.focused {
+      border-color: #00f5d4;
+    }
+
+    .dollar-sign {
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: rgba(215, 255, 243, 0.4);
+      line-height: 48px;
+      margin-right: 4px;
+    }
+
+    .amount-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #d7fff3;
+      line-height: 48px;
+      width: 100%;
+      caret-color: #00f5d4;
+      font-variant-numeric: tabular-nums;
+    }
+    .amount-input::placeholder {
+      color: rgba(215, 255, 243, 0.15);
+    }
+
+    /* ── Quick-pick chips ── */
+    .chips {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: #b9cac4;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+      user-select: none;
+    }
+    .chip:active {
+      transform: scale(0.96);
+    }
+    .chip.selected {
+      background: rgba(0, 245, 212, 0.12);
+      border-color: rgba(0, 245, 212, 0.3);
+      color: #00f5d4;
+    }
+
+    /* ── Preview area ── */
+    .preview-area {
+      margin-top: 36px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .preview-chart {
+      flex: 1;
+      min-height: 120px;
+      max-height: 200px;
+      position: relative;
+    }
+
+    .preview-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .preview-result {
+      margin-top: 12px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .preview-result.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .preview-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #83948f;
+      letter-spacing: 0.01em;
+    }
+
+    .preview-amount {
+      font-size: 28px;
+      line-height: 36px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #d7fff3;
+      margin-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: absolute;
+      top: 58px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(0, 245, 212, 0.12);
+      border: 1px solid rgba(0, 245, 212, 0.25);
+      color: #00f5d4;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 12px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      z-index: 20;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── CTA ── */
+    .cta-area {
+      margin-top: 20px;
+    }
+
+    .cta-button {
+      width: 100%;
+      height: 56px;
+      background: #00F5D4;
+      color: #0A0E14;
+      border: none;
+      border-radius: 16px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: transform 0.12s ease-out;
+    }
+    .cta-button:active {
+      transform: scale(0.97);
+    }
+    .cta-button:disabled {
+      background: rgba(0, 245, 212, 0.2);
+      color: rgba(10, 14, 20, 0.4);
+      cursor: default;
+    }
+
+    /* ── Progress dots ── */
+    .progress-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 0 38px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(131, 148, 143, 0.35);
+    }
+    .dot.active { background: #00F5D4; }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+
+<div class="device-frame">
+  <div class="screen">
+    <span class="back-arrow" id="backArrow">&#8592;</span>
+
+    <div class="toast" id="toast">Whoa, big saver!</div>
+
+    <div class="question-area">
+      <div class="headline">How much could you set aside each month?</div>
+      <div class="subtext">Don't overthink it. Even $50 works. You can change this anytime.</div>
+    </div>
+
+    <div class="input-area">
+      <div class="amount-display" id="amountDisplay">
+        <span class="dollar-sign">$</span>
+        <input
+          class="amount-input"
+          id="amountInput"
+          type="text"
+          inputmode="numeric"
+          placeholder="200"
+          autocomplete="off"
+        >
+      </div>
+      <div class="chips" id="chips">
+        <button class="chip" data-value="50">$50</button>
+        <button class="chip" data-value="100">$100</button>
+        <button class="chip selected" data-value="200">$200</button>
+        <button class="chip" data-value="500">$500</button>
+        <button class="chip" data-value="custom">Custom</button>
+      </div>
+    </div>
+
+    <div class="preview-area">
+      <div class="preview-chart">
+        <canvas class="preview-canvas" id="previewCanvas"></canvas>
+      </div>
+      <div class="preview-result visible" id="previewResult">
+        <div class="preview-label">In 30 years</div>
+        <div class="preview-amount" id="previewAmount">~$227,413</div>
+      </div>
+    </div>
+
+    <div class="cta-area">
+      <button class="cta-button" id="cta">Next &#8594;</button>
+    </div>
+
+    <div class="progress-dots">
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ── Constants ──
+  const RATE    = 0.07;
+  const YEARS   = 30;
+  const MONTHS  = YEARS * 12;
+  const monthlyRate = RATE / 12;
+
+  // ── DOM ──
+  const amountInput   = document.getElementById('amountInput');
+  const amountDisplay = document.getElementById('amountDisplay');
+  const chipsEl       = document.getElementById('chips');
+  const previewResult = document.getElementById('previewResult');
+  const previewAmount = document.getElementById('previewAmount');
+  const canvas        = document.getElementById('previewCanvas');
+  const toastEl       = document.getElementById('toast');
+  const ctx           = canvas.getContext('2d');
+  const dpr           = window.devicePixelRatio || 1;
+  const chips         = chipsEl.querySelectorAll('.chip');
+
+  let currentAmount = 200;
+  let toastTimer    = null;
+  let animFrame     = null;
+  let animProgress  = 0;
+  let animTarget    = 1;
+  let lastTime      = 0;
+
+  // ── FV calculation ──
+  function futureValue(monthly) {
+    if (monthly <= 0) return 0;
+    return monthly * ((Math.pow(1 + monthlyRate, MONTHS) - 1) / monthlyRate);
+  }
+
+  function dataForMonthly(monthly) {
+    const pts = [];
+    for (let m = 0; m <= MONTHS; m += 6) {
+      const contrib = monthly * m;
+      const total = m === 0 ? 0 : monthly * ((Math.pow(1 + monthlyRate, m) - 1) / monthlyRate);
+      pts.push({ contributions: contrib, total });
+    }
+    return pts;
+  }
+
+  // ── Canvas ──
+  function sizeCanvas() {
+    const p = canvas.parentElement;
+    canvas.width  = p.clientWidth  * dpr;
+    canvas.height = p.clientHeight * dpr;
+    canvas.style.width  = p.clientWidth  + 'px';
+    canvas.style.height = p.clientHeight + 'px';
+  }
+
+  function drawPreview(monthly, progress) {
+    const w = canvas.width  / dpr;
+    const h = canvas.height / dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    if (monthly <= 0) return;
+
+    const data = dataForMonthly(monthly);
+    const N    = data.length;
+    const fv   = futureValue(monthly);
+    const maxV = fv * 1.08;
+
+    const padT = 8, padB = 8;
+    const cL = 0, cR = w, cT = padT, cB = h - padB;
+    const cW = cR - cL, cH = cB - cT;
+
+    const drawN = Math.max(2, Math.ceil(progress * (N - 1)) + 1);
+    const xOf = i => cL + (i / (N - 1)) * cW;
+    const yOf = v => cB - (v / maxV) * cH;
+
+    ctx.lineCap  = 'round';
+    ctx.lineJoin = 'round';
+
+    // Indigo area (contributions)
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), cB);
+    for (let i = 0; i < drawN; i++) ctx.lineTo(xOf(i), yOf(data[i].contributions));
+    ctx.lineTo(xOf(drawN - 1), cB);
+    ctx.closePath();
+    const gI = ctx.createLinearGradient(0, cT, 0, cB);
+    gI.addColorStop(0,   'rgba(2, 49, 222, 0.45)');
+    gI.addColorStop(0.5, 'rgba(2, 49, 222, 0.18)');
+    gI.addColorStop(1,   'rgba(2, 49, 222, 0.04)');
+    ctx.fillStyle = gI;
+    ctx.fill();
+
+    // Teal area (interest gap)
+    ctx.beginPath();
+    for (let i = 0; i < drawN; i++) {
+      const x = xOf(i), y = yOf(data[i].contributions);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    for (let i = drawN - 1; i >= 0; i--) {
+      ctx.lineTo(xOf(i), yOf(data[i].total));
+    }
+    ctx.closePath();
+    const gT = ctx.createLinearGradient(0, cT, 0, cB);
+    gT.addColorStop(0,   'rgba(0, 245, 212, 0.30)');
+    gT.addColorStop(0.4, 'rgba(0, 245, 212, 0.12)');
+    gT.addColorStop(1,   'rgba(0, 245, 212, 0.02)');
+    ctx.fillStyle = gT;
+    ctx.fill();
+
+    // Contributions line
+    ctx.beginPath();
+    for (let i = 0; i < drawN; i++) {
+      const x = xOf(i), y = yOf(data[i].contributions);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(187, 195, 255, 0.45)';
+    ctx.lineWidth   = 1.5;
+    ctx.stroke();
+
+    // Total line glow
+    ctx.beginPath();
+    for (let i = 0; i < drawN; i++) {
+      const x = xOf(i), y = yOf(data[i].total);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(0, 245, 212, 0.15)';
+    ctx.lineWidth   = 8;
+    ctx.shadowColor = 'rgba(0, 245, 212, 0.2)';
+    ctx.shadowBlur  = 12;
+    ctx.stroke();
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur  = 0;
+
+    // Total line crisp
+    ctx.beginPath();
+    for (let i = 0; i < drawN; i++) {
+      const x = xOf(i), y = yOf(data[i].total);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth   = 2.5;
+    ctx.stroke();
+
+    // Endpoint dot
+    if (drawN > 2) {
+      const li = drawN - 1;
+      const dx = xOf(li), dy = yOf(data[li].total);
+      ctx.beginPath();
+      ctx.arc(dx, dy, 6, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 245, 212, 0.15)';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(dx, dy, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#00f5d4';
+      ctx.fill();
+    }
+  }
+
+  // ── Animate chart draw ──
+  function animateChart() {
+    const now = performance.now();
+    const dt  = Math.min(now - lastTime, 32);
+    lastTime  = now;
+
+    // Smooth interpolation toward target
+    const speed = 0.004;
+    animProgress += (animTarget - animProgress) * Math.min(1, speed * dt * 6);
+
+    if (Math.abs(animProgress - animTarget) < 0.005) {
+      animProgress = animTarget;
+    }
+
+    drawPreview(currentAmount, animProgress);
+
+    if (animProgress < animTarget) {
+      animFrame = requestAnimationFrame(animateChart);
+    }
+  }
+
+  function triggerDraw() {
+    animTarget = 1;
+    lastTime = performance.now();
+    if (animFrame) cancelAnimationFrame(animFrame);
+
+    // Restart from small progress for visual feedback
+    animProgress = 0.05;
+    animFrame = requestAnimationFrame(animateChart);
+  }
+
+  // ── Format ──
+  function fmt(v) {
+    return '~$' + Math.round(v).toLocaleString('en-US');
+  }
+
+  // ── Input handling ──
+  function setAmount(val) {
+    const num = parseInt(val, 10);
+    if (isNaN(num) || num < 0) {
+      currentAmount = 0;
+      previewResult.classList.remove('visible');
+      drawPreview(0, 0);
+      return;
+    }
+    currentAmount = Math.min(num, 50000);
+
+    if (currentAmount > 0) {
+      const fv = futureValue(currentAmount);
+      previewAmount.textContent = fmt(fv);
+      previewResult.classList.add('visible');
+      triggerDraw();
+    } else {
+      previewResult.classList.remove('visible');
+      drawPreview(0, 0);
+    }
+
+    // Persist the chosen monthly amount so later screens (goal) and the dashboard can use it
+    if (window.WVShell && currentAmount > 0) {
+      window.WVShell.patchState({ monthly: currentAmount });
+    }
+
+    // Toast for big savers
+    if (num > 10000) {
+      showToast();
+    }
+  }
+
+  function showToast() {
+    if (toastTimer) clearTimeout(toastTimer);
+    toastEl.classList.add('show');
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2500);
+  }
+
+  // Input events
+  amountInput.addEventListener('input', (e) => {
+    // Strip non-digits
+    const raw = e.target.value.replace(/[^0-9]/g, '');
+    e.target.value = raw;
+
+    // Deselect chips
+    chips.forEach(c => c.classList.remove('selected'));
+    const matchChip = chipsEl.querySelector(`[data-value="${raw}"]`);
+    if (matchChip) matchChip.classList.add('selected');
+
+    setAmount(raw);
+  });
+
+  amountInput.addEventListener('focus', () => {
+    amountDisplay.classList.add('focused');
+  });
+  amountInput.addEventListener('blur', () => {
+    amountDisplay.classList.remove('focused');
+  });
+
+  // Chip events
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+
+      const val = chip.dataset.value;
+      if (val === 'custom') {
+        amountInput.value = '';
+        amountInput.focus();
+        currentAmount = 0;
+        previewResult.classList.remove('visible');
+        drawPreview(0, 0);
+        return;
+      }
+
+      amountInput.value = val;
+      setAmount(val);
+    });
+  });
+
+  // ── Init ──
+  function init() {
+    sizeCanvas();
+    setAmount(200);
+  }
+
+  window.addEventListener('load', init);
+  window.addEventListener('resize', () => {
+    sizeCanvas();
+    drawPreview(currentAmount, 1);
+  });
+})();
+</script>
+
+  <script src="./proto-shell.js"></script>
+</body>
+</html>
+

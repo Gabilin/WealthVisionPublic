@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 14: Index Funds vs Stock Picking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
+    .device-frame{--act1:#f5a623;}
+    .device-frame[data-theme="light"]{--act1:#a86a06;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{background:#080a0e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa6);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25)}
+    .screen{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
+    .top-nav{padding:56px 24px 12px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+    .back-btn{width:36px;height:36px;border-radius:50%;background:var(--wa6);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .back-btn svg{width:18px;height:18px;stroke:var(--s-sec);stroke-width:2;fill:none}
+    .nav-title{flex:1;font-size:20px;font-weight:700;color:var(--s-hi)}
+    .nav-counter{font-size:13px;font-weight:600;color:var(--s-mid);font-variant-numeric:tabular-nums}
+    .deck-viewport{flex:1;position:relative;overflow:hidden;touch-action:pan-y}
+    .deck-track{display:flex;height:100%;will-change:transform;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+    .deck-track.dragging{transition:none}
+    .card{width:393px;height:100%;flex-shrink:0;padding:16px 24px 0;display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none}
+    .card::-webkit-scrollbar{display:none}
+    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;padding:16px 0 36px;flex-shrink:0}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--wa12);transition:all 0.35s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
+    .dot.active{width:24px;border-radius:4px;background:#f5a623}
+    .section-badge{display:inline-flex;padding:4px 12px;border-radius:8px;background:rgba(245,166,35,0.10);font-size:11px;font-weight:600;color:var(--act1);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
+    .section-title{font-size:22px;font-weight:800;color:var(--s-hi);line-height:1.25;margin-bottom:6px;letter-spacing:-0.02em}
+    .section-sub{font-size:14px;color:var(--s-mid);line-height:1.5;margin-bottom:20px}
+    .swipe-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:auto;padding:14px 0 4px;font-size:12px;color:var(--wa20);animation:hintPulse 2s ease-in-out infinite}
+    .swipe-hint svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none}
+    @keyframes hintPulse{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:.8;transform:translateX(4px)}}
+
+    .content-card{background:var(--wa3);border:1px solid var(--wa6);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .insight-box{margin-top:14px;padding:14px;border-radius:12px;font-size:14px;line-height:1.5;text-align:center}
+    .insight-box.teal{background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.14);color:var(--act1)}
+    .insight-box.red{background:rgba(255,180,171,0.06);border:1px solid rgba(255,180,171,0.12);color:var(--c-red)}
+
+    /* Scorecard */
+    .score-ring{width:160px;height:160px;margin:0 auto 16px;position:relative}
+    .score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+    .score-ring .bg{fill:none;stroke:var(--wa6);stroke-width:10}
+    .score-ring .fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.5s cubic-bezier(0.16,1,0.3,1)}
+    .score-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+    .score-pct{font-size:40px;font-weight:900;color:var(--c-red);font-variant-numeric:tabular-nums;letter-spacing:-0.03em;line-height:1}
+    .score-label{font-size:11px;color:var(--s-mid);margin-top:4px}
+
+    /* What is an index fund */
+    .company-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px}
+    .company-cell{aspect-ratio:1;border-radius:10px;background:rgba(245,166,35,0.10);border:1px solid rgba(245,166,35,0.14);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--act1);transition:all 0.3s}
+
+    .vs-row{display:flex;gap:12px;margin-bottom:16px}
+    .vs-col{flex:1;border-radius:14px;padding:16px;text-align:center;border:1px solid var(--wa6)}
+    .vs-col .vs-icon{font-size:28px;margin-bottom:6px}
+    .vs-col .vs-title{font-size:14px;font-weight:700;color:var(--s-hi);margin-bottom:4px}
+    .vs-col .vs-desc{font-size:12px;color:var(--s-mid);line-height:1.4}
+
+    .chart-wrap{flex:1;min-height:180px;margin-bottom:16px;position:relative}
+    .chart-wrap canvas{width:100%;height:100%}
+    .legend{display:flex;flex-direction:column;gap:10px}
+    .legend-row{display:flex;align-items:center;justify-content:space-between}
+    .legend-left{display:flex;align-items:center;gap:8px}
+    .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+    .legend-name{font-size:13px;color:var(--s-sec)}
+    .legend-val{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+
+    .takeaway-card{background:linear-gradient(135deg,rgba(2,49,222,0.12),rgba(245,166,35,0.07));border:1px solid rgba(245,166,35,0.16);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .takeaway-list{display:flex;flex-direction:column;gap:16px;flex:1}
+    .takeaway-item{display:flex;gap:12px;align-items:flex-start}
+    .takeaway-num{width:28px;height:28px;border-radius:50%;background:rgba(245,166,35,0.16);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--act1);flex-shrink:0}
+    .takeaway-text{font-size:15px;color:var(--s-sec);line-height:1.55}
+    .takeaway-text strong{color:var(--s-hi);font-weight:600}
+    .cta-btn{width:100%;height:56px;border:none;border-radius:14px;background:linear-gradient(135deg,#f5a623,#e08c0e);color:#2a1a02;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:auto;flex-shrink:0}
+    .cta-btn:active{transform:scale(0.98)}
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+<div class="device-frame"><div class="screen">
+  <div class="top-nav">
+    <button class="back-btn"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <span class="nav-title">Index Funds vs Picking</span>
+    <span class="nav-counter" id="navCounter">1 / 4</span>
+  </div>
+
+  <div class="deck-viewport" id="deckViewport">
+    <div class="deck-track" id="deckTrack">
+
+      <!-- Card 1: The Pros Can't Win -->
+      <div class="card" data-card="0">
+        <div class="section-badge">1 / 4 — The Scoreboard</div>
+        <div class="section-title">The pros can't<br>beat the market</div>
+        <div class="section-sub">After 15 years, what percentage of professional fund managers lost to a simple index fund?</div>
+        <div class="content-card">
+          <div class="score-ring" id="scoreRing">
+            <svg viewBox="0 0 160 160">
+              <circle class="bg" cx="80" cy="80" r="65"/>
+              <circle class="fill" cx="80" cy="80" r="65" stroke="#ffb4ab"
+                stroke-dasharray="408.4" stroke-dashoffset="408.4" id="scoreFill"/>
+            </svg>
+            <div class="score-center">
+              <div class="score-pct" id="scorePct">0%</div>
+              <div class="score-label">underperformed</div>
+            </div>
+          </div>
+          <div style="text-align:center;font-size:14px;color:var(--s-sec);line-height:1.5;margin-bottom:16px">
+            <strong style="color:var(--c-red)">92% of actively managed</strong> US large-cap funds failed to beat the S&amp;P 500 over 15 years.
+            <br><span style="font-size:12px;color:var(--s-mid)">Source: S&amp;P Dow Jones SPIVA Scorecard</span>
+          </div>
+          <div class="insight-box red">
+            If the <strong>best-paid professionals</strong> on Wall Street can't beat the market, why should you try?
+          </div>
+        </div>
+        <div class="swipe-hint" id="swipeHint"><span>Swipe to continue</span><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></div>
+      </div>
+
+      <!-- Card 2: What is an Index Fund -->
+      <div class="card" data-card="1">
+        <div class="section-badge">2 / 4 — The Alternative</div>
+        <div class="section-title">Own everything<br>with one purchase</div>
+        <div class="section-sub">An index fund holds tiny pieces of hundreds of companies at once. One fund = instant diversification.</div>
+        <div class="content-card">
+          <div style="font-size:13px;color:var(--s-mid);margin-bottom:10px">S&amp;P 500 = 500 companies in one fund:</div>
+          <div class="company-grid" id="companyGrid"></div>
+          <div class="vs-row">
+            <div class="vs-col" style="background:rgba(245,166,35,0.05)">
+              <div class="vs-title" style="color:var(--act1)">Index Fund</div>
+              <div class="vs-desc">Fee: <strong>0.03%</strong><br>500 companies<br>Set and forget</div>
+            </div>
+            <div class="vs-col" style="background:rgba(255,180,171,0.04)">
+              <div class="vs-title" style="color:var(--c-red)">Active Fund</div>
+              <div class="vs-desc">Fee: <strong>1.0%</strong><br>30-80 companies<br>Manager picks stocks</div>
+            </div>
+          </div>
+          <div class="insight-box teal">
+            That 1% fee difference doesn't sound like much — but on the next card, you'll see why it's devastating.
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Fee Impact -->
+      <div class="card" data-card="2">
+        <div class="section-badge">3 / 4 — The Fee Drain</div>
+        <div class="section-title">1% fee eats<br>$170,000+</div>
+        <div class="section-sub">$10,000 invested at 7% for 30 years. The only difference is the fee.</div>
+        <div class="content-card">
+          <div class="chart-wrap"><canvas id="feeChart"></canvas></div>
+          <div class="legend">
+            <div class="legend-row">
+              <div class="legend-left"><div class="legend-dot" style="background:#f5a623"></div><span class="legend-name">Index fund (0.03% fee)</span></div>
+              <span class="legend-val" style="color:var(--act1)" id="indexVal">$74,962</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left"><div class="legend-dot" style="background:#ffb4ab"></div><span class="legend-name">Active fund (1.0% fee)</span></div>
+              <span class="legend-val" style="color:var(--c-red)" id="activeVal">$57,435</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left"><div class="legend-dot" style="background:rgba(255,255,255,0.15)"></div><span class="legend-name">Lost to fees</span></div>
+              <span class="legend-val" style="color:var(--c-amber)" id="feeLoss">$17,527</span>
+            </div>
+          </div>
+          <div class="insight-box teal">
+            With $500/month invested, the fee difference balloons to <strong>$170,000+</strong> over 30 years. Fees compound against you.
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Key Takeaway -->
+      <div class="card" data-card="3">
+        <div class="section-badge">4 / 4 — Key Takeaway</div>
+        <div class="section-title">Boring wins</div>
+        <div class="section-sub">The most profitable investment strategy is the most boring one.</div>
+        <div class="takeaway-card">
+          <div class="takeaway-list">
+            <div class="takeaway-item">
+              <div class="takeaway-num">1</div>
+              <div class="takeaway-text"><strong>Buy a total market index fund</strong> — S&amp;P 500 or total stock market. One purchase, 500+ companies.</div>
+            </div>
+            <div class="takeaway-item">
+              <div class="takeaway-num">2</div>
+              <div class="takeaway-text"><strong>Check the expense ratio</strong> — under 0.1% is great. Over 0.5% is a red flag. Over 1% is a scam.</div>
+            </div>
+            <div class="takeaway-item">
+              <div class="takeaway-num">3</div>
+              <div class="takeaway-text"><strong>Ignore the news</strong> — market crashes, hot stocks, expert predictions. Just keep buying your index fund.</div>
+            </div>
+            <div class="takeaway-item">
+              <div class="takeaway-num">4</div>
+              <div class="takeaway-text"><strong>Warren Buffett's bet</strong> — he wagered $1M that an index fund would beat hedge funds over 10 years. He won.</div>
+            </div>
+          </div>
+          <button class="cta-btn" onclick="alert('Opens Simulator')">Compare Funds in Simulator</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="pagination" id="pagination">
+    <div class="dot active" onclick="goToCard(0)"></div>
+    <div class="dot" onclick="goToCard(1)"></div>
+    <div class="dot" onclick="goToCard(2)"></div>
+    <div class="dot" onclick="goToCard(3)"></div>
+  </div>
+</div></div>
+
+<script>
+const track=document.getElementById('deckTrack'),viewport=document.getElementById('deckViewport'),dots=document.querySelectorAll('.dot'),counter=document.getElementById('navCounter');
+const CARD_W=393,TOTAL=4;let current=0,startX=0,deltaX=0,isDragging=false;
+function goToCard(idx){current=Math.max(0,Math.min(TOTAL-1,idx));track.classList.remove('dragging');track.style.transform=`translateX(${-current*CARD_W}px)`;dots.forEach((d,i)=>d.classList.toggle('active',i===current));counter.textContent=`${current+1} / ${TOTAL}`;const h=document.getElementById('swipeHint');if(h&&current>0)h.style.display='none';if(current===2)setTimeout(drawFeeChart,100)}
+viewport.addEventListener('pointerdown',e=>{if(e.target.closest('input,button'))return;isDragging=true;startX=e.clientX;deltaX=0;track.classList.add('dragging');viewport.setPointerCapture(e.pointerId)});
+viewport.addEventListener('pointermove',e=>{if(!isDragging)return;deltaX=e.clientX-startX;const o=-current*CARD_W+deltaX;if((current===0&&deltaX>0)||(current===TOTAL-1&&deltaX<0)){track.style.transform=`translateX(${-current*CARD_W+deltaX*0.25}px)`}else{track.style.transform=`translateX(${o}px)`}});
+viewport.addEventListener('pointerup',e=>{if(!isDragging)return;isDragging=false;viewport.releasePointerCapture(e.pointerId);const t=CARD_W*0.2;if(deltaX<-t&&current<TOTAL-1)goToCard(current+1);else if(deltaX>t&&current>0)goToCard(current-1);else goToCard(current)});
+viewport.addEventListener('pointercancel',()=>{isDragging=false;goToCard(current)});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')goToCard(current+1);if(e.key==='ArrowLeft')goToCard(current-1)});
+
+// Score ring animation
+setTimeout(()=>{
+  const fill=document.getElementById('scoreFill');
+  const circumference=2*Math.PI*65;
+  fill.style.strokeDashoffset=circumference*(1-0.92);
+  let pct=0;
+  const interval=setInterval(()=>{pct+=2;if(pct>92){pct=92;clearInterval(interval)}document.getElementById('scorePct').textContent=pct+'%'},30);
+},400);
+
+// Company grid
+const companies=['AAPL','MSFT','AMZN','GOOG','META','NVDA','TSLA','BRK','JPM','V','UNH','JNJ','XOM','PG','MA','HD','CVX','MRK','ABBV','LLY','PEP','KO','COST','AVGO','TMO','MCD','WMT','CSCO','ACN','ABT'];
+const grid=document.getElementById('companyGrid');
+companies.slice(0,25).forEach(c=>{const cell=document.createElement('div');cell.className='company-cell';cell.textContent=c;grid.appendChild(cell)});
+
+// Fee chart
+function drawFeeChart(){
+  const c=document.getElementById('feeChart');if(!c)return;
+  const dpr=window.devicePixelRatio||1,r=c.parentElement.getBoundingClientRect();
+  if(r.width===0)return;
+  c.width=r.width*dpr;c.height=r.height*dpr;c.style.width=r.width+'px';c.style.height=r.height+'px';
+  const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
+  const W=r.width,H=r.height,pL=4,pR=4,pT=8,pB=24;
+  const years=30,base=10000,grossRate=0.07;
+  const indexFee=0.0003,activeFee=0.01;
+  const indexData=[base],activeData=[base];
+  for(let y=1;y<=years;y++){indexData.push(base*Math.pow(1+grossRate-indexFee,y));activeData.push(base*Math.pow(1+grossRate-activeFee,y))}
+  const maxVal=indexData[years]*1.08;
+  function x(i){return pL+(i/years)*(W-pL-pR)}
+  function y(v){return pT+(H-pT-pB)-(v/maxVal)*(H-pT-pB)}
+  // Gap fill
+  ctx.beginPath();ctx.moveTo(x(0),y(indexData[0]));
+  for(let i=1;i<=years;i++)ctx.lineTo(x(i),y(indexData[i]));
+  for(let i=years;i>=0;i--)ctx.lineTo(x(i),y(activeData[i]));
+  ctx.closePath();ctx.fillStyle='rgba(245,166,35,0.07)';ctx.fill();
+  function drawCurve(data,color,w){ctx.beginPath();ctx.moveTo(x(0),y(data[0]));for(let i=1;i<=years;i++)ctx.lineTo(x(i),y(data[i]));ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineJoin='round';ctx.stroke()}
+  drawCurve(activeData,'#ffb4ab',2);drawCurve(indexData,'#f5a623',3);
+  [[indexData,'#f5a623'],[activeData,'#ffb4ab']].forEach(([d,col])=>{ctx.beginPath();ctx.arc(x(years),y(d[years]),4,0,Math.PI*2);ctx.fillStyle=col;ctx.fill()});
+  ctx.fillStyle='#83948f';ctx.font='11px Inter';ctx.textAlign='center';
+  ctx.fillText('Now',x(0),H-6);ctx.fillText('15y',x(15),H-6);ctx.fillText('30y',x(30),H-6);
+  document.getElementById('indexVal').textContent='$'+Math.round(indexData[years]).toLocaleString('en-US');
+  document.getElementById('activeVal').textContent='$'+Math.round(activeData[years]).toLocaleString('en-US');
+  document.getElementById('feeLoss').textContent='$'+Math.round(indexData[years]-activeData[years]).toLocaleString('en-US');
+}
+</script>
+  <script src="./proto-shell.js"></script>
+</body>
+</html>

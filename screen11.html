@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 11: Inflation Explained</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
+    .device-frame{--act1:#9b87ff;}
+    .device-frame[data-theme="light"]{--act1:#6a4fe0;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: var(--s-bg);
+      border: 1px solid var(--wa6);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Top nav ── */
+    .top-nav {
+      padding: 56px 24px 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .back-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--wa6);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .back-btn svg { width: 18px; height: 18px; stroke: var(--s-sec); stroke-width: 2; fill: none; }
+    .nav-title {
+      flex: 1;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--s-hi);
+    }
+    .nav-counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--s-mid);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ════════════════════════════════
+       Swipe Deck Engine
+       ════════════════════════════════ */
+    .deck-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+    .deck-track {
+      display: flex;
+      height: 100%;
+      will-change: transform;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .deck-track.dragging {
+      transition: none;
+    }
+    .card {
+      width: 393px;
+      height: 100%;
+      flex-shrink: 0;
+      padding: 16px 24px 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .card::-webkit-scrollbar { display: none; }
+
+    /* ── Pagination dots ── */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 0 36px;
+      flex-shrink: 0;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--wa12);
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+      cursor: pointer;
+    }
+    .dot.active {
+      width: 24px;
+      border-radius: 4px;
+      background: #9b87ff;
+    }
+
+    /* ── Swipe hint ── */
+    .swipe-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: auto;
+      padding: 14px 0 4px;
+      font-size: 12px;
+      color: var(--wa20);
+      animation: hintPulse 2s ease-in-out infinite;
+    }
+    .swipe-hint svg {
+      width: 16px; height: 16px;
+      stroke: currentColor; stroke-width: 1.5; fill: none;
+    }
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.4; transform: translateX(0); }
+      50% { opacity: 0.8; transform: translateX(4px); }
+    }
+
+    /* ── Shared section styling ── */
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: rgba(155,135,255,0.10);
+      font-size: 11px;
+      font-weight: 600;
+      color:var(--act1);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--s-hi);
+      line-height: 1.25;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .section-sub {
+      font-size: 14px;
+      color: var(--s-mid);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    /* ════════════════════════════════
+       Card 1: Time Machine
+       ════════════════════════════════ */
+    .item-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+      flex-shrink: 0;
+    }
+    .item-tabs::-webkit-scrollbar { display: none; }
+    .item-tab {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--wa8);
+      background: var(--wa3);
+      color: var(--s-sec);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .item-tab.active {
+      background: rgba(155,135,255,0.10);
+      border-color: rgba(155,135,255,0.35);
+      color:var(--act1);
+    }
+    .item-tab svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+
+    .price-timeline {
+      background: var(--wa3);
+      border: 1px solid var(--wa6);
+      border-radius: 16px;
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .price-item-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--s-hi);
+      margin-bottom: 4px;
+    }
+    .price-change-pct {
+      font-size: 13px;
+      font-weight: 600;
+      color:var(--c-red);
+      margin-bottom: 16px;
+    }
+
+    .price-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      justify-content: center;
+    }
+    .price-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .price-year {
+      width: 36px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--s-mid);
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .price-bar-track {
+      flex: 1;
+      height: 32px;
+      background: var(--wa4);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    .price-bar-fill {
+      height: 100%;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      padding-left: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0a0e14;
+      transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+      min-width: 0;
+    }
+    .price-bar-fill span {
+      white-space: nowrap;
+    }
+
+    /* ════════════════════════════════
+       Card 2: Your Money is Shrinking
+       ════════════════════════════════ */
+    .shrink-card {
+      background: var(--wa3);
+      border: 1px solid var(--wa6);
+      border-radius: 16px;
+      padding: 24px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .shrink-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .shrink-dollar {
+      position: relative;
+      flex: 1;
+    }
+    .shrink-dollar::before {
+      content: '$';
+      position: absolute;
+      left: 16px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px; font-weight: 700; color: var(--s-mid);
+    }
+    .shrink-dollar input {
+      width: 100%;
+      height: 56px;
+      background: var(--wa4);
+      border: 1.5px solid var(--wa8);
+      border-radius: 14px;
+      padding: 0 16px 0 34px;
+      font-family: 'Inter', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--s-hi);
+      outline: none;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .shrink-dollar input:focus { border-color: rgba(155,135,255,0.55); }
+
+    .inflation-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .inflation-slider-row label {
+      font-size: 13px;
+      color: var(--s-mid);
+      white-space: nowrap;
+    }
+    .inflation-slider-row input[type="range"] {
+      flex: 1;
+      height: 4px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--wa8);
+      border-radius: 2px;
+      outline: none;
+    }
+    .inflation-slider-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #ffb4ab;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255,180,171,0.3);
+    }
+    .inflation-rate-val {
+      font-size: 16px;
+      font-weight: 700;
+      color:var(--c-red);
+      min-width: 32px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .shrink-hero {
+      text-align: center;
+      padding: 20px 0 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .shrink-hero-label {
+      font-size: 13px;
+      color: var(--s-mid);
+      margin-bottom: 6px;
+    }
+    .shrink-hero-val {
+      font-size: 48px;
+      font-weight: 900;
+      color:var(--c-red);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .shrink-hero-context {
+      font-size: 14px;
+      color: var(--s-mid);
+      line-height: 1.4;
+    }
+
+    .shrink-results {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .shrink-result {
+      flex: 1;
+      background: var(--wa3);
+      border: 1px solid var(--wa6);
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+    }
+    .shrink-years {
+      font-size: 11px;
+      color: var(--s-mid);
+      margin-bottom: 4px;
+    }
+    .shrink-value {
+      font-size: 16px;
+      font-weight: 900;
+      color:var(--c-red);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .shrink-lost {
+      font-size: 10px;
+      color: var(--s-mid);
+      margin-top: 3px;
+    }
+
+    /* ════════════════════════════════
+       Card 3: The Hidden Race
+       ════════════════════════════════ */
+    .race-card {
+      background: var(--wa3);
+      border: 1px solid var(--wa6);
+      border-radius: 16px;
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .race-canvas-wrap {
+      flex: 1;
+      min-height: 180px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .race-canvas-wrap canvas {
+      width: 100%;
+      height: 100%;
+    }
+    .race-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .race-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .race-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .race-dot {
+      width: 10px; height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .race-name {
+      font-size: 13px;
+      color: var(--s-sec);
+    }
+    .race-val {
+      font-size: 15px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .race-val.green { color:var(--act1); }
+    .race-val.amber { color:var(--c-amber); }
+    .race-val.red { color:var(--c-red); }
+    .race-val.gray { color: var(--s-mid); }
+
+    .race-insight {
+      margin-top: 14px;
+      padding: 14px;
+      background: rgba(155,135,255,0.07);
+      border: 1px solid rgba(155,135,255,0.14);
+      border-radius: 12px;
+      font-size: 14px;
+      color:var(--act1);
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    /* ════════════════════════════════
+       Card 4: What This Means
+       ════════════════════════════════ */
+    .takeaway-card {
+      background: linear-gradient(135deg, rgba(2,49,222,0.12), rgba(155,135,255,0.07));
+      border: 1px solid rgba(155,135,255,0.16);
+      border-radius: 16px;
+      padding: 24px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .real-return-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px;
+      background: var(--wa4);
+      border-radius: 14px;
+      margin-bottom: 24px;
+    }
+    .rr-item { text-align: center; }
+    .rr-label {
+      font-size: 11px;
+      color: var(--s-mid);
+      margin-bottom: 4px;
+    }
+    .rr-val {
+      font-size: 22px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+    .rr-minus, .rr-equals {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--s-mid);
+    }
+
+    .takeaway-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+    .takeaway-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .takeaway-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(155,135,255,0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color:var(--act1);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .takeaway-text {
+      font-size: 15px;
+      color: var(--s-sec);
+      line-height: 1.55;
+    }
+    .takeaway-text strong {
+      color: var(--s-hi);
+      font-weight: 600;
+    }
+
+    .cta-btn {
+      width: 100%;
+      height: 56px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #9b87ff, #7d68f0);
+      color: #1a1238;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+    .cta-btn:hover { filter: brightness(1.08); }
+    .cta-btn:active { transform: scale(0.98); }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+  <div class="device-frame">
+    <div class="screen">
+
+      <!-- Top nav -->
+      <div class="top-nav">
+        <button class="back-btn">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="nav-title">Inflation Explained</span>
+        <span class="nav-counter" id="navCounter">1 / 4</span>
+      </div>
+
+      <!-- ═══ Swipeable Card Deck ═══ -->
+      <div class="deck-viewport" id="deckViewport">
+        <div class="deck-track" id="deckTrack">
+
+          <!-- ─── Card 1: Time Machine ─── -->
+          <div class="card" data-card="0">
+            <div class="section-badge">1 / 4 — The Time Machine</div>
+            <div class="section-title">Prices never stay<br>the same</div>
+            <div class="section-sub">Pick an item. Watch 30 years of price changes.</div>
+
+            <div class="item-tabs">
+              <button class="item-tab active" onclick="pickItem('coffee', this)">
+                <svg viewBox="0 0 14 14"><path d="M2 4h8v6a3 3 0 01-3 3H5a3 3 0 01-3-3V4z"/><path d="M10 5h1.5a1.5 1.5 0 010 3H10"/></svg>
+                Coffee
+              </button>
+              <button class="item-tab" onclick="pickItem('gas', this)">
+                <svg viewBox="0 0 14 14"><rect x="2" y="2" width="7" height="10" rx="1"/><path d="M9 5l2-1v6l-1 1"/></svg>
+                Gas
+              </button>
+              <button class="item-tab" onclick="pickItem('movie', this)">
+                <svg viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="1.5"/><polygon points="6 5 6 9 9 7"/></svg>
+                Movie
+              </button>
+              <button class="item-tab" onclick="pickItem('eggs', this)">
+                <svg viewBox="0 0 14 14"><ellipse cx="7" cy="8" rx="4" ry="5"/></svg>
+                Eggs
+              </button>
+              <button class="item-tab" onclick="pickItem('bread', this)">
+                <svg viewBox="0 0 14 14"><path d="M3 7c0-2.5 2-4 4-4s4 1.5 4 4v4a1 1 0 01-1 1H4a1 1 0 01-1-1V7z"/></svg>
+                Bread
+              </button>
+            </div>
+
+            <div class="price-timeline" id="priceTimeline">
+              <div class="price-item-name" id="priceItemName">Cup of Coffee</div>
+              <div class="price-change-pct" id="priceChangePct">+233% in 30 years</div>
+              <div class="price-bars" id="priceBars"></div>
+            </div>
+
+            <div class="swipe-hint" id="swipeHint">
+              <span>Swipe to continue</span>
+              <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+            </div>
+          </div>
+
+          <!-- ─── Card 2: Your Money is Shrinking ─── -->
+          <div class="card" data-card="1">
+            <div class="section-badge">2 / 4 — Purchasing Power</div>
+            <div class="section-title">Your money is<br>shrinking</div>
+            <div class="section-sub">Enter any amount. See what it will really buy in the future.</div>
+
+            <div class="shrink-card">
+              <div class="shrink-input-row">
+                <div class="shrink-dollar">
+                  <input type="text" id="shrinkInput" value="10,000" inputmode="numeric">
+                </div>
+              </div>
+              <div class="inflation-slider-row">
+                <label>Inflation</label>
+                <input type="range" id="inflationSlider" min="1" max="6" value="3" step="0.5">
+                <span class="inflation-rate-val" id="inflationVal">3%</span>
+              </div>
+
+              <div class="shrink-hero">
+                <div class="shrink-hero-label">In 30 years, your money buys only</div>
+                <div class="shrink-hero-val" id="shrinkHero">$4,120</div>
+                <div class="shrink-hero-context" id="shrinkContext">That's 59% of purchasing power — gone.</div>
+              </div>
+
+              <div class="shrink-results" id="shrinkResults">
+                <div class="shrink-result">
+                  <div class="shrink-years">10 years</div>
+                  <div class="shrink-value" id="shrink10">$7,441</div>
+                  <div class="shrink-lost" id="shrinkLost10">-$2,559</div>
+                </div>
+                <div class="shrink-result">
+                  <div class="shrink-years">20 years</div>
+                  <div class="shrink-value" id="shrink20">$5,537</div>
+                  <div class="shrink-lost" id="shrinkLost20">-$4,463</div>
+                </div>
+                <div class="shrink-result">
+                  <div class="shrink-years">30 years</div>
+                  <div class="shrink-value" id="shrink30">$4,120</div>
+                  <div class="shrink-lost" id="shrinkLost30">-$5,880</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ─── Card 3: The Hidden Race ─── -->
+          <div class="card" data-card="2">
+            <div class="section-badge">3 / 4 — The Hidden Race</div>
+            <div class="section-title">Saving isn't enough</div>
+            <div class="section-sub">$10,000 over 30 years — three strategies. Only one wins.</div>
+
+            <div class="race-card">
+              <div class="race-canvas-wrap">
+                <canvas id="raceChart"></canvas>
+              </div>
+              <div class="race-legend">
+                <div class="race-row">
+                  <div class="race-left">
+                    <div class="race-dot" style="background:#9b87ff;"></div>
+                    <span class="race-name">Invested at 7%</span>
+                  </div>
+                  <span class="race-val green" id="raceInvest">$76,123</span>
+                </div>
+                <div class="race-row">
+                  <div class="race-left">
+                    <div class="race-dot" style="background:#ffc107;"></div>
+                    <span class="race-name">Savings account (1%)</span>
+                  </div>
+                  <span class="race-val amber" id="raceSavings">$13,478</span>
+                </div>
+                <div class="race-row">
+                  <div class="race-left">
+                    <div class="race-dot" style="background:#ffb4ab;"></div>
+                    <span class="race-name">Under the mattress</span>
+                  </div>
+                  <span class="race-val red" id="raceMattress">$10,000</span>
+                </div>
+                <div class="race-row">
+                  <div class="race-left">
+                    <div class="race-dot" style="background:rgba(255,255,255,0.15);"></div>
+                    <span class="race-name">Real value (after inflation)</span>
+                  </div>
+                  <span class="race-val gray" id="raceReal">$4,120</span>
+                </div>
+              </div>
+              <div class="race-insight">
+                Mattress money <strong>lost 59%</strong> of real value.<br>Investing turned $10K into $76K.
+              </div>
+            </div>
+          </div>
+
+          <!-- ─── Card 4: Key Takeaway ─── -->
+          <div class="card" data-card="3">
+            <div class="section-badge">4 / 4 — Key Takeaway</div>
+            <div class="section-title">Beat inflation<br>or lose money</div>
+            <div class="section-sub">The formula that matters most.</div>
+
+            <div class="takeaway-card">
+              <div class="real-return-row">
+                <div class="rr-item">
+                  <div class="rr-label">Investment return</div>
+                  <div class="rr-val" style="color:var(--act1);">7%</div>
+                </div>
+                <span class="rr-minus">−</span>
+                <div class="rr-item">
+                  <div class="rr-label">Inflation</div>
+                  <div class="rr-val" style="color:var(--c-red);">3%</div>
+                </div>
+                <span class="rr-equals">=</span>
+                <div class="rr-item">
+                  <div class="rr-label">Real return</div>
+                  <div class="rr-val" style="color:var(--c-peri);">4%</div>
+                </div>
+              </div>
+
+              <div class="takeaway-list">
+                <div class="takeaway-item">
+                  <div class="takeaway-num">1</div>
+                  <div class="takeaway-text"><strong>Cash loses value</strong> — money under the mattress is guaranteed to buy less over time.</div>
+                </div>
+                <div class="takeaway-item">
+                  <div class="takeaway-num">2</div>
+                  <div class="takeaway-text"><strong>Savings barely keep up</strong> — at 1% interest vs 3% inflation, you lose 2% per year.</div>
+                </div>
+                <div class="takeaway-item">
+                  <div class="takeaway-num">3</div>
+                  <div class="takeaway-text"><strong>Investing is how you win</strong> — stocks return ~7-10%/year, beating inflation by 4-7%.</div>
+                </div>
+              </div>
+
+              <button class="cta-btn" onclick="alert('Opens Simulator')">See Your Money Beat Inflation</button>
+            </div>
+          </div>
+
+        </div><!-- /deck-track -->
+      </div><!-- /deck-viewport -->
+
+      <!-- Pagination dots -->
+      <div class="pagination" id="pagination">
+        <div class="dot active" onclick="goToCard(0)"></div>
+        <div class="dot" onclick="goToCard(1)"></div>
+        <div class="dot" onclick="goToCard(2)"></div>
+        <div class="dot" onclick="goToCard(3)"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ═══ SWIPE DECK ENGINE ═══
+    const track = document.getElementById('deckTrack');
+    const viewport = document.getElementById('deckViewport');
+    const dots = document.querySelectorAll('.dot');
+    const counter = document.getElementById('navCounter');
+    const CARD_W = 393;
+    const TOTAL = 4;
+    let current = 0;
+    let startX = 0, deltaX = 0, isDragging = false;
+
+    function goToCard(idx) {
+      current = Math.max(0, Math.min(TOTAL - 1, idx));
+      track.classList.remove('dragging');
+      track.style.transform = `translateX(${-current * CARD_W}px)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      counter.textContent = `${current + 1} / ${TOTAL}`;
+
+      // Hide swipe hint after first navigation
+      const hint = document.getElementById('swipeHint');
+      if (hint && current > 0) hint.style.display = 'none';
+
+      // Draw chart when card 3 becomes visible
+      if (current === 2) setTimeout(drawRaceChart, 100);
+    }
+
+    // Pointer events for drag
+    viewport.addEventListener('pointerdown', (e) => {
+      // Don't intercept if interacting with inputs/sliders/buttons
+      if (e.target.closest('input, button, .item-tab')) return;
+      isDragging = true;
+      startX = e.clientX;
+      deltaX = 0;
+      track.classList.add('dragging');
+      viewport.setPointerCapture(e.pointerId);
+    });
+
+    viewport.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      deltaX = e.clientX - startX;
+      const offset = -current * CARD_W + deltaX;
+      // Rubber band at edges
+      if ((current === 0 && deltaX > 0) || (current === TOTAL - 1 && deltaX < 0)) {
+        track.style.transform = `translateX(${-current * CARD_W + deltaX * 0.25}px)`;
+      } else {
+        track.style.transform = `translateX(${offset}px)`;
+      }
+    });
+
+    viewport.addEventListener('pointerup', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      viewport.releasePointerCapture(e.pointerId);
+      const threshold = CARD_W * 0.2;
+      if (deltaX < -threshold && current < TOTAL - 1) {
+        goToCard(current + 1);
+      } else if (deltaX > threshold && current > 0) {
+        goToCard(current - 1);
+      } else {
+        goToCard(current); // snap back
+      }
+    });
+
+    viewport.addEventListener('pointercancel', () => {
+      isDragging = false;
+      goToCard(current);
+    });
+
+    // Keyboard nav
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToCard(current + 1);
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goToCard(current - 1);
+    });
+
+    // ═══ PRICE DATA ═══
+    const ITEMS = {
+      coffee: {
+        name: 'Cup of Coffee',
+        data: [
+          { year: '1995', price: 0.75 },
+          { year: '2000', price: 1.00 },
+          { year: '2005', price: 1.25 },
+          { year: '2010', price: 1.50 },
+          { year: '2015', price: 1.75 },
+          { year: '2020', price: 2.00 },
+          { year: '2025', price: 2.50 }
+        ]
+      },
+      gas: {
+        name: 'Gallon of Gas',
+        data: [
+          { year: '1995', price: 1.15 },
+          { year: '2000', price: 1.51 },
+          { year: '2005', price: 2.30 },
+          { year: '2010', price: 2.79 },
+          { year: '2015', price: 2.45 },
+          { year: '2020', price: 2.17 },
+          { year: '2025', price: 3.50 }
+        ]
+      },
+      movie: {
+        name: 'Movie Ticket',
+        data: [
+          { year: '1995', price: 4.35 },
+          { year: '2000', price: 5.39 },
+          { year: '2005', price: 6.41 },
+          { year: '2010', price: 7.89 },
+          { year: '2015', price: 8.43 },
+          { year: '2020', price: 9.37 },
+          { year: '2025', price: 11.00 }
+        ]
+      },
+      eggs: {
+        name: 'Dozen Eggs',
+        data: [
+          { year: '1995', price: 1.16 },
+          { year: '2000', price: 0.96 },
+          { year: '2005', price: 1.35 },
+          { year: '2010', price: 1.79 },
+          { year: '2015', price: 2.75 },
+          { year: '2020', price: 1.48 },
+          { year: '2025', price: 3.20 }
+        ]
+      },
+      bread: {
+        name: 'Loaf of Bread',
+        data: [
+          { year: '1995', price: 0.85 },
+          { year: '2000', price: 0.99 },
+          { year: '2005', price: 1.05 },
+          { year: '2010', price: 1.29 },
+          { year: '2015', price: 1.35 },
+          { year: '2020', price: 1.50 },
+          { year: '2025', price: 2.00 }
+        ]
+      }
+    };
+
+    let currentItem = 'coffee';
+
+    function pickItem(key, btn) {
+      currentItem = key;
+      document.querySelectorAll('.item-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      renderPriceBars();
+    }
+
+    function renderPriceBars() {
+      const item = ITEMS[currentItem];
+      const data = item.data;
+      const maxPrice = Math.max(...data.map(d => d.price));
+      const firstPrice = data[0].price;
+      const lastPrice = data[data.length - 1].price;
+      const changePct = ((lastPrice - firstPrice) / firstPrice * 100).toFixed(0);
+
+      document.getElementById('priceItemName').textContent = item.name;
+      document.getElementById('priceChangePct').textContent = `+${changePct}% in 30 years`;
+
+      const colors = [
+        '#3a3358', '#4a3f78', '#594a92', '#6855ad',
+        '#7a68d0', '#8a76e8', '#9b87ff'
+      ];
+
+      const html = data.map((d, i) => {
+        const pct = (d.price / maxPrice * 100).toFixed(1);
+        const color = colors[i] || '#9b87ff';
+        return `
+          <div class="price-bar-row">
+            <span class="price-year">${d.year}</span>
+            <div class="price-bar-track">
+              <div class="price-bar-fill" style="width:0%; background:${color};">
+                <span>$${d.price.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('priceBars').innerHTML = html;
+
+      // Animate bars in with staggered delay
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.price-bar-fill').forEach((el, i) => {
+          const pct = (data[i].price / maxPrice * 100).toFixed(1);
+          setTimeout(() => { el.style.width = pct + '%'; }, i * 80);
+        });
+      });
+    }
+
+    renderPriceBars();
+
+    // ═══ CARD 2: SHRINKING CALCULATOR ═══
+    document.getElementById('shrinkInput').addEventListener('input', function() {
+      const raw = this.value.replace(/[^0-9]/g, '');
+      if (raw) this.value = parseInt(raw).toLocaleString('en-US');
+      updateShrink();
+    });
+    document.getElementById('inflationSlider').addEventListener('input', function() {
+      document.getElementById('inflationVal').textContent = parseFloat(this.value).toFixed(1).replace('.0', '') + '%';
+      updateShrink();
+    });
+
+    function updateShrink() {
+      const amount = parseInt(document.getElementById('shrinkInput').value.replace(/[^0-9]/g, ''), 10) || 0;
+      const rate = parseFloat(document.getElementById('inflationSlider').value) / 100;
+
+      const v10 = amount / Math.pow(1 + rate, 10);
+      const v20 = amount / Math.pow(1 + rate, 20);
+      const v30 = amount / Math.pow(1 + rate, 30);
+
+      document.getElementById('shrinkHero').textContent = '$' + Math.round(v30).toLocaleString('en-US');
+
+      const lostPct = amount > 0 ? ((1 - v30 / amount) * 100).toFixed(0) : '0';
+      document.getElementById('shrinkContext').textContent =
+        `That's ${lostPct}% of purchasing power — gone.`;
+
+      document.getElementById('shrink10').textContent = '$' + Math.round(v10).toLocaleString('en-US');
+      document.getElementById('shrink20').textContent = '$' + Math.round(v20).toLocaleString('en-US');
+      document.getElementById('shrink30').textContent = '$' + Math.round(v30).toLocaleString('en-US');
+
+      document.getElementById('shrinkLost10').textContent = '-$' + Math.round(amount - v10).toLocaleString('en-US');
+      document.getElementById('shrinkLost20').textContent = '-$' + Math.round(amount - v20).toLocaleString('en-US');
+      document.getElementById('shrinkLost30').textContent = '-$' + Math.round(amount - v30).toLocaleString('en-US');
+    }
+
+    // ═══ CARD 3: RACE CHART ═══
+    let raceChartDrawn = false;
+    function drawRaceChart() {
+      const canvas = document.getElementById('raceChart');
+      if (!canvas) return;
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      const W = rect.width, H = rect.height;
+      const padL = 4, padR = 4, padT = 8, padB = 24;
+      const cW = W - padL - padR, cH = H - padT - padB;
+
+      const years = 30, base = 10000;
+      const investRate = 0.07, savingsRate = 0.01, inflRate = 0.03;
+
+      const investData = [], savingsData = [], mattressData = [], realData = [];
+      for (let y = 0; y <= years; y++) {
+        investData.push(base * Math.pow(1 + investRate, y));
+        savingsData.push(base * Math.pow(1 + savingsRate, y));
+        mattressData.push(base);
+        realData.push(base / Math.pow(1 + inflRate, y));
+      }
+
+      const maxVal = investData[years] * 1.05;
+      function x(i) { return padL + (i / years) * cW; }
+      function y(v) { return padT + cH - (v / maxVal) * cH; }
+
+      // Inflation zone fill
+      ctx.beginPath();
+      ctx.moveTo(x(0), y(base));
+      for (let i = 1; i <= years; i++) ctx.lineTo(x(i), y(realData[i]));
+      ctx.lineTo(x(years), y(base));
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(255,180,171,0.06)';
+      ctx.fill();
+
+      // Investment glow fill
+      ctx.beginPath();
+      ctx.moveTo(x(0), y(base));
+      for (let i = 1; i <= years; i++) ctx.lineTo(x(i), y(investData[i]));
+      ctx.lineTo(x(years), y(base));
+      ctx.closePath();
+      const grd = ctx.createLinearGradient(0, padT, 0, padT + cH);
+      grd.addColorStop(0, 'rgba(155,135,255,0.10)');
+      grd.addColorStop(1, 'rgba(155,135,255,0)');
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      function drawCurve(data, color, width) {
+        ctx.beginPath();
+        ctx.moveTo(x(0), y(data[0]));
+        for (let i = 1; i <= years; i++) ctx.lineTo(x(i), y(data[i]));
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width;
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+      }
+
+      ctx.setLineDash([4, 4]);
+      drawCurve(realData, 'rgba(255,255,255,0.15)', 1.5);
+      ctx.setLineDash([]);
+      drawCurve(mattressData, '#ffb4ab', 2);
+      drawCurve(savingsData, '#ffc107', 2.5);
+      drawCurve(investData, '#9b87ff', 3);
+
+      // Endpoint dots with glow
+      [[investData, '#9b87ff'], [savingsData, '#ffc107'], [mattressData, '#ffb4ab']].forEach(([d, c]) => {
+        ctx.beginPath();
+        ctx.arc(x(years), y(d[years]), 5, 0, Math.PI * 2);
+        ctx.fillStyle = c;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x(years), y(d[years]), 8, 0, Math.PI * 2);
+        ctx.fillStyle = c.replace(')', ',0.15)').replace('rgb', 'rgba');
+        ctx.fill();
+      });
+
+      ctx.fillStyle = '#83948f';
+      ctx.font = '11px Inter';
+      ctx.textAlign = 'center';
+      ctx.fillText('Now', x(0), H - 6);
+      ctx.fillText('15y', x(15), H - 6);
+      ctx.fillText('30y', x(30), H - 6);
+
+      document.getElementById('raceInvest').textContent = '$' + Math.round(investData[years]).toLocaleString('en-US');
+      document.getElementById('raceSavings').textContent = '$' + Math.round(savingsData[years]).toLocaleString('en-US');
+      document.getElementById('raceReal').textContent = '$' + Math.round(realData[years]).toLocaleString('en-US');
+      raceChartDrawn = true;
+    }
+
+  </script>
+  <script src="./proto-shell.js"></script>
+</body>
+</html>

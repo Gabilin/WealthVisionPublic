@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 8: Goal Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: #10141a;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top nav */
+    .top-nav {
+      padding: 56px 24px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.12); }
+    .back-btn svg { width: 18px; height: 18px; stroke: #b9cac4; stroke-width: 2; fill: none; }
+    .nav-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #dfe2eb;
+    }
+    .more-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .more-btn:hover { background: rgba(255,255,255,0.12); }
+    .more-btn svg { width: 18px; height: 18px; fill: #b9cac4; }
+
+    /* Scrollable content */
+    .scroll-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 24px 32px;
+      scrollbar-width: none;
+    }
+    .scroll-content::-webkit-scrollbar { display: none; }
+
+    /* Progress ring section */
+    .ring-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 0 28px;
+    }
+    .ring-wrap {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin-bottom: 16px;
+    }
+    .ring-wrap svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .ring-bg {
+      fill: none;
+      stroke: rgba(255,255,255,0.06);
+      stroke-width: 10;
+    }
+    .ring-fill {
+      fill: none;
+      stroke: #00f5d4;
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-dasharray: 471.24;
+      stroke-dashoffset: 471.24;
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1);
+      filter: drop-shadow(0 0 6px rgba(0,245,212,0.3));
+    }
+    .ring-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .ring-amount {
+      font-size: 24px;
+      font-weight: 900;
+      color: #dfe2eb;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .ring-target {
+      font-size: 13px;
+      color: #83948f;
+      margin-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .ring-pct {
+      font-size: 14px;
+      font-weight: 700;
+      color: #00f5d4;
+      margin-top: 6px;
+    }
+    .status-line {
+      font-size: 14px;
+      color: #b9cac4;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .status-line strong {
+      color: #00f5d4;
+      font-weight: 700;
+    }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #83948f;
+      margin-bottom: 6px;
+    }
+    .stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #dfe2eb;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.01em;
+    }
+    .stat-value.teal { color: #00f5d4; }
+
+    /* Timeline */
+    .section-header {
+      font-size: 14px;
+      font-weight: 600;
+      color: #b9cac4;
+      margin-bottom: 16px;
+      letter-spacing: 0.01em;
+    }
+    .timeline {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 28px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 1px;
+    }
+    .tl-item {
+      position: relative;
+      padding: 0 0 20px;
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot {
+      position: absolute;
+      left: -24px;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #10141a;
+      border: 2px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tl-dot.active {
+      border-color: #00f5d4;
+      background: rgba(0,245,212,0.15);
+    }
+    .tl-dot.active::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #00f5d4;
+    }
+    .tl-dot.future {
+      border-color: rgba(255,255,255,0.1);
+      border-style: dashed;
+    }
+    .tl-dot.goal {
+      border-color: #00f5d4;
+      background: #00f5d4;
+    }
+    .tl-dot.goal::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+    }
+    .tl-dot.goal svg {
+      width: 10px;
+      height: 10px;
+      stroke: #0a0e14;
+      stroke-width: 3;
+      fill: none;
+    }
+    .tl-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #dfe2eb;
+      margin-bottom: 2px;
+    }
+    .tl-sub {
+      font-size: 12px;
+      color: #83948f;
+      font-variant-numeric: tabular-nums;
+    }
+    .tl-label.teal { color: #00f5d4; }
+
+    /* Action buttons */
+    .action-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 8px;
+    }
+    .action-btn {
+      width: 100%;
+      height: 52px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .action-btn svg { width: 18px; height: 18px; }
+    .action-btn.primary {
+      background: #00f5d4;
+      color: #0a0e14;
+    }
+    .action-btn.primary svg { stroke: #0a0e14; fill: none; stroke-width: 2; }
+    .action-btn.primary:hover { filter: brightness(1.08); }
+    .action-btn.secondary {
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      color: #dfe2eb;
+    }
+    .action-btn.secondary svg { stroke: #b9cac4; fill: none; stroke-width: 2; }
+    .action-btn.secondary:hover { background: rgba(255,255,255,0.07); }
+
+    /* Lump sum panel */
+    .lump-panel {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .lump-panel.open { max-height: 200px; }
+    .lump-inner {
+      padding: 16px 0 4px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .lump-input-wrap {
+      flex: 1;
+      position: relative;
+    }
+    .lump-label {
+      font-size: 12px;
+      color: #83948f;
+      margin-bottom: 6px;
+    }
+    .lump-input-wrap::before {
+      content: '$';
+      position: absolute;
+      left: 14px;
+      bottom: 15px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #83948f;
+      pointer-events: none;
+    }
+    .lump-input {
+      width: 100%;
+      height: 48px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 0 14px 0 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #dfe2eb;
+      outline: none;
+    }
+    .lump-input:focus { border-color: rgba(0,245,212,0.5); }
+    .lump-apply {
+      height: 48px;
+      padding: 0 20px;
+      background: rgba(0,245,212,0.15);
+      color: #00f5d4;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .lump-apply:hover { background: rgba(0,245,212,0.2); }
+
+    .lump-result {
+      padding: 10px 0;
+      font-size: 13px;
+      color: #00f5d4;
+      display: none;
+    }
+    .lump-result.show { display: block; }
+
+    /* Slider modal */
+    .slider-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(16,20,26,0.9);
+      z-index: 50;
+      display: none;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0;
+    }
+    .slider-overlay.show { display: flex; }
+    .slider-sheet {
+      background: #1a1f28;
+      border-radius: 20px 20px 0 0;
+      padding: 28px 24px 48px;
+      animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .slider-sheet-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #dfe2eb;
+      margin-bottom: 24px;
+    }
+    .slider-sheet-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .slider-sheet-row input[type="range"] {
+      flex: 1;
+      height: 4px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      outline: none;
+    }
+    .slider-sheet-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #00f5d4;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(0,245,212,0.3);
+    }
+    .slider-sheet-value {
+      font-size: 22px;
+      font-weight: 900;
+      color: #00f5d4;
+      font-variant-numeric: tabular-nums;
+      min-width: 80px;
+      text-align: right;
+    }
+    .slider-sheet-sub {
+      font-size: 13px;
+      color: #83948f;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .slider-sheet-btns {
+      display: flex;
+      gap: 10px;
+    }
+    .sheet-cancel {
+      flex: 1;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: none;
+      color: #b9cac4;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .sheet-apply {
+      flex: 1;
+      height: 52px;
+      border-radius: 14px;
+      background: #00f5d4;
+      border: none;
+      color: #0a0e14;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Dropdown menu */
+    .dropdown-menu {
+      position: absolute;
+      right: 24px;
+      top: 96px;
+      background: #1a1f28;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 6px;
+      z-index: 60;
+      display: none;
+      min-width: 180px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .dropdown-menu.show { display: block; animation: fadeUp 0.2s ease-out; }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: none;
+      background: none;
+      width: 100%;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #dfe2eb;
+      transition: background 0.15s;
+    }
+    .dropdown-item:hover { background: rgba(255,255,255,0.06); }
+    .dropdown-item svg { width: 16px; height: 16px; stroke: #b9cac4; stroke-width: 2; fill: none; }
+    .dropdown-item.danger { color: #ffb4ab; }
+    .dropdown-item.danger svg { stroke: #ffb4ab; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+  <div class="device-frame">
+    <div class="screen">
+
+      <!-- Top nav -->
+      <div class="top-nav">
+        <button class="back-btn">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="nav-title">House Down Payment</span>
+        <button class="more-btn" onclick="toggleMenu()">
+          <svg viewBox="0 0 18 18">
+            <circle cx="9" cy="3" r="1.5"/><circle cx="9" cy="9" r="1.5"/><circle cx="9" cy="15" r="1.5"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Scrollable content -->
+      <div class="scroll-content">
+
+        <!-- Progress ring -->
+        <div class="ring-section">
+          <div class="ring-wrap">
+            <svg viewBox="0 0 180 180">
+              <circle class="ring-bg" cx="90" cy="90" r="75"/>
+              <circle class="ring-fill" id="ringFill" cx="90" cy="90" r="75"/>
+            </svg>
+            <div class="ring-center">
+              <div class="ring-amount" id="ringAmount">$20,400</div>
+              <div class="ring-target">of $60,000</div>
+              <div class="ring-pct" id="ringPct">34%</div>
+            </div>
+          </div>
+          <div class="status-line">
+            On track to reach goal by <strong id="statusDate">March 2039</strong>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Contributed</div>
+            <div class="stat-value" id="statContributed">$14,400</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Growth earned</div>
+            <div class="stat-value teal" id="statGrowth">$6,000</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Time remaining</div>
+            <div class="stat-value" id="statTime">~13 years</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Monthly</div>
+            <div class="stat-value" id="statMonthly">$200</div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="section-header">Timeline</div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot active"></div>
+            <div class="tl-label">Today</div>
+            <div class="tl-sub">$20,400 saved</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot future"></div>
+            <div class="tl-label">Year 5</div>
+            <div class="tl-sub">~$45,000 (75% there)</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot future"></div>
+            <div class="tl-label">Year 10</div>
+            <div class="tl-sub">~$58,000 (almost!)</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot goal">
+              <svg viewBox="0 0 12 12"><polyline points="10 3 5 9 2 6"/></svg>
+            </div>
+            <div class="tl-label teal">Goal reached</div>
+            <div class="tl-sub">$60,000 — March 2039</div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="section-header">Actions</div>
+        <div class="action-section">
+          <button class="action-btn primary" onclick="showSliderSheet()">
+            <svg viewBox="0 0 18 18"><line x1="2" y1="6" x2="16" y2="6"/><line x1="2" y1="12" x2="16" y2="12"/><circle cx="6" cy="6" r="2"/><circle cx="12" cy="12" r="2"/></svg>
+            Adjust Contribution
+          </button>
+          <button class="action-btn secondary" onclick="toggleLumpPanel()">
+            <svg viewBox="0 0 18 18"><line x1="9" y1="3" x2="9" y2="15"/><line x1="3" y1="9" x2="15" y2="9"/></svg>
+            What if I add a lump sum?
+          </button>
+        </div>
+
+        <!-- Lump sum panel -->
+        <div class="lump-panel" id="lumpPanel">
+          <div class="lump-inner">
+            <div class="lump-input-wrap">
+              <div class="lump-label">One-time addition</div>
+              <input type="text" class="lump-input" id="lumpInput" placeholder="1,000" inputmode="numeric">
+            </div>
+            <button class="lump-apply" onclick="applyLumpSum()">Apply</button>
+          </div>
+          <div class="lump-result" id="lumpResult"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Slider sheet -->
+    <div class="slider-overlay" id="sliderOverlay">
+      <div class="slider-sheet">
+        <div class="slider-sheet-title">Adjust Contribution</div>
+        <div class="slider-sheet-row">
+          <input type="range" id="adjustSlider" min="25" max="2000" value="200" step="25">
+          <span class="slider-sheet-value" id="adjustValue">$200</span>
+        </div>
+        <div class="slider-sheet-sub" id="adjustSub">
+          Timeline stays at ~13 years
+        </div>
+        <div class="slider-sheet-btns">
+          <button class="sheet-cancel" onclick="hideSliderSheet()">Cancel</button>
+          <button class="sheet-apply" onclick="applyContribution()">Apply</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- More dropdown -->
+    <div class="dropdown-menu" id="dropdownMenu">
+      <button class="dropdown-item">
+        <svg viewBox="0 0 18 18"><path d="M13 2l3 3-9 9H4v-3l9-9z"/></svg>
+        Edit goal name
+      </button>
+      <button class="dropdown-item">
+        <svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="7"/><line x1="9" y1="6" x2="9" y2="12"/><line x1="6" y1="9" x2="12" y2="9"/></svg>
+        Edit target
+      </button>
+      <button class="dropdown-item danger">
+        <svg viewBox="0 0 18 18"><polyline points="3 5 15 5"/><path d="M5 5V3a1 1 0 011-1h6a1 1 0 011 1v2"/><path d="M4 5l1 11a1 1 0 001 1h6a1 1 0 001-1l1-11"/></svg>
+        Delete goal
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ── State ──
+    const goalTarget = 60000;
+    let currentSaved = 20400;
+    let monthlyContribution = 200;
+    const annualReturn = 0.07;
+    const contributed = 14400;
+    const growth = 6000;
+
+    // ── Ring animation ──
+    function animateRing() {
+      const pct = currentSaved / goalTarget;
+      const circumference = 2 * Math.PI * 75; // 471.24
+      const offset = circumference * (1 - pct);
+      const ring = document.getElementById('ringFill');
+      requestAnimationFrame(() => {
+        ring.style.strokeDashoffset = offset;
+      });
+    }
+    setTimeout(animateRing, 300);
+
+    // ── Dropdown menu ──
+    function toggleMenu() {
+      document.getElementById('dropdownMenu').classList.toggle('show');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.more-btn') && !e.target.closest('.dropdown-menu')) {
+        document.getElementById('dropdownMenu').classList.remove('show');
+      }
+    });
+
+    // ── Lump sum ──
+    function toggleLumpPanel() {
+      document.getElementById('lumpPanel').classList.toggle('open');
+    }
+
+    document.getElementById('lumpInput').addEventListener('input', function() {
+      const raw = this.value.replace(/[^0-9]/g, '');
+      if (raw) this.value = parseInt(raw).toLocaleString('en-US');
+    });
+
+    function applyLumpSum() {
+      const val = parseInt(document.getElementById('lumpInput').value.replace(/[^0-9]/g, ''), 10) || 0;
+      if (val <= 0) return;
+
+      const newSaved = currentSaved + val;
+      const pct = Math.min(newSaved / goalTarget, 1);
+
+      // Recalc timeline
+      const monthlyRate = annualReturn / 12;
+      let balance = newSaved;
+      let months = 0;
+      while (balance < goalTarget && months < 600) {
+        balance = balance * (1 + monthlyRate) + monthlyContribution;
+        months++;
+      }
+
+      const oldMonths = calcMonthsToGoal(currentSaved, monthlyContribution);
+      const savedMonths = oldMonths - months;
+      const savedYears = (savedMonths / 12).toFixed(1);
+
+      const result = document.getElementById('lumpResult');
+      result.textContent = `+$${val.toLocaleString('en-US')} moves your goal ${savedYears > 0 ? savedYears + ' years closer' : 'closer'}!`;
+      result.classList.add('show');
+
+      // Update display
+      currentSaved = newSaved;
+      document.getElementById('ringAmount').textContent = '$' + currentSaved.toLocaleString('en-US');
+      document.getElementById('ringPct').textContent = Math.round(pct * 100) + '%';
+
+      const futureDate = new Date();
+      futureDate.setMonth(futureDate.getMonth() + months);
+      document.getElementById('statusDate').textContent = futureDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+      animateRing();
+    }
+
+    // ── Adjust contribution sheet ──
+    function showSliderSheet() {
+      document.getElementById('sliderOverlay').classList.add('show');
+      document.getElementById('adjustSlider').value = monthlyContribution;
+      document.getElementById('adjustValue').textContent = '$' + monthlyContribution.toLocaleString('en-US');
+      updateAdjustSub(monthlyContribution);
+    }
+
+    function hideSliderSheet() {
+      document.getElementById('sliderOverlay').classList.remove('show');
+    }
+
+    document.getElementById('adjustSlider').addEventListener('input', function() {
+      const val = +this.value;
+      document.getElementById('adjustValue').textContent = '$' + val.toLocaleString('en-US');
+      updateAdjustSub(val);
+    });
+
+    function updateAdjustSub(monthly) {
+      const months = calcMonthsToGoal(currentSaved, monthly);
+      const years = (months / 12).toFixed(1);
+      const futureDate = new Date();
+      futureDate.setMonth(futureDate.getMonth() + months);
+      const dateStr = futureDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+      if (monthly === monthlyContribution) {
+        document.getElementById('adjustSub').textContent = `Timeline stays at ~${Math.round(months/12)} years`;
+      } else if (monthly > monthlyContribution) {
+        document.getElementById('adjustSub').textContent = `Reach your goal ~${dateStr} (${years} years)`;
+      } else {
+        document.getElementById('adjustSub').textContent = `Slower pace — ~${dateStr} (${years} years)`;
+      }
+    }
+
+    function applyContribution() {
+      monthlyContribution = +document.getElementById('adjustSlider').value;
+      document.getElementById('statMonthly').textContent = '$' + monthlyContribution.toLocaleString('en-US');
+
+      const months = calcMonthsToGoal(currentSaved, monthlyContribution);
+      const years = Math.round(months / 12);
+      document.getElementById('statTime').textContent = `~${years} year${years !== 1 ? 's' : ''}`;
+
+      const futureDate = new Date();
+      futureDate.setMonth(futureDate.getMonth() + months);
+      document.getElementById('statusDate').textContent = futureDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+      hideSliderSheet();
+    }
+
+    // ── Helpers ──
+    function calcMonthsToGoal(saved, monthly) {
+      const monthlyRate = annualReturn / 12;
+      let balance = saved;
+      let months = 0;
+      while (balance < goalTarget && months < 600) {
+        balance = balance * (1 + monthlyRate) + monthly;
+        months++;
+      }
+      return months;
+    }
+  </script>
+  <script src="./proto-shell.js"></script>
+</body>
+</html>

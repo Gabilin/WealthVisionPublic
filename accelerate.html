@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Path to Your Goal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+
+    .device-frame {
+      width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
+      position: relative; background: #10141a;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.3),
+        0 25px 60px rgba(0, 0, 0, 0.5),
+        0 50px 120px rgba(0, 0, 0, 0.25);
+    }
+
+    .screen {
+      width: 100%; height: 100%;
+      position: relative;
+      display: flex; flex-direction: column;
+      background:
+        radial-gradient(120% 70% at 50% 0%, rgba(0, 245, 212, 0.10), transparent 56%),
+        #10141a;
+    }
+
+    /* ── Back arrow ── */
+    .back-arrow {
+      position: absolute; top: 58px; left: 24px; z-index: 10;
+      color: #83948f; font-size: 20px; cursor: pointer;
+      padding: 8px 4px; line-height: 1;
+      transition: color 0.2s ease-out;
+    }
+    .back-arrow:active { color: #dfe2eb; }
+
+    /* ── Hero (fixed) ── */
+    .hero {
+      padding: 70px 24px 10px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #5ad7c4;
+    }
+    .hero-num {
+      margin-top: 6px;
+      font-size: 54px; line-height: 1;
+      font-weight: 900; letter-spacing: -0.03em;
+      color: #d7fff3;
+      font-variant-numeric: tabular-nums;
+      display: flex; align-items: baseline; justify-content: center; gap: 8px;
+    }
+    .hero-num .unit { font-size: 21px; font-weight: 800; color: #7fb8ad; letter-spacing: -0.01em; }
+    .hero-sub { margin-top: 7px; font-size: 14px; color: #83948f; }
+    .hero-sub b { color: #b9cac4; font-weight: 700; }
+    .hero-reframe {
+      margin: 10px auto 0; max-width: 300px;
+      font-size: 13px; line-height: 18px; color: #b9cac4;
+    }
+
+    /* ── Scroll body ── */
+    .body-scroll {
+      flex: 1; min-height: 0;
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding: 4px 20px 18px;
+    }
+    .body-scroll::-webkit-scrollbar { width: 0; }
+
+    /* ── Lever block ── */
+    .lever {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 18px;
+      padding: 16px 16px 18px;
+      margin-bottom: 12px;
+    }
+    .lever-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .lever-title { font-size: 14px; font-weight: 700; color: #dfe2eb; letter-spacing: -0.01em; }
+    .lever-val { font-size: 15px; font-weight: 800; color: #00f5d4; font-variant-numeric: tabular-nums; }
+
+    /* impact pill */
+    .impact {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11.5px; font-weight: 800; letter-spacing: -0.01em;
+      padding: 4px 9px; border-radius: 99px;
+      background: rgba(0, 245, 212, 0.12); color: #00f5d4;
+      opacity: 0; transform: translateY(-2px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .impact.show { opacity: 1; transform: translateY(0); }
+    .impact.slower { background: rgba(255, 180, 171, 0.12); color: #ffb4ab; }
+
+    /* slider */
+    .vw-slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 6px; border-radius: 99px;
+      background: rgba(255, 255, 255, 0.1); outline: none; cursor: pointer;
+    }
+    .vw-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #00f5d4; border: 3px solid #0c1117;
+      box-shadow: 0 4px 12px rgba(0, 245, 212, 0.45); cursor: pointer;
+    }
+    .vw-slider::-moz-range-thumb {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #00f5d4; border: 3px solid #0c1117;
+      box-shadow: 0 4px 12px rgba(0, 245, 212, 0.45); cursor: pointer;
+    }
+    .slider-foot {
+      display: flex; justify-content: space-between;
+      margin-top: 8px; font-size: 11px; color: #6f7c83;
+    }
+
+    /* quick chips */
+    .chips { display: flex; gap: 8px; margin-top: 14px; }
+    .chip {
+      flex: 1; padding: 9px 0; border-radius: 11px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #b9cac4; font-family: inherit; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: transform 0.12s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .chip:active { transform: scale(0.95); }
+    .chip:hover { border-color: rgba(0, 245, 212, 0.3); }
+
+    /* segmented control (return) */
+    .segmented {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 13px; padding: 5px;
+    }
+    .seg {
+      padding: 10px 0; border-radius: 9px; border: none; cursor: pointer;
+      background: transparent; color: #93a39e;
+      font-family: inherit; text-align: center;
+      transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
+    }
+    .seg:active { transform: scale(0.96); }
+    .seg .sl { display: block; font-size: 13px; font-weight: 700; }
+    .seg .sr { display: block; font-size: 11px; font-weight: 600; margin-top: 1px; opacity: 0.8; }
+    .seg.active { background: rgba(0, 245, 212, 0.14); color: #00f5d4; box-shadow: inset 0 0 0 1px rgba(0, 245, 212, 0.3); }
+    .return-note {
+      margin-top: 12px; font-size: 12px; line-height: 17px; color: #93a39e;
+    }
+    .return-note.warn { color: #ffb4ab; }
+    .disclaimer { margin-top: 7px; font-size: 10.5px; line-height: 15px; color: #6f7c83; }
+
+    /* compounding nudge */
+    .nudge {
+      display: flex; gap: 10px; align-items: flex-start;
+      background: rgba(0, 245, 212, 0.06);
+      border: 1px solid rgba(0, 245, 212, 0.18);
+      border-radius: 14px; padding: 12px 14px; margin-bottom: 12px;
+    }
+    .nudge svg { width: 18px; height: 18px; color: #00f5d4; flex-shrink: 0; margin-top: 1px; }
+    .nudge p { font-size: 12.5px; line-height: 17px; color: #b9cac4; }
+    .nudge b { color: #d7fff3; font-weight: 700; }
+
+    /* smart vs reckless */
+    .ladder { margin-bottom: 4px; }
+    .ladder-title { font-size: 14px; font-weight: 800; color: #dfe2eb; margin: 4px 2px 12px; letter-spacing: -0.01em; }
+    .ladder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ladder-col {
+      border-radius: 16px; padding: 13px 13px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.025);
+    }
+    .ladder-col.good { border-color: rgba(0, 245, 212, 0.22); }
+    .ladder-col.bad { border-color: rgba(255, 180, 171, 0.20); }
+    .ladder-h {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11.5px; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .ladder-col.good .ladder-h { color: #00f5d4; }
+    .ladder-col.bad .ladder-h { color: #ffb4ab; }
+    .ladder-h svg { width: 15px; height: 15px; }
+    .ladder-item { font-size: 12px; line-height: 16px; color: #b9cac4; margin-bottom: 9px; }
+    .ladder-item:last-child { margin-bottom: 0; }
+    .ladder-item b { color: #dfe2eb; font-weight: 700; }
+    .ladder-foot { margin: 12px 2px 2px; font-size: 10.5px; line-height: 15px; color: #6f7c83; }
+
+    /* ── Bottom (fixed) ── */
+    .bottom-area {
+      flex-shrink: 0;
+      padding: 10px 24px 0;
+      background: linear-gradient(to top, #10141a 72%, rgba(16, 20, 26, 0));
+    }
+    .cta-button {
+      width: 100%; height: 56px;
+      background: #00F5D4; color: #0A0E14;
+      border: none; border-radius: 16px;
+      font-family: inherit; font-size: 17px; font-weight: 700; letter-spacing: -0.01em;
+      cursor: pointer; transition: transform 0.12s ease-out;
+    }
+    .cta-button:active { transform: scale(0.97); }
+    .alt-link {
+      display: block; text-align: center; text-decoration: none;
+      font-size: 14px; font-weight: 500; color: #83948f;
+      padding: 13px 0; cursor: pointer;
+      transition: color 0.2s ease-out;
+    }
+    .alt-link:active { color: #dfe2eb; }
+    .progress-dots {
+      display: flex; justify-content: center; align-items: center; gap: 8px;
+      padding: 2px 0 34px;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(131, 148, 143, 0.35); }
+    .dot.active { background: #00F5D4; }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+
+<div class="device-frame">
+  <div class="screen">
+    <span class="back-arrow" id="backArrow">&#8592;</span>
+
+    <!-- Hero: the live, shrinking timeline -->
+    <div class="hero">
+      <div class="hero-eyebrow" id="heroEyebrow">Path to your goal</div>
+      <div class="hero-num"><span id="heroNum">—</span><span class="unit" id="heroUnit">yrs</span></div>
+      <div class="hero-sub" id="heroSub">to reach <b>your goal</b></div>
+      <div class="hero-reframe">This number isn't fixed. Two small moves can pull it in by years &#8595;</div>
+    </div>
+
+    <div class="body-scroll">
+
+      <!-- Lever 1: contribute more -->
+      <div class="lever">
+        <div class="lever-head">
+          <span class="lever-title">Add a little each month</span>
+          <span class="lever-val" id="monthlyVal">$200/mo</span>
+        </div>
+        <input class="vw-slider" id="monthlySlider" type="range" min="0" max="100" value="0">
+        <div class="slider-foot">
+          <span id="sliderMin">$200</span>
+          <span class="impact" id="monthlyImpact"></span>
+          <span id="sliderMax">$800</span>
+        </div>
+        <div class="chips" id="chips">
+          <button class="chip" data-add="25" type="button">+$25</button>
+          <button class="chip" data-add="50" type="button">+$50</button>
+          <button class="chip" data-add="100" type="button">+$100</button>
+        </div>
+      </div>
+
+      <!-- Lever 2: put it to work -->
+      <div class="lever">
+        <div class="lever-head">
+          <span class="lever-title">Put your money to work</span>
+          <span class="impact" id="returnImpact"></span>
+        </div>
+        <div class="segmented" id="segmented">
+          <button class="seg" data-ret="0" type="button"><span class="sl">Savings</span><span class="sr">~1%</span></button>
+          <button class="seg" data-ret="1" type="button"><span class="sl">Balanced</span><span class="sr">~5%</span></button>
+          <button class="seg active" data-ret="2" type="button"><span class="sl">Invested</span><span class="sr">~7%</span></button>
+        </div>
+        <div class="return-note" id="returnNote"></div>
+        <div class="disclaimer">Historical averages, illustrative only. Past performance doesn't guarantee future results.</div>
+      </div>
+
+      <!-- Compounding nudge -->
+      <div class="nudge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"/><path d="M17 7h4v4"/></svg>
+        <p id="nudgeText"></p>
+      </div>
+
+      <!-- Smart vs reckless -->
+      <div class="ladder">
+        <div class="ladder-title">What actually gets you there</div>
+        <div class="ladder-grid">
+          <div class="ladder-col good">
+            <div class="ladder-h">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>
+              Smart, steady
+            </div>
+            <div class="ladder-item"><b>Index funds &amp; ETFs</b> — own the whole market</div>
+            <div class="ladder-item"><b>Invest monthly</b>, automatically (DCA)</div>
+            <div class="ladder-item"><b>Tax-advantaged</b> accounts where you can</div>
+            <div class="ladder-item"><b>Time</b> — the market rewards patience</div>
+          </div>
+          <div class="ladder-col bad">
+            <div class="ladder-h">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              The fast lane to zero
+            </div>
+            <div class="ladder-item"><b>Lottery &amp; betting</b> — pays back ~50¢ per $1</div>
+            <div class="ladder-item"><b>Meme coins &amp; hype tips</b> — most go to zero</div>
+            <div class="ladder-item"><b>Chasing quick wins</b> &amp; timing the market</div>
+          </div>
+        </div>
+        <div class="ladder-foot">Figures are illustrative, for education — not financial advice.</div>
+      </div>
+
+    </div>
+
+    <div class="bottom-area">
+      <button class="cta-button" id="cta">Lock in my faster plan &#8594;</button>
+      <a class="alt-link" id="keepLink" href="goal.html?from=onboarding">Keep my original plan</a>
+      <div class="progress-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot active"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./proto-shell.js"></script>
+<script>
+(function () {
+  var S = window.WVShell;
+  var st = (S && S.getState) ? S.getState() : {};
+  var g = (st && st.goal && st.goal.target) ? st.goal : null;
+
+  // ── Plan inputs (with graceful fallbacks if reached without a goal) ──
+  var GOAL_NAME    = g && g.name ? g.name : 'your goal';
+  var TARGET       = g && g.target ? g.target : 60000;
+  var BASE_MONTHLY = (g && g.monthly) ? g.monthly : (st.monthly || 200);
+
+  // Return options. Default = "Invested ~7%", which matches the figure shown on
+  // the goal step, so the timeline here opens on the SAME number (no jarring jump).
+  var RETURNS = [
+    { rate: 0.01, label: 'A savings account',  warn: true,
+      note: "Cash barely outpaces inflation (~3%). It's the slow lane — notice how the timeline jumps." },
+    { rate: 0.05, label: 'A balanced mix', warn: false,
+      note: "A blend of stocks and bonds — steadier ride, a little slower than going all-in on stocks." },
+    { rate: 0.07, label: 'A diversified portfolio', warn: false,
+      note: "A diversified index portfolio has historically averaged ~7%/yr — with real ups and downs along the way." }
+  ];
+
+  var SLIDER_MAX = Math.max(BASE_MONTHLY * 4, BASE_MONTHLY + 400);
+  var monthly = BASE_MONTHLY;
+  var retIdx  = 2;
+
+  // ── DOM ──
+  var heroNum      = document.getElementById('heroNum');
+  var heroUnit     = document.getElementById('heroUnit');
+  var heroSub      = document.getElementById('heroSub');
+  var heroEyebrow  = document.getElementById('heroEyebrow');
+  var monthlyVal   = document.getElementById('monthlyVal');
+  var monthlySlider= document.getElementById('monthlySlider');
+  var monthlyImpact= document.getElementById('monthlyImpact');
+  var returnImpact = document.getElementById('returnImpact');
+  var sliderMinEl  = document.getElementById('sliderMin');
+  var sliderMaxEl  = document.getElementById('sliderMax');
+  var returnNote   = document.getElementById('returnNote');
+  var nudgeText    = document.getElementById('nudgeText');
+  var segBtns      = document.querySelectorAll('.seg');
+
+  // ── Math ──
+  function yearsToTarget(m, target, rate) {
+    if (m <= 0 || target <= 0) return Infinity;
+    var mr = rate / 12;
+    if (mr <= 0) return (target / m) / 12;
+    var n = Math.log(1 + (target * mr) / m) / Math.log(1 + mr);
+    return n / 12;
+  }
+  function money(v) { return '$' + Math.round(v).toLocaleString('en-US'); }
+
+  // Baseline = the user's current monthly, invested at ~7% (the goal-step figure).
+  var BASELINE_YEARS = yearsToTarget(BASE_MONTHLY, TARGET, RETURNS[2].rate);
+
+  // ── Number formatting / animation ──
+  function fmtYears(y) {
+    if (!isFinite(y) || y > 100) return '60+';
+    if (y < 1) return '<1';
+    return (y < 10 ? (Math.round(y * 10) / 10) : Math.round(y)).toString();
+  }
+  function impactText(deltaYears) {
+    // positive deltaYears => faster (fewer years to goal)
+    var faster = deltaYears > 0;
+    var absMonths = Math.round(Math.abs(deltaYears) * 12);
+    if (absMonths < 1) return null;
+    var label;
+    if (absMonths >= 12) {
+      var yv = Math.round(absMonths / 12 * 10) / 10;
+      label = yv + ' yr' + (yv === 1 ? '' : 's');
+    } else {
+      label = absMonths + ' mo';
+    }
+    return { faster: faster, text: (faster ? '\u2212' : '+') + label + (faster ? ' sooner' : ' slower') };
+  }
+
+  var displayed = BASELINE_YEARS;
+  var rafId = null;
+  function renderHeroNumber(y) {
+    if (!isFinite(y) || y > 100) { heroNum.textContent = '60+'; heroUnit.textContent = 'yrs'; return; }
+    var s = fmtYears(y);
+    heroNum.textContent = s;
+    heroUnit.textContent = (s === '1' || s === '<1') ? 'yr' : 'yrs';
+  }
+  function animateHeroTo(target) {
+    if (rafId) cancelAnimationFrame(rafId);
+    if (!isFinite(target) || target > 100) { displayed = target; renderHeroNumber(target); return; }
+    var from = isFinite(displayed) ? displayed : target;
+    var start = performance.now();
+    var dur = 420;
+    function tick(now) {
+      var p = Math.min(1, (now - start) / dur);
+      var e = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      var v = from + (target - from) * e;
+      renderHeroNumber(v);
+      if (p < 1) { rafId = requestAnimationFrame(tick); }
+      else { displayed = target; }
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // ── Impact pill helper ──
+  function paintImpact(el, info) {
+    if (!info) { el.classList.remove('show'); el.textContent = ''; return; }
+    el.textContent = info.text;
+    el.classList.toggle('slower', !info.faster);
+    el.classList.add('show');
+  }
+
+  // ── Recompute everything from current state ──
+  function update(animate) {
+    var rate = RETURNS[retIdx].rate;
+    var yrs = yearsToTarget(monthly, TARGET, rate);
+
+    if (animate) animateHeroTo(yrs); else { displayed = yrs; renderHeroNumber(yrs); }
+
+    monthlyVal.textContent = money(monthly) + '/mo';
+
+    // contribution impact — isolate the extra monthly (same return rate)
+    var baseAtRate = yearsToTarget(BASE_MONTHLY, TARGET, rate);
+    paintImpact(monthlyImpact, impactText(baseAtRate - yrs));
+
+    // return impact — isolate the return choice (same monthly, vs invested ~7%)
+    var atInvested = yearsToTarget(monthly, TARGET, RETURNS[2].rate);
+    paintImpact(returnImpact, impactText(atInvested - yrs));
+
+    // return note
+    var r = RETURNS[retIdx];
+    returnNote.textContent = r.note;
+    returnNote.classList.toggle('warn', !!r.warn);
+
+    // compounding nudge — honest, rate-aware
+    var horizon = (isFinite(yrs) && yrs <= 100) ? yrs : 30;
+    var grow = Math.pow(1 + rate, horizon);
+    nudgeText.innerHTML = rate <= 0.015
+      ? 'Left in cash, your money mostly stands still while prices climb ~3% a year. Putting it to work is what bends the curve.'
+      : 'Thanks to compounding, <b>$1 invested today could grow to about $' + grow.toFixed(2) + '</b> by your goal date — money you never had to earn.';
+
+    persist();
+  }
+
+  // ── Persist the chosen plan so the payoff + dashboard reflect it ──
+  function persist() {
+    if (!S || !S.patchState) return;
+    var rate = RETURNS[retIdx].rate;
+    var yrs = yearsToTarget(monthly, TARGET, rate);
+    var patch = { monthly: monthly };
+    if (g) {
+      // Start from the existing goal so financing context (price, downPct,
+      // financedAmount, restTerm) survives, then update the plan fields.
+      var goalObj = {};
+      for (var k in g) { if (Object.prototype.hasOwnProperty.call(g, k)) goalObj[k] = g[k]; }
+      goalObj.monthly = monthly;
+      goalObj.years = (isFinite(yrs) && yrs <= 100) ? Math.round(yrs * 10) / 10 : null;
+      goalObj.returnRate = rate;
+      patch.goal = goalObj;
+    }
+    S.patchState(patch);
+  }
+
+  // ── Slider wiring (0..100 maps to BASE_MONTHLY..SLIDER_MAX) ──
+  function sliderToMonthly(v) {
+    var raw = BASE_MONTHLY + (SLIDER_MAX - BASE_MONTHLY) * (v / 100);
+    return Math.round(raw / 5) * 5;
+  }
+  function monthlyToSlider(m) {
+    if (SLIDER_MAX === BASE_MONTHLY) return 0;
+    return Math.max(0, Math.min(100, (m - BASE_MONTHLY) / (SLIDER_MAX - BASE_MONTHLY) * 100));
+  }
+  function paintSliderFill() {
+    var pct = monthlyToSlider(monthly);
+    monthlySlider.style.background =
+      'linear-gradient(90deg, #00f5d4 ' + pct + '%, rgba(255,255,255,0.1) ' + pct + '%)';
+  }
+
+  monthlySlider.addEventListener('input', function () {
+    monthly = sliderToMonthly(parseFloat(monthlySlider.value));
+    paintSliderFill();
+    update(true);
+  });
+
+  document.getElementById('chips').addEventListener('click', function (ev) {
+    var btn = ev.target.closest('.chip');
+    if (!btn) return;
+    var add = parseInt(btn.dataset.add, 10) || 0;
+    monthly = Math.min(SLIDER_MAX, monthly + add);
+    monthlySlider.value = monthlyToSlider(monthly);
+    paintSliderFill();
+    update(true);
+  });
+
+  segBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      retIdx = parseInt(b.dataset.ret, 10);
+      segBtns.forEach(function (x) { x.classList.toggle('active', x === b); });
+      update(true);
+    });
+  });
+
+  // ── Init ──
+  heroEyebrow.textContent = 'Path to ' + GOAL_NAME;
+  heroSub.innerHTML = 'to reach <b>' + money(TARGET) + '</b>'
+    + (g && g.financedAmount
+        ? ' \u00b7 <b>' + g.downPct + '%</b> down on a ' + money(g.price) + ' '
+          + (g.id === 'car' ? 'car' : 'home')
+        : '');
+  sliderMinEl.textContent = money(BASE_MONTHLY);
+  sliderMaxEl.textContent = money(SLIDER_MAX);
+  monthlySlider.value = 0;
+  paintSliderFill();
+  update(false);
+})();
+</script>
+</body>
+</html>

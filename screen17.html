@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision - Screen 17: Peer Comparison</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
+    .device-frame{--act1:var(--ac);}
+    .device-frame[data-theme="light"]{--act1:#a86a06;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{background:#080a0e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa6);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25);--ac:#f5a623;--ac-rgb:245,166,35}
+    .screen{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
+    .top-nav{padding:56px 24px 12px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+    .back-btn{width:36px;height:36px;border-radius:50%;background:var(--wa6);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .back-btn svg{width:18px;height:18px;stroke:var(--s-sec);stroke-width:2;fill:none}
+    .nav-title{flex:1;font-size:20px;font-weight:700;color:var(--s-hi)}
+    .nav-counter{font-size:13px;font-weight:600;color:var(--s-mid);font-variant-numeric:tabular-nums}
+
+    .deck-viewport{flex:1;position:relative;overflow:hidden;touch-action:pan-y;overscroll-behavior-x:none;isolation:isolate}
+    .deck-track{display:flex;height:100%;will-change:transform;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+    .deck-track.dragging{transition:none}
+    .card{flex:0 0 100%;width:100%;height:100%;padding:16px 24px 0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;background:var(--s-bg);min-width:0}
+    .card::-webkit-scrollbar{display:none}
+
+    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;padding:16px 0 36px;flex-shrink:0}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--wa12);transition:all 0.35s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
+    .dot.active{width:24px;border-radius:4px;background:var(--ac)}
+
+    .section-badge{display:inline-flex;padding:4px 12px;border-radius:8px;background:rgba(var(--ac-rgb),0.10);font-size:11px;font-weight:600;color:var(--act1);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
+    .section-title{font-size:22px;font-weight:800;color:var(--s-hi);line-height:1.25;margin-bottom:6px;letter-spacing:-0.02em}
+    .section-sub{font-size:14px;color:var(--s-mid);line-height:1.5;margin-bottom:18px}
+
+    .content-card{background:linear-gradient(180deg,var(--wa3b),var(--wa1));border:1px solid var(--wa7);border-radius:16px;padding:20px 18px;flex:1;display:flex;flex-direction:column;box-shadow:inset 0 1px 0 var(--wa3)}
+
+    .swipe-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:auto;padding:14px 0 4px;font-size:12px;color:var(--wa20);animation:hintPulse 2s ease-in-out infinite}
+    .swipe-hint svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none}
+    @keyframes hintPulse{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:.8;transform:translateX(4px)}}
+
+    .insight-box{margin-top:14px;padding:14px;border-radius:12px;font-size:14px;line-height:1.5;text-align:center}
+    .insight-box.teal{background:rgba(var(--ac-rgb),0.07);border:1px solid rgba(var(--ac-rgb),0.14);color:var(--act1)}
+    .insight-box.amber{background:rgba(196,182,255,0.07);border:1px solid rgba(196,182,255,0.16);color:var(--c-violet2)}
+
+    /* Card 1 */
+    .split{display:flex;gap:10px;margin-bottom:12px}
+    .split .col{flex:1;border-radius:12px;padding:14px 10px;border:1px solid var(--wa6);text-align:center}
+    .split .col .label{font-size:11px;color:var(--s-mid);margin-bottom:4px}
+    .split .col .val{font-size:18px;font-weight:900;letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
+
+    /* Card 2 selectors */
+    .row-label{font-size:12px;color:var(--s-mid);margin-bottom:8px}
+    .chip-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px}
+    .chip-row::-webkit-scrollbar{display:none}
+    .chip{height:34px;padding:0 12px;border-radius:10px;border:1.5px solid var(--wa8);background:var(--wa3);color:var(--s-sec);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap}
+    .chip.active{border-color:rgba(var(--ac-rgb),0.35);background:rgba(var(--ac-rgb),0.10);color:var(--act1)}
+
+    .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+    .money-field{position:relative}
+    .money-field::before{content:'$';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;font-weight:700;color:var(--s-mid)}
+    .money-field input{width:100%;height:42px;background:var(--wa4);border:1.5px solid var(--wa8);border-radius:10px;padding:0 10px 0 22px;color:var(--s-hi);font-size:14px;font-weight:700;outline:none;font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums}
+    .money-field input:focus{border-color:rgba(var(--ac-rgb),0.55)}
+    .field-note{font-size:10px;color:var(--s-mid);margin-top:4px}
+
+    .pct-ring{width:138px;height:138px;margin:6px auto 12px;position:relative}
+    .pct-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+    .pct-ring .bg{fill:none;stroke:var(--wa6);stroke-width:10}
+    .pct-ring .fill{fill:none;stroke:var(--ac);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 0.8s cubic-bezier(0.16,1,0.3,1)}
+    .pct-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+    .pct-value{font-size:34px;font-weight:900;color:var(--act1);letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums}
+    .pct-label{font-size:11px;color:var(--s-mid);margin-top:4px}
+
+    .sample-badge{display:inline-flex;align-self:center;padding:4px 10px;border-radius:999px;background:var(--wa4);border:1px solid var(--wa6);color:var(--s-mid);font-size:11px;font-variant-numeric:tabular-nums}
+
+    /* Card 3 bars */
+    .metric-list{display:flex;flex-direction:column;gap:12px;flex:1}
+    .metric-item{padding:12px;border-radius:12px;background:var(--wa3);border:1px solid var(--wa6)}
+    .metric-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .metric-name{font-size:13px;color:var(--s-hi);font-weight:600}
+    .metric-you{font-size:12px;color:var(--act1);font-weight:700;font-variant-numeric:tabular-nums}
+    .bar-stack{display:flex;flex-direction:column;gap:6px}
+    .bar-row{display:flex;align-items:center;gap:8px}
+    .bar-tag{width:46px;font-size:10px;color:var(--s-mid)}
+    .bar-track{flex:1;height:10px;background:var(--wa5);border-radius:999px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:999px;transition:width .6s cubic-bezier(0.16,1,0.3,1)}
+    .bar-fill.you{background:var(--ac)}
+    .bar-fill.med{background:#8a96a8}
+    .bar-fill.top{background:#c4b6ff}
+    .bar-val{width:38px;text-align:right;font-size:10px;color:var(--s-sec);font-variant-numeric:tabular-nums}
+
+    /* Card 4 action plan */
+    .plan-kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+    .plan-kpi .k{text-align:center;padding:11px 8px;background:var(--wa3);border:1px solid var(--wa7);border-radius:12px;min-width:0}
+    .plan-kpi .k .l{font-size:10px;color:var(--s-mid);margin-bottom:4px}
+    .plan-kpi .k .v{font-size:14px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--s-hi)}
+
+    .plan-steps{display:flex;flex-direction:column;gap:10px}
+    .step{display:flex;gap:10px;align-items:flex-start;padding:11px;background:var(--wa2);border:1px solid var(--wa6);border-radius:12px}
+    .step-num{width:22px;height:22px;border-radius:50%;background:rgba(var(--ac-rgb),0.18);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--act1);flex-shrink:0}
+    .step-text{font-size:13px;color:var(--s-sec);line-height:1.45}
+    .step-text strong{color:var(--s-hi)}
+
+    .cta-btn{width:100%;height:54px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--ac),#e08c0e);color:#2a1a02;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px;flex-shrink:0;box-shadow:0 10px 24px rgba(var(--ac-rgb),0.26)}
+    .cta-btn:active{transform:scale(0.98)}
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+<div class="device-frame"><div class="screen">
+  <div class="top-nav">
+    <button class="back-btn"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <span class="nav-title">Peer Comparison</span>
+    <span class="nav-counter" id="navCounter">1 / 4</span>
+  </div>
+
+  <div class="deck-viewport" id="deckViewport">
+    <div class="deck-track" id="deckTrack">
+
+      <!-- Card 1 -->
+      <div class="card" data-card="0">
+        <div class="section-badge">1 / 4 - The Real Numbers</div>
+        <div class="section-title">Most benchmarks<br>you see are wrong</div>
+        <div class="section-sub">Average net worth is warped by the ultra-rich. Median is the honest number — and it changes everything.</div>
+        <div class="content-card">
+          <div style="font-size:12px;color:var(--s-mid);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600">Under-35 household net worth</div>
+          <div class="split">
+            <div class="col" style="background:rgba(255,180,171,0.05)">
+              <div class="label">Average (headline)</div>
+              <div class="val" style="color:var(--c-red)">$183K</div>
+              <div style="font-size:10px;color:var(--s-mid);margin-top:4px">Skewed by the mega-rich</div>
+            </div>
+            <div class="col" style="background:rgba(245,166,35,0.06)">
+              <div class="label">Median (real)</div>
+              <div class="val" style="color:var(--act1)">$39K</div>
+              <div style="font-size:10px;color:var(--s-mid);margin-top:4px">Where most people are</div>
+            </div>
+          </div>
+          <div style="font-size:13px;color:var(--s-sec);line-height:1.55;margin-bottom:12px">
+            <strong style="color:var(--s-hi)">Money dysmorphia</strong> is real — objectively stable people feel poor because they compare to inflated averages, not the typical person.
+          </div>
+          <div class="insight-box teal">Source: Federal Reserve Survey of Consumer Finances, summarised by Fidelity — the most reliable US household benchmark.</div>
+          <div class="insight-box amber">We use <strong>median</strong> throughout, never average. No leaderboard. Coaching context only.</div>
+        </div>
+        <div class="swipe-hint" id="swipeHint"><span>Swipe to continue</span><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card" data-card="1">
+        <div class="section-badge">2 / 4 - Your Position</div>
+        <div class="section-title">Where do you<br>actually stand?</div>
+        <div class="section-sub">Enter your net worth and age to see your real percentile vs the Fed survey median.</div>
+        <div class="content-card">
+          <div class="row-label">Age band</div>
+          <div class="chip-row" id="ageChips">
+            <button class="chip active" data-age="under35">Under 35</button>
+            <button class="chip" data-age="35-44">35–44</button>
+            <button class="chip" data-age="45-54">45–54</button>
+            <button class="chip" data-age="55-64">55–64</button>
+            <button class="chip" data-age="65plus">65+</button>
+          </div>
+
+          <div class="row-label">Your net worth (assets minus debts)</div>
+          <div class="input-grid">
+            <div>
+              <div class="money-field"><input id="networthInput" value="45000" inputmode="numeric"></div>
+              <div class="field-note">Total net worth</div>
+            </div>
+            <div>
+              <div class="money-field"><input id="incomeInput" value="4500" inputmode="numeric"></div>
+              <div class="field-note">Monthly income</div>
+            </div>
+          </div>
+
+          <div class="pct-ring">
+            <svg viewBox="0 0 160 160">
+              <circle class="bg" cx="80" cy="80" r="65"></circle>
+              <circle class="fill" cx="80" cy="80" r="65" stroke-dasharray="408.4" stroke-dashoffset="408.4" id="pctFill"></circle>
+            </svg>
+            <div class="pct-center">
+              <div class="pct-value" id="pctValue">0th</div>
+              <div class="pct-label">Net worth percentile</div>
+            </div>
+          </div>
+
+          <div class="sample-badge" id="sampleBadge">Fed Survey — US household data</div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card" data-card="2">
+        <div class="section-badge">3 / 4 - Real Benchmarks</div>
+        <div class="section-title">You vs the median<br>vs the headline</div>
+        <div class="section-sub">Real numbers from the Fed Survey. The gap between median and average shows why headlines feel so discouraging.</div>
+        <div class="content-card">
+          <div class="metric-list">
+            <div class="metric-item">
+              <div class="metric-head"><span class="metric-name">Net worth — your age band</span><span class="metric-you" id="youNWLabel">$0</span></div>
+              <div class="bar-stack">
+                <div class="bar-row"><span class="bar-tag">You</span><div class="bar-track"><div class="bar-fill you" id="barNWYou"></div></div><span class="bar-val" id="valNWYou">$0</span></div>
+                <div class="bar-row"><span class="bar-tag">Median</span><div class="bar-track"><div class="bar-fill med" id="barNWMed"></div></div><span class="bar-val" id="valNWMed">$0</span></div>
+                <div class="bar-row"><span class="bar-tag">Average</span><div class="bar-track"><div class="bar-fill" style="background:#ffb4ab" id="barNWAvg"></div></div><span class="bar-val" id="valNWAvg">$0</span></div>
+              </div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-head"><span class="metric-name">Savings rate</span><span class="metric-you" id="youSavingsRate">0%</span></div>
+              <div class="bar-stack">
+                <div class="bar-row"><span class="bar-tag">You</span><div class="bar-track"><div class="bar-fill you" id="barSavingsYou"></div></div><span class="bar-val" id="valSavingsYou">0%</span></div>
+                <div class="bar-row"><span class="bar-tag">Median</span><div class="bar-track"><div class="bar-fill med" id="barSavingsMed"></div></div><span class="bar-val" id="valSavingsMed">0%</span></div>
+                <div class="bar-row"><span class="bar-tag">Top 25%</span><div class="bar-track"><div class="bar-fill top" id="barSavingsTop"></div></div><span class="bar-val" id="valSavingsTop">0%</span></div>
+              </div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-head"><span class="metric-name">Net worth / annual income</span><span class="metric-you" id="youNWRatio">0×</span></div>
+              <div class="bar-stack">
+                <div class="bar-row"><span class="bar-tag">You</span><div class="bar-track"><div class="bar-fill you" id="barRatioYou"></div></div><span class="bar-val" id="valRatioYou">0×</span></div>
+                <div class="bar-row"><span class="bar-tag">Rule-of-thumb</span><div class="bar-track"><div class="bar-fill med" id="barRatioMed"></div></div><span class="bar-val" id="valRatioMed">0×</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="insight-box teal" id="benchmarkInsight">Loading cohort comparison...</div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card" data-card="3">
+        <div class="section-badge">4 / 4 - Your Path Forward</div>
+        <div class="section-title">Feeling behind<br>doesn't mean failing</div>
+        <div class="section-sub">The gap closes faster than you think. One system beats one big sacrifice.</div>
+        <div class="content-card">
+          <div class="plan-kpi">
+            <div class="k"><div class="l">Your percentile</div><div class="v" id="planCurrent">0th</div></div>
+            <div class="k"><div class="l">Median target</div><div class="v" style="color:var(--c-violet2)" id="planTarget">50th</div></div>
+            <div class="k"><div class="l">Net worth gap</div><div class="v" style="color:var(--act1)" id="planGap">—</div></div>
+          </div>
+          <div class="plan-steps" id="planSteps"></div>
+          <button class="cta-btn" id="planCta" onclick="alert('Weekly plan saved')">Commit to Plan</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pagination" id="pagination">
+    <div class="dot active" onclick="goToCard(0)"></div>
+    <div class="dot" onclick="goToCard(1)"></div>
+    <div class="dot" onclick="goToCard(2)"></div>
+    <div class="dot" onclick="goToCard(3)"></div>
+  </div>
+</div></div>
+
+<script>
+  // Swipe deck engine
+  const track=document.getElementById('deckTrack'),viewport=document.getElementById('deckViewport'),dots=document.querySelectorAll('.dot'),counter=document.getElementById('navCounter');
+  const CARD_W=viewport.offsetWidth||393;const TOTAL=4;let current=0,startX=0,deltaX=0,isDragging=false;
+  function goToCard(idx){current=Math.max(0,Math.min(TOTAL-1,idx));viewport.scrollLeft=0;track.classList.remove('dragging');track.style.transform=`translateX(${-current*CARD_W}px)`;dots.forEach((d,i)=>d.classList.toggle('active',i===current));counter.textContent=`${current+1} / ${TOTAL}`;const h=document.getElementById('swipeHint');if(h&&current>0)h.style.display='none';if(current>=1)updatePeerModel()}
+  viewport.addEventListener('pointerdown',e=>{if(e.target.closest('input,button'))return;e.preventDefault();isDragging=true;startX=e.clientX;deltaX=0;track.classList.add('dragging');viewport.setPointerCapture(e.pointerId)});
+  viewport.addEventListener('pointermove',e=>{if(!isDragging)return;deltaX=e.clientX-startX;const o=-current*CARD_W+deltaX;if((current===0&&deltaX>0)||(current===TOTAL-1&&deltaX<0)){track.style.transform=`translateX(${-current*CARD_W+deltaX*0.25}px)`}else{track.style.transform=`translateX(${o}px)`}});
+  viewport.addEventListener('pointerup',e=>{if(!isDragging)return;isDragging=false;viewport.releasePointerCapture(e.pointerId);const t=CARD_W*0.2;if(deltaX<-t&&current<TOTAL-1)goToCard(current+1);else if(deltaX>t&&current>0)goToCard(current-1);else goToCard(current)});
+  viewport.addEventListener('pointercancel',()=>{isDragging=false;goToCard(current)});
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')goToCard(current+1);if(e.key==='ArrowLeft')goToCard(current-1)});
+
+  // Real Fed Survey of Consumer Finances data (via Fidelity summary)
+  // medianNW, avgNW in dollars. medianSavingsRate / p75SavingsRate in %.
+  // ageMultiple = rule-of-thumb NW target as × of annual income.
+  const AGE_DATA={
+    'under35':{label:'Under 35',medianNW:39000,avgNW:183500,medianSavingsRate:13,p75SavingsRate:22,ageMultiple:0.5,trajectory:'Your direction matters more than the number. Are debts shrinking and assets growing?'},
+    '35-44':  {label:'35–44',   medianNW:135600,avgNW:549600,medianSavingsRate:14,p75SavingsRate:24,ageMultiple:2,trajectory:'Median $136K is real money, but much of it is home equity — not liquid. Cash flow pressure is normal here.'},
+    '45-54':  {label:'45–54',   medianNW:247200,avgNW:975800,medianSavingsRate:16,p75SavingsRate:26,ageMultiple:4,trajectory:'Peak earning years. Extra income must not be fully swallowed by obligations — channel it to retirement.'},
+    '55-64':  {label:'55–64',   medianNW:364500,avgNW:1570000,medianSavingsRate:18,p75SavingsRate:28,ageMultiple:7,trajectory:'Catch-up contributions kick in after 50. Resilience matters more than hitting a target number.'},
+    '65plus': {label:'65+',     medianNW:409900,avgNW:1790000,medianSavingsRate:15,p75SavingsRate:22,ageMultiple:10,trajectory:'Net worth is expected to draw down here. Asset-rich, cash-poor is very common at this stage.'}
+  };
+
+  let state={age:'under35',monthlyIncome:4500,netWorth:45000};
+
+  function fmtMoney(n){
+    if(n>=1000000)return '$'+(n/1000000).toFixed(1)+'M';
+    if(n>=1000)return '$'+Math.round(n/1000)+'K';
+    return '$'+Math.round(n).toLocaleString('en-US');
+  }
+  function fmtFull(n){return '$'+Math.round(n).toLocaleString('en-US');}
+  function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
+
+  function estimateNWPercentile(nw,median,avg){
+    // Piecewise log-shaped distribution estimate using median and average.
+    if(nw<=0)return 3;
+    if(nw<median)return clamp(Math.round((nw/median)*50),3,49);
+    // Between median and ~top 25% (approx 1.8× median based on typical distribution skew)
+    const p75est=median*1.8;
+    if(nw<=p75est)return clamp(Math.round(50+((nw-median)/(p75est-median))*25),50,75);
+    // Above top-25% — asymptotic toward 98
+    return clamp(Math.round(75+((nw-p75est)/(avg-p75est+1))*18),75,97);
+  }
+
+  // Synthetic savings-rate cohort data (kept for savings-rate bars)
+  const SR_BY_AGE={
+    'under35':{medianSavingsRate:13,p75SavingsRate:22},
+    '35-44':  {medianSavingsRate:14,p75SavingsRate:24},
+    '45-54':  {medianSavingsRate:16,p75SavingsRate:26},
+    '55-64':  {medianSavingsRate:18,p75SavingsRate:28},
+    '65plus': {medianSavingsRate:15,p75SavingsRate:22}
+  };
+
+  function ordinal(n){
+    const v=n%100;
+    if(v>=11 && v<=13) return `${n}th`;
+    switch(n%10){
+      case 1: return `${n}st`;
+      case 2: return `${n}nd`;
+      case 3: return `${n}rd`;
+      default: return `${n}th`;
+    }
+  }
+
+  function updateRing(pct){
+    const c=2*Math.PI*65;
+    document.getElementById('pctFill').style.strokeDasharray=c.toFixed(1);
+    document.getElementById('pctFill').style.strokeDashoffset=(c*(1-pct/100)).toFixed(1);
+    document.getElementById('pctValue').textContent=ordinal(pct);
+  }
+
+  function setBar(id,val,max){
+    const el=document.getElementById(id);
+    if(el)el.style.width=clamp((val/max)*100,0,100).toFixed(1)+'%';
+  }
+
+  function updatePeerModel(){
+    const d=AGE_DATA[state.age]||AGE_DATA['under35'];
+    const sr=SR_BY_AGE[state.age]||SR_BY_AGE['under35'];
+    const nw=state.netWorth;
+    const annualIncome=state.monthlyIncome*12;
+    const pct=estimateNWPercentile(nw,d.medianNW,d.avgNW);
+    // Derive savings rate from 15% of income as default proxy (user hasn't set it)
+    const savingsRate=Math.max(1,Math.min(50,(nw/(Math.max(1,annualIncome)*3))*15+5));
+
+    // Card 2
+    updateRing(pct);
+    document.getElementById('sampleBadge').textContent='Source: Fed Survey of Consumer Finances (Fidelity)';
+
+    // Card 3 — net worth bars (scale to 1.2× average to give room)
+    const nwScale=d.avgNW*1.2;
+    document.getElementById('youNWLabel').textContent=fmtMoney(nw);
+    document.getElementById('valNWYou').textContent=fmtMoney(nw);
+    document.getElementById('valNWMed').textContent=fmtMoney(d.medianNW);
+    document.getElementById('valNWAvg').textContent=fmtMoney(d.avgNW);
+    setBar('barNWYou',nw,nwScale);
+    setBar('barNWMed',d.medianNW,nwScale);
+    setBar('barNWAvg',d.avgNW,nwScale);
+
+    // Savings rate bars
+    document.getElementById('youSavingsRate').textContent=savingsRate.toFixed(1)+'%';
+    document.getElementById('valSavingsYou').textContent=savingsRate.toFixed(1)+'%';
+    document.getElementById('valSavingsMed').textContent=sr.medianSavingsRate+'%';
+    document.getElementById('valSavingsTop').textContent=sr.p75SavingsRate+'%';
+    setBar('barSavingsYou',savingsRate,35);
+    setBar('barSavingsMed',sr.medianSavingsRate,35);
+    setBar('barSavingsTop',sr.p75SavingsRate,35);
+
+    // NW / income ratio
+    const ratio=annualIncome>0?(nw/annualIncome):0;
+    const targetRatio=d.ageMultiple;
+    document.getElementById('youNWRatio').textContent=ratio.toFixed(1)+'×';
+    document.getElementById('valRatioYou').textContent=ratio.toFixed(1)+'×';
+    document.getElementById('valRatioMed').textContent=targetRatio+'×';
+    setBar('barRatioYou',ratio,targetRatio*2||1);
+    setBar('barRatioMed',targetRatio,targetRatio*2||1);
+
+    // Insight
+    const nwGap=d.medianNW-nw;
+    let insight='';
+    if(nwGap>5000){
+      insight=`Your net worth is ${fmtMoney(nwGap)} below the median for ${d.label}. ${d.trajectory}`;
+    }else if(nwGap<-5000){
+      insight=`You are above the median for ${d.label}. ${d.trajectory}`;
+    }else{
+      insight=`You are near the median for ${d.label}. ${d.trajectory}`;
+    }
+    document.getElementById('benchmarkInsight').textContent=insight;
+
+    // Card 4 plan
+    const pctGap=Math.max(0,50-pct);
+    // $5/day = $150/month → $170K in 30y at 7%. Scale that insight to the gap.
+    const monthlyGap=Math.max(0,nwGap);
+    const weeklyBoost=nwGap>0?Math.max(20,Math.round((monthlyGap/(12*30))/5)*5):0;
+    const dailyEquiv=Math.round(weeklyBoost/7);
+
+    document.getElementById('planCurrent').textContent=ordinal(pct);
+    document.getElementById('planGap').textContent=nwGap>0?fmtMoney(nwGap):'On track';
+
+    const steps=[];
+    if(nwGap>5000){
+      steps.push(`Save an extra <strong>${fmtFull(weeklyBoost)}/week</strong> (~$${dailyEquiv}/day). At 7%, that compounds to <strong>${fmtMoney(weeklyBoost*52*10*1.97)}</strong> in 10 years.`);
+      steps.push(`The $5/day principle: even <strong>$150/month</strong> invested at 7% for 30 years = $170,000. Small amounts, compounded, change everything.`);
+      steps.push(`Recheck this screen monthly. Every $1K of net worth growth moves you closer. ${d.trajectory.split('.')[0]}.`);
+    }else{
+      steps.push('You are at or above median for your age band. Keep your wealth-building habits consistent.');
+      steps.push(`Your NW/income ratio target is ${targetRatio}×. At ${ratio.toFixed(1)}×, you are ${ratio>=targetRatio?'on track':'building toward that'}. Keep compounding.`);
+      steps.push('Strengthen your buffer: ensure emergency fund covers 3–6 months of essentials, separate from investments.');
+    }
+
+    const stepsWrap=document.getElementById('planSteps');
+    stepsWrap.innerHTML='';
+    steps.forEach((s,i)=>{
+      const el=document.createElement('div');
+      el.className='step';
+      el.innerHTML=`<div class="step-num">${i+1}</div><div class="step-text">${s}</div>`;
+      stepsWrap.appendChild(el);
+    });
+
+    document.getElementById('planCta').textContent=nwGap>0?`Save +${fmtFull(weeklyBoost)}/week`:'See My Goals';
+  }
+
+  // Controls
+  function wireChipGroup(containerId,stateKey,attr){
+    const wrap=document.getElementById(containerId);
+    if(!wrap)return;
+    wrap.querySelectorAll('.chip').forEach(ch=>{
+      ch.addEventListener('click',()=>{
+        wrap.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+        ch.classList.add('active');
+        state[stateKey]=ch.getAttribute(attr);
+        updatePeerModel();
+      });
+    });
+  }
+  wireChipGroup('ageChips','age','data-age');
+
+  function wireMoney(id,key){
+    const input=document.getElementById(id);
+    if(!input)return;
+    input.addEventListener('input',()=>{
+      const raw=input.value.replace(/[^0-9]/g,'');
+      const n=raw?parseInt(raw,10):0;
+      input.value=n?n.toLocaleString('en-US'):'';
+      state[key]=n;
+      updatePeerModel();
+    });
+  }
+  wireMoney('networthInput','netWorth');
+  wireMoney('incomeInput','monthlyIncome');
+
+  // Initial
+  viewport.scrollLeft=0;
+  updatePeerModel();
+</script>
+  <script src="./proto-shell.js"></script>
+</body>
+</html>
+

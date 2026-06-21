@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Payday Routine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* theme-aware token set (shared convention with the other tool screens) */
+    .device-frame{--act1:var(--ac);}
+    .device-frame[data-theme="light"]{--act1:#9a6b00;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2);--track:rgba(255,255,255,0.10)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32);--track:rgba(20,32,46,0.12)}
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #080a0e;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    .device-frame {
+      width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
+      position: relative; background: var(--s-bg);
+      border: 1px solid var(--wa6);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+      /* signature: gold = payday / cash */
+      --ac: #f4b740;
+      --ac-rgb: 244,183,64;
+      /* per-bucket palette (theme-independent) */
+      --c-ess: #7f8c99;
+      --c-emg: #5aa9ff;
+      --c-debt: #ff8a73;
+      --c-inv: #16d6bd;
+      --c-sink: #9b87ff;
+      --c-free: #f4b740;
+    }
+    .screen::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 230px;
+      background: radial-gradient(120% 100% at 50% 0%, rgba(var(--ac-rgb),0.16), transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .top-nav, .scroll-content, .bottom-area { position: relative; z-index: 1; }
+    .screen { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* ── Top nav ── */
+    .top-nav { padding: 56px 24px 12px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+    .back-btn {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--wa6);
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: var(--wa12); }
+    .back-btn svg { width: 18px; height: 18px; stroke: var(--s-sec); stroke-width: 2; fill: none; }
+    .nav-title { font-size: 20px; font-weight: 700; color: var(--s-hi); }
+    .nav-sub { font-size: 11.5px; font-weight: 600; color: var(--act1); letter-spacing: 0.02em; margin-top: 1px; }
+
+    /* ── Scroll ── */
+    .scroll-content { flex: 1; overflow-y: auto; padding: 6px 24px 26px; scrollbar-width: none; }
+    .scroll-content::-webkit-scrollbar { display: none; }
+
+    .intro { margin-bottom: 20px; }
+    .intro-text { font-size: 13.5px; color: var(--s-mid); line-height: 1.6; }
+    .intro-text strong { color: var(--s-sec); }
+
+    /* ── Generic card ── */
+    .card {
+      background: linear-gradient(180deg, var(--glass-top, rgba(255,255,255,0.05)), var(--glass-bot, rgba(255,255,255,0.01))), var(--wa1);
+      border: 1px solid var(--wa6); border-radius: 18px; padding: 16px;
+      -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1);
+    }
+    .card + .card { margin-top: 12px; }
+
+    .field-label { font-size: 12px; font-weight: 700; color: var(--s-sec); margin-bottom: 7px; display: flex; align-items: center; gap: 7px; }
+    .field-label .step { width: 20px; height: 20px; border-radius: 50%; background: rgba(var(--ac-rgb),0.16); color: var(--act1);
+      display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+    .field-helper { font-size: 11px; color: var(--s-mid); margin-top: 6px; line-height: 1.45; }
+
+    .dollar-wrap { position: relative; }
+    .dollar-wrap::before {
+      content: '$'; position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 16px; font-weight: 700; color: var(--s-mid); pointer-events: none;
+    }
+    .dollar-wrap input { padding-left: 28px; }
+    .num-input {
+      width: 100%; height: 50px; background: var(--wa4); border: 1.5px solid var(--wa8);
+      border-radius: 12px; padding: 0 14px; font-family: 'Inter', sans-serif;
+      font-size: 17px; font-weight: 700; color: var(--s-hi); outline: none;
+      transition: border-color 0.18s; font-variant-numeric: tabular-nums;
+    }
+    .num-input:focus { border-color: rgba(var(--ac-rgb),0.6); }
+    .num-input::placeholder { color: var(--s-mid); font-weight: 400; }
+
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .chip {
+      height: 32px; padding: 0 13px; border-radius: 9px; border: 1.5px solid var(--wa8);
+      background: var(--wa3); color: var(--s-sec); font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.18s;
+      display: inline-flex; align-items: center; white-space: nowrap;
+    }
+    .chip:hover { background: var(--wa6); border-color: var(--wa12); }
+    .chip.active { background: rgba(var(--ac-rgb),0.12); border-color: rgba(var(--ac-rgb),0.4); color: var(--act1); }
+
+    .ess-label { margin-top: 16px; }
+
+    /* free-to-allocate readout */
+    .free-readout {
+      margin-top: 14px; padding: 13px 15px; border-radius: 13px;
+      background: rgba(var(--ac-rgb),0.08); border: 1px solid rgba(var(--ac-rgb),0.22);
+      display: flex; align-items: baseline; justify-content: space-between;
+    }
+    .free-readout .l { font-size: 12.5px; font-weight: 600; color: var(--s-sec); }
+    .free-readout .v { font-size: 20px; font-weight: 800; color: var(--s-hi); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+    .warn-line { font-size: 11.5px; color: #ff8a73; margin-top: 8px; font-weight: 600; display: none; }
+    .warn-line.show { display: block; }
+
+    /* ── Section heading ── */
+    .sec-head { display: flex; align-items: center; justify-content: space-between; margin: 24px 0 12px; }
+    .sec-title { font-size: 15px; font-weight: 800; color: var(--s-hi); letter-spacing: -0.01em; }
+    .reset-btn {
+      font-size: 11.5px; font-weight: 700; color: var(--act1); background: none; border: none;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 4px; padding: 4px 2px;
+    }
+    .reset-btn svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    /* ── Allocation card ── */
+    .alloc { border-radius: 16px; padding: 15px 16px; background: var(--wa3); border: 1px solid var(--wa6); }
+    .alloc + .alloc { margin-top: 10px; }
+    .alloc.off { opacity: 0.62; }
+    .alloc-head { display: flex; align-items: flex-start; gap: 12px; }
+    .alloc-ic {
+      width: 38px; height: 38px; border-radius: 11px; flex: 0 0 auto;
+      display: flex; align-items: center; justify-content: center;
+      background: color-mix(in srgb, var(--c) 18%, transparent); color: var(--c);
+    }
+    .alloc-ic svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+    .alloc-tt { flex: 1; min-width: 0; }
+    .alloc-step { font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c); }
+    .alloc-name { font-size: 14.5px; font-weight: 800; color: var(--s-hi); letter-spacing: -0.01em; margin-top: 1px; }
+    .alloc-amt { text-align: right; flex: 0 0 auto; }
+    .alloc-amt .a { font-size: 17px; font-weight: 800; color: var(--s-hi); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+    .alloc-amt .p { font-size: 10.5px; font-weight: 600; color: var(--s-mid); margin-top: 1px; }
+    .alloc-why { font-size: 11.5px; color: var(--s-mid); line-height: 1.45; margin: 10px 0 12px; }
+    .alloc-why b { color: var(--s-sec); font-weight: 700; }
+
+    /* range slider */
+    input[type=range].slider {
+      -webkit-appearance: none; appearance: none; width: 100%; height: 7px; border-radius: 99px;
+      background: var(--track); outline: none; cursor: pointer; margin: 2px 0;
+    }
+    input[type=range].slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--c); border: 3px solid var(--s-bg); box-shadow: 0 1px 5px rgba(0,0,0,0.35); cursor: pointer;
+    }
+    input[type=range].slider::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%; background: var(--c);
+      border: 3px solid var(--s-bg); box-shadow: 0 1px 5px rgba(0,0,0,0.35); cursor: pointer;
+    }
+    input[type=range].slider:disabled { opacity: 0.45; cursor: default; }
+
+    .alloc-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 11px; }
+    .learn-link {
+      font-size: 11px; font-weight: 700; color: var(--c); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 5px; flex: 0 0 auto;
+    }
+    .learn-link svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2; fill: none; flex: 0 0 auto; }
+    .alloc-tag { font-size: 10.5px; font-weight: 700; color: var(--s-mid); text-align: right; flex: 0 1 auto; }
+    .alloc-tag.goal { color: var(--c-inv); }
+
+    /* ── Stacked split bar ── */
+    .split-wrap { margin-top: 24px; }
+    .split-bar { height: 16px; border-radius: 99px; overflow: hidden; display: flex; background: var(--track); }
+    .split-bar > span { height: 100%; transition: width 0.25s cubic-bezier(0.2,0.7,0.2,1); }
+    .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 14px; margin-top: 14px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 11.5px; }
+    .legend-dot { width: 9px; height: 9px; border-radius: 3px; flex: 0 0 auto; }
+    .legend-name { color: var(--s-mid); }
+    .legend-val { margin-left: auto; color: var(--s-hi); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    /* ── Guilt-free hero (step 6) ── */
+    .gf-card {
+      margin-top: 22px; border-radius: 20px; padding: 22px 20px; position: relative; overflow: hidden;
+      background:
+        radial-gradient(120% 130% at 100% 0%, rgba(var(--ac-rgb),0.22), transparent 60%),
+        linear-gradient(160deg, rgba(var(--ac-rgb),0.14), rgba(var(--ac-rgb),0.04));
+      border: 1px solid rgba(var(--ac-rgb),0.34);
+    }
+    .gf-eyebrow { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--act1);
+      display: flex; align-items: center; gap: 7px; }
+    .gf-eyebrow .step { width: 20px; height: 20px; border-radius: 50%; background: rgba(var(--ac-rgb),0.22); color: var(--act1);
+      display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
+    .gf-amt { font-size: 42px; font-weight: 900; color: var(--s-hi); letter-spacing: -0.03em; margin-top: 10px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .gf-label { font-size: 14px; font-weight: 700; color: var(--s-hi); margin-top: 8px; }
+    .gf-sub { font-size: 12px; color: var(--s-mid); margin-top: 4px; line-height: 1.45; }
+
+    .disclaimer { font-size: 10.5px; color: var(--s-mid); line-height: 1.5; margin-top: 18px; text-align: center; }
+
+    /* ── Bottom area ── */
+    .bottom-area { padding: 12px 24px 36px; flex-shrink: 0; }
+    .cta-btn {
+      width: 100%; height: 56px; border: none; border-radius: 16px;
+      background: linear-gradient(135deg, var(--ac), #e09a17); color: #2a1c00;
+      font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer;
+      transition: all 0.2s; letter-spacing: -0.01em;
+    }
+    .cta-btn:hover { filter: brightness(1.06); }
+    .cta-btn:active { transform: scale(0.98); }
+    .cta-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+    .ghost-link { display: block; text-align: center; font-size: 13px; font-weight: 600; color: var(--s-mid);
+      padding: 13px 0 2px; text-decoration: none; }
+    .ghost-link:hover { color: var(--s-sec); }
+    .saved-note { text-align: center; font-size: 12px; font-weight: 700; color: var(--act1); padding-top: 11px; display: none; }
+    .saved-note.show { display: block; }
+  </style>
+  <link rel="stylesheet" href="proto-shell.css">
+</head>
+<body>
+  <div class="device-frame">
+    <div class="screen">
+
+      <!-- Top nav -->
+      <div class="top-nav">
+        <button class="back-btn" aria-label="Back">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div>
+          <div class="nav-title">Payday Routine</div>
+          <div class="nav-sub">A 20-minute ritual, every payday</div>
+        </div>
+      </div>
+
+      <div class="scroll-content">
+
+        <div class="intro">
+          <p class="intro-text">Handle what matters <strong>first</strong> — emergency cushion, debt, investing, future bills — and whatever's left is yours to enjoy, <strong>guilt-free</strong>. Enter what landed and we'll split it.</p>
+        </div>
+
+        <!-- Step 1: what landed -->
+        <div class="card">
+          <div class="field-label"><span class="step">1</span> Take-home pay this payday</div>
+          <div class="dollar-wrap">
+            <input class="num-input" id="netInput" type="text" inputmode="numeric" placeholder="0" autocomplete="off">
+          </div>
+          <div class="field-helper">Use what actually <b>hits your account</b> — after tax &amp; deductions, not your gross salary.</div>
+          <div class="chips" id="netChips">
+            <button class="chip" data-net="2500">$2,500</button>
+            <button class="chip" data-net="3500">$3,500</button>
+            <button class="chip" data-net="5000">$5,000</button>
+          </div>
+
+          <div class="field-label ess-label">Rent, bills &amp; essentials</div>
+          <div class="dollar-wrap">
+            <input class="num-input" id="essInput" type="text" inputmode="numeric" placeholder="0" autocomplete="off">
+          </div>
+          <div class="field-helper">Fixed costs you must cover — rent, utilities, groceries, transport.</div>
+
+          <div class="free-readout">
+            <span class="l">Free to allocate</span>
+            <span class="v" id="freeVal">$0</span>
+          </div>
+          <div class="warn-line" id="warnLine">Your essentials are higher than your take-home pay.</div>
+        </div>
+
+        <!-- Steps 2–5: the waterfall -->
+        <div class="sec-head">
+          <div class="sec-title">Put it to work</div>
+          <button class="reset-btn" id="resetBtn">
+            <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/></svg>
+            Suggested split
+          </button>
+        </div>
+
+        <!-- 2. Emergency buffer -->
+        <div class="alloc" id="alloc-emergency" style="--c: var(--c-emg);">
+          <div class="alloc-head">
+            <div class="alloc-ic" id="ic-emergency"></div>
+            <div class="alloc-tt">
+              <div class="alloc-step">Step 2 · Safety</div>
+              <div class="alloc-name">Emergency buffer</div>
+            </div>
+            <div class="alloc-amt"><div class="a" id="amt-emergency">$0</div><div class="p" id="pct-emergency">0%</div></div>
+          </div>
+          <div class="alloc-why">Nearly <b>4 in 10</b> people can't cover a $400 surprise. Build the cushion first so one bad month doesn't become credit-card debt. Aim for <b>3–6 months</b> of essentials.</div>
+          <input type="range" class="slider" id="sl-emergency" min="0" max="0" step="10" value="0" disabled>
+          <div class="alloc-foot">
+            <a class="learn-link" href="screen16.html"><svg viewBox="0 0 24 24"><path d="M3 6.5 12 3l9 3.5L12 10 3 6.5Z"/><path d="M7 9v5c0 1.5 2.2 3 5 3s5-1.5 5-3V9"/></svg> Emergency Fund</a>
+            <span class="alloc-tag">Auto-transfer on payday</span>
+          </div>
+        </div>
+
+        <!-- 3. High-interest debt -->
+        <div class="alloc" id="alloc-debt" style="--c: var(--c-debt);">
+          <div class="alloc-head">
+            <div class="alloc-ic" id="ic-debt"></div>
+            <div class="alloc-tt">
+              <div class="alloc-step">Step 3 · Avalanche</div>
+              <div class="alloc-name">Crush high-interest debt</div>
+            </div>
+            <div class="alloc-amt"><div class="a" id="amt-debt">$0</div><div class="p" id="pct-debt">0%</div></div>
+          </div>
+          <div class="alloc-why">A card at <b>25%</b> is investing in reverse. Throw extra at the <b>highest rate first</b>, minimums on the rest — then roll it forward. Skip if you carry none.</div>
+          <input type="range" class="slider" id="sl-debt" min="0" max="0" step="10" value="0" disabled>
+          <div class="alloc-foot">
+            <span class="alloc-tag">Highest APR first</span>
+            <span class="alloc-tag">Minimums on the rest</span>
+          </div>
+        </div>
+
+        <!-- 4. Invest & grow -->
+        <div class="alloc" id="alloc-invest" style="--c: var(--c-inv);">
+          <div class="alloc-head">
+            <div class="alloc-ic" id="ic-invest"></div>
+            <div class="alloc-tt">
+              <div class="alloc-step">Step 4 · Grow</div>
+              <div class="alloc-name">Invest &amp; build wealth</div>
+            </div>
+            <div class="alloc-amt"><div class="a" id="amt-invest">$0</div><div class="p" id="pct-invest">0%</div></div>
+          </div>
+          <div class="alloc-why">Pay your future self <b>automatically</b>. Capture any employer match (free money), then a tax-advantaged account, then low-cost index funds.</div>
+          <input type="range" class="slider" id="sl-invest" min="0" max="0" step="10" value="0" disabled>
+          <div class="alloc-foot">
+            <a class="learn-link" href="screen13.html"><svg viewBox="0 0 24 24"><path d="M3 6.5 12 3l9 3.5L12 10 3 6.5Z"/><path d="M7 9v5c0 1.5 2.2 3 5 3s5-1.5 5-3V9"/></svg> Tax-Advantaged Accounts</a>
+            <span class="alloc-tag" id="tag-invest">Set &amp; forget</span>
+          </div>
+        </div>
+
+        <!-- 5. Sinking funds -->
+        <div class="alloc" id="alloc-sinking" style="--c: var(--c-sink);">
+          <div class="alloc-head">
+            <div class="alloc-ic" id="ic-sinking"></div>
+            <div class="alloc-tt">
+              <div class="alloc-step">Step 5 · Plan ahead</div>
+              <div class="alloc-name">Sinking funds</div>
+            </div>
+            <div class="alloc-amt"><div class="a" id="amt-sinking">$0</div><div class="p" id="pct-sinking">0%</div></div>
+          </div>
+          <div class="alloc-why">Christmas, car service, insurance renewals — <b>not surprises</b>. Set aside a little each payday into a named pot so December never blindsides you.</div>
+          <input type="range" class="slider" id="sl-sinking" min="0" max="0" step="10" value="0" disabled>
+          <div class="alloc-foot">
+            <span class="alloc-tag">One pot per goal</span>
+            <span class="alloc-tag">e.g. Christmas · Car · Travel</span>
+          </div>
+        </div>
+
+        <!-- Your split -->
+        <div class="split-wrap">
+          <div class="sec-title" style="margin-bottom:11px;">Your split</div>
+          <div class="split-bar" id="splitBar">
+            <span id="seg-ess" style="background:var(--c-ess); width:0"></span>
+            <span id="seg-emergency" style="background:var(--c-emg); width:0"></span>
+            <span id="seg-debt" style="background:var(--c-debt); width:0"></span>
+            <span id="seg-invest" style="background:var(--c-inv); width:0"></span>
+            <span id="seg-sinking" style="background:var(--c-sink); width:0"></span>
+            <span id="seg-free" style="background:var(--c-free); width:0"></span>
+          </div>
+          <div class="legend">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--c-ess)"></span><span class="legend-name">Essentials</span><span class="legend-val" id="leg-ess">$0</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--c-emg)"></span><span class="legend-name">Emergency</span><span class="legend-val" id="leg-emergency">$0</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--c-debt)"></span><span class="legend-name">Debt</span><span class="legend-val" id="leg-debt">$0</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--c-inv)"></span><span class="legend-name">Invest</span><span class="legend-val" id="leg-invest">$0</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--c-sink)"></span><span class="legend-name">Sinking funds</span><span class="legend-val" id="leg-sinking">$0</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--c-free)"></span><span class="legend-name">Guilt-free</span><span class="legend-val" id="leg-free">$0</span></div>
+          </div>
+        </div>
+
+        <!-- Step 6: guilt-free -->
+        <div class="gf-card">
+          <div class="gf-eyebrow"><span class="step">6</span> Yours to enjoy</div>
+          <div class="gf-amt" id="gfAmt">$0</div>
+          <div class="gf-label">Guilt-free spending money</div>
+          <div class="gf-sub">The important moves already happened automatically. No guilt, no second-guessing — go enjoy it.</div>
+        </div>
+
+        <p class="disclaimer">Suggested splits are a starting point for learning, not financial advice. Adjust every slider to fit your life.</p>
+
+      </div>
+
+      <div class="bottom-area">
+        <button class="cta-btn" id="saveBtn" disabled>Save my payday plan</button>
+        <div class="saved-note" id="savedNote">Saved ✓ — run it again next payday.</div>
+        <a class="ghost-link" href="learn.html">Learn the full 6-step system →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="proto-shell.js"></script>
+  <script>
+    (function () {
+      var S = window.WVShell;
+      var st = (S && S.getState) ? S.getState() : {};
+      var goal = (st && st.goal && st.goal.target) ? st.goal : null;
+
+      // bucket icons
+      document.getElementById('ic-emergency').innerHTML = S.icon('shield');
+      document.getElementById('ic-debt').innerHTML = S.icon('card');
+      document.getElementById('ic-invest').innerHTML = S.icon('spark');
+      document.getElementById('ic-sinking').innerHTML = S.icon('gift');
+
+      var KEYS = ['emergency', 'debt', 'invest', 'sinking'];
+      var alloc = { emergency: 0, debt: 0, invest: 0, sinking: 0 };
+      var touched = false; // becomes true once the user drags a slider or hits reset
+
+      var netInput = document.getElementById('netInput');
+      var essInput = document.getElementById('essInput');
+      var freeVal = document.getElementById('freeVal');
+      var warnLine = document.getElementById('warnLine');
+      var saveBtn = document.getElementById('saveBtn');
+      var savedNote = document.getElementById('savedNote');
+
+      function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+      function parseNum(el) { return parseInt((el.value || '').replace(/[^0-9]/g, ''), 10) || 0; }
+      function pctOf(n, base) { return base > 0 ? Math.round((n / base) * 100) : 0; }
+
+      // Prefill the invest bucket from an existing goal, if any
+      if (goal && goal.monthly > 0) {
+        document.getElementById('tag-invest').textContent = 'Feeds: ' + goal.name;
+        document.getElementById('tag-invest').classList.add('goal');
+      }
+
+      function net() { return parseNum(netInput); }
+      function essentials() { return Math.min(parseNum(essInput), net()); }
+      function freeAmount() { return Math.max(0, net() - essentials()); }
+      function allocSum() { return alloc.emergency + alloc.debt + alloc.invest + alloc.sinking; }
+
+      function applySuggested() {
+        var free = freeAmount();
+        alloc.emergency = Math.round(free * 0.15 / 10) * 10;
+        alloc.debt = 0; // opt-in — most people add this themselves
+        var invSuggest = (goal && goal.monthly > 0) ? Math.min(goal.monthly, free) : Math.round(free * 0.30 / 10) * 10;
+        alloc.invest = Math.round(invSuggest / 10) * 10;
+        alloc.sinking = Math.round(free * 0.10 / 10) * 10;
+        // never let the suggestion exceed what's free
+        var over = allocSum() - free;
+        if (over > 0) alloc.invest = Math.max(0, alloc.invest - over);
+        touched = true;
+        render();
+      }
+
+      function clampToFree() {
+        var free = freeAmount();
+        // proportionally shrink if the buckets no longer fit the free amount
+        var sum = allocSum();
+        if (sum > free && sum > 0) {
+          var scale = free / sum;
+          KEYS.forEach(function (k) { alloc[k] = Math.round(alloc[k] * scale / 10) * 10; });
+        }
+        KEYS.forEach(function (k) { if (alloc[k] > free) alloc[k] = free; });
+      }
+
+      function render() {
+        var free = freeAmount();
+        var n = net();
+        clampToFree();
+        var gf = Math.max(0, free - allocSum());
+
+        freeVal.textContent = fmt(free);
+        warnLine.classList.toggle('show', parseNum(essInput) > n && n > 0);
+
+        KEYS.forEach(function (k) {
+          var sl = document.getElementById('sl-' + k);
+          sl.max = free;
+          sl.value = alloc[k];
+          sl.disabled = free <= 0;
+          paintSlider(sl, k);
+          document.getElementById('amt-' + k).textContent = fmt(alloc[k]);
+          document.getElementById('pct-' + k).textContent = pctOf(alloc[k], n) + '% of pay';
+          document.getElementById('alloc-' + k).classList.toggle('off', alloc[k] === 0);
+        });
+
+        // stacked bar + legend (as share of take-home)
+        var base = n > 0 ? n : 1;
+        setSeg('ess', essentials(), base);
+        KEYS.forEach(function (k) { setSeg(k, alloc[k], base); });
+        setSeg('free', gf, base);
+
+        document.getElementById('leg-ess').textContent = fmt(essentials());
+        KEYS.forEach(function (k) { document.getElementById('leg-' + k).textContent = fmt(alloc[k]); });
+        document.getElementById('leg-free').textContent = fmt(gf);
+
+        document.getElementById('gfAmt').textContent = fmt(gf);
+
+        saveBtn.disabled = n <= 0;
+        savedNote.classList.remove('show');
+        saveBtn.textContent = 'Save my payday plan';
+      }
+
+      function setSeg(id, val, base) {
+        document.getElementById('seg-' + id).style.width = (Math.max(0, val) / base * 100) + '%';
+      }
+
+      function paintSlider(sl, k) {
+        var max = parseFloat(sl.max) || 0;
+        var pct = max > 0 ? (alloc[k] / max) * 100 : 0;
+        var c = getComputedStyle(document.getElementById('alloc-' + k)).getPropertyValue('--c').trim();
+        sl.style.background = 'linear-gradient(90deg, ' + c + ' 0%, ' + c + ' ' + pct + '%, var(--track) ' + pct + '%, var(--track) 100%)';
+      }
+
+      // ── Wiring ──
+      [netInput, essInput].forEach(function (el) {
+        el.addEventListener('input', function () {
+          var raw = this.value.replace(/[^0-9]/g, '');
+          this.value = raw ? parseInt(raw, 10).toLocaleString('en-US') : '';
+          // first time pay is entered, drop in a suggested split + essentials hint
+          if (el === netInput && !touched) {
+            if (!parseNum(essInput) && net() > 0) essInput.value = Math.round(net() * 0.5).toLocaleString('en-US');
+            applySuggested();
+            return;
+          }
+          render();
+        });
+      });
+
+      document.getElementById('netChips').addEventListener('click', function (e) {
+        var b = e.target.closest('.chip');
+        if (!b) return;
+        Array.prototype.forEach.call(this.children, function (c) { c.classList.toggle('active', c === b); });
+        netInput.value = parseInt(b.dataset.net, 10).toLocaleString('en-US');
+        if (!parseNum(essInput)) essInput.value = Math.round(net() * 0.5).toLocaleString('en-US');
+        touched = false;
+        applySuggested();
+      });
+
+      KEYS.forEach(function (k) {
+        document.getElementById('sl-' + k).addEventListener('input', function () {
+          var free = freeAmount();
+          var others = allocSum() - alloc[k];
+          var v = Math.min(parseInt(this.value, 10) || 0, Math.max(0, free - others));
+          alloc[k] = v;
+          touched = true;
+          render();
+        });
+      });
+
+      document.getElementById('resetBtn').addEventListener('click', function () {
+        if (!parseNum(essInput) && net() > 0) essInput.value = Math.round(net() * 0.5).toLocaleString('en-US');
+        applySuggested();
+      });
+
+      saveBtn.addEventListener('click', function () {
+        if (saveBtn.disabled) return;
+        var free = freeAmount();
+        var gf = Math.max(0, free - allocSum());
+        if (S && S.patchState) {
+          S.patchState({
+            payday: {
+              net: net(),
+              essentials: essentials(),
+              free: free,
+              alloc: { emergency: alloc.emergency, debt: alloc.debt, invest: alloc.invest, sinking: alloc.sinking },
+              guiltFree: gf,
+              savedAt: Date.now()
+            }
+          });
+        }
+        saveBtn.textContent = 'Saved ✓';
+        savedNote.classList.add('show');
+      });
+
+      // ── Hydrate from a previously saved plan ──
+      if (st && st.payday && st.payday.net > 0) {
+        var p = st.payday;
+        netInput.value = p.net.toLocaleString('en-US');
+        essInput.value = Math.round(p.essentials || 0).toLocaleString('en-US');
+        if (p.alloc) KEYS.forEach(function (k) { alloc[k] = p.alloc[k] || 0; });
+        touched = true;
+      }
+      render();
+    })();
+  </script>
+</body>
+</html>

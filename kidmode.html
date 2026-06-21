@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Kid Mode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #080a0e;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    .device-frame {
+      width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
+      position: relative; background: #10141a;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+    .screen {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; overflow: hidden; position: relative;
+      background:
+        radial-gradient(120% 80% at 50% -10%, rgba(255,138,180,0.16), transparent 60%),
+        radial-gradient(100% 60% at 100% 10%, rgba(124,196,255,0.12), transparent 55%),
+        linear-gradient(180deg, #131826 0%, #0d1018 100%);
+    }
+    .kid-font { font-family: 'Baloo 2', 'Inter', sans-serif; }
+    .hidden { display: none !important; }
+
+    /* ── Nav ── */
+    .nav-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 56px 22px 8px; flex-shrink: 0;
+    }
+    .nav-back {
+      color: #c7cfe0; font-size: 22px; cursor: pointer; padding: 4px 6px; line-height: 1;
+      width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.06); border-radius: 12px;
+    }
+    .nav-back:active { transform: scale(0.92); }
+    .nav-title { font-size: 19px; font-weight: 800; color: #fff; letter-spacing: -0.01em; display: flex; align-items: center; gap: 7px; }
+    .nav-title .spark { font-size: 18px; }
+    .nav-gate {
+      width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.06); border-radius: 12px; cursor: pointer; font-size: 17px;
+    }
+    .nav-gate:active { transform: scale(0.92); }
+    .nav-spacer { width: 38px; }
+
+    .scroll { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 6px 22px 36px; scrollbar-width: none; }
+    .scroll::-webkit-scrollbar { display: none; }
+
+    /* ───────── WIZARD ───────── */
+    .wiz-progress { display: flex; gap: 6px; justify-content: center; margin: 2px 0 18px; }
+    .wiz-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: all 0.2s ease; }
+    .wiz-dot.on { background: #ff9ec4; width: 22px; border-radius: 4px; }
+
+    .wiz-head { text-align: center; margin-bottom: 18px; }
+    .wiz-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #94e7d4; }
+    .wiz-kicker.kid { color: #ffd166; }
+    .wiz-title { font-family: 'Baloo 2', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-top: 5px; letter-spacing: -0.01em; }
+    .wiz-sub { font-size: 13px; color: #aeb8d4; margin-top: 6px; line-height: 1.45; padding: 0 6px; }
+
+    .field { margin-bottom: 18px; }
+    .field-label { font-size: 13px; font-weight: 700; color: #c6cde0; margin-bottom: 9px; display: flex; align-items: center; gap: 7px; }
+    .name-input {
+      width: 100%; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05);
+      border-radius: 14px; padding: 14px 16px; color: #fff; font-family: 'Baloo 2', sans-serif;
+      font-size: 17px; font-weight: 700; outline: none;
+    }
+    .name-input:focus { border-color: rgba(255,158,196,0.5); }
+    .name-input::placeholder { color: #6f7a93; font-weight: 600; }
+
+    .avatar-row { display: flex; flex-wrap: wrap; gap: 9px; }
+    .avatar {
+      width: 50px; height: 50px; border-radius: 14px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 26px;
+      background: rgba(255,255,255,0.05); border: 2px solid transparent;
+      transition: transform 0.12s ease, border-color 0.15s ease;
+    }
+    .avatar:active { transform: scale(0.9); }
+    .avatar.sel { border-color: #ff9ec4; background: rgba(255,158,196,0.16); }
+
+    .stepper { display: flex; align-items: center; gap: 14px; }
+    .step-btn {
+      width: 50px; height: 50px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05); color: #fff; font-size: 26px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-family: 'Baloo 2', sans-serif;
+    }
+    .step-btn:active { transform: scale(0.92); }
+    .step-val { flex: 1; text-align: center; }
+    .step-val .amt { font-size: 30px; font-weight: 800; color: #ffd166; font-variant-numeric: tabular-nums; }
+
+    .seg { display: flex; gap: 8px; }
+    .seg-btn {
+      flex: 1; padding: 12px 0; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
+      border-radius: 14px; font-family: 'Baloo 2', sans-serif; font-size: 14px; font-weight: 700; color: #aeb8d4;
+      cursor: pointer; transition: transform 0.12s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .seg-btn.active { background: linear-gradient(160deg, #94e7d4, #4fcfe0); color: #062b28; border-color: transparent; }
+    .seg-btn:active { transform: scale(0.96); }
+
+    .cta {
+      border: none; cursor: pointer; width: 100%; margin-top: 6px;
+      font-family: 'Baloo 2', sans-serif; font-size: 18px; font-weight: 800; color: #2a1420;
+      padding: 16px; border-radius: 18px;
+      background: linear-gradient(160deg, #ff9ec4, #ff6f9c);
+      box-shadow: 0 10px 24px rgba(255,111,156,0.32); transition: transform 0.12s ease;
+    }
+    .cta:active { transform: scale(0.97); }
+    .cta:disabled { opacity: 0.45; box-shadow: none; }
+    .cta.teal { background: linear-gradient(160deg, #94e7d4, #4fcfe0); color: #062b28; box-shadow: 0 10px 24px rgba(79,207,224,0.3); }
+    .link-btn { background: none; border: none; color: #9aa3bd; font-size: 13px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 12px; }
+
+    /* goal picker */
+    .pick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+    .pick-item {
+      cursor: pointer; text-align: center;
+      background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.09);
+      border-radius: 18px; padding: 15px 10px; transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    .pick-item:active { transform: scale(0.95); }
+    .pick-item.sel { border-color: #ffd166; background: rgba(255,209,102,0.12); }
+    .pick-item .emo { font-size: 36px; }
+    .pick-item .nm { font-size: 13px; font-weight: 700; color: #eef1f8; margin-top: 5px; }
+    .pick-item .pr { font-size: 12px; font-weight: 700; color: #ffd166; margin-top: 2px; }
+
+    /* ───────── KID SWITCHER ───────── */
+    .kids-row { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+    .kids-row::-webkit-scrollbar { display: none; }
+    .kid-chip {
+      flex: 0 0 auto; display: flex; align-items: center; gap: 8px; cursor: pointer;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 999px; padding: 6px 14px 6px 7px; transition: transform 0.12s ease, border-color 0.15s, background 0.15s;
+    }
+    .kid-chip:active { transform: scale(0.96); }
+    .kid-chip.active { border-color: rgba(255,158,196,0.55); background: rgba(255,158,196,0.12); }
+    .kid-chip .av { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .kid-chip .nm { font-size: 13.5px; font-weight: 700; color: #eef1f8; }
+    .kid-add {
+      flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+      border: 1px dashed rgba(255,255,255,0.2); background: rgba(255,255,255,0.03); color: #aeb8d4;
+      font-size: 22px; display: flex; align-items: center; justify-content: center; font-family: 'Baloo 2', sans-serif;
+    }
+    .kid-add:active { transform: scale(0.92); }
+
+    /* ───────── MAIN (GOAL JAR) ───────── */
+    .goal-banner {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 18px; padding: 12px 14px; margin-bottom: 14px;
+    }
+    .goal-banner .emo { font-size: 30px; flex: 0 0 auto; }
+    .goal-banner .gt .cap { font-size: 11px; font-weight: 700; color: #94e7d4; letter-spacing: 0.05em; text-transform: uppercase; }
+    .goal-banner .gt .nm { font-size: 16px; font-weight: 800; color: #fff; margin-top: 1px; }
+    .goal-banner .allow-chip {
+      margin-left: auto; text-align: right;
+    }
+    .goal-banner .allow-chip .v { font-size: 15px; font-weight: 800; color: #ffd166; font-variant-numeric: tabular-nums; }
+    .goal-banner .allow-chip .l { font-size: 10px; color: #8b94ad; font-weight: 600; }
+
+    .piggy-stage { position: relative; display: flex; flex-direction: column; align-items: center; padding: 2px 0; }
+    .piggy-wrap { position: relative; width: 162px; height: 138px; }
+    .piggy-wrap svg { width: 100%; height: 100%; display: block; overflow: visible; }
+    .piggy-body { transform-origin: 50% 70%; }
+    .piggy-wrap.jiggle .piggy-body { animation: jiggle 0.5s ease; }
+    @keyframes jiggle { 0%,100% { transform: scale(1) rotate(0); } 30% { transform: scale(1.05,0.95) rotate(-2deg); } 60% { transform: scale(0.97,1.03) rotate(2deg); } }
+    .coin {
+      position: absolute; top: -8px; left: 50%; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #ffe89a, #f5b32b 70%); border: 2px solid #e09b16;
+      display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #b9760a;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.35); pointer-events: none; opacity: 0;
+    }
+    .coin.drop { animation: coinDrop 0.62s cubic-bezier(.5,0,.7,1) forwards; }
+    @keyframes coinDrop {
+      0% { opacity: 1; top: -14px; transform: rotate(0) scale(1); }
+      70% { opacity: 1; top: 36px; transform: rotate(180deg) scale(1); }
+      100% { opacity: 0; top: 50px; transform: rotate(220deg) scale(0.4); }
+    }
+    .save-amount { text-align: center; }
+    .save-amount .big { font-size: 38px; font-weight: 800; color: #fff; letter-spacing: -0.02em; line-height: 1.05; font-variant-numeric: tabular-nums; }
+    .save-amount .big .cur { color: #ffd166; }
+    .save-amount .of { font-size: 14px; color: #aeb8d4; font-weight: 600; margin-top: 2px; }
+    .save-amount .of b { color: #94e7d4; }
+
+    .progress-wrap { margin: 14px 0 4px; }
+    .pbar { height: 14px; border-radius: 8px; background: rgba(255,255,255,0.08); overflow: hidden; }
+    .pbar .fill { height: 100%; border-radius: 8px; width: 0%; background: linear-gradient(90deg, #94e7d4, #5fd0ff); transition: width 0.5s cubic-bezier(.3,0,.2,1); }
+    .pmeta { display: flex; justify-content: space-between; margin-top: 7px; }
+    .pmeta .pct { font-size: 13px; font-weight: 800; color: #94e7d4; }
+    .pmeta .left { font-size: 12.5px; color: #aeb8d4; font-weight: 600; }
+    .milestone { text-align: center; font-size: 13px; font-weight: 700; color: #ffd166; margin-top: 10px; min-height: 18px; }
+
+    .chips { display: flex; gap: 10px; margin: 14px 0 2px; }
+    .chip { flex: 1; text-align: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); border-radius: 15px; padding: 11px 8px; }
+    .chip .n { font-size: 20px; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; }
+    .chip .n .fire { font-size: 17px; }
+    .chip .l { font-size: 10.5px; font-weight: 600; color: #aeb8d4; margin-top: 1px; letter-spacing: 0.02em; }
+
+    /* projection card */
+    .proj {
+      background: linear-gradient(160deg, rgba(124,196,255,0.12), rgba(148,231,212,0.08));
+      border: 1px solid rgba(124,196,255,0.25); border-radius: 18px; padding: 15px 16px; margin-top: 14px;
+    }
+    .proj .pt { font-size: 13.5px; font-weight: 800; color: #cfe6ff; display: flex; align-items: center; gap: 7px; }
+    .proj .pmain { font-size: 14px; color: #eaf2ff; margin-top: 7px; line-height: 1.45; }
+    .proj .pmain b { color: #94e7d4; }
+    .proj .pcompare { font-size: 12px; color: #aeb8d4; margin-top: 8px; line-height: 1.4; }
+    .proj .pcompare b { color: #ffb0c4; }
+
+    /* weekly action card */
+    .week-card { background: linear-gradient(160deg, rgba(255,209,102,0.12), rgba(255,138,180,0.08)); border: 1px solid rgba(255,209,102,0.28); border-radius: 22px; padding: 18px; margin-top: 16px; }
+    .week-card .wk { font-size: 12px; font-weight: 700; color: #ffd166; letter-spacing: 0.05em; text-transform: uppercase; }
+    .week-card .q { font-family: 'Baloo 2', sans-serif; font-size: 19px; font-weight: 800; color: #fff; margin-top: 4px; line-height: 1.2; }
+    .week-card .q .amt { color: #ffd166; }
+    .week-card .hint { font-size: 12.5px; color: #c6cde0; margin-top: 6px; line-height: 1.4; }
+    .week-btns { display: flex; gap: 10px; margin-top: 14px; }
+    .wbtn { flex: 1; border: none; cursor: pointer; padding: 14px 0; border-radius: 16px; font-family: 'Baloo 2', sans-serif; font-size: 15px; font-weight: 800; transition: transform 0.12s ease; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .wbtn .sub { font-size: 10.5px; font-weight: 600; opacity: 0.8; }
+    .wbtn:active { transform: scale(0.96); }
+    .wbtn.save { background: linear-gradient(160deg, #94e7d4, #4fcfe0); color: #062b28; box-shadow: 0 8px 18px rgba(79,207,224,0.28); }
+    .wbtn.spend { background: rgba(255,255,255,0.06); color: #d7deec; border: 1px solid rgba(255,255,255,0.12); }
+    .feedback { text-align: center; font-size: 13.5px; font-weight: 700; margin-top: 12px; min-height: 19px; line-height: 1.4; }
+    .feedback.good { color: #94e7d4; }
+    .feedback.spent { color: #ffb0c4; }
+    .next-btn {
+      border: none; cursor: pointer; width: 100%; margin-top: 14px;
+      font-family: 'Baloo 2', sans-serif; font-size: 15px; font-weight: 800; color: #cfe6ff;
+      padding: 13px; border-radius: 15px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      transition: transform 0.12s ease;
+    }
+    .next-btn:active { transform: scale(0.97); }
+
+    /* ───────── PARENT GATE ───────── */
+    .gate {
+      position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px 30px; text-align: center; background: rgba(8,10,16,0.86); backdrop-filter: blur(6px);
+    }
+    .gate .lock { font-size: 44px; }
+    .gate h2 { font-family: 'Baloo 2', sans-serif; font-size: 21px; color: #fff; margin-top: 12px; }
+    .gate .gsub { font-size: 13px; color: #aeb8d4; margin-top: 6px; }
+    .gate .question { font-size: 30px; font-weight: 800; color: #ffd166; margin: 20px 0 4px; font-variant-numeric: tabular-nums; }
+    .gate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; width: 100%; margin-top: 14px; }
+    .gate-opt { padding: 16px 0; border-radius: 15px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: #fff; font-size: 20px; font-weight: 800; cursor: pointer; font-variant-numeric: tabular-nums; }
+    .gate-opt:active { transform: scale(0.96); }
+    .gate-opt.wrong { border-color: rgba(255,120,140,0.6); animation: shake 0.3s; }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    .gate-cancel { background: none; border: none; color: #8b94ad; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 18px; }
+
+    /* ───────── PARENT PANEL ───────── */
+    .pp-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 16px; margin-bottom: 13px; }
+    .pp-card .pp-t { font-size: 13px; font-weight: 800; color: #c6cde0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .pp-row { display: flex; align-items: center; gap: 10px; }
+    .pp-sum { display: flex; gap: 8px; margin-bottom: 12px; }
+    .pp-sum .box { flex: 1; background: rgba(255,255,255,0.04); border-radius: 12px; padding: 9px 10px; text-align: center; }
+    .pp-sum .box .n { font-size: 18px; font-weight: 800; }
+    .pp-sum .box .l { font-size: 10.5px; color: #8b94ad; margin-top: 1px; }
+    .pp-sum .saved .n { color: #94e7d4; }
+    .pp-sum .spent .n { color: #ffb84d; }
+    .pp-sum .rate .n { color: #ff9ec4; }
+    .pp-log { display: flex; flex-direction: column; gap: 2px; }
+    .log-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.05); }
+    .log-row:first-child { border-top: none; }
+    .log-row .lico { width: 28px; height: 28px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+    .log-row.save .lico { background: rgba(148,231,212,0.16); }
+    .log-row.spend .lico { background: rgba(255,184,77,0.16); }
+    .log-row .ltx { flex: 1; font-size: 12.5px; font-weight: 600; color: #e7ebf5; }
+    .log-row .lwhen { font-size: 11px; color: #8b94ad; }
+    .log-row .lamt { font-size: 13px; font-weight: 800; }
+    .log-row.save .lamt { color: #94e7d4; }
+    .log-row.spend .lamt { color: #ffb84d; }
+    .pp-log-empty { font-size: 12.5px; color: #8b94ad; text-align: center; padding: 8px 0 2px; }
+    .pp-danger { background: none; border: 1px solid rgba(255,120,140,0.35); color: #ffb0c4; border-radius: 12px; padding: 12px; width: 100%; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .pp-danger:active { transform: scale(0.98); }
+    .pp-app {
+      display: flex; align-items: center; gap: 12px; text-decoration: none;
+      background: linear-gradient(160deg, rgba(0,245,212,0.1), rgba(255,255,255,0.02));
+      border: 1px solid rgba(0,245,212,0.22); border-radius: 16px; padding: 14px; margin-bottom: 13px;
+    }
+    .pp-app .ic { font-size: 24px; }
+    .pp-app .tx .t { display: block; font-size: 14px; font-weight: 800; color: #d7fff3; }
+    .pp-app .tx .d { display: block; font-size: 11.5px; color: #93a39e; margin-top: 2px; line-height: 1.35; }
+    .pp-app .arr { margin-left: auto; color: #00f5d4; font-size: 16px; }
+
+    /* ───────── CELEBRATION ───────── */
+    .celebrate { position: absolute; inset: 0; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 30px;
+      background: radial-gradient(120% 70% at 50% 30%, rgba(255,209,102,0.3), transparent 60%), linear-gradient(180deg, #1c1626 0%, #0d1018 100%); }
+    .celebrate .big-emo { font-size: 84px; animation: pop2 0.6s cubic-bezier(.2,1.3,.5,1) both; }
+    @keyframes pop2 { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+    .celebrate h1 { font-family: 'Baloo 2', sans-serif; font-size: 27px; font-weight: 800; color: #fff; margin-top: 14px; }
+    .celebrate p { font-size: 15px; color: #cdd4e6; margin-top: 10px; line-height: 1.5; }
+    .celebrate p b { color: #ffd166; }
+    .celebrate .weeks-took { font-size: 13px; color: #94e7d4; font-weight: 700; margin-top: 8px; }
+    .confetti { position: absolute; top: -12px; width: 9px; height: 14px; border-radius: 2px; opacity: 0; }
+    .confetti.go { animation: fall 2.4s linear forwards; }
+    @keyframes fall { 0% { opacity: 1; transform: translateY(-20px) rotate(0); } 100% { opacity: 0.9; transform: translateY(900px) rotate(720deg); } }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+<div class="device-frame">
+  <div class="screen">
+
+    <div class="nav-bar">
+      <span class="nav-back">&#8592;</span>
+      <span class="nav-title kid-font"><span class="spark">🐷</span> Kid Mode</span>
+      <span class="nav-gate hidden" id="navGate">⚙️</span>
+      <span class="nav-spacer" id="navSpacer"></span>
+    </div>
+
+    <div class="scroll">
+
+      <!-- ════ WIZARD STEP 1: GROWN-UP SETUP ════ -->
+      <section id="wiz1View" class="hidden">
+        <div class="wiz-progress"><span class="wiz-dot on"></span><span class="wiz-dot"></span></div>
+        <div class="wiz-head">
+          <div class="wiz-kicker">Grown-up setup</div>
+          <div class="wiz-title kid-font">Create a piggy bank</div>
+          <div class="wiz-sub">Set it up for your child, then hand them the phone to pick a goal. One piggy bank per kid.</div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">👦 Child's name</div>
+          <input type="text" class="name-input" id="nameInput" maxlength="14" placeholder="e.g. Mia" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <div class="field-label">🎨 Pick an avatar</div>
+          <div class="avatar-row" id="avatarRow"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">💰 Allowance amount</div>
+          <div class="stepper">
+            <button class="step-btn" id="allowMinus">−</button>
+            <div class="step-val"><span class="amt" id="allowAmt">$5</span></div>
+            <button class="step-btn" id="allowPlus">+</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">📅 How often?</div>
+          <div class="seg" id="cadenceSeg">
+            <button class="seg-btn active" data-cad="week">Weekly</button>
+            <button class="seg-btn" data-cad="day">Daily</button>
+          </div>
+        </div>
+
+        <button class="cta" id="wiz1Next">Next: pick a goal →</button>
+        <button class="link-btn hidden" id="wiz1Cancel">Cancel</button>
+      </section>
+
+      <!-- ════ WIZARD STEP 2: KID PICKS GOAL ════ -->
+      <section id="wiz2View" class="hidden">
+        <div class="wiz-progress"><span class="wiz-dot"></span><span class="wiz-dot on"></span></div>
+        <div class="wiz-head">
+          <div class="wiz-kicker kid">Your turn!</div>
+          <div class="wiz-title kid-font" id="wiz2Title">What are you saving for?</div>
+          <div class="wiz-sub">Pick something you really, really want 👇</div>
+        </div>
+        <div class="pick-grid" id="wizPickGrid"></div>
+        <button class="cta teal" id="wiz2Done" disabled>Start saving! 🐷</button>
+        <button class="link-btn" id="wiz2Back">← Back</button>
+      </section>
+
+      <!-- ════ MAIN ════ -->
+      <section id="mainView" class="hidden">
+        <div class="kids-row" id="kidsRow"></div>
+
+        <div class="goal-banner">
+          <span class="emo" id="gbEmo">🛹</span>
+          <div class="gt">
+            <div class="cap">Saving for</div>
+            <div class="nm" id="gbName">Skateboard</div>
+          </div>
+          <div class="allow-chip">
+            <div class="v" id="gbAllow">$5</div>
+            <div class="l" id="gbAllowL">per week</div>
+          </div>
+        </div>
+
+        <div class="piggy-stage">
+          <div class="piggy-wrap" id="piggyWrap">
+            <svg viewBox="0 0 200 170">
+              <defs>
+                <clipPath id="bodyClip">
+                  <path d="M104 38c34 0 60 22 60 52 0 11-4 21-11 29l5 17h-18l-4-9c-4 1-8 1-12 1h-9l-4 11H96l-1-11c-22-6-37-22-37-39 0-7 2-13 6-19-3-2-6-6-7-11-5 1-9-2-9-2s5-3 11-2c3-9 12-16 23-19 7-4 16-6 22-6z"/>
+                </clipPath>
+                <linearGradient id="fillGrad" x1="0" y1="1" x2="0" y2="0">
+                  <stop offset="0" stop-color="#4fcfe0"/><stop offset="1" stop-color="#94e7d4"/>
+                </linearGradient>
+              </defs>
+              <g class="piggy-body">
+                <path d="M104 38c34 0 60 22 60 52 0 11-4 21-11 29l5 17h-18l-4-9c-4 1-8 1-12 1h-9l-4 11H96l-1-11c-22-6-37-22-37-39 0-7 2-13 6-19-3-2-6-6-7-11-5 1-9-2-9-2s5-3 11-2c3-9 12-16 23-19 7-4 16-6 22-6z" fill="#ff9ec4"/>
+                <g clip-path="url(#bodyClip)"><rect id="fillRect" x="40" y="170" width="130" height="0" fill="url(#fillGrad)"/></g>
+                <path d="M104 38c34 0 60 22 60 52 0 11-4 21-11 29l5 17h-18l-4-9c-4 1-8 1-12 1h-9l-4 11H96l-1-11c-22-6-37-22-37-39 0-7 2-13 6-19-3-2-6-6-7-11-5 1-9-2-9-2s5-3 11-2c3-9 12-16 23-19 7-4 16-6 22-6z" fill="none" stroke="#e96fa6" stroke-width="3"/>
+                <rect x="92" y="46" width="26" height="6" rx="3" fill="#d65a93"/>
+                <path d="M82 28c6-2 13 2 16 9-7-1-13 0-18 4-2-6 0-11 2-13z" fill="#ff86b8"/>
+                <circle cx="80" cy="78" r="4.5" fill="#3a2230"/><circle cx="81.5" cy="76.5" r="1.4" fill="#fff"/>
+                <ellipse cx="58" cy="92" rx="13" ry="11" fill="#ff86b8" stroke="#e96fa6" stroke-width="2.5"/>
+                <circle cx="54" cy="92" r="2.4" fill="#c5497f"/><circle cx="62" cy="92" r="2.4" fill="#c5497f"/>
+                <circle cx="86" cy="92" r="5" fill="#ff7bb0" opacity="0.6"/>
+                <rect x="78" y="132" width="13" height="11" rx="4" fill="#ff86b8"/><rect x="120" y="132" width="13" height="11" rx="4" fill="#ff86b8"/>
+              </g>
+            </svg>
+          </div>
+          <div class="save-amount">
+            <div class="big"><span class="cur">$</span><span id="savedNum">0</span></div>
+            <div class="of">of <b id="goalPrice">$65</b> saved</div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="pbar"><div class="fill" id="pFill"></div></div>
+          <div class="pmeta"><span class="pct" id="pPct">0%</span><span class="left" id="pLeft">$65 to go</span></div>
+        </div>
+        <div class="milestone" id="milestone"></div>
+
+        <div class="chips">
+          <div class="chip"><div class="n"><span class="fire">🔥</span> <span id="streakNum">0</span></div><div class="l" id="streakL">week streak</div></div>
+          <div class="chip"><div class="n" id="periodsNum">0</div><div class="l" id="periodsL">weeks saved</div></div>
+        </div>
+
+        <div class="proj" id="projCard">
+          <div class="pt">🎯 Your plan</div>
+          <div class="pmain" id="projMain"></div>
+          <div class="pcompare" id="projCompare"></div>
+        </div>
+
+        <div class="week-card" id="weekCard">
+          <div class="wk" id="weekLabel">Week 1</div>
+          <div class="q" id="weekQ">You got your <span class="amt" id="weekAmt">$5</span> allowance!</div>
+          <div class="hint" id="weekHint">Will you save it for your goal, or spend it now?</div>
+          <div class="week-btns" id="weekBtns">
+            <button class="wbtn save" id="saveBtn">Save it 🐷<span class="sub">into your jar</span></button>
+            <button class="wbtn spend" id="spendBtn">Spend it 🍦<span class="sub">treat today</span></button>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn hidden" id="nextBtn">Next week →</button>
+        </div>
+      </section>
+
+      <!-- ════ PARENT PANEL ════ -->
+      <section id="parentView" class="hidden">
+        <div class="wiz-head" style="margin-bottom:14px">
+          <div class="wiz-kicker">Grown-ups only</div>
+          <div class="wiz-title kid-font" id="ppTitle">Mia's settings</div>
+        </div>
+
+        <a class="pp-app" href="dashboard.html">
+          <span class="ic">📈</span>
+          <span class="tx"><span class="t">Get WealthVision for grown-ups</span><span class="d">Plan your own goals, lessons & investing</span></span>
+          <span class="arr">→</span>
+        </a>
+
+        <div class="pp-card">
+          <div class="pp-t">💰 Weekly allowance</div>
+          <div class="stepper">
+            <button class="step-btn" id="ppAllowMinus">−</button>
+            <div class="step-val"><span class="amt" id="ppAllowAmt">$5</span></div>
+            <button class="step-btn" id="ppAllowPlus">+</button>
+          </div>
+          <div class="seg" style="margin-top:12px" id="ppCadenceSeg">
+            <button class="seg-btn" data-cad="week">Weekly</button>
+            <button class="seg-btn" data-cad="day">Daily</button>
+          </div>
+        </div>
+
+        <div class="pp-card">
+          <div class="pp-t">🎯 Savings goal</div>
+          <div class="pp-row">
+            <span style="font-size:26px" id="ppGoalEmo">🛹</span>
+            <div style="flex:1"><div style="font-size:14px;font-weight:700;color:#eef1f8" id="ppGoalNm">Skateboard</div><div style="font-size:12px;color:#8b94ad" id="ppGoalPr">$65</div></div>
+            <button class="seg-btn" style="flex:0 0 auto;padding:9px 16px" id="ppChangeGoal">Change</button>
+          </div>
+        </div>
+
+        <div class="pp-card">
+          <div class="pp-t">� <span id="ppLogTitle">Recent activity</span></div>
+          <div class="pp-sum">
+            <div class="box saved"><div class="n" id="ppSumSaved">0</div><div class="l">times saved</div></div>
+            <div class="box spent"><div class="n" id="ppSumSpent">0</div><div class="l">times spent</div></div>
+            <div class="box rate"><div class="n" id="ppSumRate">–</div><div class="l">save rate</div></div>
+          </div>
+          <div class="pp-log" id="ppLog"></div>
+        </div>
+
+        <div class="pp-card">
+          <div class="pp-t">�👨‍👩‍👧 Children</div>
+          <div id="ppKidsList"></div>
+          <button class="seg-btn" style="margin-top:10px;width:100%" id="ppAddKid">+ Add another child</button>
+        </div>
+
+        <button class="pp-danger" id="ppDelete">Delete this piggy bank</button>
+        <button class="cta teal" style="margin-top:14px" id="ppDone">Done</button>
+      </section>
+
+    </div>
+
+    <!-- ════ PARENT GATE ════ -->
+    <div class="gate hidden" id="gate">
+      <div class="lock">🔒</div>
+      <h2 class="kid-font">Ask a grown-up</h2>
+      <div class="gsub">Solve this to open parent settings</div>
+      <div class="question" id="gateQ">14 + 5</div>
+      <div class="gate-grid" id="gateGrid"></div>
+      <button class="gate-cancel" id="gateCancel">Cancel</button>
+    </div>
+
+    <!-- ════ CELEBRATION ════ -->
+    <div class="celebrate hidden" id="celebrate">
+      <div class="big-emo" id="celEmo">🛹</div>
+      <h1 class="kid-font">You did it! 🎉</h1>
+      <p>You saved enough for your <b id="celName">Skateboard</b>!</p>
+      <div class="weeks-took" id="celWeeks">It took 13 weeks of saving 🐷</div>
+      <button class="cta" style="margin-top:26px" id="celCta">Pick a new goal 🎯</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="proto-shell.js"></script>
+<script>
+(function () {
+  var CATALOG = [
+    { emo: '🍦', nm: 'Ice cream',  pr: 5 },
+    { emo: '🎨', nm: 'Art kit',    pr: 12 },
+    { emo: '📕', nm: 'Comic book', pr: 15 },
+    { emo: '🧩', nm: 'Puzzle',     pr: 18 },
+    { emo: '🧸', nm: 'Teddy bear', pr: 25 },
+    { emo: '⚽', nm: 'Soccer ball',pr: 30 },
+    { emo: '🎧', nm: 'Headphones', pr: 45 },
+    { emo: '🛹', nm: 'Skateboard', pr: 65 },
+    { emo: '🎮', nm: 'Video game', pr: 90 },
+    { emo: '🚲', nm: 'New bike',   pr: 180 }
+  ];
+  var AVATARS = ['🦊','🐰','🐯','🐼','🦄','🐸','🐵','🦁','🐨','🐧'];
+  var KEY = 'wv_kid_v2';
+
+  /* ---------- persistence ---------- */
+  function load() {
+    try { var p = JSON.parse(localStorage.getItem(KEY)); if (p && Array.isArray(p.kids)) return normalize(p); } catch (e) {}
+    // migrate single-child v1
+    try {
+      var old = JSON.parse(localStorage.getItem('wv_kid'));
+      if (old && typeof old.goalIdx === 'number') {
+        var k = newKid('My piggy', '🐷', old.weekly || 5, 'week', old.goalIdx);
+        k.saved = old.saved || 0; k.periods = old.weeks || 0; k.streak = old.streak || 0;
+        var m = { kids: [k], activeId: k.id }; save(m); return m;
+      }
+    } catch (e) {}
+    return { kids: [], activeId: null };
+  }
+  function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+  function newKid(name, avatar, allowance, cadence, goalIdx) {
+    return { id: 'k' + Date.now() + Math.floor(Math.random()*999), name: name, avatar: avatar,
+      allowance: allowance, cadence: cadence, goalIdx: goalIdx, saved: 0, periods: 0, streak: 0, decided: false, log: [] };
+  }
+  function normalize(s) { (s.kids || []).forEach(function (k) { if (!Array.isArray(k.log)) k.log = []; }); return s; }
+
+  var data = load();
+  function active() { return data.kids.filter(function (k) { return k.id === data.activeId; })[0] || data.kids[0] || null; }
+
+  /* ---------- element refs ---------- */
+  function $(id) { return document.getElementById(id); }
+  var views = { wiz1: $('wiz1View'), wiz2: $('wiz2View'), main: $('mainView'), parent: $('parentView') };
+  var navGate = $('navGate'), navSpacer = $('navSpacer');
+  var gate = $('gate'), celebrate = $('celebrate');
+
+  function cadWord(c, plural) { return c === 'day' ? (plural ? 'days' : 'day') : (plural ? 'weeks' : 'week'); }
+  function fmt(n) { return n.toLocaleString('en-US'); }
+  function goalOf(k) { return CATALOG[k.goalIdx]; }
+  function relTime(t) {
+    var d = new Date(t), now = new Date();
+    var startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    var dayDiff = Math.floor((startToday - new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime()) / 86400000);
+    var clock = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    if (dayDiff <= 0) return 'Today, ' + clock;
+    if (dayDiff === 1) return 'Yesterday, ' + clock;
+    if (dayDiff < 7) return dayDiff + ' days ago';
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  /* ---------- view switching ---------- */
+  function show(view) {
+    Object.keys(views).forEach(function (v) { views[v].classList.add('hidden'); });
+    views[view].classList.remove('hidden');
+    var inMain = view === 'main';
+    navGate.classList.toggle('hidden', !inMain);
+    navSpacer.classList.toggle('hidden', inMain);
+    document.querySelector('.scroll').scrollTop = 0;
+  }
+
+  /* ════════ WIZARD ════════ */
+  var wiz = { name: '', avatar: AVATARS[0], allowance: 5, cadence: 'week', goalIdx: null };
+
+  function buildAvatars() {
+    var row = $('avatarRow'); row.innerHTML = '';
+    AVATARS.forEach(function (a) {
+      var d = document.createElement('div');
+      d.className = 'avatar' + (a === wiz.avatar ? ' sel' : '');
+      d.textContent = a;
+      d.addEventListener('click', function () {
+        wiz.avatar = a;
+        row.querySelectorAll('.avatar').forEach(function (x) { x.classList.remove('sel'); });
+        d.classList.add('sel');
+      });
+      row.appendChild(d);
+    });
+  }
+  function renderAllowAmt() { $('allowAmt').textContent = '$' + wiz.allowance; }
+  function validateWiz1() { $('wiz1Next').disabled = $('nameInput').value.trim().length === 0; }
+
+  $('nameInput').addEventListener('input', validateWiz1);
+  $('allowMinus').addEventListener('click', function () { wiz.allowance = Math.max(1, wiz.allowance - 1); renderAllowAmt(); });
+  $('allowPlus').addEventListener('click', function () { wiz.allowance = Math.min(50, wiz.allowance + 1); renderAllowAmt(); });
+  $('cadenceSeg').addEventListener('click', function (e) {
+    var b = e.target.closest('.seg-btn'); if (!b) return;
+    $('cadenceSeg').querySelectorAll('.seg-btn').forEach(function (x) { x.classList.remove('active'); });
+    b.classList.add('active'); wiz.cadence = b.getAttribute('data-cad');
+  });
+  $('wiz1Next').addEventListener('click', function () {
+    wiz.name = $('nameInput').value.trim();
+    $('wiz2Title').textContent = 'What are you saving for, ' + wiz.name + '?';
+    buildWizPicker();
+    show('wiz2');
+  });
+  $('wiz1Cancel').addEventListener('click', function () { show('main'); });
+
+  function buildWizPicker() {
+    var grid = $('wizPickGrid'); grid.innerHTML = ''; wiz.goalIdx = null; $('wiz2Done').disabled = true;
+    CATALOG.forEach(function (item, idx) {
+      var d = document.createElement('div');
+      d.className = 'pick-item';
+      d.innerHTML = '<div class="emo">' + item.emo + '</div><div class="nm">' + item.nm + '</div><div class="pr">$' + fmt(item.pr) + '</div>';
+      d.addEventListener('click', function () {
+        wiz.goalIdx = idx;
+        grid.querySelectorAll('.pick-item').forEach(function (x) { x.classList.remove('sel'); });
+        d.classList.add('sel');
+        $('wiz2Done').disabled = false;
+      });
+      grid.appendChild(d);
+    });
+  }
+  // wizMode: 'create' (new kid) | 'changeGoal' (parent edits goal) | 'pickNew' (after celebration, resets jar)
+  var wizMode = 'create';
+
+  $('wiz2Back').addEventListener('click', function () {
+    if (wizMode === 'create') { show('wiz1'); }
+    else { renderParent(); show('parent'); }
+  });
+  $('wiz2Done').addEventListener('click', function () {
+    var k;
+    if (wizMode === 'create') {
+      k = newKid(wiz.name, wiz.avatar, wiz.allowance, wiz.cadence, wiz.goalIdx);
+      data.kids.push(k); data.activeId = k.id; save(data);
+      renderMain(); show('main');
+    } else if (wizMode === 'changeGoal') {
+      k = active(); k.goalIdx = wiz.goalIdx; save(data);
+      renderParent(); show('parent');
+    } else if (wizMode === 'pickNew') {
+      k = active();
+      k.goalIdx = wiz.goalIdx; k.saved = 0; k.periods = 0; k.streak = 0; k.decided = false; save(data);
+      renderMain(); show('main');
+    }
+  });
+
+  function startWizard(forAdd) {
+    wizMode = 'create';
+    wiz = { name: '', avatar: AVATARS[0], allowance: 5, cadence: 'week', goalIdx: null };
+    $('nameInput').value = ''; renderAllowAmt(); buildAvatars(); validateWiz1();
+    $('cadenceSeg').querySelectorAll('.seg-btn').forEach(function (x, i) { x.classList.toggle('active', i === 0); });
+    $('wiz1Cancel').classList.toggle('hidden', !forAdd);
+    show('wiz1');
+  }
+
+  /* ════════ MAIN ════════ */
+  var FILL_TOP = 50, FILL_BOTTOM = 152;
+  var piggyWrap = $('piggyWrap'), fillRect = $('fillRect');
+
+  function setFill(pct) {
+    var h = (FILL_BOTTOM - FILL_TOP) * Math.min(1, pct);
+    fillRect.setAttribute('y', FILL_BOTTOM - h); fillRect.setAttribute('height', h);
+  }
+  function dropCoin() {
+    var c = document.createElement('div'); c.className = 'coin'; c.textContent = '$';
+    piggyWrap.appendChild(c);
+    requestAnimationFrame(function () { c.classList.add('drop'); });
+    piggyWrap.classList.remove('jiggle'); void piggyWrap.offsetWidth; piggyWrap.classList.add('jiggle');
+    setTimeout(function () { c.remove(); }, 700);
+  }
+  function jiggle() { piggyWrap.classList.remove('jiggle'); void piggyWrap.offsetWidth; piggyWrap.classList.add('jiggle'); }
+
+  function milestoneText(pct) {
+    if (pct >= 1) return 'Goal reached! 🎉';
+    if (pct >= 0.75) return 'So close — keep going! 💪';
+    if (pct >= 0.5) return 'Halfway there! 🌟';
+    if (pct >= 0.25) return 'Off to a great start! 🚀';
+    return '';
+  }
+
+  function buildKidsRow() {
+    var row = $('kidsRow'); row.innerHTML = '';
+    if (data.kids.length <= 1) { row.style.display = 'none'; } else { row.style.display = 'flex'; }
+    data.kids.forEach(function (k) {
+      var c = document.createElement('div');
+      c.className = 'kid-chip' + (k.id === data.activeId ? ' active' : '');
+      c.innerHTML = '<span class="av">' + k.avatar + '</span><span class="nm">' + k.name + '</span>';
+      c.addEventListener('click', function () { data.activeId = k.id; save(data); renderMain(); });
+      row.appendChild(c);
+    });
+    var add = document.createElement('div');
+    add.className = 'kid-add'; add.textContent = '+';
+    add.addEventListener('click', function () { requestGate(function () { startWizard(true); }); });
+    row.appendChild(add);
+  }
+
+  function projection(k) {
+    var g = goalOf(k);
+    var remaining = Math.max(0, g.pr - k.saved);
+    var per = Math.ceil(remaining / k.allowance);
+    var w = cadWord(k.cadence, per !== 1);
+    if (remaining === 0) {
+      $('projMain').innerHTML = 'You\u2019ve saved enough for your ' + g.emo + ' — amazing! 🎉';
+      $('projCompare').innerHTML = '';
+      return;
+    }
+    $('projMain').innerHTML = 'Save every ' + cadWord(k.cadence) + ' and you\u2019ll have your <b>' + g.nm + '</b> in about <b>' + per + ' ' + w + '</b>.';
+    $('projCompare').innerHTML = 'Spend half along the way and it takes <b>~' + (per * 2) + ' ' + cadWord(k.cadence, true) + '</b> instead. Saving gets you there twice as fast!';
+  }
+
+  function renderMain() {
+    var k = active();
+    if (!k) { startWizard(false); return; }
+    buildKidsRow();
+    var g = goalOf(k);
+    var pct = Math.min(1, k.saved / g.pr);
+    $('gbEmo').textContent = g.emo;
+    $('gbName').textContent = g.nm;
+    $('gbAllow').textContent = '$' + k.allowance;
+    $('gbAllowL').textContent = 'per ' + cadWord(k.cadence);
+    $('savedNum').textContent = fmt(k.saved);
+    $('goalPrice').textContent = '$' + fmt(g.pr);
+    $('pFill').style.width = (pct * 100) + '%';
+    $('pPct').textContent = Math.round(pct * 100) + '%';
+    $('pLeft').textContent = k.saved >= g.pr ? 'Done! 🎉' : ('$' + fmt(g.pr - k.saved) + ' to go');
+    $('milestone').textContent = milestoneText(pct);
+    $('streakNum').textContent = k.streak;
+    $('streakL').textContent = cadWord(k.cadence) + ' streak';
+    $('periodsNum').textContent = k.periods;
+    $('periodsL').textContent = cadWord(k.cadence, true) + ' saved';
+    setFill(pct);
+    projection(k);
+    renderWeekCard(k);
+  }
+
+  function renderWeekCard(k) {
+    var reached = k.saved >= goalOf(k).pr;
+    var capWord = cadWord(k.cadence).charAt(0).toUpperCase() + cadWord(k.cadence).slice(1);
+    $('weekLabel').textContent = capWord + ' ' + (k.periods + 1);
+    if (reached) {
+      $('weekCard').classList.add('hidden');
+      return;
+    }
+    $('weekCard').classList.remove('hidden');
+    if (k.decided) {
+      $('weekBtns').classList.add('hidden');
+      $('nextBtn').classList.remove('hidden');
+      $('weekQ').innerHTML = 'Nice — see you next ' + cadWord(k.cadence) + '! 🐷';
+      $('weekHint').textContent = 'Come back when the next allowance arrives.';
+      $('nextBtn').textContent = 'Next ' + cadWord(k.cadence) + ' →';
+    } else {
+      $('weekBtns').classList.remove('hidden');
+      $('nextBtn').classList.add('hidden');
+      $('weekQ').innerHTML = 'You got your <span class="amt">$' + k.allowance + '</span> allowance!';
+      $('weekHint').textContent = 'Will you save it for your goal, or spend it now?';
+      $('feedback').textContent = '';
+    }
+  }
+
+  function checkGoal(k) {
+    if (k.saved >= goalOf(k).pr) {
+      var g = goalOf(k);
+      $('celEmo').textContent = g.emo;
+      $('celName').textContent = g.nm;
+      $('celWeeks').textContent = 'It took ' + k.periods + ' ' + cadWord(k.cadence, k.periods !== 1) + ' of saving 🐷';
+      celebrate.classList.remove('hidden');
+      launchConfetti();
+      return true;
+    }
+    return false;
+  }
+  function launchConfetti() {
+    var colors = ['#ffd166', '#94e7d4', '#ff9ec4', '#5fd0ff', '#ffb84d'];
+    for (var i = 0; i < 40; i++) {
+      var c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + '%';
+      c.style.background = colors[i % colors.length];
+      c.style.animationDelay = (Math.random() * 0.6) + 's';
+      celebrate.appendChild(c);
+      (function (el) { requestAnimationFrame(function () { el.classList.add('go'); }); })(c);
+      setTimeout((function (el) { return function () { el.remove(); }; })(c), 3200);
+    }
+  }
+
+  $('saveBtn').addEventListener('click', function () {
+    var k = active();
+    k.saved += k.allowance; k.periods += 1; k.streak += 1; k.decided = true;
+    k.log.unshift({ t: Date.now(), action: 'save', amount: k.allowance, period: k.periods });
+    save(data);
+    dropCoin(); renderMain();
+    var fb = $('feedback'); fb.className = 'feedback good';
+    fb.textContent = '+$' + k.allowance + ' saved! 🔥 ' + k.streak + ' ' + cadWord(k.cadence, k.streak !== 1) + ' in a row';
+    if (checkGoal(k)) fb.textContent = '';
+  });
+  $('spendBtn').addEventListener('click', function () {
+    var k = active();
+    k.periods += 1; k.streak = 0; k.decided = true;
+    k.log.unshift({ t: Date.now(), action: 'spend', amount: k.allowance, period: k.periods });
+    save(data);
+    renderMain(); jiggle();
+    var fb = $('feedback'); fb.className = 'feedback spent';
+    fb.textContent = 'You spent it on a treat 🍦 Your goal jar stayed the same.';
+  });
+  $('nextBtn').addEventListener('click', function () {
+    var k = active(); k.decided = false; save(data); renderMain();
+  });
+
+  /* ════════ PARENT GATE ════════ */
+  var gateAction = null;
+  function requestGate(fn) {
+    gateAction = fn;
+    var a = 10 + Math.floor(Math.random() * 10), b = 2 + Math.floor(Math.random() * 8);
+    var answer = a + b;
+    $('gateQ').textContent = a + ' + ' + b;
+    var opts = [answer];
+    while (opts.length < 4) {
+      var d = answer + (Math.floor(Math.random() * 9) - 4);
+      if (d !== answer && d > 0 && opts.indexOf(d) === -1) opts.push(d);
+    }
+    opts.sort(function () { return Math.random() - 0.5; });
+    var grid = $('gateGrid'); grid.innerHTML = '';
+    opts.forEach(function (o) {
+      var btn = document.createElement('button');
+      btn.className = 'gate-opt'; btn.textContent = o;
+      btn.addEventListener('click', function () {
+        if (o === answer) { gate.classList.add('hidden'); var fn2 = gateAction; gateAction = null; if (fn2) fn2(); }
+        else { btn.classList.add('wrong'); setTimeout(function () { btn.classList.remove('wrong'); }, 350); }
+      });
+      grid.appendChild(btn);
+    });
+    gate.classList.remove('hidden');
+  }
+  $('gateCancel').addEventListener('click', function () { gate.classList.add('hidden'); gateAction = null; });
+  navGate.addEventListener('click', function () { requestGate(openParent); });
+
+  /* ════════ PARENT PANEL ════════ */
+  function openParent() { renderParent(); show('parent'); }
+  function renderLog(k) {
+    var log = k.log || [];
+    var saved = log.filter(function (e) { return e.action === 'save'; }).length;
+    var spent = log.filter(function (e) { return e.action === 'spend'; }).length;
+    var total = saved + spent;
+    $('ppLogTitle').textContent = k.name + '\u2019s choices';
+    $('ppSumSaved').textContent = saved;
+    $('ppSumSpent').textContent = spent;
+    $('ppSumRate').textContent = total ? Math.round(saved / total * 100) + '%' : '\u2013';
+    var box = $('ppLog');
+    if (!total) { box.innerHTML = '<div class="pp-log-empty">No check-ins yet. When ' + k.name + ' saves or spends, you\u2019ll see it here.</div>'; return; }
+    box.innerHTML = '';
+    log.slice(0, 12).forEach(function (e) {
+      var saveAct = e.action === 'save';
+      var r = document.createElement('div');
+      r.className = 'log-row ' + (saveAct ? 'save' : 'spend');
+      r.innerHTML =
+        '<span class="lico">' + (saveAct ? '\ud83d\udc37' : '\ud83c\udf66') + '</span>' +
+        '<span class="ltx">' + (saveAct ? 'Saved into the jar' : 'Spent on a treat') +
+          '<div class="lwhen">' + relTime(e.t) + '</div></span>' +
+        '<span class="lamt">' + (saveAct ? '+$' + e.amount : '$' + e.amount) + '</span>';
+      box.appendChild(r);
+    });
+  }
+  function renderParent() {
+    var k = active(); if (!k) return;
+    $('ppTitle').textContent = k.name + '\u2019s settings';
+    $('ppAllowAmt').textContent = '$' + k.allowance;
+    $('ppCadenceSeg').querySelectorAll('.seg-btn').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-cad') === k.cadence); });
+    var g = goalOf(k);
+    $('ppGoalEmo').textContent = g.emo; $('ppGoalNm').textContent = g.nm; $('ppGoalPr').textContent = '$' + fmt(g.pr);
+    renderLog(k);
+    var list = $('ppKidsList'); list.innerHTML = '';
+    data.kids.forEach(function (kid) {
+      var r = document.createElement('div');
+      r.className = 'pp-row'; r.style.padding = '7px 0';
+      r.innerHTML = '<span style="font-size:22px">' + kid.avatar + '</span>' +
+        '<span style="flex:1;font-size:13.5px;font-weight:700;color:#eef1f8">' + kid.name + '</span>' +
+        (kid.id === data.activeId ? '<span style="font-size:11px;font-weight:700;color:#94e7d4">Active</span>' : '<span style="font-size:11px;color:#8b94ad;cursor:pointer" data-switch="' + kid.id + '">Switch</span>');
+      list.appendChild(r);
+    });
+    list.querySelectorAll('[data-switch]').forEach(function (el) {
+      el.addEventListener('click', function () { data.activeId = el.getAttribute('data-switch'); save(data); renderParent(); });
+    });
+  }
+  $('ppAllowMinus').addEventListener('click', function () { var k = active(); k.allowance = Math.max(1, k.allowance - 1); save(data); $('ppAllowAmt').textContent = '$' + k.allowance; });
+  $('ppAllowPlus').addEventListener('click', function () { var k = active(); k.allowance = Math.min(50, k.allowance + 1); save(data); $('ppAllowAmt').textContent = '$' + k.allowance; });
+  $('ppCadenceSeg').addEventListener('click', function (e) {
+    var b = e.target.closest('.seg-btn'); if (!b) return;
+    var k = active(); k.cadence = b.getAttribute('data-cad'); save(data);
+    $('ppCadenceSeg').querySelectorAll('.seg-btn').forEach(function (x) { x.classList.remove('active'); });
+    b.classList.add('active');
+  });
+  $('ppChangeGoal').addEventListener('click', function () {
+    var k = active();
+    $('wiz2Title').textContent = 'Change ' + k.name + '\u2019s goal';
+    buildWizPicker();
+    wizMode = 'changeGoal';
+    show('wiz2');
+  });
+  $('ppAddKid').addEventListener('click', function () { startWizard(true); });
+  $('ppDelete').addEventListener('click', function () {
+    var k = active();
+    data.kids = data.kids.filter(function (x) { return x.id !== k.id; });
+    data.activeId = data.kids.length ? data.kids[0].id : null;
+    save(data);
+    if (data.kids.length) { renderMain(); show('main'); } else { startWizard(false); }
+  });
+  $('ppDone').addEventListener('click', function () { renderMain(); show('main'); });
+
+  /* ════════ CELEBRATION ════════ */
+  $('celCta').addEventListener('click', function () {
+    var k = active();
+    celebrate.classList.add('hidden');
+    $('wiz2Title').textContent = 'Pick your next goal, ' + k.name + '!';
+    buildWizPicker();
+    wizMode = 'pickNew';
+    show('wiz2');
+  });
+
+  /* ════════ BOOT ════════ */
+  buildAvatars(); renderAllowAmt();
+  if (active()) { renderMain(); show('main'); }
+  else { startWizard(false); }
+})();
+</script>
+</body>
+</html>

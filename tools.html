@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="proto-shell.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #080a0e;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    .device-frame {
+      width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
+      position: relative; background: #10141a;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+
+    .drop {
+      position: relative; display: block; text-decoration: none;
+      border-radius: 20px; padding: 18px; overflow: hidden;
+      background:
+        radial-gradient(130% 130% at 0% 0%, rgba(var(--accent-rgb),0.20), transparent 55%),
+        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(16px) saturate(1.15); backdrop-filter: blur(16px) saturate(1.15);
+      border: 1px solid rgba(var(--accent-rgb),0.26);
+      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+    }
+    .drop .wv-badge-new { position: absolute; top: 16px; right: 16px; }
+    .drop .ic { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center;
+      background: rgba(var(--accent-rgb),0.18); color: var(--accent); margin-bottom: 14px; }
+    .drop .ic svg { width: 24px; height: 24px; }
+    .drop .t { font-size: 18px; font-weight: 800; color: var(--text-hi); letter-spacing: -0.02em; }
+    .drop .d { font-size: 13px; color: var(--text-mid); margin-top: 5px; line-height: 1.4; }
+    .drop .go { margin-top: 14px; display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700; color: var(--accent); }
+
+    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .tcard {
+      position: relative; text-decoration: none; overflow: hidden;
+      border-radius: 18px; padding: 16px;
+      background:
+        radial-gradient(130% 120% at 0% 0%, rgba(var(--accent-rgb),0.15), transparent 52%),
+        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1);
+      border: 1px solid rgba(var(--accent-rgb),0.22);
+      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+      transition: transform 160ms cubic-bezier(0.2,0.7,0.2,1), border-color 160ms ease;
+    }
+    .tcard:active { transform: scale(0.97); }
+    .tcard .ic { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      background: rgba(var(--accent-rgb),0.16); color: var(--accent); margin-bottom: 12px; }
+    .tcard .ic svg { width: 22px; height: 22px; }
+    .tcard .t { font-size: 14.5px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.01em; }
+    .tcard .d { font-size: 11.5px; color: var(--text-mid); margin-top: 4px; line-height: 1.35; }
+    .tcard .wv-badge-new { position: absolute; top: 14px; right: 14px; }
+
+    .soon {
+      border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+      background: var(--surface-2); border: 1px dashed var(--hairline); margin-bottom: 10px;
+    }
+    .soon .ic { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      background: var(--surface); color: var(--text-lo); }
+    .soon .ic svg { width: 19px; height: 19px; }
+    .soon .t { font-size: 13.5px; font-weight: 600; color: var(--text-mid); }
+    .soon .d { font-size: 11px; color: var(--text-lo); margin-top: 2px; }
+    .soon .tag { margin-left: auto; font-size: 10px; font-weight: 700; color: var(--text-mid);
+      border: 1px solid var(--hairline); border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
+
+    .kid-drop {
+      position: relative; display: flex; align-items: center; gap: 14px; text-decoration: none;
+      border-radius: 20px; padding: 16px 18px; overflow: hidden; margin-top: 12px;
+      background:
+        radial-gradient(120% 130% at 0% 0%, rgba(255,111,156,0.22), transparent 55%),
+        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(16px) saturate(1.15); backdrop-filter: blur(16px) saturate(1.15);
+      border: 1px solid rgba(255,111,156,0.30);
+      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+    }
+    .kid-drop .pig { font-size: 34px; flex: 0 0 auto; }
+    .kid-drop .kt { font-size: 16.5px; font-weight: 800; color: var(--text-hi); letter-spacing: -0.01em; }
+    .kid-drop .kd { font-size: 12px; color: var(--text-mid); margin-top: 3px; line-height: 1.35; }
+    .kid-drop .karr { margin-left: auto; color: #ff6f9c; font-size: 18px; }
+    .kid-drop .wv-badge-new { position: absolute; top: 14px; right: 14px;
+      background: rgba(255,111,156,0.18); color: #ff9ec4; border-color: rgba(255,111,156,0.4); }
+  </style>
+</head>
+<body data-wv-tab="tools">
+  <div class="device-frame">
+    <div class="wv-hub">
+      <div class="wv-top">
+        <div>
+          <div class="wv-hello">New drops every week</div>
+          <div class="wv-page-title">Tools</div>
+        </div>
+      </div>
+
+      <div class="wv-scroll">
+        <a class="drop dom-gold" id="paydayDrop" href="payday.html">
+          <span class="wv-badge-new">New</span>
+          <div class="ic"></div>
+          <div class="t">Payday Routine</div>
+          <div class="d">A 20-minute ritual: split every paycheck into the right buckets, then spend the rest guilt-free.</div>
+          <span class="go">Start the routine →</span>
+        </a>
+
+        <a class="drop dom-green" id="featuredDrop" href="screen10a.html">
+          <span class="wv-badge-new">New</span>
+          <div class="ic"></div>
+          <div class="t">Can I Buy It?</div>
+          <div class="d">Type any purchase and get an instant, judgment-free affordability verdict.</div>
+          <span class="go">Try it now →</span>
+        </a>
+
+        <a class="kid-drop" href="kidmode.html">
+          <span class="wv-badge-new">New</span>
+          <span class="pig">🐷</span>
+          <div>
+            <div class="kt">Kid Mode</div>
+            <div class="kd">A playful piggy bank that teaches kids how saving grows.</div>
+          </div>
+          <span class="karr">→</span>
+        </a>
+
+        <div class="wv-section-head">
+          <div class="wv-section-title">All tools</div>
+        </div>
+        <div class="tools-grid" id="toolsGrid"></div>
+
+        <div class="wv-section-head">
+          <div class="wv-section-title">Coming soon</div>
+        </div>
+        <div id="soonList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="proto-shell.js"></script>
+  <script>
+    (function () {
+      var S = window.WVShell;
+
+      document.querySelector('#paydayDrop .ic').innerHTML = S.icon('wallet');
+      document.querySelector('#featuredDrop .ic').innerHTML = S.icon('cart');
+
+      var grid = document.getElementById('toolsGrid');
+      S.TOOLS.forEach(function (t) {
+        if (t.file === 'kidmode.html') return; // featured separately above
+        var a = document.createElement('a');
+        a.className = 'tcard dom-' + (t.dom || 'teal');
+        a.href = t.file;
+        a.innerHTML =
+          (t.isNew ? '<span class="wv-badge-new">New</span>' : '') +
+          '<div class="ic">' + S.icon(t.icon) + '</div>' +
+          '<div class="t">' + t.title + '</div><div class="d">' + t.desc + '</div>';
+        grid.appendChild(a);
+      });
+
+      var soon = [
+        { t: 'Debt Payoff Planner', d: 'Snowball vs avalanche, side by side', tag: 'Next week' },
+        { t: 'Subscription Auditor', d: 'Find recurring charges draining you', tag: 'Soon' },
+        { t: 'Rent vs Buy', d: 'The real cost of owning a home', tag: 'Soon' }
+      ];
+      var soonEl = document.getElementById('soonList');
+      soon.forEach(function (x) {
+        var d = document.createElement('div');
+        d.className = 'soon';
+        d.innerHTML = '<div class="ic">' + S.icon('tools') + '</div>' +
+          '<div><div class="t">' + x.t + '</div><div class="d">' + x.d + '</div></div>' +
+          '<span class="tag">' + x.tag + '</span>';
+        soonEl.appendChild(d);
+      });
+    })();
+  </script>
+</body>
+</html>

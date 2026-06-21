@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 3: Your First Goal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Device frame ── */
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: #10141a;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.3),
+        0 25px 60px rgba(0, 0, 0, 0.5),
+        0 50px 120px rgba(0, 0, 0, 0.25);
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollable middle so the expanded Advanced panel never clips the CTA */
+    .scroll-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .scroll-body::-webkit-scrollbar { display: none; }
+
+    /* ── Back arrow ── */
+    .back-arrow {
+      position: absolute;
+      top: 58px;
+      left: 24px;
+      z-index: 10;
+      color: #83948f;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px 4px;
+      line-height: 1;
+      transition: color 0.2s ease-out;
+    }
+    .back-arrow:active { color: #dfe2eb; }
+
+    /* ── Question area ── */
+    .question-area {
+      padding: 92px 24px 0;
+      flex-shrink: 0;
+    }
+
+    .headline {
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #dfe2eb;
+    }
+
+    .subtext {
+      font-size: 15px;
+      line-height: 22px;
+      font-weight: 400;
+      color: #83948f;
+      margin-top: 8px;
+    }
+
+    /* ── Always-visible "name your own" entry ── */
+    .custom-cue {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #b9cac4;
+      cursor: pointer;
+      transition: border-color 0.18s ease-out, transform 0.12s ease-out, background 0.18s ease-out;
+    }
+    .custom-cue svg { width: 15px; height: 15px; color: #00f5d4; flex-shrink: 0; }
+    .custom-cue b { color: #00f5d4; font-weight: 600; }
+    .custom-cue:hover { border-color: rgba(0, 245, 212, 0.28); background: rgba(0, 245, 212, 0.05); }
+    .custom-cue:active { transform: scale(0.97); }
+
+    /* ── Goal cards scroll ── */
+    .goals-area {
+      position: relative;
+      margin-top: 24px;
+      flex-shrink: 0;
+    }
+    .goals-scroll {
+      padding: 0 24px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .goals-scroll::-webkit-scrollbar { display: none; }
+    /* fade hint that there's more to scroll */
+    .goals-fade {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 36px;
+      height: 100%;
+      pointer-events: none;
+      background: linear-gradient(to right, rgba(16, 20, 26, 0), #10141a);
+    }
+
+    .goals-track {
+      display: flex;
+      gap: 12px;
+      padding-right: 24px;
+    }
+
+    /* ── Goal card ── */
+    .goal-card {
+      position: relative;
+      flex: 0 0 150px;
+      height: 150px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 18px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+      user-select: none;
+    }
+    .goal-card:active {
+      transform: scale(0.96);
+    }
+    .goal-card.selected {
+      border-color: rgba(0, 245, 212, 0.45);
+      background: rgba(0, 245, 212, 0.07);
+      box-shadow: 0 0 0 1px rgba(0, 245, 212, 0.25), 0 8px 22px rgba(0, 245, 212, 0.08);
+    }
+
+    /* selected checkmark badge */
+    .goal-card::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #00f5d4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a0e14' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center / 12px no-repeat;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.18s ease-out, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+    .goal-card.selected::after { opacity: 1; transform: scale(1); }
+
+    /* distinct "create your own" tile */
+    .goal-card--add {
+      border-style: dashed;
+      border-color: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.012);
+    }
+    .goal-card--add.selected { border-style: solid; }
+
+    .goal-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .goal-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .goal-icon--house { background: rgba(0, 245, 212, 0.12); color: #00f5d4; }
+    .goal-icon--freedom { background: rgba(187, 195, 255, 0.12); color: #bbc3ff; }
+    .goal-icon--education { background: rgba(255, 180, 107, 0.12); color: #ffb46b; }
+    .goal-icon--car { background: rgba(0, 223, 193, 0.12); color: #00dfc1; }
+    .goal-icon--emergency { background: rgba(255, 180, 171, 0.12); color: #ffb4ab; }
+    .goal-icon--custom { background: rgba(131, 148, 143, 0.12); color: #83948f; }
+
+    .goal-name {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 600;
+      color: #dfe2eb;
+      letter-spacing: -0.005em;
+    }
+
+    .goal-avg {
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 400;
+      color: #83948f;
+      margin-top: 2px;
+    }
+
+    /* ── Expanded detail ── */
+    .goal-detail {
+      padding: 0 24px;
+      margin-top: 24px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .goal-detail.open {
+      max-height: 520px;
+      opacity: 1;
+    }
+
+    .detail-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #83948f;
+      margin-bottom: 8px;
+    }
+
+    .target-input-wrap {
+      display: flex;
+      align-items: baseline;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(0, 245, 212, 0.25);
+    }
+
+    .target-dollar {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: rgba(215, 255, 243, 0.4);
+      line-height: 36px;
+      margin-right: 4px;
+    }
+
+    .target-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #d7fff3;
+      line-height: 36px;
+      width: 100%;
+      caret-color: #00f5d4;
+      font-variant-numeric: tabular-nums;
+    }
+    .target-input::placeholder {
+      color: rgba(215, 255, 243, 0.15);
+    }
+
+    .summary-line {
+      margin-top: 16px;
+      font-size: 15px;
+      line-height: 22px;
+      color: #b9cac4;
+    }
+    .summary-line strong {
+      color: #d7fff3;
+      font-weight: 700;
+    }
+
+    /* ── Custom goal name input ── */
+    .custom-name-wrap {
+      margin-bottom: 16px;
+      display: none;
+    }
+    .custom-name-wrap.show { display: block; }
+
+    .custom-name-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      outline: none;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #dfe2eb;
+      width: 100%;
+      padding-bottom: 8px;
+      caret-color: #00f5d4;
+    }
+    .custom-name-input::placeholder {
+      color: rgba(131, 148, 143, 0.5);
+    }
+
+    /* ── Advanced / goal conditions ── */
+    .adv { margin-top: 14px; }
+    .adv-toggle {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: none; border: none; cursor: pointer;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 13px; font-weight: 600; color: #00f5d4; padding: 2px 0;
+    }
+    .adv-toggle .chev { width: 14px; height: 14px; transition: transform 0.25s ease; }
+    .adv.open .adv-toggle .chev { transform: rotate(90deg); }
+    .adv-body {
+      max-height: 0; opacity: 0; overflow: hidden;
+      transition: max-height 0.32s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.28s ease, margin-top 0.28s ease;
+    }
+    .adv.open .adv-body { max-height: 300px; opacity: 1; margin-top: 14px; }
+    .adv-field-label { font-size: 12px; font-weight: 500; color: #83948f; margin-bottom: 6px; }
+    .adv-price {
+      display: flex; align-items: baseline; gap: 4px;
+      padding-bottom: 8px; margin-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .adv-price span { font-size: 18px; font-weight: 800; color: rgba(215, 255, 243, 0.4); }
+    .adv-price input {
+      background: transparent; border: none; outline: none;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 18px; font-weight: 800; color: #d7fff3; width: 100%;
+      caret-color: #00f5d4; font-variant-numeric: tabular-nums;
+    }
+    .adv-price input::placeholder { color: rgba(215, 255, 243, 0.15); }
+    .adv-seg { display: flex; gap: 8px; }
+    .adv-seg button {
+      flex: 1; padding: 9px 0; border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #b9cac4; font-family: 'Inter', system-ui, sans-serif;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: transform 0.12s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+    .adv-seg button:active { transform: scale(0.95); }
+    .adv-seg button.active { background: rgba(0, 245, 212, 0.14); border-color: rgba(0, 245, 212, 0.4); color: #00f5d4; }
+    .adv-check {
+      display: flex; align-items: center; gap: 9px; margin-top: 14px;
+      font-size: 13px; color: #b9cac4; cursor: pointer; user-select: none;
+    }
+    .adv-check input { width: 16px; height: 16px; accent-color: #00f5d4; }
+    .adv-result {
+      margin-top: 14px; font-size: 13px; line-height: 18px; color: #b9cac4;
+      padding: 11px 12px; border-radius: 12px;
+      background: rgba(0, 245, 212, 0.06); border: 1px solid rgba(0, 245, 212, 0.18);
+    }
+    .adv-result b { color: #d7fff3; font-weight: 700; }
+
+    /* ── Bottom area ── */
+    .bottom-area {
+      margin-top: auto;
+      padding: 0 24px;
+      flex-shrink: 0;
+    }
+
+    .cta-button {
+      width: 100%;
+      height: 56px;
+      background: #00F5D4;
+      color: #0A0E14;
+      border: none;
+      border-radius: 16px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: transform 0.12s ease-out;
+    }
+    .cta-button:active {
+      transform: scale(0.97);
+    }
+    .cta-button:disabled {
+      background: rgba(0, 245, 212, 0.2);
+      color: rgba(10, 14, 20, 0.4);
+      cursor: default;
+    }
+
+    .skip-link {
+      display: block;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #83948f;
+      padding: 14px 0;
+      cursor: pointer;
+      transition: color 0.2s ease-out;
+    }
+    .skip-link:active { color: #dfe2eb; }
+
+    .progress-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0 38px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(131, 148, 143, 0.35);
+    }
+    .dot.active { background: #00F5D4; }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+
+<div class="device-frame">
+  <div class="screen">
+    <span class="back-arrow" id="backArrow">&#8592;</span>
+
+    <div class="scroll-body">
+    <div class="question-area">
+      <div class="headline">What are you growing this money for?</div>
+      <div class="subtext">Pick one. You can add more later.</div>
+      <button class="custom-cue" id="customCue" type="button">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 3l3 3-9 9-4 1 1-4 9-9z"/>
+        </svg>
+        <span>Saving for something else? <b>Name your own goal</b></span>
+      </button>
+    </div>
+
+    <div class="goals-area">
+      <div class="goals-scroll">
+        <div class="goals-track">
+
+        <div class="goal-card" data-goal="house" data-avg="60000">
+          <div class="goal-icon goal-icon--house">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 10L10 3l7 7"/>
+              <path d="M5 8.5V16h4v-4h2v4h4V8.5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="goal-name">House down payment</div>
+            <div class="goal-avg">Avg: $60,000</div>
+          </div>
+        </div>
+
+        <div class="goal-card" data-goal="freedom" data-avg="500000">
+          <div class="goal-icon goal-icon--freedom">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="10" cy="10" r="7"/>
+              <path d="M10 6v4l2.5 2.5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="goal-name">Financial freedom</div>
+            <div class="goal-avg">Never work because you have to</div>
+          </div>
+        </div>
+
+        <div class="goal-card" data-goal="education" data-avg="120000">
+          <div class="goal-icon goal-icon--education">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 8l8-4 8 4-8 4-8-4z"/>
+              <path d="M6 10v4c0 1 2 2.5 4 2.5s4-1.5 4-2.5v-4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="goal-name">Kid's education</div>
+            <div class="goal-avg">Avg: $120,000</div>
+          </div>
+        </div>
+
+        <div class="goal-card" data-goal="car" data-avg="35000">
+          <div class="goal-icon goal-icon--car">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 12l1.5-5h9L16 12"/>
+              <rect x="3" y="12" width="14" height="4" rx="1.5"/>
+              <circle cx="6.5" cy="16" r="1.2"/>
+              <circle cx="13.5" cy="16" r="1.2"/>
+            </svg>
+          </div>
+          <div>
+            <div class="goal-name">New car (cash)</div>
+            <div class="goal-avg">Avg: $35,000</div>
+          </div>
+        </div>
+
+        <div class="goal-card" data-goal="emergency" data-avg="25000">
+          <div class="goal-icon goal-icon--emergency">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 3v8"/>
+              <path d="M6 7l4-4 4 4"/>
+              <rect x="4" y="13" width="12" height="4" rx="1.5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="goal-name">Emergency fund</div>
+            <div class="goal-avg">6 months expenses</div>
+          </div>
+        </div>
+
+        <div class="goal-card goal-card--add" data-goal="custom" data-avg="">
+          <div class="goal-icon goal-icon--custom">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="10" y1="4" x2="10" y2="16"/>
+              <line x1="4" y1="10" x2="16" y2="10"/>
+            </svg>
+          </div>
+          <div>
+            <div class="goal-name">Custom goal</div>
+            <div class="goal-avg">Name your own</div>
+          </div>
+        </div>
+
+      </div>
+      </div>
+      <div class="goals-fade"></div>
+    </div>
+
+    <!-- Expanded detail panel -->
+    <div class="goal-detail" id="goalDetail">
+      <div class="custom-name-wrap" id="customNameWrap">
+        <input class="custom-name-input" id="customNameInput" type="text" placeholder="What's your goal called?">
+      </div>
+      <div class="detail-label" id="detailLabel">Target amount</div>
+      <div class="target-input-wrap">
+        <span class="target-dollar">$</span>
+        <input class="target-input" id="targetInput" type="text" inputmode="numeric" placeholder="0" autocomplete="off">
+      </div>
+
+      <div class="adv" id="adv" style="display:none">
+        <button class="adv-toggle" id="advToggle" type="button">
+          <svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+          <span id="advToggleLabel">Estimate from home price</span>
+        </button>
+        <div class="adv-body" id="advBody">
+          <div class="adv-field-label" id="advPriceLabel">Home price</div>
+          <div class="adv-price">
+            <span>$</span>
+            <input id="priceInput" type="text" inputmode="numeric" placeholder="0" autocomplete="off">
+          </div>
+          <div class="adv-field-label" id="advDownLabel">Down payment</div>
+          <div class="adv-seg" id="downSeg"></div>
+          <label class="adv-check" id="closingWrap">
+            <input type="checkbox" id="closingChk"> Add closing costs (~3%)
+          </label>
+          <div class="adv-result" id="advResult"></div>
+        </div>
+      </div>
+
+      <div class="summary-line" id="summaryLine"></div>
+    </div>
+    </div>
+
+    <div class="bottom-area">
+      <button class="cta-button" id="cta" disabled>See how to reach it faster &#8594;</button>
+      <span class="skip-link">Skip for now</span>
+      <div class="progress-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot active"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ── User's monthly from previous screen ──
+  let MONTHLY = 200;
+  const RATE    = 0.07;
+  const monthlyRate = RATE / 12;
+
+  // ── DOM ──
+  const cards         = document.querySelectorAll('.goal-card');
+  const goalDetail    = document.getElementById('goalDetail');
+  const targetInput   = document.getElementById('targetInput');
+  const summaryLine   = document.getElementById('summaryLine');
+  const customNameWrap = document.getElementById('customNameWrap');
+  const customNameInput = document.getElementById('customNameInput');
+  const ctaBtn        = document.getElementById('cta');
+
+  let selectedGoal = null;
+  let selectedGoalName = '';
+
+  // ── Goal financing conditions (Advanced) ──
+  // Some goals don't need the full sticker price saved up front — a house needs a
+  // down payment (rest = mortgage), a car can be financed, etc. These let the user
+  // declare that condition so the savings target reflects what they actually save.
+  const FINANCE = {
+    house: { toggle: 'Estimate from home price', priceLabel: 'Home price', downLabel: 'Down payment',
+             pcts: [5, 10, 20], defaultPct: 20, defaultPrice: 500000, closing: true, rest: 'mortgage' },
+    car:   { toggle: 'Buying it with a loan?', priceLabel: 'Car price', downLabel: 'Down payment',
+             pcts: [100, 20, 10], defaultPct: 100, defaultPrice: 35000, closing: false, rest: 'auto loan' }
+  };
+  const adv            = document.getElementById('adv');
+  const advToggle      = document.getElementById('advToggle');
+  const advToggleLabel = document.getElementById('advToggleLabel');
+  const advPriceLabel  = document.getElementById('advPriceLabel');
+  const advDownLabel   = document.getElementById('advDownLabel');
+  const downSeg        = document.getElementById('downSeg');
+  const closingWrap    = document.getElementById('closingWrap');
+  const closingChk     = document.getElementById('closingChk');
+  const priceInput     = document.getElementById('priceInput');
+  const advResult      = document.getElementById('advResult');
+  const detailLabel    = document.getElementById('detailLabel');
+
+  let financeCtx     = null;   // set when a down-payment plan is in effect
+  let currentDownPct = null;
+
+  // Pull the monthly amount chosen on the previous screen once the shell is ready
+  window.addEventListener('load', function () {
+    if (window.WVShell) {
+      const m = window.WVShell.getState().monthly;
+      if (m > 0) { MONTHLY = m; if (selectedGoal) updateSummary(); }
+    }
+  });
+
+  // ── Calculate years to reach target ──
+  function yearsToTarget(monthly, target) {
+    if (monthly <= 0 || target <= 0) return Infinity;
+    // FV = P * ((1+r)^n - 1) / r
+    // Solve for n: n = ln(1 + target*r/P) / ln(1+r)
+    const n = Math.log(1 + (target * monthlyRate) / monthly) / Math.log(1 + monthlyRate);
+    return n / 12; // convert months to years
+  }
+
+  function fmtMoney(v) {
+    return '$' + Math.round(v).toLocaleString('en-US');
+  }
+
+  // ── Advanced: derive the down-payment savings target from a sticker price ──
+  function buildDownSeg(cfg) {
+    downSeg.innerHTML = '';
+    cfg.pcts.forEach(function (p) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.pct = p;
+      b.textContent = p >= 100 ? 'Pay cash' : p + '%';
+      if (p === cfg.defaultPct) b.classList.add('active');
+      downSeg.appendChild(b);
+    });
+  }
+
+  function recomputeFinance() {
+    const cfg = FINANCE[selectedGoal];
+    if (!cfg) return;
+    const price = parseInt(priceInput.value.replace(/[^0-9]/g, ''), 10) || 0;
+    const pct = currentDownPct;
+    const addClosing = cfg.closing && closingChk.checked;
+    const closingAmt = addClosing ? price * 0.03 : 0;
+
+    if (pct >= 100) {
+      targetInput.value = price > 0 ? Math.round(price).toLocaleString('en-US') : '';
+      advResult.innerHTML = price > 0
+        ? 'Save the full <b>' + fmtMoney(price) + '</b> in cash \u2014 no loan.'
+        : 'Enter a price to see your savings target.';
+      financeCtx = null;
+      detailLabel.textContent = 'Amount to save';
+    } else {
+      const downAmount = price * (pct / 100) + closingAmt;
+      const financed = price * (1 - pct / 100);
+      targetInput.value = downAmount > 0 ? Math.round(downAmount).toLocaleString('en-US') : '';
+      advResult.innerHTML = price > 0
+        ? 'Save <b>' + fmtMoney(downAmount) + '</b> \u2014 your ' + pct + '% down payment'
+          + (addClosing ? ' (incl. ~3% closing costs)' : '')
+          + '. The remaining <b>' + fmtMoney(financed) + '</b> is a ' + cfg.rest + '.'
+        : 'Enter a price to see your down-payment target.';
+      financeCtx = price > 0
+        ? { price: price, downPct: pct, financedAmount: Math.round(financed), rest: cfg.rest }
+        : null;
+      detailLabel.textContent = 'Down payment goal';
+    }
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const target = parseInt(targetInput.value.replace(/[^0-9]/g, ''), 10);
+    if (isNaN(target) || target <= 0) {
+      summaryLine.innerHTML = '';
+      ctaBtn.disabled = true;
+      return;
+    }
+
+    const yrs = yearsToTarget(MONTHLY, target);
+    if (!isFinite(yrs) || yrs > 100) {
+      summaryLine.innerHTML = `At ${fmtMoney(MONTHLY)}/mo, this goal would take a very long time. Consider a higher monthly amount.`;
+      ctaBtn.disabled = false;
+      persistGoal();
+      return;
+    }
+
+    const rounded = Math.round(yrs * 10) / 10;
+    const display = rounded < 1 ? 'less than a year' : `<strong>${rounded} years</strong>`;
+    summaryLine.innerHTML = `At ${fmtMoney(MONTHLY)}/mo, you'll reach ${fmtMoney(target)} in approximately ${display}`;
+    ctaBtn.disabled = false;
+    persistGoal();
+  }
+
+  // ── Save the chosen goal so the dashboard can show it ──
+  function persistGoal() {
+    if (!window.WVShell || !selectedGoal) return;
+    const target = parseInt(targetInput.value.replace(/[^0-9]/g, ''), 10);
+    if (isNaN(target) || target <= 0) return;
+    const name = selectedGoal === 'custom'
+      ? (customNameInput.value.trim() || 'Custom goal')
+      : selectedGoalName;
+    const yrs = yearsToTarget(MONTHLY, target);
+    const goalObj = {
+      id: selectedGoal,
+      name: name,
+      target: target,
+      monthly: MONTHLY,
+      years: isFinite(yrs) && yrs <= 100 ? Math.round(yrs * 10) / 10 : null
+    };
+    if (financeCtx) {
+      goalObj.price = financeCtx.price;
+      goalObj.downPct = financeCtx.downPct;
+      goalObj.financedAmount = financeCtx.financedAmount;
+      goalObj.restTerm = financeCtx.rest;
+    }
+    window.WVShell.patchState({ monthly: MONTHLY, goal: goalObj });
+  }
+
+  // ── Card selection ──
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const goal = card.dataset.goal;
+      const avg  = card.dataset.avg;
+
+      // Deselect previous
+      cards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedGoal = goal;
+      var nameEl = card.querySelector('.goal-name');
+      selectedGoalName = nameEl ? nameEl.textContent.trim() : 'My goal';
+
+      // Reset advanced/financing state for the new goal
+      financeCtx = null;
+      adv.classList.remove('open');
+      detailLabel.textContent = (goal === 'house') ? 'Down payment goal' : 'Target amount';
+
+      // Show detail
+      goalDetail.classList.add('open');
+
+      // Custom goal shows name input
+      if (goal === 'custom') {
+        adv.style.display = 'none';
+        customNameWrap.classList.add('show');
+        customNameInput.focus();
+        targetInput.value = '';
+        summaryLine.innerHTML = '';
+        ctaBtn.disabled = true;
+      } else {
+        customNameWrap.classList.remove('show');
+        targetInput.value = parseInt(avg, 10).toLocaleString('en-US');
+
+        // Configure the Advanced down-payment helper for goals you can finance
+        const cfg = FINANCE[goal];
+        if (cfg) {
+          adv.style.display = 'block';
+          advToggleLabel.textContent = cfg.toggle;
+          advPriceLabel.textContent = cfg.priceLabel;
+          advDownLabel.textContent = cfg.downLabel;
+          closingWrap.style.display = cfg.closing ? 'flex' : 'none';
+          closingChk.checked = false;
+          currentDownPct = cfg.defaultPct;
+          buildDownSeg(cfg);
+          // Back-calculate a sensible price from the preset target so opening Advanced
+          // stays continuous with the simple number shown above.
+          const curTarget = parseInt(avg, 10) || 0;
+          const prefill = (cfg.defaultPct >= 100 || curTarget <= 0)
+            ? (curTarget || cfg.defaultPrice)
+            : Math.round(curTarget / (cfg.defaultPct / 100));
+          priceInput.value = prefill.toLocaleString('en-US');
+        } else {
+          adv.style.display = 'none';
+        }
+
+        updateSummary();
+      }
+    });
+  });
+
+  // ── Target input ──
+  targetInput.addEventListener('input', (e) => {
+    const raw = e.target.value.replace(/[^0-9]/g, '');
+    // Format with commas
+    const num = parseInt(raw, 10);
+    e.target.value = isNaN(num) ? '' : num.toLocaleString('en-US');
+    financeCtx = null; // a manual edit overrides the down-payment helper
+    updateSummary();
+  });
+
+  // ── Advanced down-payment helper wiring ──
+  advToggle.addEventListener('click', () => {
+    adv.classList.toggle('open');
+    if (adv.classList.contains('open')) recomputeFinance();
+  });
+  downSeg.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    currentDownPct = parseInt(b.dataset.pct, 10);
+    Array.prototype.forEach.call(downSeg.children, (x) => x.classList.toggle('active', x === b));
+    recomputeFinance();
+  });
+  priceInput.addEventListener('input', (e) => {
+    const raw = e.target.value.replace(/[^0-9]/g, '');
+    const num = parseInt(raw, 10);
+    e.target.value = isNaN(num) ? '' : num.toLocaleString('en-US');
+    recomputeFinance();
+  });
+  closingChk.addEventListener('change', recomputeFinance);
+
+  // ── Custom goal name ──
+  customNameInput.addEventListener('input', () => {
+    if (selectedGoal === 'custom') persistGoal();
+  });
+
+  // ── Always-visible "name your own" cue → selects the custom flow ──
+  const customCue  = document.getElementById('customCue');
+  const customCard = document.querySelector('.goal-card[data-goal="custom"]');
+  if (customCue && customCard) {
+    customCue.addEventListener('click', () => {
+      customCard.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      customCard.click();
+    });
+  }
+})();
+</script>
+
+  <script src="./proto-shell.js"></script>
+</body>
+</html>
+

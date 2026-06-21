@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 4: Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Device frame ── */
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: #10141a;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.3),
+        0 25px 60px rgba(0, 0, 0, 0.5),
+        0 50px 120px rgba(0, 0, 0, 0.25);
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+    }
+    .screen::-webkit-scrollbar { display: none; }
+
+    /* ── Top bar ── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 58px 24px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #10141a;
+    }
+
+    .app-name {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #dfe2eb;
+    }
+
+    .settings-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s ease-out;
+      color: #83948f;
+    }
+    .settings-btn:active {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .settings-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ── Hero card ── */
+    .hero-card {
+      margin: 20px 24px 0;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s ease-out;
+      position: relative;
+    }
+    .hero-card:active {
+      border-color: rgba(0, 245, 212, 0.2);
+    }
+
+    .hero-chart {
+      width: 100%;
+      height: 180px;
+      display: block;
+    }
+
+    .hero-content {
+      padding: 0 20px 20px;
+    }
+
+    .hero-value {
+      font-size: 32px;
+      line-height: 36px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #d7fff3;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      line-height: 18px;
+      font-weight: 400;
+      color: #83948f;
+      margin-top: 4px;
+    }
+
+    .hero-meta {
+      font-size: 11px;
+      line-height: 16px;
+      font-weight: 500;
+      color: rgba(131, 148, 143, 0.6);
+      margin-top: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-tap-hint {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(131, 148, 143, 0.4);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Quick actions ── */
+    .quick-actions {
+      display: flex;
+      gap: 12px;
+      padding: 20px 24px 0;
+    }
+
+    .action-btn {
+      flex: 1;
+      height: 48px;
+      border-radius: 14px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.12s ease-out;
+    }
+    .action-btn:active {
+      transform: scale(0.97);
+    }
+
+    .action-btn--primary {
+      background: #00F5D4;
+      color: #0A0E14;
+      border: none;
+    }
+
+    .action-btn--secondary {
+      background: transparent;
+      color: #b9cac4;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .action-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── Goals section ── */
+    .goals-section {
+      padding: 28px 24px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #dfe2eb;
+    }
+
+    .add-goal-btn {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #00f5d4;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 0;
+      transition: opacity 0.15s ease-out;
+    }
+    .add-goal-btn:active { opacity: 0.6; }
+    .add-goal-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ── Goal list card ── */
+    .goal-list {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 40px;
+    }
+
+    .goal-item {
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: border-color 0.15s ease-out;
+    }
+    .goal-item:active {
+      border-color: rgba(0, 245, 212, 0.15);
+    }
+
+    .goal-item-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .goal-item-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .goal-item-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .goal-item-icon--house { background: rgba(0, 245, 212, 0.12); color: #00f5d4; }
+    .goal-item-icon--freedom { background: rgba(187, 195, 255, 0.12); color: #bbc3ff; }
+
+    .goal-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .goal-item-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #dfe2eb;
+      letter-spacing: -0.005em;
+    }
+
+    .goal-item-status {
+      font-size: 13px;
+      font-weight: 400;
+      color: #83948f;
+      margin-top: 2px;
+    }
+    .goal-item-status strong {
+      color: #00f5d4;
+      font-weight: 600;
+    }
+
+    .goal-item-arrow {
+      color: rgba(131, 148, 143, 0.4);
+      flex-shrink: 0;
+    }
+
+    /* ── Progress bar ── */
+    .progress-bar {
+      margin-top: 12px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .progress-fill--teal { background: #00f5d4; }
+    .progress-fill--lavender { background: #bbc3ff; }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+
+<div class="device-frame">
+  <div class="screen">
+
+    <!-- Top bar -->
+    <div class="top-bar">
+      <span class="app-name">WealthVision</span>
+      <button class="settings-btn" aria-label="Settings">
+        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="9" r="3"/>
+          <path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.4 3.4l1.4 1.4M13.2 13.2l1.4 1.4M3.4 14.6l1.4-1.4M13.2 4.8l1.4-1.4"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Hero card -->
+    <div class="hero-card" id="heroCard">
+      <span class="hero-tap-hint">Tap to simulate</span>
+      <canvas class="hero-chart" id="heroChart"></canvas>
+      <div class="hero-content">
+        <div class="hero-value">$227,413</div>
+        <div class="hero-subtitle">$200/mo &times; 30 years &times; 7% avg return</div>
+        <div class="hero-meta">Based on your inputs</div>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="quick-actions">
+      <button class="action-btn action-btn--primary">
+        <svg viewBox="0 0 16 16" fill="currentColor">
+          <path d="M4 2.5v11l9-5.5-9-5.5z"/>
+        </svg>
+        Open Simulator
+      </button>
+      <button class="action-btn action-btn--secondary">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M2 12L6 4l4 6 4-8"/>
+        </svg>
+        Compare
+      </button>
+    </div>
+
+    <!-- Goals section -->
+    <div class="goals-section">
+      <div class="section-header">
+        <span class="section-title">Your Goals</span>
+        <button class="add-goal-btn">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="7" y1="2" x2="7" y2="12"/>
+            <line x1="2" y1="7" x2="12" y2="7"/>
+          </svg>
+          Add Goal
+        </button>
+      </div>
+
+      <div class="goal-list">
+
+        <!-- Goal 1 -->
+        <div class="goal-item">
+          <div class="goal-item-top">
+            <div class="goal-item-icon goal-item-icon--house">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 10L10 3l7 7"/>
+                <path d="M5 8.5V16h4v-4h2v4h4V8.5"/>
+              </svg>
+            </div>
+            <div class="goal-item-info">
+              <div class="goal-item-name">House Down Payment</div>
+              <div class="goal-item-status">On track: <strong>~14 years</strong></div>
+            </div>
+            <span class="goal-item-arrow">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 4l4 4-4 4"/>
+              </svg>
+            </span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill progress-fill--teal" id="progress1" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Goal 2 (example second goal) -->
+        <div class="goal-item">
+          <div class="goal-item-top">
+            <div class="goal-item-icon goal-item-icon--freedom">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="10" cy="10" r="7"/>
+                <path d="M10 6v4l2.5 2.5"/>
+              </svg>
+            </div>
+            <div class="goal-item-info">
+              <div class="goal-item-name">Financial Freedom</div>
+              <div class="goal-item-status">Increase by $50/mo to reach faster</div>
+            </div>
+            <span class="goal-item-arrow">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 4l4 4-4 4"/>
+              </svg>
+            </span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill progress-fill--lavender" id="progress2" style="width: 0%"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(() => {
+  // ── Hero chart ──
+  const MONTHLY    = 200;
+  const RATE       = 0.07;
+  const YEARS      = 30;
+  const MONTHS     = YEARS * 12;
+  const monthlyRate = RATE / 12;
+  const FINAL_VALUE = 227413;
+
+  const canvas = document.getElementById('heroChart');
+  const ctx    = canvas.getContext('2d');
+  const dpr    = window.devicePixelRatio || 1;
+
+  // Pre-compute data
+  const raw = [];
+  for (let m = 0; m <= MONTHS; m += 6) {
+    const contributions = MONTHLY * m;
+    const total = m === 0 ? 0 : MONTHLY * ((Math.pow(1 + monthlyRate, m) - 1) / monthlyRate);
+    raw.push({ contributions, total });
+  }
+  const scale = FINAL_VALUE / raw[raw.length - 1].total;
+  const data = raw.map(d => ({
+    contributions: d.contributions,
+    total: d.total * scale,
+  }));
+
+  function sizeCanvas() {
+    const p = canvas.parentElement;
+    const w = p.clientWidth;
+    const h = 180;
+    canvas.width  = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
+  }
+
+  function drawHeroChart() {
+    const w = canvas.width / dpr;
+    const h = canvas.height / dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    const N = data.length;
+    const maxV = FINAL_VALUE * 1.08;
+    const padT = 12, padB = 4;
+    const cL = 0, cR = w, cT = padT, cB = h - padB;
+    const cW = cR - cL, cH = cB - cT;
+
+    const xOf = i => cL + (i / (N - 1)) * cW;
+    const yOf = v => cB - (v / maxV) * cH;
+
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // Indigo area
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), cB);
+    for (let i = 0; i < N; i++) ctx.lineTo(xOf(i), yOf(data[i].contributions));
+    ctx.lineTo(xOf(N - 1), cB);
+    ctx.closePath();
+    const gI = ctx.createLinearGradient(0, cT, 0, cB);
+    gI.addColorStop(0, 'rgba(2, 49, 222, 0.40)');
+    gI.addColorStop(0.5, 'rgba(2, 49, 222, 0.15)');
+    gI.addColorStop(1, 'rgba(2, 49, 222, 0.03)');
+    ctx.fillStyle = gI;
+    ctx.fill();
+
+    // Teal area
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = xOf(i), y = yOf(data[i].contributions);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    for (let i = N - 1; i >= 0; i--) {
+      ctx.lineTo(xOf(i), yOf(data[i].total));
+    }
+    ctx.closePath();
+    const gT = ctx.createLinearGradient(0, cT, 0, cB);
+    gT.addColorStop(0, 'rgba(0, 245, 212, 0.30)');
+    gT.addColorStop(0.4, 'rgba(0, 245, 212, 0.10)');
+    gT.addColorStop(1, 'rgba(0, 245, 212, 0.02)');
+    ctx.fillStyle = gT;
+    ctx.fill();
+
+    // Contributions line
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = xOf(i), y = yOf(data[i].contributions);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(187, 195, 255, 0.35)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Total line glow
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = xOf(i), y = yOf(data[i].total);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(0, 245, 212, 0.12)';
+    ctx.lineWidth = 8;
+    ctx.shadowColor = 'rgba(0, 245, 212, 0.15)';
+    ctx.shadowBlur = 10;
+    ctx.stroke();
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+
+    // Total line crisp
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = xOf(i), y = yOf(data[i].total);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // ── Animate progress bars ──
+  function animateProgressBars() {
+    const p1 = document.getElementById('progress1');
+    const p2 = document.getElementById('progress2');
+    setTimeout(() => { p1.style.width = '47%'; }, 400);
+    setTimeout(() => { p2.style.width = '18%'; }, 600);
+  }
+
+  // ── Init ──
+  function init() {
+    sizeCanvas();
+    drawHeroChart();
+    animateProgressBars();
+  }
+
+  window.addEventListener('load', init);
+  window.addEventListener('resize', () => {
+    sizeCanvas();
+    drawHeroChart();
+  });
+})();
+</script>
+
+  <script src="./proto-shell.js"></script>
+</body>
+</html>
+

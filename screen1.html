@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 1: Onboarding Hook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080a0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Device frame ── */
+    .device-frame {
+      width: 393px;
+      height: 852px;
+      border-radius: 47px;
+      overflow: hidden;
+      position: relative;
+      background: #10141a;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.3),
+        0 25px 60px rgba(0, 0, 0, 0.5),
+        0 50px 120px rgba(0, 0, 0, 0.25);
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: 58px;
+      right: 24px;
+      z-index: 10;
+      color: #83948f;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      padding: 8px 0;
+      opacity: 0;
+      transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .skip-link.visible { opacity: 1; }
+    .skip-link:active { opacity: 0.4; }
+
+    /* ── Chart area — top 55% ── */
+    .chart-area {
+      position: relative;
+      width: 100%;
+      height: 55%;
+      flex-shrink: 0;
+    }
+
+    .chart-area::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, #10141a);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .chart-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* ── Counter overlay ── */
+    .counter-container {
+      position: absolute;
+      top: 72px;
+      left: 24px;
+      z-index: 5;
+    }
+
+    .counter-amount {
+      font-size: 40px;
+      line-height: 48px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #d7fff3;
+      font-variant-numeric: tabular-nums;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+    .counter-amount.visible { opacity: 1; }
+    .counter-amount.pulse {
+      animation: wowPulse 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .counter-subtitle {
+      font-size: 15px;
+      line-height: 22px;
+      font-weight: 400;
+      color: #b9cac4;
+      margin-top: 4px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .counter-subtitle.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Text area ── */
+    .text-area {
+      flex: 1;
+      padding: 12px 24px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .text-content {
+      flex: 0 0 auto;
+    }
+
+    /* ── Chart legend (moved to text area for readability) ── */
+    .chart-legend {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 14px;
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .chart-legend.visible { opacity: 1; }
+    .chart-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chart-legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+    .chart-legend-swatch--interest { background: #00f5d4; }
+    .chart-legend-swatch--contributions { background: #3d4dff; }
+    .chart-legend-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .chart-legend-label--interest { color: rgba(0, 245, 212, 0.7); }
+    .chart-legend-label--contributions { color: rgba(187, 195, 255, 0.6); }
+
+    .insight-line {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      color: #bbc3ff;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .insight-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .body-text {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 400;
+      color: #b9cac4;
+      margin-top: 8px;
+      margin-bottom: 0;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .body-text.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── CTA ── */
+    .cta-area {
+      margin-top: 20px;
+    }
+
+    .cta-button {
+      width: 100%;
+      height: 56px;
+      background: #00F5D4;
+      color: #0A0E14;
+      border: none;
+      border-radius: 16px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(12px) scale(1);
+      transition:
+        opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .cta-button.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .cta-button.visible:active {
+      transform: translateY(0) scale(0.97);
+      transition: transform 0.12s ease-out;
+    }
+
+    /* ── Progress dots ── */
+    .progress-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+      padding-bottom: 38px;
+      opacity: 0;
+      transition: opacity 0.4s ease-out;
+    }
+    .progress-dots.visible { opacity: 1; }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(131, 148, 143, 0.35);
+    }
+    .dot.active { background: #00F5D4; }
+
+    /* ── Keyframes ── */
+    @keyframes wowPulse {
+      0%  { transform: scale(1);    text-shadow: 0 0 0 transparent; }
+      35% { transform: scale(1.06); text-shadow: 0 0 28px rgba(0, 245, 212, 0.35); }
+      100%{ transform: scale(1);    text-shadow: 0 0 0 transparent; }
+    }
+
+    /* ── Replay (outside device) ── */
+    .replay-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #83948f;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease-out;
+    }
+    .replay-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #dfe2eb;
+    }
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+
+<div class="device-frame">
+  <div class="screen">
+    <span class="skip-link" id="skipLink">Skip intro</span>
+
+    <div class="chart-area">
+      <canvas class="chart-canvas" id="chart"></canvas>
+      <div class="counter-container">
+        <div class="counter-amount" id="counter">$0</div>
+        <div class="counter-subtitle" id="counterSub">from just $200/month</div>
+      </div>
+    </div>
+
+    <div class="text-area">
+      <div class="text-content">
+        <div class="chart-legend" id="legend">
+          <div class="chart-legend-item">
+            <div class="chart-legend-swatch chart-legend-swatch--interest"></div>
+            <span class="chart-legend-label chart-legend-label--interest">Interest earned</span>
+          </div>
+          <div class="chart-legend-item">
+            <div class="chart-legend-swatch chart-legend-swatch--contributions"></div>
+            <span class="chart-legend-label chart-legend-label--contributions">Your contributions</span>
+          </div>
+        </div>
+        <div class="insight-line" id="insight">You only put in $72,000</div>
+        <div class="body-text" id="bodyText">Compound interest turned $72K into $227K. Without you lifting a finger.</div>
+        <div class="cta-area">
+          <button class="cta-button" id="cta">See what YOUR money could do &#8594;</button>
+        </div>
+      </div>
+      <div class="progress-dots" id="dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="replay-btn" id="replayBtn">&#x21bb; Replay</button>
+
+<script>
+(() => {
+  // ── Constants ──
+  const MONTHLY       = 200;
+  const RATE           = 0.07;
+  const YEARS          = 30;
+  const MONTHS         = YEARS * 12;
+  const FINAL_VALUE    = 227413;
+  const ANIM_DURATION  = 2000;   // ms — sweep duration
+  const ANIM_DELAY     = 500;    // ms — pause before start
+
+  // ── Pre-compute curve data ──
+  const monthlyRate = RATE / 12;
+  const raw = [];
+  for (let m = 0; m <= MONTHS; m++) {
+    const contributions = MONTHLY * m;
+    const total = m === 0
+      ? 0
+      : MONTHLY * ((Math.pow(1 + monthlyRate, m) - 1) / monthlyRate);
+    raw.push({ contributions, total });
+  }
+  const scale = FINAL_VALUE / raw[MONTHS].total;
+  const data = raw.map(d => ({
+    contributions: d.contributions,
+    total: d.total * scale,
+  }));
+
+  // ── DOM ──
+  const canvas      = document.getElementById('chart');
+  const counterEl      = document.getElementById('counter');
+  const counterSub     = document.getElementById('counterSub');
+  const insightEl      = document.getElementById('insight');
+  const bodyTextEl     = document.getElementById('bodyText');
+  const ctaEl          = document.getElementById('cta');
+  const dotsEl         = document.getElementById('dots');
+  const skipEl         = document.getElementById('skipLink');
+  const replayBtn      = document.getElementById('replayBtn');
+  const legendEl       = document.getElementById('legend');
+  const ctx            = canvas.getContext('2d');
+  const dpr            = window.devicePixelRatio || 1;
+  // ── Canvas sizing ──
+  function sizeCanvas() {
+    const p = canvas.parentElement;
+    canvas.width  = p.clientWidth  * dpr;
+    canvas.height = p.clientHeight * dpr;
+    canvas.style.width  = p.clientWidth  + 'px';
+    canvas.style.height = p.clientHeight + 'px';
+  }
+
+  // ── Draw one frame ──
+  function drawChart(progress) {
+    const w = canvas.width  / dpr;
+    const h = canvas.height / dpr;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    // Chart bounds (CSS px)
+    const padT = 110, padB = 32;
+    const cL = 0, cR = w, cT = padT, cB = h - padB;
+    const cW = cR - cL, cH = cB - cT;
+    const maxV = FINAL_VALUE * 1.06;
+
+    const N = data.length;
+    const drawN = Math.max(2, Math.ceil(progress * (N - 1)) + 1);
+    const xOf = i => cL + (i / (N - 1)) * cW;
+    const yOf = v => cB - (v / maxV) * cH;
+
+    ctx.lineCap  = 'round';
+    ctx.lineJoin = 'round';
+
+    // ── Subtle grid ──
+    ctx.strokeStyle = 'rgba(223, 226, 235, 0.03)';
+    ctx.lineWidth   = 1;
+    for (let g = 1; g <= 4; g++) {
+      const gy = cB - (g / 5) * cH;
+      ctx.beginPath();
+      ctx.moveTo(cL, gy);
+      ctx.lineTo(cR, gy);
+      ctx.stroke();
+    }
+
+    // ── Indigo area (contributions) ──
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), cB);
+    for (let i = 0; i < drawN; i++) ctx.lineTo(xOf(i), yOf(data[i].contributions));
+    ctx.lineTo(xOf(drawN - 1), cB);
+    ctx.closePath();
+
+    const gI = ctx.createLinearGradient(0, cT, 0, cB);
+    gI.addColorStop(0,   'rgba(2, 49, 222, 0.55)');
+    gI.addColorStop(0.5, 'rgba(2, 49, 222, 0.25)');
+    gI.addColorStop(1,   'rgba(2, 49, 222, 0.06)');
+    ctx.fillStyle = gI;
+    ctx.fill();
+
+    // ── Teal area (interest — the widening gap) ──
+    ctx.beginPath();
+    for (let i = 0; i < drawN; i++) {
+      const x = xOf(i), y = yOf(data[i].contributions);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    for (let i = drawN - 1; i >= 0; i--) {
+      ctx.lineTo(xOf(i), yOf(data[i].total));
+    }
+    ctx.closePath();
+
+    const gT = ctx.createLinearGradient(0, cT, 0, cB);
+    gT.addColorStop(0,   'rgba(0, 245, 212, 0.38)');
+    gT.addColorStop(0.4, 'rgba(0, 245, 212, 0.18)');
+    gT.addColorStop(1,   'rgba(0, 245, 212, 0.03)');
+    ctx.fillStyle = gT;
+    ctx.fill();
+
+    // ── Contributions line ──
+    ctx.beginPath();
+    for (let i = 0; i < drawN; i++) {
+      const x = xOf(i), y = yOf(data[i].contributions);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(187, 195, 255, 0.55)';
+    ctx.lineWidth   = 2;
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur  = 0;
+    ctx.stroke();
+
+    // ── Total line — glow pass ──
+    ctx.beginPath();
+    for (let i = 0; i < drawN; i++) {
+      const x = xOf(i), y = yOf(data[i].total);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(0, 245, 212, 0.20)';
+    ctx.lineWidth   = 12;
+    ctx.shadowColor = 'rgba(0, 245, 212, 0.25)';
+    ctx.shadowBlur  = 18;
+    ctx.stroke();
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur  = 0;
+
+    // ── Total line — crisp pass ──
+    ctx.beginPath();
+    for (let i = 0; i < drawN; i++) {
+      const x = xOf(i), y = yOf(data[i].total);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth   = 3;
+    ctx.stroke();
+
+    // ── Endpoint dot ──
+    if (drawN > 2) {
+      const li = drawN - 1;
+      const dx = xOf(li), dy = yOf(data[li].total);
+
+      ctx.beginPath();
+      ctx.arc(dx, dy, 9, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 245, 212, 0.18)';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(dx, dy, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#00f5d4';
+      ctx.fill();
+    }
+
+    // ── Draw area labels on canvas (removed — using DOM legend now) ──
+
+    return data[Math.min(drawN - 1, N - 1)].total;
+  }
+
+  // ── Format ──
+  function fmt(v) {
+    return '$' + Math.round(v).toLocaleString('en-US');
+  }
+
+  // ── Animation ──
+  let raf = null;
+
+  function resetUI() {
+    [counterEl, counterSub, insightEl, bodyTextEl, ctaEl, dotsEl, skipEl, legendEl]
+      .forEach(el => el.classList.remove('visible'));
+    counterEl.classList.remove('pulse');
+    counterEl.textContent = '$0';
+  }
+
+  function run() {
+    if (raf) cancelAnimationFrame(raf);
+    resetUI();
+    sizeCanvas();
+
+    let t0 = null, done = false;
+
+    setTimeout(() => skipEl.classList.add('visible'), 800);
+
+    function tick(ts) {
+      if (!t0) t0 = ts;
+      const elapsed = ts - t0;
+
+      if (elapsed < ANIM_DELAY) {
+        drawChart(0.003);
+        counterEl.classList.add('visible');
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+
+      const t = Math.min(1, (elapsed - ANIM_DELAY) / ANIM_DURATION);
+      // Ease-out curve for the sweep (fast start, decelerate for "absorb" moment)
+      const ease = 1 - Math.pow(1 - t, 3); // cubic ease-out
+      const val = drawChart(ease);
+      counterEl.textContent = fmt(val);
+
+      if (t < 1) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+
+      if (!done) {
+        done = true;
+        counterEl.textContent = fmt(FINAL_VALUE);
+        counterEl.classList.add('pulse');
+
+        setTimeout(() => counterSub.classList.add('visible'),  250);
+        setTimeout(() => legendEl.classList.add('visible'),     400);
+        setTimeout(() => insightEl.classList.add('visible'),   650);
+        setTimeout(() => bodyTextEl.classList.add('visible'),  950);
+        setTimeout(() => ctaEl.classList.add('visible'),      1250);
+        setTimeout(() => dotsEl.classList.add('visible'),     1450);
+      }
+    }
+
+    raf = requestAnimationFrame(tick);
+  }
+
+  // ── Init ──
+  window.addEventListener('load', run);
+  window.addEventListener('resize', sizeCanvas);
+  replayBtn.addEventListener('click', run);
+})();
+</script>
+
+  <script src="./proto-shell.js"></script>
+</body>
+</html>
+

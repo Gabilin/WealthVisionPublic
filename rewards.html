@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Rewards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="proto-shell.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #080a0e;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    .device-frame {
+      width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
+      position: relative; background: #10141a;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+
+    .level-card {
+      border-radius: 20px; padding: 20px; overflow: hidden;
+      background:
+        radial-gradient(120% 120% at 100% 0%, rgba(245,166,35,0.18), transparent 55%),
+        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(16px) saturate(1.15); backdrop-filter: blur(16px) saturate(1.15);
+      border: 1px solid rgba(245,166,35,0.26);
+      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+    }
+    .level-top { display: flex; align-items: center; justify-content: space-between; }
+    .level-badge { display: flex; align-items: center; gap: 12px; }
+    .level-badge .num {
+      width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
+      background: rgba(245,166,35,0.18); color: #f5b740; font-size: 22px; font-weight: 800;
+    }
+    .level-badge .txt .big { font-size: 17px; font-weight: 800; color: var(--text-hi); }
+    .level-badge .txt .sub { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
+    .level-xp { text-align: right; }
+    .level-xp .v { font-size: 20px; font-weight: 800; color: var(--text-hi); font-variant-numeric: tabular-nums; }
+    .level-xp .k { font-size: 11px; color: var(--text-mid); }
+    .xp-bar { margin-top: 16px; height: 8px; border-radius: 99px; background: rgba(127,127,160,0.18); overflow: hidden; }
+    .xp-bar > i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg,#f5a623,#ffd27a); }
+    .xp-hint { margin-top: 8px; font-size: 11.5px; color: var(--text-mid); }
+
+    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .mini {
+      border-radius: 16px; padding: 16px;
+      background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline); box-shadow: inset 0 1px 0 var(--hi-glow);
+    }
+    .mini .v { font-size: 22px; font-weight: 800; color: var(--text-hi); font-variant-numeric: tabular-nums; }
+    .mini .k { font-size: 12px; color: var(--text-mid); margin-top: 4px; }
+    .mini.flame { background: rgba(255,138,76,0.10); border-color: rgba(255,138,76,0.24); }
+    .mini.flame .v { color: #ff9e63; }
+
+    .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ach {
+      border-radius: 16px; padding: 16px; text-align: center;
+      background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline); box-shadow: inset 0 1px 0 var(--hi-glow);
+    }
+    .ach.earned { background: rgba(245,166,35,0.10); border-color: rgba(245,166,35,0.32); }
+    .ach .ic { width: 48px; height: 48px; margin: 0 auto 10px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface); color: var(--text-lo); }
+    .ach.earned .ic { background: rgba(245,166,35,0.18); color: #f5b740; }
+    .ach .ic svg { width: 26px; height: 26px; }
+    .ach .t { font-size: 13px; font-weight: 700; color: var(--text-hi); }
+    .ach.earned .t { color: #f0c777; }
+    .ach .d { font-size: 11px; color: var(--text-mid); margin-top: 4px; line-height: 1.3; }
+    .ach .lock { font-size: 10px; font-weight: 700; color: var(--text-lo); margin-top: 8px;
+      text-transform: uppercase; letter-spacing: 0.05em; }
+    .ach.earned .lock { color: #f5b740; }
+  </style>
+</head>
+<body data-wv-tab="rewards">
+  <div class="device-frame">
+    <div class="wv-hub">
+      <div class="wv-top">
+        <div>
+          <div class="wv-hello">Your progress</div>
+          <div class="wv-page-title">Rewards</div>
+        </div>
+      </div>
+
+      <div class="wv-scroll">
+        <section class="level-card">
+          <div class="level-top">
+            <div class="level-badge">
+              <div class="num" id="lvlNum">1</div>
+              <div class="txt"><div class="big" id="lvlTitle">Saver</div><div class="sub">Keep learning to level up</div></div>
+            </div>
+            <div class="level-xp"><div class="v" id="lvlXp">0</div><div class="k">total XP</div></div>
+          </div>
+          <div class="xp-bar"><i id="xpFill" style="width:0%"></i></div>
+          <div class="xp-hint" id="xpHint">100 XP to level 2</div>
+        </section>
+
+        <div class="duo">
+          <div class="mini flame"><div class="v" id="streakV">0</div><div class="k">Day streak 🔥</div></div>
+          <div class="mini"><div class="v" id="achV">0/6</div><div class="k">Badges earned</div></div>
+        </div>
+
+        <div class="wv-section-head">
+          <div class="wv-section-title">Achievements</div>
+        </div>
+        <div class="ach-grid" id="achGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="proto-shell.js"></script>
+  <script>
+    (function () {
+      var S = window.WVShell;
+      var st = S.getState();
+      var lvl = S.levelFromXp(st.xp);
+      var titles = ['Saver', 'Saver', 'Planner', 'Investor', 'Strategist', 'Wealth Builder'];
+
+      document.getElementById('lvlNum').textContent = lvl.level;
+      document.getElementById('lvlTitle').textContent = titles[Math.min(lvl.level, titles.length - 1)];
+      document.getElementById('lvlXp').textContent = st.xp;
+      document.getElementById('xpFill').style.width = Math.round(lvl.into / lvl.span * 100) + '%';
+      document.getElementById('xpHint').textContent = lvl.toNext + ' XP to level ' + (lvl.level + 1);
+      document.getElementById('streakV').textContent = st.streak.count;
+
+      var earnedCount = st.achievements.length;
+      document.getElementById('achV').textContent = earnedCount + '/' + S.ACHIEVEMENTS.length;
+
+      var grid = document.getElementById('achGrid');
+      S.ACHIEVEMENTS.forEach(function (a) {
+        var earned = st.achievements.indexOf(a.id) !== -1;
+        var el = document.createElement('div');
+        el.className = 'ach' + (earned ? ' earned' : '');
+        el.innerHTML =
+          '<div class="ic">' + S.icon(a.icon) + '</div>' +
+          '<div class="t">' + a.title + '</div>' +
+          '<div class="d">' + a.desc + '</div>' +
+          '<div class="lock">' + (earned ? 'Unlocked' : 'Locked') + '</div>';
+        grid.appendChild(el);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision — Screen 15: The 4% Rule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
+    .device-frame{--act1:#ff8a5c;}
+    .device-frame[data-theme="light"]{--act1:#d2542a;}
+    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{background:#080a0e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa6);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25)}
+    .screen{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
+    .top-nav{padding:56px 24px 12px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+    .back-btn{width:36px;height:36px;border-radius:50%;background:var(--wa6);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .back-btn svg{width:18px;height:18px;stroke:var(--s-sec);stroke-width:2;fill:none}
+    .nav-title{flex:1;font-size:20px;font-weight:700;color:var(--s-hi)}
+    .nav-counter{font-size:13px;font-weight:600;color:var(--s-mid);font-variant-numeric:tabular-nums}
+    .deck-viewport{flex:1;position:relative;overflow:hidden;touch-action:pan-y}
+    .deck-track{display:flex;height:100%;will-change:transform;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+    .deck-track.dragging{transition:none}
+    .card{width:393px;height:100%;flex-shrink:0;padding:16px 24px 0;display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none}
+    .card::-webkit-scrollbar{display:none}
+    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;padding:16px 0 36px;flex-shrink:0}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--wa12);transition:all 0.35s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
+    .dot.active{width:24px;border-radius:4px;background:#ff8a5c}
+    .section-badge{display:inline-flex;padding:4px 12px;border-radius:8px;background:rgba(255,138,92,0.10);font-size:11px;font-weight:600;color:var(--act1);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
+    .section-title{font-size:22px;font-weight:800;color:var(--s-hi);line-height:1.25;margin-bottom:6px;letter-spacing:-0.02em}
+    .section-sub{font-size:14px;color:var(--s-mid);line-height:1.5;margin-bottom:20px}
+    .swipe-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:auto;padding:14px 0 4px;font-size:12px;color:var(--wa20);animation:hintPulse 2s ease-in-out infinite}
+    .swipe-hint svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none}
+    @keyframes hintPulse{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:.8;transform:translateX(4px)}}
+
+    .content-card{background:var(--wa3);border:1px solid var(--wa6);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .insight-box{margin-top:14px;padding:14px;border-radius:12px;font-size:14px;line-height:1.5;text-align:center}
+    .insight-box.teal{background:rgba(255,138,92,0.07);border:1px solid rgba(255,138,92,0.14);color:var(--act1)}
+    .insight-box.purple{background:rgba(187,195,255,0.06);border:1px solid rgba(187,195,255,0.12);color:var(--c-peri)}
+
+    /* Formula visual */
+    .formula-box{display:flex;align-items:center;justify-content:center;gap:10px;padding:20px;background:var(--wa4);border-radius:16px;margin-bottom:20px}
+    .formula-item{text-align:center}
+    .formula-label{font-size:11px;color:var(--s-mid);margin-bottom:4px}
+    .formula-val{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-0.03em}
+    .formula-op{font-size:24px;font-weight:700;color:var(--s-mid)}
+
+    /* Examples */
+    .example-list{display:flex;flex-direction:column;gap:10px;flex:1}
+    .example-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--wa3);border:1px solid var(--wa6);border-radius:12px}
+    .example-left{display:flex;flex-direction:column}
+    .example-lifestyle{font-size:14px;font-weight:600;color:var(--s-hi)}
+    .example-expense{font-size:12px;color:var(--s-mid);margin-top:2px}
+    .example-target{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+
+    /* Calculator */
+    .calc-input-group{margin-bottom:20px}
+    .calc-label{font-size:13px;color:var(--s-mid);margin-bottom:8px}
+    .calc-dollar{position:relative}
+    .calc-dollar::before{content:'$';position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:18px;font-weight:700;color:var(--s-mid)}
+    .calc-dollar input{width:100%;height:56px;background:var(--wa4);border:1.5px solid var(--wa8);border-radius:14px;padding:0 16px 0 34px;font-family:'Inter',sans-serif;font-size:24px;font-weight:900;color:var(--s-hi);outline:none;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+    .calc-dollar input:focus{border-color:rgba(255,138,92,0.55)}
+    .calc-hero{text-align:center;padding:16px 0;flex:1;display:flex;flex-direction:column;justify-content:center}
+    .calc-hero .label{font-size:13px;color:var(--s-mid);margin-bottom:6px}
+    .calc-hero .value{font-size:48px;font-weight:900;color:var(--act1);font-variant-numeric:tabular-nums;letter-spacing:-0.03em;line-height:1}
+    .calc-hero .context{font-size:14px;color:var(--s-mid);line-height:1.4;margin-top:8px}
+    .calc-row{display:flex;gap:8px}
+    .calc-stat{flex:1;background:var(--wa3);border:1px solid var(--wa6);border-radius:12px;padding:14px 10px;text-align:center}
+    .calc-stat .cs-label{font-size:11px;color:var(--s-mid);margin-bottom:4px}
+    .calc-stat .cs-val{font-size:16px;font-weight:900;color:var(--c-peri);font-variant-numeric:tabular-nums}
+
+    .takeaway-card{background:linear-gradient(135deg,rgba(2,49,222,0.12),rgba(255,138,92,0.07));border:1px solid rgba(255,138,92,0.16);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .takeaway-list{display:flex;flex-direction:column;gap:16px;flex:1}
+    .takeaway-item{display:flex;gap:12px;align-items:flex-start}
+    .takeaway-num{width:28px;height:28px;border-radius:50%;background:rgba(255,138,92,0.16);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--act1);flex-shrink:0}
+    .takeaway-text{font-size:15px;color:var(--s-sec);line-height:1.55}
+    .takeaway-text strong{color:var(--s-hi);font-weight:600}
+    .cta-btn{width:100%;height:56px;border:none;border-radius:14px;background:linear-gradient(135deg,#ff8a5c,#ef6f3c);color:#2e1206;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:auto;flex-shrink:0}
+    .cta-btn:active{transform:scale(0.98)}
+  </style>
+  <link rel="stylesheet" href="./proto-shell.css">
+</head>
+<body>
+<div class="device-frame"><div class="screen">
+  <div class="top-nav">
+    <button class="back-btn"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <span class="nav-title">The 4% Rule</span>
+    <span class="nav-counter" id="navCounter">1 / 4</span>
+  </div>
+
+  <div class="deck-viewport" id="deckViewport">
+    <div class="deck-track" id="deckTrack">
+
+      <!-- Card 1: The Big Question -->
+      <div class="card" data-card="0">
+        <div class="section-badge">1 / 4 — The Big Question</div>
+        <div class="section-title">How much money<br>is "enough"?</div>
+        <div class="section-sub">Everyone asks this. The 1998 Trinity Study gave us an answer backed by 125 years of market data.</div>
+        <div class="content-card">
+          <div style="text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center">
+            <div style="font-size:13px;color:var(--s-mid);margin-bottom:12px">The rule:</div>
+            <div style="font-size:56px;font-weight:900;color:var(--act1);letter-spacing:-0.03em;line-height:1;margin-bottom:8px">4%</div>
+            <div style="font-size:16px;color:var(--s-hi);font-weight:600;margin-bottom:12px">Withdraw 4% per year and your money lasts 30+ years</div>
+            <div style="font-size:14px;color:var(--s-mid);line-height:1.5;max-width:300px;margin:0 auto">
+              If your investments earn ~7% and you withdraw 4%, the remaining 3% covers inflation. Your nest egg stays intact.
+            </div>
+          </div>
+          <div class="insight-box purple">
+            This means you need <strong>25x your annual expenses</strong> to retire. That's your Financial Independence number.
+          </div>
+        </div>
+        <div class="swipe-hint" id="swipeHint"><span>Swipe to continue</span><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></div>
+      </div>
+
+      <!-- Card 2: The 25x Formula -->
+      <div class="card" data-card="1">
+        <div class="section-badge">2 / 4 — The Formula</div>
+        <div class="section-title">Your number is<br>simpler than<br>you think</div>
+        <div class="section-sub">Just multiply your annual expenses by 25.</div>
+        <div class="content-card">
+          <div class="formula-box">
+            <div class="formula-item">
+              <div class="formula-label">Annual expenses</div>
+              <div class="formula-val" style="color:var(--s-hi)">$X</div>
+            </div>
+            <span class="formula-op">&times;</span>
+            <div class="formula-item">
+              <div class="formula-label">Multiplier</div>
+              <div class="formula-val" style="color:var(--act1)">25</div>
+            </div>
+            <span class="formula-op">=</span>
+            <div class="formula-item">
+              <div class="formula-label">FI number</div>
+              <div class="formula-val" style="color:var(--c-peri)">$$$</div>
+            </div>
+          </div>
+          <div style="font-size:13px;color:var(--s-mid);margin-bottom:12px">Real-world examples:</div>
+          <div class="example-list">
+            <div class="example-row">
+              <div class="example-left">
+                <span class="example-lifestyle">Frugal lifestyle</span>
+                <span class="example-expense">$30K/year expenses</span>
+              </div>
+              <span class="example-target" style="color:var(--act1)">$750K</span>
+            </div>
+            <div class="example-row">
+              <div class="example-left">
+                <span class="example-lifestyle">Comfortable lifestyle</span>
+                <span class="example-expense">$50K/year expenses</span>
+              </div>
+              <span class="example-target" style="color:var(--c-peri)">$1.25M</span>
+            </div>
+            <div class="example-row">
+              <div class="example-left">
+                <span class="example-lifestyle">Premium lifestyle</span>
+                <span class="example-expense">$80K/year expenses</span>
+              </div>
+              <span class="example-target" style="color:var(--c-amber)">$2.0M</span>
+            </div>
+            <div class="example-row">
+              <div class="example-left">
+                <span class="example-lifestyle">Luxury lifestyle</span>
+                <span class="example-expense">$120K/year expenses</span>
+              </div>
+              <span class="example-target" style="color:var(--c-red)">$3.0M</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Your Calculator -->
+      <div class="card" data-card="2">
+        <div class="section-badge">3 / 4 — Your Number</div>
+        <div class="section-title">Calculate your<br>FI number</div>
+        <div class="section-sub">Enter your monthly expenses. We'll do the math.</div>
+        <div class="content-card">
+          <div class="calc-input-group">
+            <div class="calc-label">Monthly expenses</div>
+            <div class="calc-dollar">
+              <input type="text" id="expenseInput" value="4,000" inputmode="numeric">
+            </div>
+          </div>
+          <div class="calc-hero">
+            <div class="label">Your Financial Independence number</div>
+            <div class="value" id="fiNumber">$1,200,000</div>
+            <div class="context" id="fiContext">Save this much and you never have to work again.</div>
+          </div>
+          <div class="calc-row">
+            <div class="calc-stat">
+              <div class="cs-label">Annual withdrawal</div>
+              <div class="cs-val" id="annualWithdraw">$48,000</div>
+            </div>
+            <div class="calc-stat">
+              <div class="cs-label">Monthly income</div>
+              <div class="cs-val" id="monthlyIncome">$4,000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Key Takeaway -->
+      <div class="card" data-card="3">
+        <div class="section-badge">4 / 4 — Key Takeaway</div>
+        <div class="section-title">Freedom has<br>a price tag</div>
+        <div class="section-sub">And it's more reachable than you think.</div>
+        <div class="takeaway-card">
+          <div class="takeaway-list">
+            <div class="takeaway-item">
+              <div class="takeaway-num">1</div>
+              <div class="takeaway-text"><strong>Lower expenses = earlier freedom</strong> — cutting $500/month from spending lowers your FI number by $150,000.</div>
+            </div>
+            <div class="takeaway-item">
+              <div class="takeaway-num">2</div>
+              <div class="takeaway-text"><strong>The 4% rule is conservative</strong> — historically it survived the Great Depression, 2008, and COVID. 96% success rate over 30 years.</div>
+            </div>
+            <div class="takeaway-item">
+              <div class="takeaway-num">3</div>
+              <div class="takeaway-text"><strong>You don't need to quit</strong> — knowing your number gives you options. "Coast FI" means you have enough that it will grow to your target without saving more.</div>
+            </div>
+          </div>
+          <button class="cta-btn" onclick="alert('Opens Simulator')">Track Your FI Progress</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="pagination" id="pagination">
+    <div class="dot active" onclick="goToCard(0)"></div>
+    <div class="dot" onclick="goToCard(1)"></div>
+    <div class="dot" onclick="goToCard(2)"></div>
+    <div class="dot" onclick="goToCard(3)"></div>
+  </div>
+</div></div>
+
+<script>
+const track=document.getElementById('deckTrack'),viewport=document.getElementById('deckViewport'),dots=document.querySelectorAll('.dot'),counter=document.getElementById('navCounter');
+const CARD_W=393,TOTAL=4;let current=0,startX=0,deltaX=0,isDragging=false;
+function goToCard(idx){current=Math.max(0,Math.min(TOTAL-1,idx));track.classList.remove('dragging');track.style.transform=`translateX(${-current*CARD_W}px)`;dots.forEach((d,i)=>d.classList.toggle('active',i===current));counter.textContent=`${current+1} / ${TOTAL}`;const h=document.getElementById('swipeHint');if(h&&current>0)h.style.display='none'}
+viewport.addEventListener('pointerdown',e=>{if(e.target.closest('input,button'))return;isDragging=true;startX=e.clientX;deltaX=0;track.classList.add('dragging');viewport.setPointerCapture(e.pointerId)});
+viewport.addEventListener('pointermove',e=>{if(!isDragging)return;deltaX=e.clientX-startX;const o=-current*CARD_W+deltaX;if((current===0&&deltaX>0)||(current===TOTAL-1&&deltaX<0)){track.style.transform=`translateX(${-current*CARD_W+deltaX*0.25}px)`}else{track.style.transform=`translateX(${o}px)`}});
+viewport.addEventListener('pointerup',e=>{if(!isDragging)return;isDragging=false;viewport.releasePointerCapture(e.pointerId);const t=CARD_W*0.2;if(deltaX<-t&&current<TOTAL-1)goToCard(current+1);else if(deltaX>t&&current>0)goToCard(current-1);else goToCard(current)});
+viewport.addEventListener('pointercancel',()=>{isDragging=false;goToCard(current)});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')goToCard(current+1);if(e.key==='ArrowLeft')goToCard(current-1)});
+
+// FI Calculator
+const expInput=document.getElementById('expenseInput');
+expInput.addEventListener('input',function(){
+  const raw=this.value.replace(/[^0-9]/g,'');
+  if(raw)this.value=parseInt(raw).toLocaleString('en-US');
+  updateFI();
+});
+function updateFI(){
+  const monthly=parseInt(expInput.value.replace(/[^0-9]/g,''),10)||0;
+  const annual=monthly*12;
+  const fi=annual*25;
+  document.getElementById('fiNumber').textContent='$'+fi.toLocaleString('en-US');
+  document.getElementById('annualWithdraw').textContent='$'+annual.toLocaleString('en-US');
+  document.getElementById('monthlyIncome').textContent='$'+monthly.toLocaleString('en-US');
+}
+</script>
+  <script src="./proto-shell.js"></script>
+</body>
+</html>
