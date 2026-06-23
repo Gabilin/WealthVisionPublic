@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aura — Welcome</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --label:#1c1c1e; --secondary:#6b6b70; --tertiary:#9a9aa0;
+    --blue:#0a84ff; --pink:#ff375f; --green:#30d158; --cyan:#32ade6; --indigo:#5856d6; --orange:#ff9f0a; --gray6:#f2f2f7;
+    --glass:rgba(255,255,255,0.5); --glass-stroke:rgba(255,255,255,0.65); --hair:rgba(60,60,67,0.12);
+  }
+  body{min-height:100vh; display:flex; align-items:center; justify-content:center; background:#d7d8de; padding:24px;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,"Segoe UI",sans-serif;
+    color:var(--label); -webkit-font-smoothing:antialiased}
+  .frame{width:393px; height:852px; border-radius:54px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(42% 34% at 14% 10%, rgba(10,132,255,0.22), transparent 70%),
+      radial-gradient(46% 38% at 88% 6%, rgba(255,55,95,0.20), transparent 70%),
+      radial-gradient(54% 46% at 86% 72%, rgba(48,209,88,0.18), transparent 72%),
+      radial-gradient(48% 42% at 8% 84%, rgba(88,86,214,0.18), transparent 72%),
+      radial-gradient(40% 30% at 50% 50%, rgba(50,173,230,0.10), transparent 70%),
+      #eef0f5;
+    box-shadow:0 50px 110px rgba(40,40,60,0.4), inset 0 0 0 1.5px rgba(255,255,255,0.5);}
+  .notch{position:absolute; top:11px; left:50%; transform:translateX(-50%); width:122px; height:34px; background:#000; border-radius:20px; z-index:20}
+  .statusbar{position:absolute; top:15px; left:0; right:0; display:flex; justify-content:space-between; padding:0 30px; font-size:14px; font-weight:600; z-index:19}
+  .scroll{position:absolute; inset:0; overflow-y:auto; padding:74px 22px 0; z-index:5; display:flex; flex-direction:column; min-height:100%}
+  .scroll::-webkit-scrollbar{width:0}
+
+  .appicon{width:80px; height:80px; border-radius:22px; margin:8px auto 0; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg,#0a84ff,#5856d6 55%,#ff375f);
+    box-shadow:0 12px 30px rgba(10,132,255,0.4), inset 0 1.5px 1px rgba(255,255,255,0.5), inset 0 -3px 6px rgba(0,0,0,0.15)}
+  .appicon svg{width:42px; height:42px}
+  h1{text-align:center; font-size:34px; font-weight:700; letter-spacing:-0.02em; line-height:1.08; margin:22px 12px 0}
+  h1 .grad{background:linear-gradient(120deg,#0a84ff,#5856d6); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .sub{text-align:center; font-size:16px; line-height:1.4; color:var(--secondary); margin:10px auto 0; max-width:300px}
+
+  .features{margin:26px 4px 0; background:var(--glass); -webkit-backdrop-filter:blur(30px) saturate(180%); backdrop-filter:blur(30px) saturate(180%);
+    border-radius:22px; border:0.5px solid var(--glass-stroke); box-shadow:0 1px 0 rgba(255,255,255,0.6) inset, 0 10px 34px rgba(30,30,50,0.10); overflow:hidden}
+  .feat{display:flex; align-items:center; gap:15px; padding:15px 17px; position:relative}
+  .feat + .feat::before{content:''; position:absolute; top:0; left:54px; right:0; height:0.5px; background:var(--hair)}
+  .feat .ic{width:30px; height:30px; flex:0 0 auto; display:flex; align-items:center; justify-content:center}
+  .feat .ic svg{width:28px; height:28px}
+  .feat .ft{font-size:16px; font-weight:600; letter-spacing:-0.01em; line-height:1.2}
+  .feat .fd{font-size:13.5px; color:var(--secondary); margin-top:2px; line-height:1.3}
+
+  .focus{margin:24px 4px 0}
+  .focus-h{font-size:13px; font-weight:600; letter-spacing:0.02em; text-transform:uppercase; color:var(--tertiary); margin:0 6px 9px}
+  .chips{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .chip{display:flex; align-items:center; gap:10px; cursor:pointer; padding:13px 14px; border-radius:16px;
+    background:var(--glass); -webkit-backdrop-filter:blur(24px) saturate(180%); backdrop-filter:blur(24px) saturate(180%);
+    border:0.5px solid var(--glass-stroke); box-shadow:0 1px 0 rgba(255,255,255,0.5) inset, 0 6px 18px rgba(30,30,50,0.07);
+    transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s; font:inherit; color:var(--label)}
+  .chip:active{transform:scale(0.97)}
+  .chip.on{box-shadow:0 0 0 2px var(--blue), 0 6px 18px rgba(10,132,255,0.22)}
+  .chip .dot{width:24px; height:24px; border-radius:8px; flex:0 0 auto; display:flex; align-items:center; justify-content:center}
+  .chip .dot svg{width:15px; height:15px; stroke:#fff; stroke-width:2.4; fill:none}
+  .chip .ct{font-size:14.5px; font-weight:600; letter-spacing:-0.01em}
+
+  .spacer{flex:1; min-height:18px}
+  .footer{position:sticky; bottom:0; padding:14px 4px calc(20px + env(safe-area-inset-bottom));
+    background:linear-gradient(to top, #eef0f5 55%, transparent)}
+  .continue{display:block; width:100%; text-align:center; text-decoration:none; cursor:pointer; border:none;
+    font:inherit; font-size:17px; font-weight:600; color:#fff; padding:16px; border-radius:16px;
+    background:linear-gradient(180deg,#0a90ff,#0a72ff); box-shadow:0 8px 24px rgba(10,132,255,0.4), inset 0 1px 0 rgba(255,255,255,0.35); transition:transform .14s}
+  .continue:active{transform:scale(0.98)}
+  .privacy{display:flex; align-items:center; gap:6px; justify-content:center; font-size:12.5px; color:var(--tertiary); margin-top:12px}
+  .privacy svg{width:13px; height:13px}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="notch"></div>
+  <div class="statusbar"><span>9:41</span><span>&#9679;&#9679;&#9679; &#9099;</span></div>
+  <div class="scroll">
+    <div class="appicon">
+      <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="16" stroke="#fff" stroke-width="4" opacity="0.35"/><path d="M21 5a16 16 0 0114.5 9.3" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M14 24l5 5 9-12" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1>Welcome to <span class="grad">Aura</span></h1>
+    <p class="sub">Your whole financial picture, calm and close at hand.</p>
+
+    <div class="features">
+      <div class="feat">
+        <span class="ic"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="11" stroke="#ff375f" stroke-width="4" opacity="0.25"/><path d="M14 3a11 11 0 018 18.5" stroke="#ff375f" stroke-width="4" stroke-linecap="round"/></svg></span>
+        <div><div class="ft">Goals as rings</div><div class="fd">Watch every goal close, just like an Activity ring.</div></div>
+      </div>
+      <div class="feat">
+        <span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="#30d158" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13V9a8 8 0 0116 0v4"/><rect x="5" y="13" width="18" height="10" rx="3" fill="rgba(48,209,88,0.15)"/></svg></span>
+        <div><div class="ft">Private by design</div><div class="fd">Your numbers stay on your iPhone. Always.</div></div>
+      </div>
+      <div class="feat">
+        <span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="#0a84ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19l5-6 4 3 8-10"/><path d="M19 6h4v4"/></svg></span>
+        <div><div class="ft">Clear projections</div><div class="fd">See exactly where steady saving takes you.</div></div>
+      </div>
+    </div>
+
+    <div class="focus">
+      <div class="focus-h">What matters most right now?</div>
+      <div class="chips">
+        <button class="chip on" onclick="pick(this)"><span class="dot" style="background:linear-gradient(160deg,#ff375f,#ff6482)"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><span class="ct">Freedom</span></button>
+        <button class="chip" onclick="pick(this)"><span class="dot" style="background:linear-gradient(160deg,#0a84ff,#409cff)"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8H4z"/></svg></span><span class="ct">A home</span></button>
+        <button class="chip" onclick="pick(this)"><span class="dot" style="background:linear-gradient(160deg,#30d158,#5be07a)"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 10l7-7 7 7"/></svg></span><span class="ct">Safety net</span></button>
+        <button class="chip" onclick="pick(this)"><span class="dot" style="background:linear-gradient(160deg,#5856d6,#8a89e6)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg></span><span class="ct">The future</span></button>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+    <div class="footer">
+      <a class="continue" href="dashboard.html">Continue</a>
+      <div class="privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg> Protected with Face ID &amp; on-device encryption</div>
+    </div>
+  </div>
+</div>
+<script>function pick(el){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');}</script>
+</body>
+</html>
