@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEDGER — Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#f2f2ee; --fg:#0a0a0a; --line:#0a0a0a; --dim:#6e6e68; --inv-bg:#0a0a0a; --inv-fg:#f2f2ee}
+  body{min-height:100vh; display:flex; align-items:center; justify-content:center; background:#c9c9c2;
+    background-image:repeating-linear-gradient(45deg, rgba(0,0,0,0.03) 0 12px, transparent 12px 24px); padding:24px; font-family:'Space Grotesk',sans-serif}
+  .frame{width:393px; height:852px; position:relative; overflow:hidden; background:var(--bg); color:var(--fg);
+    border:3px solid var(--line); box-shadow:14px 14px 0 var(--line)}
+  .scroll{position:absolute; inset:0; overflow-y:auto}
+  .scroll::-webkit-scrollbar{width:0}
+
+  .statusbar{display:flex; justify-content:space-between; align-items:center; padding:9px 14px; border-bottom:2px solid var(--line);
+    font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.04em; text-transform:uppercase}
+  .statusbar .blink{animation:bl 1.1s steps(1) infinite}
+  @keyframes bl{50%{opacity:0}}
+
+  .masthead{padding:18px 16px; border-bottom:3px solid var(--line)}
+  .masthead .wm{font-weight:700; font-size:13px; letter-spacing:0.36em}
+  .masthead .step{font-family:'Space Mono',monospace; font-size:11px; color:var(--dim); margin-top:3px}
+
+  .hero{padding:24px 16px 20px; border-bottom:3px solid var(--line)}
+  .hero h1{font-weight:700; font-size:52px; line-height:0.92; letter-spacing:-0.03em; text-transform:uppercase}
+  .hero h1 .u{ -webkit-text-stroke:2px var(--fg); color:transparent}
+  .hero p{font-family:'Space Mono',monospace; font-size:13px; line-height:1.5; margin-top:14px; max-width:300px}
+
+  .qlabel{display:flex; justify-content:space-between; align-items:baseline; padding:14px 16px 8px;
+    font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--dim)}
+  .opt{display:flex; align-items:center; gap:0; width:100%; cursor:pointer; background:var(--bg); border:none; border-top:2px solid var(--line); text-align:left;
+    padding:0; font-family:inherit; transition:background .12s}
+  .opt:last-of-type{border-bottom:2px solid var(--line)}
+  .opt:hover{background:#e6e6df}
+  .opt .idx{width:54px; align-self:stretch; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:700; font-size:15px; border-right:2px solid var(--line)}
+  .opt .ob{flex:1; padding:15px 14px}
+  .opt .on{font-weight:600; font-size:18px; letter-spacing:-0.01em; text-transform:uppercase}
+  .opt .od{font-family:'Space Mono',monospace; font-size:12px; color:var(--dim); margin-top:2px}
+  .opt .mark{width:54px; align-self:stretch; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-size:18px; border-left:2px solid var(--line)}
+  .opt.sel{background:var(--inv-bg); color:var(--inv-fg)}
+  .opt.sel .idx,.opt.sel .mark{border-color:var(--inv-fg)}
+  .opt.sel .od{color:#b8b8b0}
+
+  .cta-wrap{padding:18px 16px 14px}
+  .cta{display:flex; align-items:center; justify-content:space-between; width:100%; cursor:pointer; text-decoration:none;
+    background:var(--inv-bg); color:var(--inv-fg); border:3px solid var(--line); padding:18px 20px;
+    font-weight:700; font-size:20px; text-transform:uppercase; letter-spacing:0.02em; box-shadow:6px 6px 0 var(--line); transition:transform .1s, box-shadow .1s}
+  .cta:active{transform:translate(6px,6px); box-shadow:0 0 0 var(--line)}
+  .cta .arr{font-family:'Space Mono',monospace}
+  .legal{font-family:'Space Mono',monospace; font-size:10.5px; color:var(--dim); line-height:1.5; padding:0 16px 22px; text-transform:uppercase; letter-spacing:0.03em}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="scroll">
+    <div class="statusbar"><span>LEDGER//OS 1.0</span><span>● REC<span class="blink">_</span></span></div>
+    <div class="masthead"><div class="wm">N E T  W O R T H  T E R M I N A L</div><div class="step">SETUP — STEP 01 / 03</div></div>
+
+    <div class="hero">
+      <h1>YOU HAVE<br><span class="u">$0,000</span><br>LET'S FIX<br>THAT.</h1>
+      <p>No glow. No confetti. Just the number, the truth, and a plan that compounds. Pick one objective to begin.</p>
+    </div>
+
+    <div class="qlabel"><span>SELECT OBJECTIVE</span><span>[ REQUIRED ]</span></div>
+    <button class="opt sel" onclick="pick(this)">
+      <span class="idx">01</span><span class="ob"><span class="on">Total Independence</span><span class="od">live off the portfolio &#183; target 500k</span></span><span class="mark">&#10007;</span>
+    </button>
+    <button class="opt" onclick="pick(this)">
+      <span class="idx">02</span><span class="ob"><span class="on">Property Deposit</span><span class="od">down payment &#183; target 60k</span></span><span class="mark"></span>
+    </button>
+    <button class="opt" onclick="pick(this)">
+      <span class="idx">03</span><span class="ob"><span class="on">Liquidate Debt</span><span class="od">zero the balance &#183; reverse compounding</span></span><span class="mark"></span>
+    </button>
+    <button class="opt" onclick="pick(this)">
+      <span class="idx">04</span><span class="ob"><span class="on">Cash Buffer</span><span class="od">6 months runway &#183; target 15k</span></span><span class="mark"></span>
+    </button>
+
+    <div class="cta-wrap">
+      <a class="cta" href="dashboard.html">INITIALIZE <span class="arr">&#8594;</span></a>
+    </div>
+    <div class="legal">// disclosure: figures are illustrative. past performance does not predict future results. your capital is your own.</div>
+  </div>
+</div>
+<script>
+  function pick(el){document.querySelectorAll('.opt').forEach(o=>{o.classList.remove('sel');o.querySelector('.mark').textContent='';});el.classList.add('sel');el.querySelector('.mark').textContent='\u2717';}
+</script>
+</body>
+</html>

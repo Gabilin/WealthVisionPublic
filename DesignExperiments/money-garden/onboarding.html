@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprout — Plant your first seed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --paper:#f4f0e6; --paper-2:#ece6d6; --soil:#6b4f3a; --moss:#5c7a52; --moss-d:#3f5a3a;
+    --leaf:#7faa6a; --terra:#c47a4e; --bark:#473a2c; --ink:#3a3a30; --ink-soft:#7a766a; --bloom:#d99aa6;
+  }
+  body{min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:#d9d3c2; background-image:radial-gradient(70% 50% at 50% 0%, #e6e0cf, transparent 70%); font-family:'DM Sans',sans-serif; color:var(--ink); padding:24px}
+  .frame{width:393px; height:852px; border-radius:34px; position:relative; overflow:hidden;
+    background:linear-gradient(180deg,var(--paper),var(--paper-2));
+    box-shadow:0 30px 70px rgba(60,70,50,0.3), inset 0 0 0 1px rgba(70,58,44,0.1)}
+  /* linen texture */
+  .frame::before{content:''; position:absolute; inset:0; pointer-events:none; opacity:0.5;
+    background-image:repeating-linear-gradient(0deg, rgba(70,58,44,0.035) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgba(70,58,44,0.035) 0 1px, transparent 1px 4px)}
+  .scroll{position:absolute; inset:0; overflow-y:auto; padding:34px 28px 28px; z-index:2}
+  .scroll::-webkit-scrollbar{width:0}
+
+  .kicker{display:flex; align-items:center; gap:9px; font-size:12px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--moss-d)}
+  .kicker .leaf{width:16px;height:16px}
+  h1{font-family:'Fraunces',serif; font-weight:500; font-size:36px; line-height:1.08; margin:14px 0 0; color:var(--bark); letter-spacing:-0.01em}
+  h1 em{font-style:italic; color:var(--moss)}
+  .sub{font-size:15.5px; line-height:1.55; color:var(--ink-soft); margin-top:12px; max-width:310px}
+
+  .seed-stage{position:relative; height:172px; margin:8px auto 2px; display:flex; align-items:flex-end; justify-content:center}
+  .pot{position:relative; z-index:2}
+  .sprout path,.sprout line{stroke-dasharray:120; stroke-dashoffset:120; animation:grow 2.2s cubic-bezier(.2,.8,.2,1) forwards}
+  .sprout path:nth-child(2){animation-delay:.5s} .sprout path:nth-child(3){animation-delay:.9s} .sprout path:nth-child(4){animation-delay:1.2s}
+  @keyframes grow{to{stroke-dashoffset:0}}
+  .ring{position:absolute; border:1.5px solid rgba(92,122,82,0.25); border-radius:50%; left:50%; bottom:8px; transform:translateX(-50%)}
+
+  .label{font-family:'Fraunces',serif; font-style:italic; font-size:17px; color:var(--moss-d); margin:18px 0 13px}
+  .seeds{display:flex; flex-direction:column; gap:10px}
+  .seed{display:flex; align-items:center; gap:14px; cursor:pointer; background:rgba(255,253,246,0.7); border:1px solid rgba(70,58,44,0.14); border-radius:16px; padding:14px 15px;
+    transition:transform .18s cubic-bezier(.2,.8,.2,1), border-color .18s, background .18s}
+  .seed:hover{transform:translateX(3px); border-color:var(--leaf)}
+  .seed.on{border-color:var(--moss); background:linear-gradient(120deg, rgba(255,253,246,0.9), rgba(127,170,106,0.14)); box-shadow:0 6px 16px rgba(92,122,82,0.14)}
+  .seed .ic{width:44px; height:44px; flex:0 0 auto; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fbf8ef, #e7e0cd); display:flex; align-items:center; justify-content:center; border:1px solid rgba(70,58,44,0.12)}
+  .seed .ic svg{width:24px; height:24px}
+  .seed .sb{flex:1}
+  .seed .sn{font-family:'Fraunces',serif; font-weight:500; font-size:17px; color:var(--bark); line-height:1.1}
+  .seed .sd{font-size:13px; color:var(--ink-soft); margin-top:1px}
+  .seed .chk{width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(70,58,44,0.25); flex:0 0 auto; position:relative}
+  .seed.on .chk{border-color:var(--moss); background:var(--moss)}
+  .seed.on .chk::after{content:'';position:absolute;inset:0;margin:auto;width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg)}
+
+  .cta{display:flex; align-items:center; justify-content:center; gap:9px; width:100%; margin:22px 0 8px; border:none; cursor:pointer; text-decoration:none;
+    font-family:'Fraunces',serif; font-weight:500; font-size:18px; color:#f7f5ec; padding:16px; border-radius:16px;
+    background:linear-gradient(180deg,var(--moss),var(--moss-d)); box-shadow:0 10px 24px rgba(63,90,58,0.32); transition:transform .14s}
+  .cta:active{transform:scale(0.98)}
+  .note{text-align:center; font-size:13px; color:var(--ink-soft); margin-top:10px; font-style:italic; font-family:'Fraunces',serif}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="scroll">
+    <div class="kicker"><svg class="leaf" viewBox="0 0 24 24" fill="none" stroke="#3f5a3a" stroke-width="1.6"><path d="M12 21c0-7 4-12 9-13-1 8-4 12-9 13zM12 21c0-5-3-8-7-9 1 6 3 8 7 9z"/></svg> a slower kind of wealth</div>
+    <h1>Plant your first <em>seed</em></h1>
+    <p class="sub">Money you set aside is a seed. Time and patience do the rest. Choose what you'd like to grow, and we'll tend the soil.</p>
+
+    <div class="seed-stage">
+      <span class="ring" style="width:140px;height:50px"></span>
+      <span class="ring" style="width:90px;height:34px"></span>
+      <svg class="sprout" width="150" height="150" viewBox="0 0 150 150" fill="none" stroke="#5c7a52" stroke-width="3" stroke-linecap="round">
+        <path d="M75 138 V70"/>
+        <path d="M75 96 C58 92 48 78 46 60 C66 60 78 74 78 92"/>
+        <path d="M75 84 C92 80 102 66 104 48 C84 48 72 62 72 80"/>
+        <path d="M75 70 C70 58 73 44 82 36 C86 48 84 62 75 70"/>
+      </svg>
+      <svg class="pot" width="92" height="56" viewBox="0 0 92 56" fill="none" style="position:absolute;bottom:0">
+        <path d="M14 8 H78 L70 50 H22 Z" fill="#c47a4e" stroke="#8f5733" stroke-width="2"/>
+        <rect x="10" y="2" width="72" height="10" rx="3" fill="#d98a5e" stroke="#8f5733" stroke-width="2"/>
+        <ellipse cx="46" cy="9" rx="30" ry="4" fill="#4a3526"/>
+      </svg>
+    </div>
+
+    <div class="label">What shall we grow together?</div>
+    <div class="seeds">
+      <button class="seed on" onclick="pick(this)">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#5c7a52" stroke-width="1.6"><path d="M12 22c5-1 9-6 9-13-6 1-9 6-9 13zM12 22c0-6-3-10-8-11 1 7 4 10 8 11z"/></svg></span>
+        <span class="sb"><span class="sn">An evergreen</span><span class="sd">Financial freedom &#183; the oak that outlives you</span></span><span class="chk"></span>
+      </button>
+      <button class="seed" onclick="pick(this)">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#5c7a52" stroke-width="1.6" stroke-linejoin="round"><path d="M4 21V10l8-6 8 6v11M9 21v-6h6v6"/></svg></span>
+        <span class="sb"><span class="sn">A homestead</span><span class="sd">House deposit &#183; roots of your own</span></span><span class="chk"></span>
+      </button>
+      <button class="seed" onclick="pick(this)">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#5c7a52" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+        <span class="sb"><span class="sn">A rainy-day pond</span><span class="sd">Emergency fund &#183; calm when storms come</span></span><span class="chk"></span>
+      </button>
+      <button class="seed" onclick="pick(this)">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#5c7a52" stroke-width="1.6" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4zM7 10.5V15c0 1.7 2.2 3 5 3s5-1.3 5-3v-4.5"/></svg></span>
+        <span class="sb"><span class="sn">A young sapling</span><span class="sd">Education fund &#183; for someone you love</span></span><span class="chk"></span>
+      </button>
+    </div>
+
+    <a class="cta" href="dashboard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v6m0 0c-3 0-5 2-5 5m5-5c3 0 5 2 5 5M5 14c0 4 3 7 7 7s7-3 7-7"/></svg> Plant it</a>
+    <p class="note">Seeds grow slowly. That's the point.</p>
+  </div>
+</div>
+<script>function pick(el){document.querySelectorAll('.seed').forEach(s=>s.classList.remove('on'));el.classList.add('on');}</script>
+</body>
+</html>

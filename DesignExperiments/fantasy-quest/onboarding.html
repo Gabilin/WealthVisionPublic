@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault &amp; Valor — Begin Thy Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cinzel+Decorative:wght@700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#2a2016; --ink-soft:#5a4a36; --parch:#e9dcbe; --parch-2:#e0cfa6;
+    --gold:#9c7b1f; --gold-lite:#c9a227; --gold-glow:#e7c75a;
+    --crimson:#7c2a25; --crimson-lite:#9a3a30; --vault:#3c5640;
+  }
+  body{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:#16110a;
+    background-image:
+      radial-gradient(60% 50% at 50% 0%, #2a2013, transparent 70%),
+      radial-gradient(80% 60% at 50% 120%, #241a0e, transparent 60%),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0 2px, transparent 2px 5px);
+    font-family:'EB Garamond',serif; color:var(--ink); padding:24px;
+  }
+  .frame{
+    width:393px; height:852px; border-radius:10px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(120% 80% at 15% 10%, rgba(255,250,235,0.55), transparent 45%),
+      radial-gradient(120% 90% at 85% 90%, rgba(120,90,40,0.18), transparent 50%),
+      linear-gradient(150deg, var(--parch) 0%, var(--parch-2) 100%);
+    box-shadow:0 0 0 2px #6b5320, 0 0 0 10px #1d1509, 0 0 0 12px #4a3a18,
+      0 40px 90px rgba(0,0,0,0.6), inset 0 0 120px rgba(74,52,20,0.45);
+  }
+  /* aged speckle + vignette */
+  .frame::before{
+    content:''; position:absolute; inset:0; pointer-events:none; opacity:0.5;
+    background-image:
+      radial-gradient(circle at 12% 22%, rgba(80,55,20,0.22) 0 1.5px, transparent 2px),
+      radial-gradient(circle at 78% 35%, rgba(80,55,20,0.18) 0 1.5px, transparent 2px),
+      radial-gradient(circle at 40% 80%, rgba(80,55,20,0.20) 0 1.5px, transparent 2px),
+      radial-gradient(circle at 64% 64%, rgba(80,55,20,0.15) 0 1px, transparent 2px);
+    background-size:140px 140px,180px 180px,120px 120px,90px 90px;
+  }
+  .frame::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    box-shadow:inset 0 0 70px rgba(40,26,8,0.55), inset 0 0 18px rgba(40,26,8,0.4);
+    border-radius:10px;
+  }
+  .scroll{position:absolute; inset:0; overflow-y:auto; padding:34px 28px 30px; z-index:2}
+  .scroll::-webkit-scrollbar{width:0}
+
+  .crest{width:62px; height:62px; margin:0 auto 14px; display:block; filter:drop-shadow(0 3px 4px rgba(40,26,8,0.4))}
+  .eyebrow{
+    text-align:center; font-family:'Cinzel',serif; font-weight:600; letter-spacing:0.42em;
+    font-size:11px; color:var(--crimson); text-indent:0.42em; margin-bottom:6px;
+  }
+  .rule{display:flex; align-items:center; justify-content:center; gap:10px; color:var(--gold); margin:6px 0 16px}
+  .rule::before,.rule::after{content:''; height:1px; width:54px; background:linear-gradient(90deg,transparent,var(--gold))}
+  .rule::after{background:linear-gradient(90deg,var(--gold),transparent)}
+  .rule span{font-size:15px}
+
+  h1{
+    font-family:'Cinzel Decorative','Cinzel',serif; font-weight:900; text-align:center;
+    font-size:33px; line-height:1.05; color:var(--ink); letter-spacing:0.01em;
+    text-shadow:0 1px 0 rgba(255,250,235,0.6), 0 2px 5px rgba(40,26,8,0.18);
+  }
+  h1 .small{display:block; font-size:16px; font-family:'Cinzel',serif; font-weight:600; color:var(--gold); letter-spacing:0.18em; margin-top:7px}
+
+  .lede{
+    text-align:center; font-size:17px; line-height:1.5; color:var(--ink-soft);
+    margin:16px 6px 22px; font-style:italic;
+  }
+  .lede .drop{
+    float:left; font-family:'Cinzel Decorative',serif; font-weight:900; font-size:52px;
+    line-height:0.78; padding:4px 9px 0 0; color:var(--crimson); font-style:normal;
+  }
+
+  .quests-label{
+    font-family:'Cinzel',serif; font-weight:700; font-size:13px; letter-spacing:0.16em;
+    color:var(--ink); text-transform:uppercase; margin:4px 2px 12px; display:flex; align-items:center; gap:9px;
+  }
+  .quests-label::after{content:''; flex:1; height:2px; background:repeating-linear-gradient(90deg,var(--gold) 0 6px,transparent 6px 10px); opacity:0.5}
+
+  .quest{
+    display:flex; align-items:center; gap:14px; width:100%; text-align:left; cursor:pointer;
+    background:linear-gradient(180deg, rgba(255,250,235,0.5), rgba(210,188,140,0.25));
+    border:1.5px solid rgba(120,92,36,0.45); border-radius:4px; padding:13px 14px; margin-bottom:11px;
+    position:relative; transition:transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .18s, border-color .18s;
+    box-shadow:inset 0 1px 0 rgba(255,250,235,0.6), 0 2px 5px rgba(40,26,8,0.12);
+  }
+  .quest::before{content:''; position:absolute; inset:3px; border:1px solid rgba(120,92,36,0.3); border-radius:2px; pointer-events:none}
+  .quest:hover{transform:translateX(3px); border-color:var(--gold-lite); box-shadow:inset 0 1px 0 rgba(255,250,235,0.7), 0 6px 16px rgba(40,26,8,0.2)}
+  .quest.chosen{border-color:var(--crimson); background:linear-gradient(180deg, rgba(255,245,225,0.7), rgba(190,150,90,0.3))}
+  .sigil{width:46px; height:46px; flex:0 0 auto; display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(circle at 35% 30%, #f0e2bd, #cdae6d); border-radius:50%;
+    border:2px solid var(--gold); box-shadow:inset 0 0 8px rgba(120,92,36,0.4)}
+  .sigil svg{width:26px; height:26px}
+  .q-body{flex:1; min-width:0}
+  .q-name{font-family:'Cinzel',serif; font-weight:700; font-size:16px; color:var(--ink); line-height:1.15}
+  .q-desc{font-size:14.5px; color:var(--ink-soft); font-style:italic; margin-top:1px}
+  .q-pick{font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.1em; color:var(--crimson); opacity:0; transition:opacity .2s; white-space:nowrap}
+  .quest.chosen .q-pick{opacity:1}
+
+  .oath{
+    display:block; width:100%; margin:20px 0 8px; cursor:pointer; border:none;
+    font-family:'Cinzel',serif; font-weight:700; font-size:17px; letter-spacing:0.08em;
+    color:#f6ecd2; padding:16px; border-radius:5px; position:relative;
+    background:linear-gradient(180deg,var(--crimson-lite),var(--crimson));
+    box-shadow:0 5px 0 #4f1a16, 0 10px 20px rgba(40,26,8,0.4), inset 0 1px 0 rgba(255,220,200,0.3);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .oath:active{transform:translateY(4px); box-shadow:0 1px 0 #4f1a16, 0 4px 10px rgba(40,26,8,0.4)}
+  .seal{position:absolute; right:14px; top:50%; transform:translateY(-50%); width:34px; height:34px;
+    background:radial-gradient(circle at 35% 30%, #b8483c, #6e221c); border-radius:50%;
+    box-shadow:inset 0 0 6px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center;
+    font-family:'Cinzel',serif; font-weight:900; color:#e8c75a; font-size:15px}
+
+  .studs{display:flex; gap:9px; justify-content:center; margin-top:6px}
+  .stud{width:9px; height:9px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#caa94f,#8a6c1e); box-shadow:inset 0 0 0 1px rgba(40,26,8,0.4)}
+  .stud.on{background:radial-gradient(circle at 35% 30%,#e7c75a,#b8860b); box-shadow:0 0 8px rgba(231,199,90,0.8)}
+  .foot-note{text-align:center; font-style:italic; font-size:13px; color:var(--ink-soft); margin-top:12px}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="scroll">
+    <svg class="crest" viewBox="0 0 64 64" fill="none">
+      <path d="M32 4 56 13v20c0 16-12 24-24 28C20 57 8 49 8 33V13L32 4Z" fill="#cdae6d" stroke="#7c5a1e" stroke-width="2"/>
+      <path d="M32 10 50 17v16c0 12-9 18-18 21-9-3-18-9-18-21V17L32 10Z" fill="#7c2a25"/>
+      <path d="M32 19v26M22 30h20" stroke="#e7c75a" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="32" cy="30" r="4.5" fill="#e7c75a"/>
+    </svg>
+    <div class="eyebrow">The Ledger of Valor</div>
+    <div class="rule"><span>&#10086;</span></div>
+    <h1>Begin Thy Quest<span class="small">VAULT &amp; VALOR</span></h1>
+
+    <p class="lede"><span class="drop">E</span>very hero needs a war chest. Forge thine, swear to a noble quest, and watch thy hoard of gold swell with each passing moon.</p>
+
+    <div class="quests-label">Choose Thy Quest</div>
+
+    <button class="quest chosen" onclick="pick(this)">
+      <span class="sigil"><svg viewBox="0 0 24 24" fill="none" stroke="#7c2a25" stroke-width="1.7"><path d="M12 3l2 5 5 .4-3.8 3.3 1.2 5L12 19l-4.6 2.7 1.2-5L4.8 8.4 9.9 8 12 3z"/></svg></span>
+      <span class="q-body"><span class="q-name">The Dragon's Hoard</span><span class="q-desc">Wealth enough to never toil again</span></span>
+      <span class="q-pick">&#9670; sworn</span>
+    </button>
+
+    <button class="quest" onclick="pick(this)">
+      <span class="sigil"><svg viewBox="0 0 24 24" fill="none" stroke="#7c2a25" stroke-width="1.7" stroke-linejoin="round"><path d="M4 20V11l8-6 8 6v9M9 20v-6h6v6"/></svg></span>
+      <span class="q-body"><span class="q-name">Raise the Keep</span><span class="q-desc">A homestead to call thine own</span></span>
+      <span class="q-pick">&#9670; sworn</span>
+    </button>
+
+    <button class="quest" onclick="pick(this)">
+      <span class="sigil"><svg viewBox="0 0 24 24" fill="none" stroke="#7c2a25" stroke-width="1.7" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4zM7 10.5V15c0 1.7 2.2 3 5 3s5-1.3 5-3v-4.5"/></svg></span>
+      <span class="q-body"><span class="q-name">Fund the Heir's Schooling</span><span class="q-desc">Wisdom for the next of thy line</span></span>
+      <span class="q-pick">&#9670; sworn</span>
+    </button>
+
+    <button class="quest" onclick="pick(this)">
+      <span class="sigil"><svg viewBox="0 0 24 24" fill="none" stroke="#7c2a25" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7l3 13h8l3-13M5 7l4 4 3-6 3 6 4-4"/></svg></span>
+      <span class="q-body"><span class="q-name">Slay the Debt-Wyrm</span><span class="q-desc">Break the chains of what thou owest</span></span>
+      <span class="q-pick">&#9670; sworn</span>
+    </button>
+
+    <a class="oath" href="dashboard.html">Seal Thine Oath
+      <span class="seal">&#10013;</span>
+    </a>
+    <div class="studs"><span class="stud on"></span><span class="stud"></span><span class="stud"></span></div>
+    <p class="foot-note">&#10086; Thy coin remaineth thine. Past fortune doth not foretell future glory. &#10086;</p>
+  </div>
+</div>
+<script>
+  function pick(el){document.querySelectorAll('.quest').forEach(q=>q.classList.remove('chosen'));el.classList.add('chosen');}
+</script>
+</body>
+</html>
