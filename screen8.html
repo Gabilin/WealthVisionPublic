@@ -6,7 +6,7 @@
   <title>WealthVision — Screen 8: Goal Detail</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -16,7 +16,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -117,13 +117,13 @@
     }
     .ring-fill {
       fill: none;
-      stroke: #00f5d4;
+      stroke: #19b8a6;
       stroke-width: 10;
       stroke-linecap: round;
       stroke-dasharray: 471.24;
       stroke-dashoffset: 471.24;
       transition: stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1);
-      filter: drop-shadow(0 0 6px rgba(0,245,212,0.3));
+      filter: drop-shadow(0 0 6px rgba(25, 184, 166,0.3));
     }
     .ring-center {
       position: absolute;
@@ -149,7 +149,7 @@
     .ring-pct {
       font-size: 14px;
       font-weight: 700;
-      color: #00f5d4;
+      color: #19b8a6;
       margin-top: 6px;
     }
     .status-line {
@@ -159,7 +159,7 @@
       line-height: 1.5;
     }
     .status-line strong {
-      color: #00f5d4;
+      color: #19b8a6;
       font-weight: 700;
     }
 
@@ -188,7 +188,7 @@
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.01em;
     }
-    .stat-value.teal { color: #00f5d4; }
+    .stat-value.teal { color: #19b8a6; }
 
     /* Timeline */
     .section-header {
@@ -232,23 +232,23 @@
       justify-content: center;
     }
     .tl-dot.active {
-      border-color: #00f5d4;
-      background: rgba(0,245,212,0.15);
+      border-color: #19b8a6;
+      background: rgba(25, 184, 166,0.15);
     }
     .tl-dot.active::after {
       content: '';
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #00f5d4;
+      background: #19b8a6;
     }
     .tl-dot.future {
       border-color: rgba(255,255,255,0.1);
       border-style: dashed;
     }
     .tl-dot.goal {
-      border-color: #00f5d4;
-      background: #00f5d4;
+      border-color: #19b8a6;
+      background: #19b8a6;
     }
     .tl-dot.goal::after {
       content: '';
@@ -273,7 +273,7 @@
       color: #83948f;
       font-variant-numeric: tabular-nums;
     }
-    .tl-label.teal { color: #00f5d4; }
+    .tl-label.teal { color: #19b8a6; }
 
     /* Action buttons */
     .action-section {
@@ -288,7 +288,7 @@
       border-radius: 14px;
       border: none;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 14px;
       font-weight: 600;
       display: flex;
@@ -299,7 +299,7 @@
     }
     .action-btn svg { width: 18px; height: 18px; }
     .action-btn.primary {
-      background: #00f5d4;
+      background: #19b8a6;
       color: #0a0e14;
     }
     .action-btn.primary svg { stroke: #0a0e14; fill: none; stroke-width: 2; }
@@ -351,33 +351,33 @@
       border: 1.5px solid rgba(255,255,255,0.08);
       border-radius: 12px;
       padding: 0 14px 0 28px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 15px;
       font-weight: 600;
       color: #dfe2eb;
       outline: none;
     }
-    .lump-input:focus { border-color: rgba(0,245,212,0.5); }
+    .lump-input:focus { border-color: rgba(25, 184, 166,0.5); }
     .lump-apply {
       height: 48px;
       padding: 0 20px;
-      background: rgba(0,245,212,0.15);
-      color: #00f5d4;
+      background: rgba(25, 184, 166,0.15);
+      color: #19b8a6;
       border: none;
       border-radius: 12px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
       white-space: nowrap;
     }
-    .lump-apply:hover { background: rgba(0,245,212,0.2); }
+    .lump-apply:hover { background: rgba(25, 184, 166,0.2); }
 
     .lump-result {
       padding: 10px 0;
       font-size: 13px;
-      color: #00f5d4;
+      color: #19b8a6;
       display: none;
     }
     .lump-result.show { display: block; }
@@ -430,14 +430,14 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #00f5d4;
+      background: #19b8a6;
       cursor: pointer;
-      box-shadow: 0 0 8px rgba(0,245,212,0.3);
+      box-shadow: 0 0 8px rgba(25, 184, 166,0.3);
     }
     .slider-sheet-value {
       font-size: 22px;
       font-weight: 900;
-      color: #00f5d4;
+      color: #19b8a6;
       font-variant-numeric: tabular-nums;
       min-width: 80px;
       text-align: right;
@@ -459,7 +459,7 @@
       background: rgba(255,255,255,0.06);
       border: none;
       color: #b9cac4;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
@@ -468,10 +468,10 @@
       flex: 1;
       height: 52px;
       border-radius: 14px;
-      background: #00f5d4;
+      background: #19b8a6;
       border: none;
       color: #0a0e14;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
@@ -502,7 +502,7 @@
       background: none;
       width: 100%;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 14px;
       color: #dfe2eb;
       transition: background 0.15s;

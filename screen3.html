@@ -6,7 +6,7 @@
   <title>WealthVision — Screen 3: Your First Goal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -16,7 +16,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -102,16 +102,16 @@
       background: rgba(255, 255, 255, 0.035);
       border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 12px;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       font-size: 13.5px;
       font-weight: 500;
       color: #b9cac4;
       cursor: pointer;
       transition: border-color 0.18s ease-out, transform 0.12s ease-out, background 0.18s ease-out;
     }
-    .custom-cue svg { width: 15px; height: 15px; color: #00f5d4; flex-shrink: 0; }
-    .custom-cue b { color: #00f5d4; font-weight: 600; }
-    .custom-cue:hover { border-color: rgba(0, 245, 212, 0.28); background: rgba(0, 245, 212, 0.05); }
+    .custom-cue svg { width: 15px; height: 15px; color: #19b8a6; flex-shrink: 0; }
+    .custom-cue b { color: #19b8a6; font-weight: 600; }
+    .custom-cue:hover { border-color: rgba(25, 184, 166, 0.28); background: rgba(25, 184, 166, 0.05); }
     .custom-cue:active { transform: scale(0.97); }
 
     /* ── Goal cards scroll ── */
@@ -165,9 +165,9 @@
       transform: scale(0.96);
     }
     .goal-card.selected {
-      border-color: rgba(0, 245, 212, 0.45);
-      background: rgba(0, 245, 212, 0.07);
-      box-shadow: 0 0 0 1px rgba(0, 245, 212, 0.25), 0 8px 22px rgba(0, 245, 212, 0.08);
+      border-color: rgba(25, 184, 166, 0.45);
+      background: rgba(25, 184, 166, 0.07);
+      box-shadow: 0 0 0 1px rgba(25, 184, 166, 0.25), 0 8px 22px rgba(25, 184, 166, 0.08);
     }
 
     /* selected checkmark badge */
@@ -179,7 +179,7 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #00f5d4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a0e14' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center / 12px no-repeat;
+      background: #19b8a6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a0e14' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center / 12px no-repeat;
       opacity: 0;
       transform: scale(0.5);
       transition: opacity 0.18s ease-out, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -208,8 +208,8 @@
       height: 22px;
     }
 
-    .goal-icon--house { background: rgba(0, 245, 212, 0.12); color: #00f5d4; }
-    .goal-icon--freedom { background: rgba(187, 195, 255, 0.12); color: #bbc3ff; }
+    .goal-icon--house { background: rgba(25, 184, 166, 0.12); color: #19b8a6; }
+    .goal-icon--freedom { background: rgba(187, 195, 255, 0.12); color: #c2c6e4; }
     .goal-icon--education { background: rgba(255, 180, 107, 0.12); color: #ffb46b; }
     .goal-icon--car { background: rgba(0, 223, 193, 0.12); color: #00dfc1; }
     .goal-icon--emergency { background: rgba(255, 180, 171, 0.12); color: #ffb4ab; }
@@ -256,7 +256,7 @@
       display: flex;
       align-items: baseline;
       padding-bottom: 10px;
-      border-bottom: 2px solid rgba(0, 245, 212, 0.25);
+      border-bottom: 2px solid rgba(25, 184, 166, 0.25);
     }
 
     .target-dollar {
@@ -272,14 +272,14 @@
       background: transparent;
       border: none;
       outline: none;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       font-size: 28px;
       font-weight: 900;
       letter-spacing: -0.02em;
       color: #d7fff3;
       line-height: 36px;
       width: 100%;
-      caret-color: #00f5d4;
+      caret-color: #19b8a6;
       font-variant-numeric: tabular-nums;
     }
     .target-input::placeholder {
@@ -309,13 +309,13 @@
       border: none;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       outline: none;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       font-size: 16px;
       font-weight: 500;
       color: #dfe2eb;
       width: 100%;
       padding-bottom: 8px;
-      caret-color: #00f5d4;
+      caret-color: #19b8a6;
     }
     .custom-name-input::placeholder {
       color: rgba(131, 148, 143, 0.5);
@@ -326,8 +326,8 @@
     .adv-toggle {
       display: inline-flex; align-items: center; gap: 7px;
       background: none; border: none; cursor: pointer;
-      font-family: 'Inter', system-ui, sans-serif;
-      font-size: 13px; font-weight: 600; color: #00f5d4; padding: 2px 0;
+      font-family: 'Manrope', system-ui, sans-serif;
+      font-size: 13px; font-weight: 600; color: #19b8a6; padding: 2px 0;
     }
     .adv-toggle .chev { width: 14px; height: 14px; transition: transform 0.25s ease; }
     .adv.open .adv-toggle .chev { transform: rotate(90deg); }
@@ -345,30 +345,30 @@
     .adv-price span { font-size: 18px; font-weight: 800; color: rgba(215, 255, 243, 0.4); }
     .adv-price input {
       background: transparent; border: none; outline: none;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       font-size: 18px; font-weight: 800; color: #d7fff3; width: 100%;
-      caret-color: #00f5d4; font-variant-numeric: tabular-nums;
+      caret-color: #19b8a6; font-variant-numeric: tabular-nums;
     }
     .adv-price input::placeholder { color: rgba(215, 255, 243, 0.15); }
     .adv-seg { display: flex; gap: 8px; }
     .adv-seg button {
       flex: 1; padding: 9px 0; border-radius: 10px;
       background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #b9cac4; font-family: 'Inter', system-ui, sans-serif;
+      color: #b9cac4; font-family: 'Manrope', system-ui, sans-serif;
       font-size: 13px; font-weight: 700; cursor: pointer;
       transition: transform 0.12s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
     }
     .adv-seg button:active { transform: scale(0.95); }
-    .adv-seg button.active { background: rgba(0, 245, 212, 0.14); border-color: rgba(0, 245, 212, 0.4); color: #00f5d4; }
+    .adv-seg button.active { background: rgba(25, 184, 166, 0.14); border-color: rgba(25, 184, 166, 0.4); color: #19b8a6; }
     .adv-check {
       display: flex; align-items: center; gap: 9px; margin-top: 14px;
       font-size: 13px; color: #b9cac4; cursor: pointer; user-select: none;
     }
-    .adv-check input { width: 16px; height: 16px; accent-color: #00f5d4; }
+    .adv-check input { width: 16px; height: 16px; accent-color: #19b8a6; }
     .adv-result {
       margin-top: 14px; font-size: 13px; line-height: 18px; color: #b9cac4;
       padding: 11px 12px; border-radius: 12px;
-      background: rgba(0, 245, 212, 0.06); border: 1px solid rgba(0, 245, 212, 0.18);
+      background: rgba(25, 184, 166, 0.06); border: 1px solid rgba(25, 184, 166, 0.18);
     }
     .adv-result b { color: #d7fff3; font-weight: 700; }
 
@@ -382,11 +382,11 @@
     .cta-button {
       width: 100%;
       height: 56px;
-      background: #00F5D4;
+      background: #19b8a6;
       color: #0A0E14;
       border: none;
       border-radius: 16px;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       font-size: 17px;
       font-weight: 700;
       letter-spacing: -0.01em;
@@ -397,7 +397,7 @@
       transform: scale(0.97);
     }
     .cta-button:disabled {
-      background: rgba(0, 245, 212, 0.2);
+      background: rgba(25, 184, 166, 0.2);
       color: rgba(10, 14, 20, 0.4);
       cursor: default;
     }
@@ -428,7 +428,7 @@
       border-radius: 50%;
       background: rgba(131, 148, 143, 0.35);
     }
-    .dot.active { background: #00F5D4; }
+    .dot.active { background: #19b8a6; }
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
 </head>

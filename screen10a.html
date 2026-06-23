@@ -6,9 +6,9 @@
   <title>WealthVision — Screen 10: Can I Buy?</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
     .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
     .device-frame{--act1:var(--ac);}
     .device-frame[data-theme="light"]{--act1:#0e8f63;}
@@ -22,7 +22,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -37,8 +37,8 @@
       border: 1px solid var(--wa6);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
       /* signature: green = money / affordability */
-      --ac: #22c993;
-      --ac-rgb: 34,201,147;
+      --ac: #3fae87;
+      --ac-rgb: 63, 174, 135;
     }
     /* soft green ambience unique to this tool */
     .screen::before {
@@ -215,7 +215,7 @@
       border: 1.5px solid var(--wa8);
       border-radius: 12px;
       padding: 0 14px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 15px;
       font-weight: 600;
       color: var(--s-hi);
@@ -238,7 +238,7 @@
       border: 1.5px solid var(--wa8);
       border-radius: 12px;
       padding: 0 14px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 15px;
       font-weight: 500;
       color: var(--s-hi);
@@ -274,7 +274,7 @@
       border: 1.5px solid var(--wa8);
       background: var(--wa3);
       color: var(--s-sec);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       font-weight: 500;
       cursor: pointer;
@@ -307,7 +307,7 @@
       border: 1.5px solid var(--wa8);
       background: var(--wa3);
       color: var(--s-sec);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
@@ -364,7 +364,7 @@
       border-radius: 16px;
       background: linear-gradient(135deg, var(--ac), #1fb98a);
       color: #06241a;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
@@ -392,7 +392,7 @@
 
     /* ── Segmented control ── */
     .segmented { display:flex; gap:4px; padding:4px; background:var(--wa4); border:1px solid var(--wa6); border-radius:12px; }
-    .seg-opt { flex:1; height:40px; border:none; border-radius:9px; background:transparent; color:var(--s-mid); font-family:'Inter',sans-serif; font-size:13px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; transition:all .2s; }
+    .seg-opt { flex:1; height:40px; border:none; border-radius:9px; background:transparent; color:var(--s-mid); font-family:'Manrope',sans-serif; font-size:13px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; transition:all .2s; }
     .seg-opt svg { width:15px; height:15px; stroke:currentColor; stroke-width:1.8; fill:none; }
     .seg-opt.active { background:rgba(var(--ac-rgb),0.14); color:var(--act1); box-shadow:inset 0 0 0 1px rgba(var(--ac-rgb),0.28); }
 
@@ -473,10 +473,10 @@
     /* ── Opportunity cost ── */
     .opp-card { background:linear-gradient(135deg, rgba(2,49,222,0.1), rgba(187,195,255,0.06)); border:1px solid rgba(187,195,255,0.12); border-radius:16px; padding:16px; margin-bottom:24px; }
     .opp-title { font-size:13px; font-weight:600; color:var(--c-peri); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
-    .opp-title svg { width:14px; height:14px; stroke:#bbc3ff; stroke-width:2; fill:none; }
+    .opp-title svg { width:14px; height:14px; stroke:#c2c6e4; stroke-width:2; fill:none; }
     .opp-text { font-size:13px; color:var(--s-sec); line-height:1.5; }
     .opp-text strong { color:var(--c-peri); font-weight:700; }
-    .opp-cta { margin-top:12px; width:100%; height:44px; border-radius:12px; border:1px solid rgba(187,195,255,0.3); background:rgba(187,195,255,0.1); color:var(--c-peri); font-family:'Inter',sans-serif; font-size:13px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; transition:all 0.2s; }
+    .opp-cta { margin-top:12px; width:100%; height:44px; border-radius:12px; border:1px solid rgba(187,195,255,0.3); background:rgba(187,195,255,0.1); color:var(--c-peri); font-family:'Manrope',sans-serif; font-size:13px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; transition:all 0.2s; }
     .opp-cta:hover { background:rgba(187,195,255,0.16); }
     .opp-cta svg { width:15px; height:15px; stroke:currentColor; stroke-width:2; fill:none; }
 
@@ -974,7 +974,7 @@
     }
 
     function renderGauge(score) {
-      var color = score >= 70 ? '#22c993' : score >= 40 ? '#ffc107' : '#ffb4ab';
+      var color = score >= 70 ? '#3fae87' : score >= 40 ? '#ffc107' : '#ffb4ab';
       setTimeout(function () {
         var fill = document.getElementById('gaugeFill');
         fill.style.width = score + '%';
@@ -1060,7 +1060,7 @@
           legendRow('#5c6bc0', 'Fixed expenses', '$' + fmt(expenses), expPct.toFixed(1) + '%') +
           legendRow('#ef5350', 'Existing debts', '$' + fmt(debts), debtPct.toFixed(1) + '%') +
           legendRow('#ffc107', 'New payment', '$' + fmt(payment), payPct.toFixed(1) + '%') +
-          legendRow('#22c993', 'Remaining', '$' + fmt(Math.max(0, remaining)), savPct.toFixed(1) + '%');
+          legendRow('#3fae87', 'Remaining', '$' + fmt(Math.max(0, remaining)), savPct.toFixed(1) + '%');
 
         var dtiCls = dti <= 0.36 ? 'good' : dti <= 0.43 ? 'warn' : 'bad';
         var savRate = Math.max(0, remaining / income);
@@ -1135,7 +1135,7 @@
           barHTML = '<div class="bar-seg bar-payment" style="width:' + buyPct.toFixed(1) + '%"></div>' +
             '<div class="bar-seg bar-savings" style="width:' + leftPct.toFixed(1) + '%"></div>';
           legendHTML = legendRow('#ffc107', 'This purchase', '$' + fmt(price), (price / total * 100).toFixed(0) + '%') +
-            legendRow('#22c993', 'Cash left after', '$' + fmt(Math.max(0, cashAfter)), (Math.max(0, cashAfter) / total * 100).toFixed(0) + '%') +
+            legendRow('#3fae87', 'Cash left after', '$' + fmt(Math.max(0, cashAfter)), (Math.max(0, cashAfter) / total * 100).toFixed(0) + '%') +
             legendRow('#5c6bc0', emMonths + '-mo emergency fund', '$' + fmt(emergencyFund), null);
         } else {
           var total2 = Math.max(price, 1);
@@ -1143,7 +1143,7 @@
           var shortPct = Math.max(0, shortfall / total2 * 100);
           barHTML = '<div class="bar-seg bar-savings" style="width:' + havePct.toFixed(1) + '%"></div>' +
             '<div class="bar-seg bar-debts" style="width:' + shortPct.toFixed(1) + '%"></div>';
-          legendHTML = legendRow('#22c993', 'You have', '$' + fmt(savings), (savings / total2 * 100).toFixed(0) + '%') +
+          legendHTML = legendRow('#3fae87', 'You have', '$' + fmt(savings), (savings / total2 * 100).toFixed(0) + '%') +
             legendRow('#ef5350', 'Still need', '$' + fmt(shortfall), (shortfall / total2 * 100).toFixed(0) + '%') +
             legendRow('#5c6bc0', 'Total price', '$' + fmt(price), null);
         }

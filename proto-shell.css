@@ -16,38 +16,49 @@
   --tab-bg: rgba(12, 16, 22, 0.86);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   --hi-glow: rgba(255, 255, 255, 0.06);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --app-gradient:
-    radial-gradient(135% 62% at 50% -6%, rgba(0, 245, 212, 0.18), transparent 56%),
-    radial-gradient(120% 70% at 80% 0%, rgba(99, 102, 241, 0.20), transparent 58%),
+    radial-gradient(135% 62% at 50% -6%, rgba(25, 184, 166, 0.18), transparent 56%),
+    radial-gradient(120% 70% at 80% 0%, rgba(99, 102, 241, 0.07), transparent 58%),
     linear-gradient(180deg, #103a4f 0%, #0d1f33 24%, var(--app-bg) 54%);
 }
 .device-frame[data-theme="light"] {
   --app-bg: #e9edf4;
   --text-hi: #15212c;
   --text-mid: #566571;
-  --text-lo: #84929d;
-  --hairline: rgba(18, 30, 42, 0.10);
+  --text-lo: #5e6b78;
+  --hairline: rgba(18, 30, 42, 0.16);
   --glass-top: rgba(255, 255, 255, 0.82);
   --glass-bot: rgba(255, 255, 255, 0.42);
-  --surface: rgba(20, 32, 46, 0.045);
-  --surface-2: rgba(20, 32, 46, 0.028);
+  --surface: rgba(20, 32, 46, 0.065);
+  --surface-2: rgba(20, 32, 46, 0.045);
   --tab-bg: rgba(247, 249, 252, 0.84);
-  --shadow: 0 10px 30px rgba(60, 80, 110, 0.16);
+  --shadow: 0 10px 28px rgba(40, 60, 90, 0.20);
   --hi-glow: rgba(255, 255, 255, 0.6);
   --app-gradient:
-    radial-gradient(135% 62% at 50% -6%, rgba(0, 200, 180, 0.22), transparent 56%),
-    radial-gradient(120% 70% at 80% 0%, rgba(120, 130, 240, 0.16), transparent 58%),
+    radial-gradient(135% 62% at 50% -6%, rgba(25, 184, 166, 0.20), transparent 56%),
+    radial-gradient(120% 70% at 80% 0%, rgba(120, 130, 240, 0.05), transparent 58%),
     linear-gradient(180deg, #cfeef1 0%, #dce7f6 24%, var(--app-bg) 56%);
 }
 
 /* Domain accents — purpose-based color coding (theme-independent) */
-.dom-teal   { --accent: #16d6bd; --accent-rgb: 22, 214, 189; }
-.dom-sky    { --accent: #46a8ff; --accent-rgb: 70, 168, 255; }
-.dom-violet { --accent: #9b87ff; --accent-rgb: 155, 135, 255; }
-.dom-green  { --accent: #22c993; --accent-rgb: 34, 201, 147; }
-.dom-amber  { --accent: #f5a623; --accent-rgb: 245, 166, 35; }
-.dom-pink   { --accent: #ff6f9c; --accent-rgb: 255, 111, 156; }
-.dom-gold   { --accent: #f4b740; --accent-rgb: 244, 183, 64; }
+.dom-teal   { --accent: #19b8a6; --accent-rgb: 25, 184, 166; }
+.dom-sky    { --accent: #5a96d6; --accent-rgb: 90, 150, 214; }
+.dom-violet { --accent: #9a8fd0; --accent-rgb: 154, 143, 208; }
+.dom-green  { --accent: #3fae87; --accent-rgb: 63, 174, 135; }
+.dom-amber  { --accent: #dd9a3a; --accent-rgb: 221, 154, 58; }
+.dom-pink   { --accent: #dd7d99; --accent-rgb: 221, 125, 153; }
+.dom-gold   { --accent: #d9b551; --accent-rgb: 217, 181, 81; }
+
+/* Light mode: accent used as text/icon needs a darker ink to stay readable on near-white.
+   Only --accent (foreground) is darkened; --accent-rgb tints stay the same hue. */
+.device-frame[data-theme="light"] .dom-teal   { --accent: #0f7d6f; }
+.device-frame[data-theme="light"] .dom-sky    { --accent: #3a6ea6; }
+.device-frame[data-theme="light"] .dom-violet { --accent: #655ab0; }
+.device-frame[data-theme="light"] .dom-green  { --accent: #277257; }
+.device-frame[data-theme="light"] .dom-amber  { --accent: #8a6300; }
+.device-frame[data-theme="light"] .dom-pink   { --accent: #a84e69; }
+.device-frame[data-theme="light"] .dom-gold   { --accent: #806600; }
 
 /* ---------- dev reset control (floats outside the phone frame) ---------- */
 .wv-reset-btn {
@@ -60,7 +71,7 @@
   gap: 8px;
   padding: 9px 14px 9px 11px;
   border-radius: 12px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Manrope', system-ui, sans-serif;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -75,11 +86,11 @@
 }
 .wv-reset-btn:hover {
   color: #ffffff;
-  border-color: rgba(0, 245, 212, 0.5);
+  border-color: rgba(25, 184, 166, 0.5);
   background: rgba(24, 32, 42, 0.96);
 }
 .wv-reset-btn:active { transform: scale(0.94); }
-.wv-reset-btn svg { width: 16px; height: 16px; color: #00f5d4; }
+.wv-reset-btn svg { width: 16px; height: 16px; color: #19b8a6; }
 
 /* On real phones the frame fills the screen — collapse to a discreet icon */
 @media (max-width: 600px) {
@@ -101,13 +112,13 @@
   position: relative; display: block; text-decoration: none;
   border-radius: 18px; padding: 16px; overflow: hidden;
   background:
-    radial-gradient(130% 120% at 0% 0%, rgba(var(--accent-rgb), 0.16), transparent 52%),
+    radial-gradient(130% 120% at 0% 0%, rgba(var(--accent-rgb), 0.10), transparent 52%),
     linear-gradient(160deg, var(--glass-top), var(--glass-bot));
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
   backdrop-filter: blur(14px) saturate(1.1);
-  border: 1px solid rgba(var(--accent-rgb), 0.24);
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
   box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
-  transition: transform 180ms cubic-bezier(0.2, 0.7, 0.2, 1), border-color 180ms ease;
+  transition: transform 180ms var(--ease-out), border-color 180ms var(--ease-out);
 }
 .wv-tile:active { transform: scale(0.97); }
 .wv-tile .ic {
@@ -116,7 +127,7 @@
   background: rgba(var(--accent-rgb), 0.16); color: var(--accent); margin-bottom: 12px;
 }
 .wv-tile .ic svg { width: 22px; height: 22px; }
-.wv-tile .t { font-size: 14.5px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.01em; }
+.wv-tile .t { font-size: 14.5px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.015em; }
 .wv-tile .d { font-size: 11.5px; color: var(--text-mid); margin-top: 4px; line-height: 1.35; }
 
 /* ---------- header actions + theme toggle ---------- */
@@ -125,7 +136,7 @@
   width: 38px; height: 38px; border-radius: 12px; flex: 0 0 auto;
   border: 1px solid var(--hairline); background: var(--surface); color: var(--text-mid);
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: transform 140ms ease, color 140ms ease, background 140ms ease;
+  transition: transform 140ms var(--ease-out), color 140ms var(--ease-out), background 140ms var(--ease-out);
 }
 .wv-theme-toggle:active { transform: scale(0.9); }
 .wv-theme-toggle svg { width: 19px; height: 19px; }
@@ -147,8 +158,7 @@
   border: 1px solid var(--hairline);
   box-shadow:
     inset 0 1px 0 var(--hi-glow),
-    0 8px 24px rgba(0, 0, 0, 0.28),
-    0 18px 50px rgba(0, 0, 0, 0.22);
+    0 6px 20px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(22px) saturate(1.2);
   -webkit-backdrop-filter: blur(22px) saturate(1.2);
   z-index: 1200;
@@ -165,7 +175,7 @@
   color: var(--text-mid);
   border-radius: 20px;
   padding: 4px 0;
-  transition: color 200ms ease, transform 180ms ease, background 220ms ease;
+  transition: color 200ms var(--ease-out), transform 180ms var(--ease-out), background 220ms var(--ease-out);
 }
 
 .wv-tab:active { transform: scale(0.93); }
@@ -194,7 +204,7 @@
 .wv-tab.active {
   color: var(--text-hi);
   background:
-    radial-gradient(120% 120% at 50% 0%, rgba(0, 245, 212, 0.16), transparent 60%),
+    radial-gradient(120% 120% at 50% 0%, rgba(25, 184, 166, 0.16), transparent 60%),
     rgba(255, 255, 255, 0.07);
   box-shadow: inset 0 1px 0 var(--hi-glow);
 }
@@ -205,7 +215,7 @@
     rgba(20, 32, 46, 0.06);
 }
 
-.wv-tab.active .wv-tab-ic { color: #00f5d4; }
+.wv-tab.active .wv-tab-ic { color: #19b8a6; }
 
 .device-frame[data-theme="light"] .wv-tab.active .wv-tab-ic { color: #00bca3; }
 
@@ -216,7 +226,7 @@
   background: var(--app-gradient);
   background-attachment: local;
   color: var(--text-hi);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -244,9 +254,9 @@
 }
 
 .wv-page-title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--text-hi);
   margin-top: 2px;
 }
@@ -269,7 +279,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin: 22px 0 12px;
+  margin: 28px 0 13px;
 }
 
 .wv-section-title {
@@ -282,15 +292,16 @@
 .wv-see-all {
   font-size: 12px;
   font-weight: 600;
-  color: #00f5d4;
+  color: #19b8a6;
   text-decoration: none;
 }
+.device-frame[data-theme="light"] .wv-see-all { color: #0c7568; }
 
 .wv-badge-new {
   display: inline-block;
   padding: 2px 7px;
   border-radius: 999px;
-  background: #00f5d4;
+  background: #19b8a6;
   color: #04201b;
   font-size: 9.5px;
   font-weight: 800;

@@ -6,9 +6,9 @@
   <title>WealthVision — Screen 7: Goal Creation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
     .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
     .device-frame{--act1:var(--ac);}
     .device-frame[data-theme="light"]{--act1:#6a4fe0;}
@@ -22,7 +22,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -37,8 +37,8 @@
       border: 1px solid var(--wa6);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
       /* signature: violet = goals / aspiration */
-      --ac: #9b87ff;
-      --ac-rgb: 155,135,255;
+      --ac: #9a8fd0;
+      --ac-rgb: 154, 143, 208;
     }
 
     .screen {
@@ -67,7 +67,7 @@
       justify-content: space-between;
       flex-shrink: 0;
     }
-    .close-btn {
+    .wiz-nav {
       width: 36px;
       height: 36px;
       border-radius: 50%;
@@ -77,10 +77,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.12s;
     }
-    .close-btn:hover { background: var(--wa12); }
-    .close-btn svg { width: 18px; height: 18px; stroke: var(--s-sec); stroke-width: 2; fill: none; }
+    .wiz-nav:hover { background: var(--wa12); }
+    .wiz-nav:active { transform: scale(0.92); }
+    .wiz-nav svg { width: 18px; height: 18px; stroke: var(--s-sec); stroke-width: 2; fill: none; }
     .step-indicator {
       font-size: 13px;
       font-weight: 500;
@@ -100,7 +101,7 @@
     }
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--ac), #c4b6ff);
+      background: linear-gradient(90deg, var(--ac), #cbc3e8);
       border-radius: 2px;
       transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
     }
@@ -207,7 +208,7 @@
       border: 1.5px solid var(--wa8);
       border-radius: 14px;
       padding: 0 16px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 16px;
       font-weight: 600;
       color: var(--s-hi);
@@ -386,9 +387,9 @@
       height: 56px;
       border: none;
       border-radius: 16px;
-      background: linear-gradient(135deg, var(--ac), #7d68f0);
+      background: linear-gradient(135deg, var(--ac), #8579c4);
       color: #1a1238;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
@@ -410,7 +411,7 @@
       border-radius: 16px;
       background: rgba(255,140,130,0.08);
       color: #ff9d92;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
@@ -490,6 +491,46 @@
       0% { opacity: 1; transform: translate(0, 0) scale(1); }
       100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
     }
+
+    /* ── Plain-language return buckets (replaces a raw % slider) ── */
+    .seg-group { display: flex; gap: 8px; }
+    .seg {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 14px 8px; border-radius: 14px;
+      background: var(--wa4); border: 1.5px solid var(--wa8);
+      cursor: pointer; font-family: 'Manrope', sans-serif;
+      transition: background 0.18s, border-color 0.18s, transform 0.12s;
+    }
+    .seg:hover { background: var(--wa6); }
+    .seg.active { background: rgba(var(--ac-rgb),0.12); border-color: rgba(var(--ac-rgb),0.5); }
+    .seg:active { transform: scale(0.97); }
+    .seg-name { font-size: 13.5px; font-weight: 600; color: var(--s-hi); }
+    .seg-rate { font-size: 12px; font-weight: 600; color: var(--s-mid); font-variant-numeric: tabular-nums; }
+    .seg.active .seg-rate { color: var(--act1); }
+
+    /* ── "What's this?" disclosure ── */
+    .wv-explain {
+      margin-top: 12px; border: 1px solid var(--wa6); border-radius: 14px;
+      background: var(--wa2); overflow: hidden;
+    }
+    .wv-explain > summary {
+      cursor: pointer; list-style: none; padding: 13px 15px;
+      font-size: 13px; font-weight: 600; color: var(--act1);
+      display: flex; align-items: center; gap: 9px;
+    }
+    .wv-explain > summary::-webkit-details-marker { display: none; }
+    .wv-explain > summary::before {
+      content: '?'; flex: 0 0 auto;
+      width: 18px; height: 18px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      background: rgba(var(--ac-rgb),0.16); color: var(--act1);
+    }
+    .wv-explain[open] > summary { color: var(--s-hi); border-bottom: 1px solid var(--wa6); }
+    .wv-explain .explain-body { padding: 13px 15px; }
+    .wv-explain .explain-body p { font-size: 13px; color: var(--s-sec); line-height: 1.55; }
+    .wv-explain .explain-body p + p { margin-top: 9px; }
+    .fine-print { font-size: 11px !important; color: var(--s-mid) !important; margin-top: 12px !important; line-height: 1.5; }
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
 </head>
@@ -499,16 +540,16 @@
 
       <!-- Top Bar -->
       <div class="top-bar">
-        <button class="close-btn" onclick="handleClose()">
+        <button class="wiz-nav" id="navBtn" onclick="handleClose()" aria-label="Back">
           <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
-        <span class="step-indicator" id="stepLabel">Step 1 of 3</span>
+        <span class="step-indicator" id="stepLabel">Step 1 of 5</span>
         <div class="top-spacer"></div>
       </div>
 
       <!-- Progress -->
       <div class="progress-track">
-        <div class="progress-fill" id="progressFill" style="width: 33.3%"></div>
+        <div class="progress-fill" id="progressFill" style="width: 20%"></div>
       </div>
 
       <!-- Step 1: Choose Goal Type -->
@@ -520,8 +561,8 @@
           <div class="goal-grid">
             <div class="goal-card" data-goal="house" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <path d="M18 4L3 16h3v14h10v-8h4v8h10V16h3L18 4z" fill="none" stroke="#9b87ff" stroke-width="1.8" stroke-linejoin="round"/>
-                <rect x="14" y="22" width="8" height="8" rx="1" fill="rgba(155,135,255,0.15)" stroke="#9b87ff" stroke-width="1"/>
+                <path d="M18 4L3 16h3v14h10v-8h4v8h10V16h3L18 4z" fill="none" stroke="#9a8fd0" stroke-width="1.8" stroke-linejoin="round"/>
+                <rect x="14" y="22" width="8" height="8" rx="1" fill="rgba(154, 143, 208,0.15)" stroke="#9a8fd0" stroke-width="1"/>
               </svg>
               <span class="goal-card-name">House down payment</span>
               <span class="goal-card-desc">Avg: $60,000</span>
@@ -529,8 +570,8 @@
 
             <div class="goal-card" data-goal="freedom" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <circle cx="18" cy="18" r="13" stroke="#bbc3ff" stroke-width="1.8" fill="none"/>
-                <path d="M12 18l4 4 8-8" stroke="#bbc3ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <circle cx="18" cy="18" r="13" stroke="#c2c6e4" stroke-width="1.8" fill="none"/>
+                <path d="M12 18l4 4 8-8" stroke="#c2c6e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
               </svg>
               <span class="goal-card-name">Financial freedom</span>
               <span class="goal-card-desc">Never work because you have to</span>
@@ -538,9 +579,9 @@
 
             <div class="goal-card" data-goal="education" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <path d="M18 6L4 14l14 8 14-8L18 6z" fill="rgba(187,195,255,0.15)" stroke="#bbc3ff" stroke-width="1.8" stroke-linejoin="round"/>
-                <path d="M8 17v8c0 2 4.5 5 10 5s10-3 10-5v-8" stroke="#bbc3ff" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-                <line x1="32" y1="14" x2="32" y2="28" stroke="#bbc3ff" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M18 6L4 14l14 8 14-8L18 6z" fill="rgba(187,195,255,0.15)" stroke="#c2c6e4" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M8 17v8c0 2 4.5 5 10 5s10-3 10-5v-8" stroke="#c2c6e4" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <line x1="32" y1="14" x2="32" y2="28" stroke="#c2c6e4" stroke-width="1.8" stroke-linecap="round"/>
               </svg>
               <span class="goal-card-name">Kid's education</span>
               <span class="goal-card-desc">Avg: $120,000</span>
@@ -548,10 +589,10 @@
 
             <div class="goal-card" data-goal="car" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <rect x="4" y="16" width="28" height="10" rx="3" stroke="#9b87ff" stroke-width="1.8" fill="none"/>
-                <path d="M8 16l3-7h14l3 7" stroke="#9b87ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                <circle cx="11" cy="26" r="2.5" fill="rgba(155,135,255,0.15)" stroke="#9b87ff" stroke-width="1.5"/>
-                <circle cx="25" cy="26" r="2.5" fill="rgba(155,135,255,0.15)" stroke="#9b87ff" stroke-width="1.5"/>
+                <rect x="4" y="16" width="28" height="10" rx="3" stroke="#9a8fd0" stroke-width="1.8" fill="none"/>
+                <path d="M8 16l3-7h14l3 7" stroke="#9a8fd0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <circle cx="11" cy="26" r="2.5" fill="rgba(154, 143, 208,0.15)" stroke="#9a8fd0" stroke-width="1.5"/>
+                <circle cx="25" cy="26" r="2.5" fill="rgba(154, 143, 208,0.15)" stroke="#9a8fd0" stroke-width="1.5"/>
               </svg>
               <span class="goal-card-name">New car (cash)</span>
               <span class="goal-card-desc">Avg: $35,000</span>
@@ -559,10 +600,10 @@
 
             <div class="goal-card" data-goal="emergency" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <rect x="6" y="10" width="24" height="16" rx="3" stroke="#9b87ff" stroke-width="1.8" fill="none"/>
-                <circle cx="18" cy="18" r="5" stroke="#9b87ff" stroke-width="1.5" fill="rgba(155,135,255,0.1)"/>
-                <line x1="18" y1="15" x2="18" y2="21" stroke="#9b87ff" stroke-width="1.5" stroke-linecap="round"/>
-                <line x1="15" y1="18" x2="21" y2="18" stroke="#9b87ff" stroke-width="1.5" stroke-linecap="round"/>
+                <rect x="6" y="10" width="24" height="16" rx="3" stroke="#9a8fd0" stroke-width="1.8" fill="none"/>
+                <circle cx="18" cy="18" r="5" stroke="#9a8fd0" stroke-width="1.5" fill="rgba(154, 143, 208,0.1)"/>
+                <line x1="18" y1="15" x2="18" y2="21" stroke="#9a8fd0" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="15" y1="18" x2="21" y2="18" stroke="#9a8fd0" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
               <span class="goal-card-name">Emergency fund</span>
               <span class="goal-card-desc">6 months expenses</span>
@@ -580,10 +621,10 @@
           </div>
         </div>
 
-        <!-- Step 2: Configure -->
+        <!-- Step 2: Target -->
         <div class="step-panel" id="step2">
-          <h2 class="step-headline" id="configHeadline">Configure your goal</h2>
-          <p class="step-subtext">Set a target and how you'll get there.</p>
+          <h2 class="step-headline" id="configHeadline">How much will you need?</h2>
+          <p class="step-subtext" id="targetSubtext">Set the amount you're aiming for. You can change it later.</p>
 
           <!-- Goal name (shown for custom, or editable for others) -->
           <div class="form-group" id="goalNameGroup">
@@ -599,22 +640,57 @@
             <p class="form-helper" id="targetHelper">Average down payment in the US: $60,000</p>
           </div>
 
+          <!-- freedom-only: turn "I have no idea how much I need" into a number (4% rule) -->
+          <details class="wv-explain" id="freedomEstimator" style="display:none">
+            <summary>Not sure how much you need?</summary>
+            <div class="explain-body">
+              <p>A common rule of thumb is to aim for about <b>25× what you spend in a year</b>. After that, you could live on roughly 4% of it each year.</p>
+              <label class="form-label" for="spendInput" style="margin-top:12px">What do you spend per month?</label>
+              <div class="dollar-input-wrap">
+                <input type="text" class="form-input" id="spendInput" placeholder="2,500" inputmode="numeric">
+              </div>
+              <p class="form-helper" id="estimateOut">Enter a number and we'll suggest a target.</p>
+            </div>
+          </details>
+        </div>
+
+        <!-- Step 3: Monthly -->
+        <div class="step-panel" id="step3">
+          <h2 class="step-headline">How much can you add each month?</h2>
+          <p class="step-subtext">Even a small amount adds up over time. You can change this whenever your income does.</p>
+
           <div class="form-group">
             <label class="form-label">Monthly contribution</label>
             <div class="slider-row">
               <input type="range" id="monthlySlider" min="25" max="2000" value="200" step="25">
               <span class="slider-value" id="monthlyValue">$200</span>
             </div>
-            <p class="form-helper">Based on your simulator scenario of $200/mo total</p>
+            <p class="form-helper">Drag to set what you'll put aside each month.</p>
+          </div>
+        </div>
+
+        <!-- Step 4: Return -->
+        <div class="step-panel" id="step4">
+          <h2 class="step-headline">How will your money grow?</h2>
+          <p class="step-subtext">Where you keep your money changes how fast it grows. Pick what fits you.</p>
+
+          <!-- hidden source of truth so existing calc/save code keeps working -->
+          <input type="hidden" id="returnSlider" value="7">
+          <div class="seg-group" id="returnSeg">
+            <button class="seg" data-rate="1" type="button"><span class="seg-name">Savings</span><span class="seg-rate">~1%</span></button>
+            <button class="seg" data-rate="5" type="button"><span class="seg-name">Balanced</span><span class="seg-rate">~5%</span></button>
+            <button class="seg active" data-rate="7" type="button"><span class="seg-name">Invested</span><span class="seg-rate">~7%</span></button>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Expected annual return</label>
-            <div class="slider-row">
-              <input type="range" id="returnSlider" min="1" max="15" value="7" step="0.5">
-              <span class="slider-value" id="returnValue">7%</span>
+          <details class="wv-explain">
+            <summary>What do these mean?</summary>
+            <div class="explain-body">
+              <p><b>Savings</b> is a regular bank account. Very safe, but it grows slowly (around 1% a year).</p>
+              <p><b>Balanced</b> mixes stocks and bonds for steadier, middle-of-the-road growth (around 5%).</p>
+              <p><b>Invested</b> is a stock-heavy mix of index funds. Over decades it has averaged about 7% a year, with real ups and downs along the way.</p>
+              <p class="fine-print">These are long-term historical averages, shown to help you learn. They are not a promise. Past performance doesn't guarantee future results.</p>
             </div>
-          </div>
+          </details>
 
           <div class="projection-line" id="projectionLine">
             <div class="proj-label">Estimated completion</div>
@@ -632,8 +708,8 @@
           </div>
         </div>
 
-        <!-- Step 3: Confirmation -->
-        <div class="step-panel" id="step3">
+        <!-- Step 5: Confirmation -->
+        <div class="step-panel" id="step5">
           <h2 class="step-headline">You're all set</h2>
           <p class="step-subtext">Here's your savings plan at a glance.</p>
 
@@ -721,18 +797,24 @@
       currentStep = step;
       document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
       document.getElementById('step' + step).classList.add('active');
+      const sc = document.querySelector('.step-content');
+      if (sc) sc.scrollTop = 0;
       const editing = editIndex !== null;
-      document.getElementById('stepLabel').textContent = editing ? 'Edit goal' : `Step ${step} of 3`;
-      document.getElementById('progressFill').style.width = editing ? '100%' : `${(step / 3) * 100}%`;
+      document.getElementById('stepLabel').textContent = editing ? 'Edit goal' : `Step ${step} of 5`;
+      document.getElementById('progressFill').style.width = `${(step / 5) * 100}%`;
+      updateNavButton();
 
       const btn = document.getElementById('ctaBtn');
       if (step === 1) {
         btn.textContent = selectedGoal ? 'Next →' : 'Select a goal';
         btn.disabled = !selectedGoal;
-      } else if (step === 2) {
+      } else if (step === 2 || step === 3) {
+        btn.textContent = 'Next →';
+        btn.disabled = false;
+      } else if (step === 4) {
         btn.textContent = editing ? 'Apply changes' : 'Review →';
         btn.disabled = false;
-      } else if (step === 3) {
+      } else if (step === 5) {
         btn.textContent = 'Start Tracking';
         btn.disabled = false;
         populateConfirmation();
@@ -741,25 +823,50 @@
     }
 
     function handleCTA() {
-      if (editIndex !== null) { applyEdit(); return; }
+      const editing = editIndex !== null;
       if (currentStep === 1 && selectedGoal) {
         setupStep2();
         goToStep(2);
       } else if (currentStep === 2) {
         goToStep(3);
       } else if (currentStep === 3) {
+        goToStep(4);
+      } else if (currentStep === 4) {
+        if (editing) { applyEdit(); } else { goToStep(5); }
+      } else if (currentStep === 5) {
         showSuccess();
       }
     }
 
     function handleClose() {
       if (editIndex !== null) {
-        window.location.href = 'dashboard.html';
+        if (currentStep > 2) { goToStep(currentStep - 1); return; }
+        exitWizard();
         return;
       }
       if (currentStep > 1) {
         goToStep(currentStep - 1);
+      } else {
+        exitWizard();
       }
+    }
+
+    // Leaves the builder entirely, back to wherever the user came from.
+    function exitWizard() {
+      if (document.referrer && history.length > 1) { history.back(); }
+      else { window.location.href = 'dashboard.html'; }
+    }
+
+    // Top-left control doubles as Back on inner steps and Close on the first step.
+    function updateNavButton() {
+      const btn = document.getElementById('navBtn');
+      if (!btn) return;
+      const editing = editIndex !== null;
+      const goesBack = editing ? currentStep > 2 : currentStep > 1;
+      btn.setAttribute('aria-label', goesBack ? 'Back' : 'Close');
+      btn.innerHTML = goesBack
+        ? '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>'
+        : '<svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
     }
 
     // ── Edit mode ──
@@ -786,6 +893,8 @@
       const monthly = Math.min(2000, Math.max(25, Math.round((g.monthly || 200) / 25) * 25));
       ms.value = monthly;
       document.getElementById('monthlyValue').textContent = '$' + formatNumber(monthly);
+
+      setReturnRate(Math.round((g.returnRate || 0.07) * 100));
 
       goToStep(2);
       updateProjection();
@@ -846,16 +955,32 @@
       const targetInput = document.getElementById('targetAmountInput');
       const helper = document.getElementById('targetHelper');
       const headline = document.getElementById('configHeadline');
+      const estimator = document.getElementById('freedomEstimator');
 
       if (selectedGoal === 'custom') {
         nameGroup.style.display = 'block';
         nameInput.value = '';
         nameInput.placeholder = 'e.g., Dream vacation';
-        headline.textContent = 'Configure your goal';
+        headline.textContent = 'How much will you need?';
       } else {
         nameGroup.style.display = 'none';
         nameInput.value = goal.name;
         headline.textContent = goal.name;
+      }
+
+      // The "how do I know my number?" estimator is most useful for open-ended
+      // goals like financial freedom, where there's no obvious average to anchor on.
+      if (estimator) {
+        if (selectedGoal === 'freedom') {
+          estimator.style.display = 'block';
+          estimator.open = false;
+          const spend = document.getElementById('spendInput');
+          if (spend) spend.value = '';
+          const out = document.getElementById('estimateOut');
+          if (out) out.textContent = "Enter a number and we'll suggest a target.";
+        } else {
+          estimator.style.display = 'none';
+        }
       }
 
       targetInput.value = formatNumber(goal.target);
@@ -868,13 +993,43 @@
       document.getElementById('monthlyValue').textContent = '$' + formatNumber(+this.value);
       updateProjection();
     });
-    document.getElementById('returnSlider').addEventListener('input', function() {
-      document.getElementById('returnValue').textContent = parseFloat(parseFloat(this.value).toFixed(1)) + '%';
-      updateProjection();
-    });
     document.getElementById('targetAmountInput').addEventListener('input', function() {
       const raw = this.value.replace(/[^0-9]/g, '');
       if (raw) this.value = formatNumber(+raw);
+      updateProjection();
+    });
+
+    // ── Return: plain-language buckets instead of a raw % the user can't reason about ──
+    function setReturnRate(pct) {
+      const segs = Array.prototype.slice.call(document.querySelectorAll('#returnSeg .seg'));
+      if (!segs.length) return;
+      let nearest = segs[segs.length - 1], best = Infinity;
+      segs.forEach(function (s) {
+        const d = Math.abs(parseFloat(s.dataset.rate) - pct);
+        if (d < best) { best = d; nearest = s; }
+      });
+      segs.forEach(function (s) { s.classList.toggle('active', s === nearest); });
+      document.getElementById('returnSlider').value = nearest.dataset.rate;
+      updateProjection();
+    }
+    document.getElementById('returnSeg').addEventListener('click', function (e) {
+      const b = e.target.closest('.seg');
+      if (b) setReturnRate(parseFloat(b.dataset.rate));
+    });
+
+    // ── Target estimator (4% rule): turns "I have no idea" into a concrete number ──
+    document.getElementById('spendInput').addEventListener('input', function () {
+      const raw = this.value.replace(/[^0-9]/g, '');
+      this.value = raw ? formatNumber(+raw) : '';
+      const out = document.getElementById('estimateOut');
+      const monthlySpend = parseNumber(this.value);
+      if (monthlySpend <= 0) {
+        out.textContent = "Enter a number and we'll suggest a target.";
+        return;
+      }
+      const suggested = monthlySpend * 12 * 25;
+      document.getElementById('targetAmountInput').value = formatNumber(suggested);
+      out.textContent = '≈ $' + formatNumber(suggested) + ' — that\'s 25× your $' + formatNumber(monthlySpend * 12) + '/year spending.';
       updateProjection();
     });
 
@@ -1033,8 +1188,8 @@
         ctx.lineTo(padL, H - padB);
         ctx.closePath();
         const grad = ctx.createLinearGradient(0, padT, 0, H - padB);
-        grad.addColorStop(0, 'rgba(155,135,255,0.22)');
-        grad.addColorStop(1, 'rgba(155,135,255,0.01)');
+        grad.addColorStop(0, 'rgba(154, 143, 208,0.22)');
+        grad.addColorStop(1, 'rgba(154, 143, 208,0.01)');
         ctx.fillStyle = grad;
         ctx.fill();
 
@@ -1044,7 +1199,7 @@
         for (let i = 1; i < drawCount; i++) {
           ctx.lineTo(x(i), y(points[i]));
         }
-        ctx.strokeStyle = '#9b87ff';
+        ctx.strokeStyle = '#9a8fd0';
         ctx.lineWidth = 2.5;
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
@@ -1055,11 +1210,11 @@
           const lastI = drawCount - 1;
           ctx.beginPath();
           ctx.arc(x(lastI), y(points[lastI]), 4, 0, Math.PI * 2);
-          ctx.fillStyle = '#9b87ff';
+          ctx.fillStyle = '#9a8fd0';
           ctx.fill();
           ctx.beginPath();
           ctx.arc(x(lastI), y(points[lastI]), 8, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(155,135,255,0.15)';
+          ctx.fillStyle = 'rgba(154, 143, 208,0.15)';
           ctx.fill();
         }
 
@@ -1129,7 +1284,7 @@
     function spawnParticle(container) {
       const p = document.createElement('div');
       p.className = 'particle';
-      const colors = ['#9b87ff', '#c4b6ff', '#bbc3ff', '#dfe2eb'];
+      const colors = ['#9a8fd0', '#cbc3e8', '#c2c6e4', '#dfe2eb'];
       p.style.background = colors[Math.floor(Math.random() * colors.length)];
       p.style.left = (40 + Math.random() * 60) + '%';
       p.style.top = (35 + Math.random() * 20) + '%';
@@ -1147,6 +1302,9 @@
     function parseNumber(s) {
       return parseInt(String(s).replace(/[^0-9]/g, ''), 10) || 0;
     }
+
+    // Reflect the starting step on the top-left control (create mode opens on step 1).
+    updateNavButton();
   </script>
   <script src="./proto-shell.js"></script>
 </body>

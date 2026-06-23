@@ -6,11 +6,11 @@
   <title>WealthVision — Screen 11: Inflation Explained</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
     .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
-    .device-frame{--act1:#9b87ff;}
+    .device-frame{--act1:#9a8fd0;}
     .device-frame[data-theme="light"]{--act1:#6a4fe0;}
     .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
@@ -22,7 +22,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -124,7 +124,7 @@
     .dot.active {
       width: 24px;
       border-radius: 4px;
-      background: #9b87ff;
+      background: #9a8fd0;
     }
 
     /* ── Swipe hint ── */
@@ -155,7 +155,7 @@
       gap: 6px;
       padding: 4px 12px;
       border-radius: 8px;
-      background: rgba(155,135,255,0.10);
+      background: rgba(154, 143, 208,0.10);
       font-size: 11px;
       font-weight: 600;
       color:var(--act1);
@@ -198,7 +198,7 @@
       border: 1.5px solid var(--wa8);
       background: var(--wa3);
       color: var(--s-sec);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
@@ -209,8 +209,8 @@
       gap: 6px;
     }
     .item-tab.active {
-      background: rgba(155,135,255,0.10);
-      border-color: rgba(155,135,255,0.35);
+      background: rgba(154, 143, 208,0.10);
+      border-color: rgba(154, 143, 208,0.35);
       color:var(--act1);
     }
     .item-tab svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; fill: none; }
@@ -317,7 +317,7 @@
       border: 1.5px solid var(--wa8);
       border-radius: 14px;
       padding: 0 16px 0 34px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 24px;
       font-weight: 900;
       color: var(--s-hi);
@@ -325,7 +325,7 @@
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
     }
-    .shrink-dollar input:focus { border-color: rgba(155,135,255,0.55); }
+    .shrink-dollar input:focus { border-color: rgba(154, 143, 208,0.55); }
 
     .inflation-slider-row {
       display: flex;
@@ -482,8 +482,8 @@
     .race-insight {
       margin-top: 14px;
       padding: 14px;
-      background: rgba(155,135,255,0.07);
-      border: 1px solid rgba(155,135,255,0.14);
+      background: rgba(154, 143, 208,0.07);
+      border: 1px solid rgba(154, 143, 208,0.14);
       border-radius: 12px;
       font-size: 14px;
       color:var(--act1);
@@ -495,8 +495,8 @@
        Card 4: What This Means
        ════════════════════════════════ */
     .takeaway-card {
-      background: linear-gradient(135deg, rgba(2,49,222,0.12), rgba(155,135,255,0.07));
-      border: 1px solid rgba(155,135,255,0.16);
+      background: linear-gradient(135deg, rgba(2,49,222,0.12), rgba(154, 143, 208,0.07));
+      border: 1px solid rgba(154, 143, 208,0.16);
       border-radius: 16px;
       padding: 24px 20px;
       flex: 1;
@@ -544,7 +544,7 @@
     .takeaway-num {
       width: 28px; height: 28px;
       border-radius: 50%;
-      background: rgba(155,135,255,0.16);
+      background: rgba(154, 143, 208,0.16);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -569,9 +569,9 @@
       height: 56px;
       border: none;
       border-radius: 14px;
-      background: linear-gradient(135deg, #9b87ff, #7d68f0);
+      background: linear-gradient(135deg, #9a8fd0, #8579c4);
       color: #1a1238;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
@@ -699,7 +699,7 @@
               <div class="race-legend">
                 <div class="race-row">
                   <div class="race-left">
-                    <div class="race-dot" style="background:#9b87ff;"></div>
+                    <div class="race-dot" style="background:#9a8fd0;"></div>
                     <span class="race-name">Invested at 7%</span>
                   </div>
                   <span class="race-val green" id="raceInvest">$76,123</span>
@@ -949,12 +949,12 @@
 
       const colors = [
         '#3a3358', '#4a3f78', '#594a92', '#6855ad',
-        '#7a68d0', '#8a76e8', '#9b87ff'
+        '#7269b0', '#847bc0', '#9a8fd0'
       ];
 
       const html = data.map((d, i) => {
         const pct = (d.price / maxPrice * 100).toFixed(1);
-        const color = colors[i] || '#9b87ff';
+        const color = colors[i] || '#9a8fd0';
         return `
           <div class="price-bar-row">
             <span class="price-year">${d.year}</span>
@@ -1063,8 +1063,8 @@
       ctx.lineTo(x(years), y(base));
       ctx.closePath();
       const grd = ctx.createLinearGradient(0, padT, 0, padT + cH);
-      grd.addColorStop(0, 'rgba(155,135,255,0.10)');
-      grd.addColorStop(1, 'rgba(155,135,255,0)');
+      grd.addColorStop(0, 'rgba(154, 143, 208,0.10)');
+      grd.addColorStop(1, 'rgba(154, 143, 208,0)');
       ctx.fillStyle = grd;
       ctx.fill();
 
@@ -1083,10 +1083,10 @@
       ctx.setLineDash([]);
       drawCurve(mattressData, '#ffb4ab', 2);
       drawCurve(savingsData, '#ffc107', 2.5);
-      drawCurve(investData, '#9b87ff', 3);
+      drawCurve(investData, '#9a8fd0', 3);
 
       // Endpoint dots with glow
-      [[investData, '#9b87ff'], [savingsData, '#ffc107'], [mattressData, '#ffb4ab']].forEach(([d, c]) => {
+      [[investData, '#9a8fd0'], [savingsData, '#ffc107'], [mattressData, '#ffb4ab']].forEach(([d, c]) => {
         ctx.beginPath();
         ctx.arc(x(years), y(d[years]), 5, 0, Math.PI * 2);
         ctx.fillStyle = c;
@@ -1098,7 +1098,7 @@
       });
 
       ctx.fillStyle = '#83948f';
-      ctx.font = '11px Inter';
+      ctx.font = '11px Manrope';
       ctx.textAlign = 'center';
       ctx.fillText('Now', x(0), H - 6);
       ctx.fillText('15y', x(15), H - 6);

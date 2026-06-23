@@ -6,17 +6,17 @@
   <title>WealthVision - Screen 17: Peer Comparison</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
     .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
     .device-frame{--act1:var(--ac);}
     .device-frame[data-theme="light"]{--act1:#a86a06;}
     .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    body{background:#080a0e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa6);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25);--ac:#f5a623;--ac-rgb:245,166,35}
+    body{background:#080a0e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa6);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25);--ac:#dd9a3a;--ac-rgb:221, 154, 58}
     .screen{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
     .top-nav{padding:56px 24px 12px;display:flex;align-items:center;gap:14px;flex-shrink:0}
     .back-btn{width:36px;height:36px;border-radius:50%;background:var(--wa6);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -64,7 +64,7 @@
     .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
     .money-field{position:relative}
     .money-field::before{content:'$';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;font-weight:700;color:var(--s-mid)}
-    .money-field input{width:100%;height:42px;background:var(--wa4);border:1.5px solid var(--wa8);border-radius:10px;padding:0 10px 0 22px;color:var(--s-hi);font-size:14px;font-weight:700;outline:none;font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums}
+    .money-field input{width:100%;height:42px;background:var(--wa4);border:1.5px solid var(--wa8);border-radius:10px;padding:0 10px 0 22px;color:var(--s-hi);font-size:14px;font-weight:700;outline:none;font-family:'Manrope',sans-serif;font-variant-numeric:tabular-nums}
     .money-field input:focus{border-color:rgba(var(--ac-rgb),0.55)}
     .field-note{font-size:10px;color:var(--s-mid);margin-top:4px}
 
@@ -91,7 +91,7 @@
     .bar-fill{height:100%;border-radius:999px;transition:width .6s cubic-bezier(0.16,1,0.3,1)}
     .bar-fill.you{background:var(--ac)}
     .bar-fill.med{background:#8a96a8}
-    .bar-fill.top{background:#c4b6ff}
+    .bar-fill.top{background:#cbc3e8}
     .bar-val{width:38px;text-align:right;font-size:10px;color:var(--s-sec);font-variant-numeric:tabular-nums}
 
     /* Card 4 action plan */
@@ -106,7 +106,7 @@
     .step-text{font-size:13px;color:var(--s-sec);line-height:1.45}
     .step-text strong{color:var(--s-hi)}
 
-    .cta-btn{width:100%;height:54px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--ac),#e08c0e);color:#2a1a02;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px;flex-shrink:0;box-shadow:0 10px 24px rgba(var(--ac-rgb),0.26)}
+    .cta-btn{width:100%;height:54px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--ac),#e08c0e);color:#2a1a02;font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px;flex-shrink:0;box-shadow:0 10px 24px rgba(var(--ac-rgb),0.26)}
     .cta-btn:active{transform:scale(0.98)}
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
@@ -135,7 +135,7 @@
               <div class="val" style="color:var(--c-red)">$183K</div>
               <div style="font-size:10px;color:var(--s-mid);margin-top:4px">Skewed by the mega-rich</div>
             </div>
-            <div class="col" style="background:rgba(245,166,35,0.06)">
+            <div class="col" style="background:rgba(221, 154, 58,0.06)">
               <div class="label">Median (real)</div>
               <div class="val" style="color:var(--act1)">$39K</div>
               <div style="font-size:10px;color:var(--s-mid);margin-top:4px">Where most people are</div>

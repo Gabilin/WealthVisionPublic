@@ -6,7 +6,7 @@
   <title>WealthVision — Rewards</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="proto-shell.css">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,7 +14,7 @@
       background: #080a0e;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
     .device-frame {
@@ -27,17 +27,17 @@
     .level-card {
       border-radius: 20px; padding: 20px; overflow: hidden;
       background:
-        radial-gradient(120% 120% at 100% 0%, rgba(245,166,35,0.18), transparent 55%),
+        radial-gradient(120% 120% at 100% 0%, rgba(221, 154, 58,0.18), transparent 55%),
         linear-gradient(160deg, var(--glass-top), var(--glass-bot));
       -webkit-backdrop-filter: blur(16px) saturate(1.15); backdrop-filter: blur(16px) saturate(1.15);
-      border: 1px solid rgba(245,166,35,0.26);
+      border: 1px solid rgba(221, 154, 58,0.26);
       box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
     }
     .level-top { display: flex; align-items: center; justify-content: space-between; }
     .level-badge { display: flex; align-items: center; gap: 12px; }
     .level-badge .num {
       width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
-      background: rgba(245,166,35,0.18); color: #f5b740; font-size: 22px; font-weight: 800;
+      background: rgba(221, 154, 58,0.18); color: #f5b740; font-size: 22px; font-weight: 800;
     }
     .level-badge .txt .big { font-size: 17px; font-weight: 800; color: var(--text-hi); }
     .level-badge .txt .sub { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
@@ -45,7 +45,7 @@
     .level-xp .v { font-size: 20px; font-weight: 800; color: var(--text-hi); font-variant-numeric: tabular-nums; }
     .level-xp .k { font-size: 11px; color: var(--text-mid); }
     .xp-bar { margin-top: 16px; height: 8px; border-radius: 99px; background: rgba(127,127,160,0.18); overflow: hidden; }
-    .xp-bar > i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg,#f5a623,#ffd27a); }
+    .xp-bar > i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg,#dd9a3a,#ffd27a); }
     .xp-hint { margin-top: 8px; font-size: 11.5px; color: var(--text-mid); }
 
     .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
@@ -67,11 +67,11 @@
       -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
       border: 1px solid var(--hairline); box-shadow: inset 0 1px 0 var(--hi-glow);
     }
-    .ach.earned { background: rgba(245,166,35,0.10); border-color: rgba(245,166,35,0.32); }
+    .ach.earned { background: rgba(221, 154, 58,0.10); border-color: rgba(221, 154, 58,0.32); }
     .ach .ic { width: 48px; height: 48px; margin: 0 auto 10px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
       background: var(--surface); color: var(--text-lo); }
-    .ach.earned .ic { background: rgba(245,166,35,0.18); color: #f5b740; }
+    .ach.earned .ic { background: rgba(221, 154, 58,0.18); color: #f5b740; }
     .ach .ic svg { width: 26px; height: 26px; }
     .ach .t { font-size: 13px; font-weight: 700; color: var(--text-hi); }
     .ach.earned .t { color: #f0c777; }
@@ -79,6 +79,10 @@
     .ach .lock { font-size: 10px; font-weight: 700; color: var(--text-lo); margin-top: 8px;
       text-transform: uppercase; letter-spacing: 0.05em; }
     .ach.earned .lock { color: #f5b740; }
+    .device-frame[data-theme="light"] .ach.earned .t,
+    .device-frame[data-theme="light"] .ach.earned .lock,
+    .device-frame[data-theme="light"] .ach.earned .ic,
+    .device-frame[data-theme="light"] .level-badge .num { color: #8a6300; }
   </style>
 </head>
 <body data-wv-tab="rewards">

@@ -6,7 +6,7 @@
   <title>WealthVision — Your Goal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="proto-shell.css">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,7 +14,7 @@
       background: #080a0e;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
     .device-frame {
@@ -26,12 +26,12 @@
     .gd {
       background: var(--app-bg); color: var(--text-hi);
       height: 100%; display: flex; flex-direction: column;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     /* teal ambience (goal = brand teal) */
     .gd::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 260px;
-      background: radial-gradient(120% 100% at 50% 0%, rgba(0,245,212,0.14), transparent 70%);
+      background: radial-gradient(120% 100% at 50% 0%, rgba(25, 184, 166,0.14), transparent 70%);
       pointer-events: none; z-index: 0;
     }
 
@@ -57,8 +57,8 @@
     .gd-ic {
       width: 64px; height: 64px; border-radius: 20px; margin: 0 auto 16px;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(0,245,212,0.14); color: #00f5d4;
-      border: 1px solid rgba(0,245,212,0.26);
+      background: rgba(25, 184, 166,0.14); color: #19b8a6;
+      border: 1px solid rgba(25, 184, 166,0.26);
     }
     .gd-ic svg { width: 32px; height: 32px; }
     .gd-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5ad7c4; }
@@ -72,9 +72,9 @@
     .gd-prog-wrap { margin-top: 22px; }
     .gd-prog-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
     .gd-prog-label { font-size: 12.5px; color: var(--text-mid); }
-    .gd-prog-pct { font-size: 13px; font-weight: 800; color: #00f5d4; font-variant-numeric: tabular-nums; }
+    .gd-prog-pct { font-size: 13px; font-weight: 800; color: #19b8a6; font-variant-numeric: tabular-nums; }
     .gd-bar { height: 9px; border-radius: 99px; background: rgba(127,127,160,0.18); overflow: hidden; }
-    .gd-bar > i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg,#00f5d4,#67ffe7);
+    .gd-bar > i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg,#19b8a6,#4cd0bf);
       transition: width 800ms cubic-bezier(0.16,1,0.3,1); }
     .gd-prog-foot { font-size: 11.5px; color: var(--text-lo); margin-top: 7px; }
 
@@ -109,7 +109,7 @@
     }
     .gd-btn:active { transform: scale(0.97); }
     .gd-btn svg { width: 18px; height: 18px; }
-    .gd-btn-primary { background: #00f5d4; color: #042b25; box-shadow: 0 12px 26px rgba(0,245,212,0.26); }
+    .gd-btn-primary { background: #19b8a6; color: #042b25; box-shadow: 0 12px 26px rgba(25, 184, 166,0.26); }
     .gd-btn-ghost { background: var(--surface); color: var(--text-hi); border: 1px solid var(--hairline); }
     .gd-btn-link { background: transparent; color: var(--text-mid); font-weight: 700; box-shadow: none; padding: 10px; }
     .gd-btn-link:active { transform: scale(0.97); }
@@ -129,8 +129,8 @@
     /* onboarding celebration + next steps */
     .gd-celebrate {
       margin-top: 18px; border-radius: 18px; padding: 16px 16px 14px;
-      background: linear-gradient(150deg, rgba(0,245,212,0.16), rgba(0,245,212,0.04));
-      border: 1px solid rgba(0,245,212,0.24);
+      background: linear-gradient(150deg, rgba(25, 184, 166,0.16), rgba(25, 184, 166,0.04));
+      border: 1px solid rgba(25, 184, 166,0.24);
     }
     .gd-celebrate-eyebrow {
       font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5ad7c4;
@@ -347,15 +347,15 @@
         // target line
         var ty = yOf(g.target);
         ctx.setLineDash([4, 4]);
-        ctx.strokeStyle = 'rgba(0,245,212,0.4)';
+        ctx.strokeStyle = 'rgba(25, 184, 166,0.4)';
         ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(0, ty); ctx.lineTo(w, ty); ctx.stroke();
         ctx.setLineDash([]);
 
         // area fill
         var grad = ctx.createLinearGradient(0, padT, 0, h);
-        grad.addColorStop(0, 'rgba(0,245,212,0.22)');
-        grad.addColorStop(1, 'rgba(0,245,212,0)');
+        grad.addColorStop(0, 'rgba(25, 184, 166,0.22)');
+        grad.addColorStop(1, 'rgba(25, 184, 166,0)');
         ctx.beginPath();
         ctx.moveTo(0, h);
         for (var j = 0; j <= N; j++) ctx.lineTo(xOf(j), yOf(pts[j]));
@@ -368,7 +368,7 @@
           var x = xOf(k), y = yOf(pts[k]);
           if (k === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = '#00f5d4'; ctx.lineWidth = 2.4; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+        ctx.strokeStyle = '#19b8a6'; ctx.lineWidth = 2.4; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
         ctx.stroke();
       }
       requestAnimationFrame(draw);

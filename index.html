@@ -6,14 +6,14 @@
   <title>WealthVision</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: #080a0e;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
     .device-frame {
@@ -27,7 +27,7 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 26px;
       background:
-        radial-gradient(120% 90% at 50% 12%, rgba(0,245,212,0.12), transparent 55%),
+        radial-gradient(120% 90% at 50% 12%, rgba(25, 184, 166,0.12), transparent 55%),
         #080a0e;
     }
     .logo-mark {
@@ -37,19 +37,19 @@
     }
     .logo-mark svg { width: 112px; height: 112px; overflow: visible; }
     .lm-curve {
-      fill: none; stroke: #00f5d4; stroke-width: 6;
+      fill: none; stroke: #19b8a6; stroke-width: 6;
       stroke-linecap: round; stroke-linejoin: round;
       stroke-dasharray: 180; stroke-dashoffset: 180;
-      filter: drop-shadow(0 4px 14px rgba(0,245,212,0.45));
+      filter: drop-shadow(0 4px 14px rgba(25, 184, 166,0.45));
       animation: draw 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
     }
     .lm-dot {
-      fill: #00f5d4; opacity: 0; transform-origin: center;
-      filter: drop-shadow(0 0 8px rgba(0,245,212,0.7));
+      fill: #19b8a6; opacity: 0; transform-origin: center;
+      filter: drop-shadow(0 0 8px rgba(25, 184, 166,0.7));
       animation: pop 0.4s cubic-bezier(0.16,1,0.3,1) 0.95s forwards;
     }
     .lm-ring {
-      fill: none; stroke: rgba(0,245,212,0.25); stroke-width: 2;
+      fill: none; stroke: rgba(25, 184, 166,0.25); stroke-width: 2;
       opacity: 0;
       animation: ring 0.7s ease-out 1s forwards;
     }
@@ -65,7 +65,7 @@
     .wordmark .name {
       font-size: 27px; font-weight: 800; letter-spacing: -0.02em; color: #f3fbf9;
     }
-    .wordmark .name b { color: #00f5d4; font-weight: 800; }
+    .wordmark .name b { color: #19b8a6; font-weight: 800; }
     .wordmark .tag {
       margin-top: 7px; font-size: 13px; color: #8ea29c; letter-spacing: 0.01em;
     }

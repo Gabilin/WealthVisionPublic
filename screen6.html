@@ -6,11 +6,11 @@
   <title>WealthVision — Screen 6: Compare</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#bbc3ff;--c-violet2:#c4b6ff;--c-val:#d7fff3;--c-valb:#ffecd6}
+    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
     .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
-    .device-frame{--act1:#46a8ff;--act2:#ffa03c;}
+    .device-frame{--act1:#5a96d6;--act2:#ffa03c;}
     .device-frame[data-theme="light"]{--act1:#1f6fd0;--act2:#c06a14;}
     .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
@@ -22,7 +22,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Manrope', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -81,7 +81,7 @@
       border: 1px solid var(--wa8);
       background: var(--wa3);
       color: var(--s-sec);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
@@ -90,8 +90,8 @@
     }
     .preset-chip:active { transform: scale(0.96); }
     .preset-chip.active {
-      background: rgba(70, 168, 255, 0.12);
-      border-color: rgba(70, 168, 255, 0.35);
+      background: rgba(90, 150, 214, 0.12);
+      border-color: rgba(90, 150, 214, 0.35);
       color:var(--act1);
     }
 
@@ -115,7 +115,7 @@
     .legend-dot {
       width: 8px; height: 8px; border-radius: 50%;
     }
-    .legend-dot--a { background: #46a8ff; }
+    .legend-dot--a { background: #5a96d6; }
     .legend-dot--b { background: #ffa03c; }
     .legend-label { font-size: 12px; font-weight: 500; color: var(--s-mid); }
 
@@ -190,8 +190,8 @@
       width: 18px; height: 18px; border-radius: 50%;
       cursor: pointer; border: 2px solid var(--s-bg);
     }
-    .slider--a::-webkit-slider-thumb { background: #46a8ff; }
-    .slider--a::-moz-range-thumb { background: #46a8ff; }
+    .slider--a::-webkit-slider-thumb { background: #5a96d6; }
+    .slider--a::-moz-range-thumb { background: #5a96d6; }
     .slider--b::-webkit-slider-thumb { background: #ffa03c; }
     .slider--b::-moz-range-thumb { background: #ffa03c; }
 
@@ -439,7 +439,7 @@
     ctx.lineJoin = 'round';
 
     // X-axis labels
-    ctx.font = '500 10px Inter, sans-serif';
+    ctx.font = '500 10px Manrope, sans-serif';
     ctx.fillStyle = 'rgba(131, 148, 143, 0.4)';
     ctx.textAlign = 'center';
     const steps = maxYears <= 10 ? maxYears : (maxYears <= 30 ? Math.ceil(maxYears / 5) : Math.ceil(maxYears / 10));
@@ -488,13 +488,13 @@
     }
 
     // Draw A (teal) first, then B (orange) on top
-    drawCurve(curveA, '#46a8ff', 'rgba(70, 168, 255, 0.12)', 'rgba(70, 168, 255, 0.10)', 2.5);
+    drawCurve(curveA, '#5a96d6', 'rgba(90, 150, 214, 0.12)', 'rgba(90, 150, 214, 0.10)', 2.5);
     drawCurve(curveB, '#ffa03c', 'rgba(255, 160, 60, 0.12)', 'rgba(255, 160, 60, 0.10)', 2.5);
 
     // Endpoint dots
     const endA = curveA[curveA.length - 1];
     const endB = curveB[curveB.length - 1];
-    [{ d: endA, c: '#46a8ff' }, { d: endB, c: '#ffa03c' }].forEach(({ d, c }) => {
+    [{ d: endA, c: '#5a96d6' }, { d: endB, c: '#ffa03c' }].forEach(({ d, c }) => {
       ctx.beginPath();
       ctx.arc(xOf(d.year), yOf(d.total), 4, 0, Math.PI * 2);
       ctx.fillStyle = c;
