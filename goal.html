@@ -6,32 +6,32 @@
   <title>WealthVision — Your Goal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="proto-shell.css">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #080a0e;
+      background: #000;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
     .device-frame {
       width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
-      position: relative; background: #10141a;
-      border: 1px solid rgba(255,255,255,0.06);
+      position: relative; background: #0c0c0e;
+      border: 1px solid rgba(255,255,255,0.07);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
     }
     .gd {
       background: var(--app-bg); color: var(--text-hi);
       height: 100%; display: flex; flex-direction: column;
-      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    /* teal ambience (goal = brand teal) */
+    /* flat — no ambient glow */
     .gd::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 260px;
-      background: radial-gradient(120% 100% at 50% 0%, rgba(25, 184, 166,0.14), transparent 70%);
+      background: none;
       pointer-events: none; z-index: 0;
     }
 
@@ -57,11 +57,11 @@
     .gd-ic {
       width: 64px; height: 64px; border-radius: 20px; margin: 0 auto 16px;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(25, 184, 166,0.14); color: #19b8a6;
-      border: 1px solid rgba(25, 184, 166,0.26);
+      background: rgba(34, 171, 148,0.14); color: #22ab94;
+      border: 1px solid rgba(34, 171, 148,0.26);
     }
     .gd-ic svg { width: 32px; height: 32px; }
-    .gd-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5ad7c4; }
+    .gd-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #22ab94; }
     .gd-name { font-size: 26px; font-weight: 900; letter-spacing: -0.02em; color: var(--text-hi); margin-top: 6px; line-height: 1.15; }
     .gd-target { font-size: 15px; color: var(--text-mid); margin-top: 8px; }
     .gd-target b { color: var(--text-hi); font-weight: 700; }
@@ -72,19 +72,17 @@
     .gd-prog-wrap { margin-top: 22px; }
     .gd-prog-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
     .gd-prog-label { font-size: 12.5px; color: var(--text-mid); }
-    .gd-prog-pct { font-size: 13px; font-weight: 800; color: #19b8a6; font-variant-numeric: tabular-nums; }
-    .gd-bar { height: 9px; border-radius: 99px; background: rgba(127,127,160,0.18); overflow: hidden; }
-    .gd-bar > i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg,#19b8a6,#4cd0bf);
+    .gd-prog-pct { font-size: 13px; font-weight: 600; color: #22ab94; font-family: 'IBM Plex Mono', monospace; }
+    .gd-bar { height: 9px; border-radius: 99px; background: rgba(255,255,255,0.07); overflow: hidden; }
+    .gd-bar > i { display: block; height: 100%; width: 0; border-radius: 99px; background: #22ab94;
       transition: width 800ms cubic-bezier(0.16,1,0.3,1); }
     .gd-prog-foot { font-size: 11.5px; color: var(--text-lo); margin-top: 7px; }
 
     /* chart */
     .gd-card {
-      margin-top: 20px; border-radius: 20px; padding: 16px;
-      background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-      -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+      margin-top: 20px; border-radius: 16px; padding: 16px;
+      background: var(--surface);
       border: 1px solid var(--hairline);
-      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
     }
     .gd-card-title { font-size: 12.5px; font-weight: 700; color: var(--text-mid); letter-spacing: 0.01em; }
     .gd-chart-wrap { height: 132px; margin-top: 10px; position: relative; }
@@ -97,7 +95,7 @@
       background: var(--surface); border: 1px solid var(--hairline);
     }
     .gd-stat .k { font-size: 11px; color: var(--text-mid); }
-    .gd-stat .v { font-size: 18px; font-weight: 800; color: var(--text-hi); margin-top: 4px; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+    .gd-stat .v { font-size: 18px; font-weight: 600; color: var(--text-hi); margin-top: 4px; font-family: 'IBM Plex Mono', monospace; letter-spacing: -0.01em; }
 
     /* actions */
     .gd-actions { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
@@ -109,7 +107,12 @@
     }
     .gd-btn:active { transform: scale(0.97); }
     .gd-btn svg { width: 18px; height: 18px; }
-    .gd-btn-primary { background: #19b8a6; color: #042b25; box-shadow: 0 12px 26px rgba(25, 184, 166,0.26); }
+    .gd-btn-primary { background: #22ab94; color: #04201b; }
+    .gd-btn-framed {
+      background: linear-gradient(#141418,#141418) padding-box,
+                  linear-gradient(120deg,#f7525f,#9c4dff 50%,#2962ff) border-box;
+      border: 1.5px solid transparent; color: var(--text-hi);
+    }
     .gd-btn-ghost { background: var(--surface); color: var(--text-hi); border: 1px solid var(--hairline); }
     .gd-btn-link { background: transparent; color: var(--text-mid); font-weight: 700; box-shadow: none; padding: 10px; }
     .gd-btn-link:active { transform: scale(0.97); }
@@ -128,12 +131,12 @@
 
     /* onboarding celebration + next steps */
     .gd-celebrate {
-      margin-top: 18px; border-radius: 18px; padding: 16px 16px 14px;
-      background: linear-gradient(150deg, rgba(25, 184, 166,0.16), rgba(25, 184, 166,0.04));
-      border: 1px solid rgba(25, 184, 166,0.24);
+      margin-top: 18px; border-radius: 16px; padding: 16px 16px 14px;
+      background: rgba(34, 171, 148,0.08);
+      border: 1px solid rgba(34, 171, 148,0.22);
     }
     .gd-celebrate-eyebrow {
-      font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5ad7c4;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #22ab94;
       display: flex; align-items: center; gap: 7px;
     }
     .gd-celebrate-eyebrow svg { width: 14px; height: 14px; }
@@ -142,7 +145,7 @@
 
     /* empty state */
     .gd-empty { text-align: center; padding: 80px 26px 0; }
-    .gd-empty .gd-ic { background: rgba(127,127,160,0.14); color: var(--text-mid); border-color: var(--hairline); }
+    .gd-empty .gd-ic { background: rgba(255,255,255,0.05); color: var(--text-mid); border-color: var(--hairline); }
     .gd-empty-title { font-size: 20px; font-weight: 800; color: var(--text-hi); margin-top: 14px; letter-spacing: -0.01em; }
     .gd-empty-sub { font-size: 14px; color: var(--text-mid); margin-top: 8px; line-height: 1.45; }
     .gd-empty .gd-btn { margin-top: 22px; }
@@ -223,7 +226,7 @@
       var years = g.years;
       if ((years === null || years === undefined) && monthly > 0) {
         var yt = yearsToTarget(monthly, g.target);
-        years = isFinite(yt) ? Math.round(yt * 10) / 10 : null;
+        years = isFinite(yt) ? Math.round(yt) : null;
       }
 
       // "Where you are" — assume one month in (prototype has no real balance yet)
@@ -239,7 +242,7 @@
         completion = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
       }
 
-      var timeline = years ? ('~' + years + ' years') : 'Set a monthly amount';
+      var timeline = years ? ('~' + Math.round(years) + ' years') : 'Set a monthly amount';
       var monthlyLabel = monthly > 0 ? (money(monthly) + '/mo') : 'Not set';
 
       var eyebrowLabel = payoff ? 'Your new goal' : 'Savings goal';
@@ -247,18 +250,27 @@
         ? '<div class="gd-celebrate">' +
             '<div class="gd-celebrate-eyebrow">' + S.icon('sprout') + 'Goal created</div>' +
             '<div class="gd-celebrate-title">Nice — your plan is in motion.</div>' +
-            '<div class="gd-celebrate-sub">Here\'s how ' + esc(g.name) + ' grows over time. Play with the numbers in the Simulator, or learn the moves that get you there faster.</div>' +
+            '<div class="gd-celebrate-sub">Your monthly plan for ' + esc(g.name) + ' is set. Play with the numbers in the Simulator, or learn the moves that get you there faster.</div>' +
           '</div>'
         : '';
 
+      // Progress is meaningful only when tracking an existing goal — omit it on the
+      // just-created (payoff) screen, where it would just read ~0%.
+      var progressHtml = payoff ? '' :
+        '<div class="gd-prog-wrap">' +
+          '<div class="gd-prog-row">' +
+            '<span class="gd-prog-label">Progress</span>' +
+            '<span class="gd-prog-pct" id="gdPct">0%</span>' +
+          '</div>' +
+          '<div class="gd-bar"><i id="gdBar"></i></div>' +
+          '<div class="gd-prog-foot">' + money(contributed) + ' of ' + money(g.target) + '</div>' +
+        '</div>';
+
       var bolt = S.icon('spark');
       var actionsHtml = payoff
-        ? '<a class="gd-btn gd-btn-primary" id="simBtn">' + S.icon('spark') + 'Try it in the Simulator</a>' +
-          '<div class="gd-foot-row">' +
-            '<a class="gd-btn gd-btn-ghost" href="accelerate.html">' + bolt + 'Reach it faster</a>' +
-            '<a class="gd-btn gd-btn-ghost" href="learn.html">' + S.icon('learn') + 'Learn</a>' +
-          '</div>' +
-          '<a class="gd-btn gd-btn-link" href="dashboard.html">Go to my dashboard &#8594;</a>'
+        ? '<a class="gd-btn gd-btn-ghost" id="simBtn">' + S.icon('spark') + 'Try it in the Simulator</a>' +
+          '<a class="gd-btn gd-btn-ghost" href="accelerate.html">' + bolt + 'Reach it faster</a>' +
+          '<a class="gd-btn gd-btn-primary" href="dashboard.html">Go to my dashboard &#8594;</a>'
         : '<a class="gd-btn gd-btn-primary" id="simBtn">' + S.icon('spark') + 'Open in Simulator</a>' +
           '<div class="gd-foot-row">' +
             '<a class="gd-btn gd-btn-ghost" href="accelerate.html">' + bolt + 'Reach it faster</a>' +
@@ -279,19 +291,7 @@
 
         celebrateHtml +
 
-        '<div class="gd-prog-wrap">' +
-          '<div class="gd-prog-row">' +
-            '<span class="gd-prog-label">Progress</span>' +
-            '<span class="gd-prog-pct" id="gdPct">0%</span>' +
-          '</div>' +
-          '<div class="gd-bar"><i id="gdBar"></i></div>' +
-          '<div class="gd-prog-foot">' + money(contributed) + ' of ' + money(g.target) + '</div>' +
-        '</div>' +
-
-        '<div class="gd-card">' +
-          '<div class="gd-card-title">Projected growth to your goal</div>' +
-          '<div class="gd-chart-wrap"><canvas id="gdChart"></canvas></div>' +
-        '</div>' +
+        progressHtml +
 
         '<div class="gd-stats">' +
           '<div class="gd-stat"><div class="k">Monthly</div><div class="v">' + monthlyLabel + '</div></div>' +
@@ -302,10 +302,12 @@
 
       foot.innerHTML = actionsHtml;
 
-      // animate progress bar after paint
+      // animate progress bar after paint (normal view only — payoff omits progress)
       requestAnimationFrame(function () {
-        document.getElementById('gdBar').style.width = Math.max(2, pct) + '%';
-        document.getElementById('gdPct').textContent = (pct < 1 ? '<1' : Math.round(pct)) + '%';
+        var bar = document.getElementById('gdBar');
+        var pctEl = document.getElementById('gdPct');
+        if (bar) bar.style.width = Math.max(2, pct) + '%';
+        if (pctEl) pctEl.textContent = (pct < 1 ? '<1' : Math.round(pct)) + '%';
       });
 
       // simulator deep-link
@@ -320,59 +322,7 @@
         simBtn.href = 'screen5.html?' + params.toString();
       }
 
-      // ── projected growth chart ──
-      var canvas = document.getElementById('gdChart');
-      var ctx = canvas.getContext('2d');
-      var dpr = window.devicePixelRatio || 1;
-      function draw() {
-        var wrap = canvas.parentElement;
-        var w = wrap.clientWidth, h = wrap.clientHeight;
-        canvas.width = w * dpr; canvas.height = h * dpr;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.clearRect(0, 0, w, h);
-
-        var totalMonths = years && isFinite(years) ? Math.max(12, Math.round(years * 12)) : 360;
-        var padB = 6, padT = 8;
-        var maxV = monthly > 0 ? Math.max(g.target, fvAt(monthly, totalMonths)) : g.target;
-        var N = 60;
-        var pts = [];
-        for (var i = 0; i <= N; i++) {
-          var m = totalMonths * (i / N);
-          var v = monthly > 0 ? fvAt(monthly, m) : (g.target * (i / N));
-          pts.push(v);
-        }
-        var xOf = function (i) { return (i / N) * w; };
-        var yOf = function (v) { return (h - padB) - (v / maxV) * (h - padB - padT); };
-
-        // target line
-        var ty = yOf(g.target);
-        ctx.setLineDash([4, 4]);
-        ctx.strokeStyle = 'rgba(25, 184, 166,0.4)';
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(0, ty); ctx.lineTo(w, ty); ctx.stroke();
-        ctx.setLineDash([]);
-
-        // area fill
-        var grad = ctx.createLinearGradient(0, padT, 0, h);
-        grad.addColorStop(0, 'rgba(25, 184, 166,0.22)');
-        grad.addColorStop(1, 'rgba(25, 184, 166,0)');
-        ctx.beginPath();
-        ctx.moveTo(0, h);
-        for (var j = 0; j <= N; j++) ctx.lineTo(xOf(j), yOf(pts[j]));
-        ctx.lineTo(w, h); ctx.closePath();
-        ctx.fillStyle = grad; ctx.fill();
-
-        // line
-        ctx.beginPath();
-        for (var k = 0; k <= N; k++) {
-          var x = xOf(k), y = yOf(pts[k]);
-          if (k === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = '#19b8a6'; ctx.lineWidth = 2.4; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-        ctx.stroke();
-      }
-      requestAnimationFrame(draw);
-      window.addEventListener('resize', draw);
+      // (Projected-growth chart removed — the Simulator provides the full, informative chart.)
     })();
   </script>
 </body>

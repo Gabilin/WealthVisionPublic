@@ -6,23 +6,20 @@
   <title>WealthVision — Screen 16: Emergency Fund</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
-    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
-    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
-    .device-frame{--act1:#2bc0d6;}
-    .device-frame[data-theme="light"]{--act1:#0c8294;}
-    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
-    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    .device-frame{--c-red:#f7525f;--c-amber:#f7a600;--c-peri:#2962ff;--c-violet2:#9c4dff;--c-val:#ececed;--c-valb:#ececed}
+    .device-frame{--act1:#9c4dff;}
+    .device-frame{--s-bg:#0c0c0e;--s-hi:#ececed;--s-mid:#8e8e95;--s-sec:#c5c5c9;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    body{background:#080a0e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa6);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25)}
+    body{background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa7);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25)}
     .screen{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
     .top-nav{padding:56px 24px 12px;display:flex;align-items:center;gap:14px;flex-shrink:0}
     .back-btn{width:36px;height:36px;border-radius:50%;background:var(--wa6);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
     .back-btn svg{width:18px;height:18px;stroke:var(--s-sec);stroke-width:2;fill:none}
     .nav-title{flex:1;font-size:20px;font-weight:700;color:var(--s-hi)}
-    .nav-counter{font-size:13px;font-weight:600;color:var(--s-mid);font-variant-numeric:tabular-nums}
+    .nav-counter{font-size:13px;font-weight:600;color:var(--s-mid);font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
     .deck-viewport{flex:1;position:relative;overflow:hidden;touch-action:pan-y}
     .deck-track{display:flex;height:100%;will-change:transform;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
     .deck-track.dragging{transition:none}
@@ -30,28 +27,28 @@
     .card::-webkit-scrollbar{display:none}
     .pagination{display:flex;justify-content:center;align-items:center;gap:8px;padding:16px 0 36px;flex-shrink:0}
     .dot{width:8px;height:8px;border-radius:50%;background:var(--wa12);transition:all 0.35s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
-    .dot.active{width:24px;border-radius:4px;background:#2bc0d6}
-    .section-badge{display:inline-flex;padding:4px 12px;border-radius:8px;background:rgba(43,192,214,0.10);font-size:11px;font-weight:600;color:var(--act1);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
+    .dot.active{width:24px;border-radius:4px;background:#9c4dff}
+    .section-badge{display:inline-flex;padding:4px 12px;border-radius:8px;background:rgba(156,77,255,0.12);font-size:11px;font-weight:600;color:var(--act1);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
     .section-title{font-size:22px;font-weight:800;color:var(--s-hi);line-height:1.25;margin-bottom:6px;letter-spacing:-0.02em}
     .section-sub{font-size:14px;color:var(--s-mid);line-height:1.5;margin-bottom:20px}
     .swipe-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:auto;padding:14px 0 4px;font-size:12px;color:var(--wa20);animation:hintPulse 2s ease-in-out infinite}
     .swipe-hint svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none}
     @keyframes hintPulse{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:.8;transform:translateX(4px)}}
 
-    .content-card{background:var(--wa3);border:1px solid var(--wa6);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .content-card{background:#1b1b1f;border:1px solid var(--wa7);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
     .insight-box{margin-top:14px;padding:14px;border-radius:12px;font-size:14px;line-height:1.5;text-align:center}
-    .insight-box.red{background:rgba(255,180,171,0.06);border:1px solid rgba(255,180,171,0.12);color:var(--c-red)}
-    .insight-box.teal{background:rgba(43,192,214,0.07);border:1px solid rgba(43,192,214,0.14);color:var(--act1)}
+    .insight-box.red{background:rgba(247,82,95,0.08);border:1px solid rgba(247,82,95,0.16);color:var(--c-red)}
+    .insight-box.teal{background:rgba(34,171,148,0.08);border:1px solid rgba(34,171,148,0.18);color:#22ab94}
 
     /* Surprise costs */
     .surprise-list{display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center}
-    .surprise-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--wa3);border:1px solid var(--wa6);border-radius:12px}
+    .surprise-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#16161a;border:1px solid var(--wa7);border-radius:12px}
     .surprise-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
     .surprise-icon svg{width:20px;height:20px;stroke-width:1.8;fill:none}
     .surprise-info{flex:1}
     .surprise-name{font-size:14px;font-weight:600;color:var(--s-hi)}
     .surprise-stat{font-size:12px;color:var(--s-mid);margin-top:2px}
-    .surprise-cost{font-size:16px;font-weight:900;color:var(--c-red);font-variant-numeric:tabular-nums}
+    .surprise-cost{font-size:16px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--s-hi);font-variant-numeric:tabular-nums}
 
     /* Shield visual */
     .shield-wrap{text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8px 0}
@@ -60,37 +57,38 @@
     .shield-formula strong{color:var(--s-hi)}
 
     .months-row{display:flex;gap:8px;margin-bottom:16px;width:100%}
-    .month-opt{flex:1;padding:12px 8px;border-radius:12px;border:1.5px solid var(--wa8);background:var(--wa3);text-align:center;cursor:pointer;transition:all 0.2s}
-    .month-opt.active{border-color:rgba(43,192,214,0.35);background:rgba(43,192,214,0.10)}
-    .month-opt .mo-num{font-size:20px;font-weight:900;color:var(--s-hi)}
-    .month-opt.active .mo-num{color:var(--act1)}
+    .month-opt{flex:1;padding:12px 8px;border-radius:12px;border:1.5px solid var(--wa7);background:#16161a;text-align:center;cursor:pointer;transition:all 0.2s}
+    .month-opt.active{border-color:#ececed;background:#ececed}
+    .month-opt .mo-num{font-size:20px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--s-hi)}
+    .month-opt.active .mo-num{color:#0c0c0e}
     .month-opt .mo-label{font-size:10px;color:var(--s-mid);margin-top:2px}
     .month-opt .mo-for{font-size:9px;color:var(--s-mid);margin-top:4px}
+    .month-opt.active .mo-label,.month-opt.active .mo-for{color:rgba(12,12,14,0.62)}
 
     /* Calculator */
     .calc-label{font-size:13px;color:var(--s-mid);margin-bottom:8px}
     .calc-dollar{position:relative;margin-bottom:16px}
     .calc-dollar::before{content:'$';position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:18px;font-weight:700;color:var(--s-mid)}
-    .calc-dollar input{width:100%;height:56px;background:var(--wa4);border:1.5px solid var(--wa8);border-radius:14px;padding:0 16px 0 34px;font-family:'Manrope',sans-serif;font-size:24px;font-weight:900;color:var(--s-hi);outline:none;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
-    .calc-dollar input:focus{border-color:rgba(43,192,214,0.55)}
+    .calc-dollar input{width:100%;height:56px;background:#16161a;border:1.5px solid var(--wa7);border-radius:14px;padding:0 16px 0 34px;font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;color:var(--s-hi);outline:none;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+    .calc-dollar input:focus{border-color:var(--wa15)}
     .calc-hero{text-align:center;padding:12px 0;flex:1;display:flex;flex-direction:column;justify-content:center}
     .calc-hero .label{font-size:13px;color:var(--s-mid);margin-bottom:6px}
-    .calc-hero .value{font-size:44px;font-weight:900;color:var(--act1);font-variant-numeric:tabular-nums;letter-spacing:-0.03em;line-height:1}
+    .calc-hero .value{font-size:44px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--s-hi);font-variant-numeric:tabular-nums;letter-spacing:-0.03em;line-height:1}
     .calc-hero .context{font-size:14px;color:var(--s-mid);line-height:1.4;margin-top:8px}
 
     .where-list{display:flex;flex-direction:column;gap:8px;margin-top:auto}
-    .where-item{display:flex;align-items:center;gap:10px;padding:12px;background:var(--wa3);border:1px solid var(--wa6);border-radius:10px}
+    .where-item{display:flex;align-items:center;gap:10px;padding:12px;background:#16161a;border:1px solid var(--wa7);border-radius:10px}
     .where-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
     .where-name{font-size:13px;color:var(--s-sec);flex:1}
     .where-tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px}
 
-    .takeaway-card{background:linear-gradient(135deg,rgba(2,49,222,0.12),rgba(43,192,214,0.07));border:1px solid rgba(43,192,214,0.16);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .takeaway-card{background:#1b1b1f;border:1px solid var(--wa7);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
     .takeaway-list{display:flex;flex-direction:column;gap:16px;flex:1}
     .takeaway-item{display:flex;gap:12px;align-items:flex-start}
-    .takeaway-num{width:28px;height:28px;border-radius:50%;background:rgba(43,192,214,0.16);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--act1);flex-shrink:0}
+    .takeaway-num{width:28px;height:28px;border-radius:50%;background:rgba(156,77,255,0.16);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--act1);flex-shrink:0}
     .takeaway-text{font-size:15px;color:var(--s-sec);line-height:1.55}
     .takeaway-text strong{color:var(--s-hi);font-weight:600}
-    .cta-btn{width:100%;height:56px;border:none;border-radius:14px;background:linear-gradient(135deg,#2bc0d6,#1a9fb4);color:#042128;font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:auto;flex-shrink:0}
+    .cta-btn{width:100%;height:56px;border:none;border-radius:14px;background:#22ab94;color:#04201b;font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:auto;flex-shrink:0}
     .cta-btn:active{transform:scale(0.98)}
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
@@ -114,8 +112,8 @@
         <div class="content-card">
           <div class="surprise-list">
             <div class="surprise-row">
-              <div class="surprise-icon" style="background:rgba(255,180,171,0.1)">
-                <svg viewBox="0 0 24 24" stroke="#ffb4ab"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+              <div class="surprise-icon" style="background:rgba(247,82,95,0.12)">
+                <svg viewBox="0 0 24 24" stroke="#f7525f"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
               </div>
               <div class="surprise-info">
                 <div class="surprise-name">Car repair</div>
@@ -124,8 +122,8 @@
               <span class="surprise-cost">$1,500</span>
             </div>
             <div class="surprise-row">
-              <div class="surprise-icon" style="background:rgba(255,193,7,0.1)">
-                <svg viewBox="0 0 24 24" stroke="#ffc107"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <div class="surprise-icon" style="background:rgba(247,166,0,0.12)">
+                <svg viewBox="0 0 24 24" stroke="#f7a600"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
               </div>
               <div class="surprise-info">
                 <div class="surprise-name">Medical emergency</div>
@@ -134,8 +132,8 @@
               <span class="surprise-cost">$2,200</span>
             </div>
             <div class="surprise-row">
-              <div class="surprise-icon" style="background:rgba(187,195,255,0.1)">
-                <svg viewBox="0 0 24 24" stroke="#c2c6e4"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3v4M8 3v4"/></svg>
+              <div class="surprise-icon" style="background:rgba(41,98,255,0.14)">
+                <svg viewBox="0 0 24 24" stroke="#2962ff"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3v4M8 3v4"/></svg>
               </div>
               <div class="surprise-info">
                 <div class="surprise-name">Job loss</div>
@@ -144,8 +142,8 @@
               <span class="surprise-cost">3-6 mo</span>
             </div>
             <div class="surprise-row">
-              <div class="surprise-icon" style="background:rgba(43,192,214,0.12)">
-                <svg viewBox="0 0 24 24" stroke="#2bc0d6"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+              <div class="surprise-icon" style="background:rgba(34,171,148,0.14)">
+                <svg viewBox="0 0 24 24" stroke="#22ab94"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
               </div>
               <div class="surprise-info">
                 <div class="surprise-name">Home repair</div>
@@ -169,10 +167,10 @@
         <div class="content-card">
           <div class="shield-wrap">
             <svg class="shield-svg" viewBox="0 0 120 140">
-              <path d="M60 10 L110 35 L110 75 C110 105 85 130 60 138 C35 130 10 105 10 75 L10 35 Z" fill="none" stroke="rgba(43,192,214,0.3)" stroke-width="2"/>
-              <path d="M60 20 L100 40 L100 75 C100 100 80 120 60 128 C40 120 20 100 20 75 L20 40 Z" fill="rgba(43,192,214,0.07)" stroke="none"/>
-              <text x="60" y="72" text-anchor="middle" fill="#2bc0d6" font-size="28" font-weight="900" font-family="Manrope">3-6</text>
-              <text x="60" y="92" text-anchor="middle" fill="#83948f" font-size="12" font-family="Manrope">months</text>
+              <path d="M60 10 L110 35 L110 75 C110 105 85 130 60 138 C35 130 10 105 10 75 L10 35 Z" fill="none" stroke="rgba(34,171,148,0.30)" stroke-width="2"/>
+              <path d="M60 20 L100 40 L100 75 C100 100 80 120 60 128 C40 120 20 100 20 75 L20 40 Z" fill="rgba(34,171,148,0.08)" stroke="none"/>
+              <text x="60" y="72" text-anchor="middle" fill="#ececed" font-size="28" font-weight="600" font-family="IBM Plex Mono">3-6</text>
+              <text x="60" y="92" text-anchor="middle" fill="#8e8e95" font-size="12" font-family="IBM Plex Sans">months</text>
             </svg>
           </div>
           <div class="months-row">
@@ -218,19 +216,19 @@
           <div style="font-size:13px;color:var(--s-mid);margin-bottom:10px">Where to keep it:</div>
           <div class="where-list">
             <div class="where-item">
-              <div class="where-dot" style="background:#2bc0d6"></div>
+              <div class="where-dot" style="background:#22ab94"></div>
               <span class="where-name">High-yield savings account</span>
-              <span class="where-tag" style="background:rgba(43,192,214,0.14);color:var(--act1)">Best</span>
+              <span class="where-tag" style="background:rgba(34,171,148,0.14);color:#22ab94">Best</span>
             </div>
             <div class="where-item">
-              <div class="where-dot" style="background:#c2c6e4"></div>
+              <div class="where-dot" style="background:#2962ff"></div>
               <span class="where-name">Money market account</span>
-              <span class="where-tag" style="background:rgba(187,195,255,0.12);color:var(--c-peri)">Good</span>
+              <span class="where-tag" style="background:rgba(41,98,255,0.14);color:var(--c-peri)">Good</span>
             </div>
             <div class="where-item">
-              <div class="where-dot" style="background:#ffb4ab"></div>
+              <div class="where-dot" style="background:#f7525f"></div>
               <span class="where-name">Checking account</span>
-              <span class="where-tag" style="background:rgba(255,180,171,0.12);color:var(--c-red)">OK</span>
+              <span class="where-tag" style="background:rgba(247,82,95,0.12);color:var(--c-red)">OK</span>
             </div>
           </div>
         </div>

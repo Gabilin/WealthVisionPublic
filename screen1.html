@@ -6,17 +6,17 @@
   <title>WealthVision — Screen 1: Onboarding Hook</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #080a0e;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -28,8 +28,8 @@
       border-radius: 47px;
       overflow: hidden;
       position: relative;
-      background: #10141a;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #0c0c0e;
+      border: 1px solid rgba(255, 255, 255, 0.07);
       box-shadow:
         0 0 0 1px rgba(0, 0, 0, 0.3),
         0 25px 60px rgba(0, 0, 0, 0.5),
@@ -51,7 +51,7 @@
       top: 58px;
       right: 24px;
       z-index: 10;
-      color: #83948f;
+      color: #8e8e95;
       font-size: 13px;
       font-weight: 500;
       letter-spacing: 0.01em;
@@ -78,7 +78,7 @@
       left: 0;
       right: 0;
       height: 40px;
-      background: linear-gradient(to bottom, transparent, #10141a);
+      background: linear-gradient(to bottom, transparent, #0c0c0e);
       z-index: 2;
       pointer-events: none;
     }
@@ -98,11 +98,12 @@
     }
 
     .counter-amount {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 40px;
       line-height: 48px;
-      font-weight: 900;
+      font-weight: 600;
       letter-spacing: -0.02em;
-      color: #d7fff3;
+      color: #ececed;
       font-variant-numeric: tabular-nums;
       opacity: 0;
       transition: opacity 0.3s ease-out;
@@ -116,7 +117,7 @@
       font-size: 15px;
       line-height: 22px;
       font-weight: 400;
-      color: #b9cac4;
+      color: #c5c5c9;
       margin-top: 4px;
       opacity: 0;
       transform: translateY(6px);
@@ -158,22 +159,22 @@
       height: 10px;
       border-radius: 3px;
     }
-    .chart-legend-swatch--interest { background: #19b8a6; }
-    .chart-legend-swatch--contributions { background: #3d4dff; }
+    .chart-legend-swatch--interest { background: #22ab94; }
+    .chart-legend-swatch--contributions { background: #2962ff; }
     .chart-legend-label {
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.02em;
     }
-    .chart-legend-label--interest { color: rgba(25, 184, 166, 0.7); }
-    .chart-legend-label--contributions { color: rgba(187, 195, 255, 0.6); }
+    .chart-legend-label--interest { color: rgba(34, 171, 148, 0.7); }
+    .chart-legend-label--contributions { color: rgba(41, 98, 255, 0.6); }
 
     .insight-line {
       font-size: 16px;
       line-height: 24px;
       font-weight: 600;
       letter-spacing: -0.005em;
-      color: #c2c6e4;
+      color: #ececed;
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
@@ -187,7 +188,7 @@
       font-size: 16px;
       line-height: 24px;
       font-weight: 400;
-      color: #b9cac4;
+      color: #c5c5c9;
       margin-top: 8px;
       margin-bottom: 0;
       opacity: 0;
@@ -207,11 +208,11 @@
     .cta-button {
       width: 100%;
       height: 56px;
-      background: #19b8a6;
-      color: #0A0E14;
+      background: #22ab94;
+      color: #04201b;
       border: none;
       border-radius: 16px;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       font-size: 17px;
       font-weight: 700;
       letter-spacing: -0.01em;
@@ -248,14 +249,14 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(131, 148, 143, 0.35);
+      background: rgba(142, 142, 149, 0.35);
     }
-    .dot.active { background: #19b8a6; }
+    .dot.active { background: #22ab94; }
 
     /* ── Keyframes ── */
     @keyframes wowPulse {
       0%  { transform: scale(1);    text-shadow: 0 0 0 transparent; }
-      35% { transform: scale(1.06); text-shadow: 0 0 28px rgba(25, 184, 166, 0.35); }
+      35% { transform: scale(1.06); text-shadow: 0 0 28px rgba(34, 171, 148, 0.35); }
       100%{ transform: scale(1);    text-shadow: 0 0 0 transparent; }
     }
 
@@ -265,9 +266,9 @@
       bottom: 24px;
       right: 24px;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #83948f;
-      font-family: 'Manrope', sans-serif;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      color: #8e8e95;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 13px;
       font-weight: 500;
       padding: 10px 16px;
@@ -277,7 +278,7 @@
     }
     .replay-btn:hover {
       background: rgba(255, 255, 255, 0.1);
-      color: #dfe2eb;
+      color: #ececed;
     }
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
@@ -292,7 +293,7 @@
       <canvas class="chart-canvas" id="chart"></canvas>
       <div class="counter-container">
         <div class="counter-amount" id="counter">$0</div>
-        <div class="counter-subtitle" id="counterSub">from just $200/month</div>
+        <div class="counter-subtitle" id="counterSub">from just $200/month, over 30 years</div>
       </div>
     </div>
 
@@ -309,7 +310,7 @@
           </div>
         </div>
         <div class="insight-line" id="insight">You only put in $72,000</div>
-        <div class="body-text" id="bodyText">Compound interest turned $72K into $227K. Without you lifting a finger.</div>
+        <div class="body-text" id="bodyText">Compound interest turned $72K into $244K. Without you lifting a finger.</div>
         <div class="cta-area">
           <button class="cta-button" id="cta">See what YOUR money could do &#8594;</button>
         </div>
@@ -332,7 +333,6 @@
   const RATE           = 0.07;
   const YEARS          = 30;
   const MONTHS         = YEARS * 12;
-  const FINAL_VALUE    = 227413;
   const ANIM_DURATION  = 2000;   // ms — sweep duration
   const ANIM_DELAY     = 500;    // ms — pause before start
 
@@ -346,10 +346,11 @@
       : MONTHLY * ((Math.pow(1 + monthlyRate, m) - 1) / monthlyRate);
     raw.push({ contributions, total });
   }
-  const scale = FINAL_VALUE / raw[MONTHS].total;
+  // True compounded total — matches the Simulator & Scenario screens. No artificial scaling.
+  const FINAL_VALUE = Math.round(raw[MONTHS].total);
   const data = raw.map(d => ({
     contributions: d.contributions,
-    total: d.total * scale,
+    total: d.total,
   }));
 
   // ── DOM ──
@@ -433,9 +434,9 @@
     ctx.closePath();
 
     const gT = ctx.createLinearGradient(0, cT, 0, cB);
-    gT.addColorStop(0,   'rgba(25, 184, 166, 0.38)');
-    gT.addColorStop(0.4, 'rgba(25, 184, 166, 0.18)');
-    gT.addColorStop(1,   'rgba(25, 184, 166, 0.03)');
+    gT.addColorStop(0,   'rgba(34, 171, 148, 0.38)');
+    gT.addColorStop(0.4, 'rgba(34, 171, 148, 0.18)');
+    gT.addColorStop(1,   'rgba(34, 171, 148, 0.03)');
     ctx.fillStyle = gT;
     ctx.fill();
 
@@ -445,7 +446,7 @@
       const x = xOf(i), y = yOf(data[i].contributions);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(187, 195, 255, 0.55)';
+    ctx.strokeStyle = 'rgba(120, 150, 255, 0.55)';
     ctx.lineWidth   = 2;
     ctx.shadowColor = 'transparent';
     ctx.shadowBlur  = 0;
@@ -457,9 +458,9 @@
       const x = xOf(i), y = yOf(data[i].total);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(25, 184, 166, 0.20)';
+    ctx.strokeStyle = 'rgba(34, 171, 148, 0.20)';
     ctx.lineWidth   = 12;
-    ctx.shadowColor = 'rgba(25, 184, 166, 0.25)';
+    ctx.shadowColor = 'rgba(34, 171, 148, 0.25)';
     ctx.shadowBlur  = 18;
     ctx.stroke();
     ctx.shadowColor = 'transparent';
@@ -471,7 +472,7 @@
       const x = xOf(i), y = yOf(data[i].total);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = '#19b8a6';
+    ctx.strokeStyle = '#22ab94';
     ctx.lineWidth   = 3;
     ctx.stroke();
 
@@ -482,12 +483,12 @@
 
       ctx.beginPath();
       ctx.arc(dx, dy, 9, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(25, 184, 166, 0.18)';
+      ctx.fillStyle = 'rgba(34, 171, 148, 0.18)';
       ctx.fill();
 
       ctx.beginPath();
       ctx.arc(dx, dy, 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = '#19b8a6';
+      ctx.fillStyle = '#22ab94';
       ctx.fill();
     }
 

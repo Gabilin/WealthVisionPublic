@@ -6,62 +6,57 @@
   <title>WealthVision — Tools</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="proto-shell.css">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #080a0e;
+      background: #000;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
     .device-frame {
       width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
-      position: relative; background: #10141a;
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+      position: relative; background: #0c0c0e;
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 25px 60px rgba(0,0,0,0.55);
     }
 
     .drop {
       position: relative; display: block; text-decoration: none;
-      border-radius: 20px; padding: 18px; overflow: hidden;
-      background:
-        radial-gradient(130% 130% at 0% 0%, rgba(var(--accent-rgb),0.20), transparent 55%),
-        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-      -webkit-backdrop-filter: blur(16px) saturate(1.15); backdrop-filter: blur(16px) saturate(1.15);
-      border: 1px solid rgba(var(--accent-rgb),0.26);
-      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+      border-radius: 16px; padding: 18px; overflow: hidden; margin-bottom: 12px;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      transition: background 140ms ease, border-color 140ms ease;
     }
+    .drop:hover { background: var(--surface-h); border-color: var(--hairline-2); }
     .drop .wv-badge-new { position: absolute; top: 16px; right: 16px; }
     .drop .ic { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center;
-      background: rgba(var(--accent-rgb),0.18); color: var(--accent); margin-bottom: 14px; }
+      background: rgba(var(--accent-rgb),0.14); color: var(--accent); margin-bottom: 14px; }
     .drop .ic svg { width: 24px; height: 24px; }
-    .drop .t { font-size: 18px; font-weight: 800; color: var(--text-hi); letter-spacing: -0.02em; }
+    .drop .t { font-size: 18px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.01em; }
     .drop .d { font-size: 13px; color: var(--text-mid); margin-top: 5px; line-height: 1.4; }
     .drop .go { margin-top: 14px; display: inline-flex; align-items: center; gap: 6px;
-      font-size: 13px; font-weight: 700; color: var(--accent); }
+      font-size: 13px; font-weight: 600; color: var(--accent); }
 
-    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .tcard {
       position: relative; text-decoration: none; overflow: hidden;
-      border-radius: 18px; padding: 16px;
-      background:
-        radial-gradient(130% 120% at 0% 0%, rgba(var(--accent-rgb),0.15), transparent 52%),
-        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-      -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1);
-      border: 1px solid rgba(var(--accent-rgb),0.22);
-      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
-      transition: transform 160ms cubic-bezier(0.2,0.7,0.2,1), border-color 160ms ease;
+      border-radius: 14px; padding: 15px;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      transition: transform 160ms cubic-bezier(0.2,0.7,0.2,1), background 140ms ease, border-color 140ms ease;
     }
+    .tcard:hover { background: var(--surface-h); border-color: var(--hairline-2); }
     .tcard:active { transform: scale(0.97); }
     .tcard .ic { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      background: rgba(var(--accent-rgb),0.16); color: var(--accent); margin-bottom: 12px; }
+      background: rgba(var(--accent-rgb),0.14); color: var(--accent); margin-bottom: 12px; }
     .tcard .ic svg { width: 22px; height: 22px; }
-    .tcard .t { font-size: 14.5px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.01em; }
+    .tcard .t { font-size: 14px; font-weight: 600; color: var(--text-hi); letter-spacing: -0.01em; }
     .tcard .d { font-size: 11.5px; color: var(--text-mid); margin-top: 4px; line-height: 1.35; }
-    .tcard .wv-badge-new { position: absolute; top: 14px; right: 14px; }
+    .tcard .wv-badge-new { position: absolute; top: 13px; right: 13px; }
 
     .soon {
       border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 12px;
@@ -77,20 +72,18 @@
 
     .kid-drop {
       position: relative; display: flex; align-items: center; gap: 14px; text-decoration: none;
-      border-radius: 20px; padding: 16px 18px; overflow: hidden; margin-top: 12px;
-      background:
-        radial-gradient(120% 130% at 0% 0%, rgba(221, 125, 153,0.22), transparent 55%),
-        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-      -webkit-backdrop-filter: blur(16px) saturate(1.15); backdrop-filter: blur(16px) saturate(1.15);
-      border: 1px solid rgba(221, 125, 153,0.30);
-      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+      border-radius: 16px; padding: 16px 18px; overflow: hidden; margin-top: 12px;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      transition: background 140ms ease, border-color 140ms ease;
     }
+    .kid-drop:hover { background: var(--surface-h); border-color: var(--hairline-2); }
     .kid-drop .pig { font-size: 34px; flex: 0 0 auto; }
-    .kid-drop .kt { font-size: 16.5px; font-weight: 800; color: var(--text-hi); letter-spacing: -0.01em; }
+    .kid-drop .kt { font-size: 16px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.01em; }
     .kid-drop .kd { font-size: 12px; color: var(--text-mid); margin-top: 3px; line-height: 1.35; }
-    .kid-drop .karr { margin-left: auto; color: #dd7d99; font-size: 18px; }
+    .kid-drop .karr { margin-left: auto; color: #f7525f; font-size: 18px; }
     .kid-drop .wv-badge-new { position: absolute; top: 14px; right: 14px;
-      background: rgba(221, 125, 153,0.18); color: #ff9ec4; border-color: rgba(221, 125, 153,0.4); }
+      background: rgba(247,82,95,0.16); color: #ff8a94; border-color: rgba(247,82,95,0.4); }
   </style>
 </head>
 <body data-wv-tab="tools">

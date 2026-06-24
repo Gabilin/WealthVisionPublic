@@ -311,8 +311,7 @@
     var frame = document.querySelector('.device-frame') || document.body;
     frame.style.position = frame.style.position || 'relative';
 
-    applyTheme(frame, readTheme());
-    mountThemeToggle(frame);
+    applyTheme(frame, 'dark'); // dark-only: light/dark toggle retired in the Longview redesign
 
     var activeTab = document.body.getAttribute('data-wv-tab');
     if (activeTab) {

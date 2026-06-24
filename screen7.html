@@ -6,23 +6,23 @@
   <title>WealthVision — Screen 7: Goal Creation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
     .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
     .device-frame{--act1:var(--ac);}
     .device-frame[data-theme="light"]{--act1:#6a4fe0;}
-    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame{--s-bg:#0c0c0e;--s-hi:#ececed;--s-mid:#8e8e95;--s-sec:#c5c5c9;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #080a0e;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -36,9 +36,9 @@
       background: var(--s-bg);
       border: 1px solid var(--wa6);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
-      /* signature: violet = goals / aspiration */
-      --ac: #9a8fd0;
-      --ac-rgb: 154, 143, 208;
+      /* signature: green = goals / money growth */
+      --ac: #22ab94;
+      --ac-rgb: 34, 171, 148;
     }
 
     .screen {
@@ -47,13 +47,22 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      animation: sheetUp 0.34s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes sheetUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .sheet-handle {
+      width: 36px; height: 4px; border-radius: 99px;
+      background: var(--wa15); margin: 10px auto 0; flex: 0 0 auto;
     }
     /* violet ambience unique to Goal Builder */
     .screen::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; height: 240px;
-      background: radial-gradient(120% 100% at 50% 0%, rgba(var(--ac-rgb),0.16), transparent 70%);
+      background: none;
       pointer-events: none;
       z-index: 0;
     }
@@ -61,7 +70,7 @@
 
     /* Top bar */
     .top-bar {
-      padding: 56px 24px 16px;
+      padding: 14px 24px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -101,7 +110,7 @@
     }
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--ac), #cbc3e8);
+      background: var(--ac);
       border-radius: 2px;
       transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
     }
@@ -147,8 +156,8 @@
       gap: 12px;
     }
     .goal-card {
-      background: var(--wa4);
-      border: 1.5px solid var(--wa6);
+      background: var(--surface);
+      border: 1px solid var(--hairline);
       border-radius: 16px;
       padding: 20px 16px;
       cursor: pointer;
@@ -160,12 +169,13 @@
       gap: 10px;
     }
     .goal-card:hover {
-      background: var(--wa7);
-      border-color: var(--wa10);
+      background: var(--surface-h);
+      border-color: var(--hairline-2);
     }
     .goal-card.selected {
-      background: rgba(var(--ac-rgb),0.10);
-      border-color: rgba(var(--ac-rgb),0.45);
+      background: rgba(255,255,255,0.05);
+      border-color: #ececed;
+      box-shadow: 0 0 0 1px #ececed;
     }
     .goal-card svg {
       width: 36px;
@@ -204,11 +214,11 @@
     .form-input {
       width: 100%;
       height: 52px;
-      background: var(--wa4);
-      border: 1.5px solid var(--wa8);
+      background: var(--surface-2);
+      border: 1.5px solid var(--hairline-2);
       border-radius: 14px;
       padding: 0 16px;
-      font-family: 'Manrope', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 16px;
       font-weight: 600;
       color: var(--s-hi);
@@ -264,6 +274,7 @@
       box-shadow: 0 0 8px rgba(var(--ac-rgb),0.4);
     }
     .slider-value {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 14px;
       font-weight: 600;
       color: var(--s-hi);
@@ -287,6 +298,7 @@
       margin-bottom: 4px;
     }
     .projection-line .proj-value {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 16px;
       font-weight: 700;
       color:var(--act1);
@@ -299,8 +311,8 @@
 
     /* Step 3: Confirmation */
     .confirm-card {
-      background: var(--wa4);
-      border: 1.5px solid var(--wa8);
+      background: var(--surface);
+      border: 1px solid var(--hairline);
       border-radius: 20px;
       padding: 28px 24px;
       text-align: center;
@@ -332,6 +344,7 @@
       color: var(--s-mid);
     }
     .confirm-stat-value {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 14px;
       font-weight: 600;
       color: var(--s-hi);
@@ -368,7 +381,7 @@
     .edit-link {
       display: inline-block;
       font-size: 14px;
-      color:var(--c-peri);
+      color:var(--ac);
       text-decoration: none;
       cursor: pointer;
       padding: 8px;
@@ -387,9 +400,9 @@
       height: 56px;
       border: none;
       border-radius: 16px;
-      background: linear-gradient(135deg, var(--ac), #8579c4);
-      color: #1a1238;
-      font-family: 'Manrope', sans-serif;
+      background: var(--ac);
+      color: #04201b;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
@@ -399,9 +412,11 @@
     .cta-btn:hover { filter: brightness(1.08); }
     .cta-btn:active { transform: scale(0.98); }
     .cta-btn:disabled {
-      opacity: 0.3;
+      background: rgba(142, 142, 149, 0.16);
+      color: #8e8e95;
       cursor: not-allowed;
       transform: none;
+      filter: none;
     }
     .delete-btn {
       width: 100%;
@@ -411,7 +426,7 @@
       border-radius: 16px;
       background: rgba(255,140,130,0.08);
       color: #ff9d92;
-      font-family: 'Manrope', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
@@ -443,7 +458,7 @@
     .success-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(16,20,26,0.95);
+      background: rgba(12,12,14,0.96);
       display: none;
       flex-direction: column;
       align-items: center;
@@ -497,16 +512,17 @@
     .seg {
       flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
       padding: 14px 8px; border-radius: 14px;
-      background: var(--wa4); border: 1.5px solid var(--wa8);
-      cursor: pointer; font-family: 'Manrope', sans-serif;
+      background: var(--surface); border: 1px solid var(--hairline);
+      cursor: pointer; font-family: 'IBM Plex Sans', sans-serif;
       transition: background 0.18s, border-color 0.18s, transform 0.12s;
     }
-    .seg:hover { background: var(--wa6); }
-    .seg.active { background: rgba(var(--ac-rgb),0.12); border-color: rgba(var(--ac-rgb),0.5); }
+    .seg:hover { background: var(--surface-h); }
+    .seg.active { background: #ececed; border-color: #ececed; }
     .seg:active { transform: scale(0.97); }
     .seg-name { font-size: 13.5px; font-weight: 600; color: var(--s-hi); }
-    .seg-rate { font-size: 12px; font-weight: 600; color: var(--s-mid); font-variant-numeric: tabular-nums; }
-    .seg.active .seg-rate { color: var(--act1); }
+    .seg-rate { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: var(--s-mid); font-variant-numeric: tabular-nums; }
+    .seg.active .seg-name { color: #0c0c0e; }
+    .seg.active .seg-rate { color: rgba(12,12,14,0.65); }
 
     /* ── "What's this?" disclosure ── */
     .wv-explain {
@@ -538,6 +554,8 @@
   <div class="device-frame">
     <div class="screen">
 
+      <div class="sheet-handle"></div>
+
       <!-- Top Bar -->
       <div class="top-bar">
         <button class="wiz-nav" id="navBtn" onclick="handleClose()" aria-label="Back">
@@ -561,8 +579,8 @@
           <div class="goal-grid">
             <div class="goal-card" data-goal="house" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <path d="M18 4L3 16h3v14h10v-8h4v8h10V16h3L18 4z" fill="none" stroke="#9a8fd0" stroke-width="1.8" stroke-linejoin="round"/>
-                <rect x="14" y="22" width="8" height="8" rx="1" fill="rgba(154, 143, 208,0.15)" stroke="#9a8fd0" stroke-width="1"/>
+                <path d="M18 4L3 16h3v14h10v-8h4v8h10V16h3L18 4z" fill="none" stroke="#22ab94" stroke-width="1.8" stroke-linejoin="round"/>
+                <rect x="14" y="22" width="8" height="8" rx="1" fill="rgba(34, 171, 148,0.15)" stroke="#22ab94" stroke-width="1"/>
               </svg>
               <span class="goal-card-name">House down payment</span>
               <span class="goal-card-desc">Avg: $60,000</span>
@@ -570,8 +588,8 @@
 
             <div class="goal-card" data-goal="freedom" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <circle cx="18" cy="18" r="13" stroke="#c2c6e4" stroke-width="1.8" fill="none"/>
-                <path d="M12 18l4 4 8-8" stroke="#c2c6e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <circle cx="18" cy="18" r="13" stroke="#22ab94" stroke-width="1.8" fill="none"/>
+                <path d="M12 18l4 4 8-8" stroke="#22ab94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
               </svg>
               <span class="goal-card-name">Financial freedom</span>
               <span class="goal-card-desc">Never work because you have to</span>
@@ -579,9 +597,9 @@
 
             <div class="goal-card" data-goal="education" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <path d="M18 6L4 14l14 8 14-8L18 6z" fill="rgba(187,195,255,0.15)" stroke="#c2c6e4" stroke-width="1.8" stroke-linejoin="round"/>
-                <path d="M8 17v8c0 2 4.5 5 10 5s10-3 10-5v-8" stroke="#c2c6e4" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-                <line x1="32" y1="14" x2="32" y2="28" stroke="#c2c6e4" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M18 6L4 14l14 8 14-8L18 6z" fill="rgba(34, 171, 148,0.15)" stroke="#22ab94" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M8 17v8c0 2 4.5 5 10 5s10-3 10-5v-8" stroke="#22ab94" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <line x1="32" y1="14" x2="32" y2="28" stroke="#22ab94" stroke-width="1.8" stroke-linecap="round"/>
               </svg>
               <span class="goal-card-name">Kid's education</span>
               <span class="goal-card-desc">Avg: $120,000</span>
@@ -589,10 +607,10 @@
 
             <div class="goal-card" data-goal="car" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <rect x="4" y="16" width="28" height="10" rx="3" stroke="#9a8fd0" stroke-width="1.8" fill="none"/>
-                <path d="M8 16l3-7h14l3 7" stroke="#9a8fd0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                <circle cx="11" cy="26" r="2.5" fill="rgba(154, 143, 208,0.15)" stroke="#9a8fd0" stroke-width="1.5"/>
-                <circle cx="25" cy="26" r="2.5" fill="rgba(154, 143, 208,0.15)" stroke="#9a8fd0" stroke-width="1.5"/>
+                <rect x="4" y="16" width="28" height="10" rx="3" stroke="#22ab94" stroke-width="1.8" fill="none"/>
+                <path d="M8 16l3-7h14l3 7" stroke="#22ab94" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <circle cx="11" cy="26" r="2.5" fill="rgba(34, 171, 148,0.15)" stroke="#22ab94" stroke-width="1.5"/>
+                <circle cx="25" cy="26" r="2.5" fill="rgba(34, 171, 148,0.15)" stroke="#22ab94" stroke-width="1.5"/>
               </svg>
               <span class="goal-card-name">New car (cash)</span>
               <span class="goal-card-desc">Avg: $35,000</span>
@@ -600,10 +618,10 @@
 
             <div class="goal-card" data-goal="emergency" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <rect x="6" y="10" width="24" height="16" rx="3" stroke="#9a8fd0" stroke-width="1.8" fill="none"/>
-                <circle cx="18" cy="18" r="5" stroke="#9a8fd0" stroke-width="1.5" fill="rgba(154, 143, 208,0.1)"/>
-                <line x1="18" y1="15" x2="18" y2="21" stroke="#9a8fd0" stroke-width="1.5" stroke-linecap="round"/>
-                <line x1="15" y1="18" x2="21" y2="18" stroke="#9a8fd0" stroke-width="1.5" stroke-linecap="round"/>
+                <rect x="6" y="10" width="24" height="16" rx="3" stroke="#22ab94" stroke-width="1.8" fill="none"/>
+                <circle cx="18" cy="18" r="5" stroke="#22ab94" stroke-width="1.5" fill="rgba(34, 171, 148,0.1)"/>
+                <line x1="18" y1="15" x2="18" y2="21" stroke="#22ab94" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="15" y1="18" x2="21" y2="18" stroke="#22ab94" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
               <span class="goal-card-name">Emergency fund</span>
               <span class="goal-card-desc">6 months expenses</span>
@@ -611,9 +629,9 @@
 
             <div class="goal-card" data-goal="custom" onclick="selectGoal(this)">
               <svg viewBox="0 0 36 36" fill="none">
-                <circle cx="18" cy="18" r="13" stroke="#83948f" stroke-width="1.8" stroke-dasharray="4 3" fill="none"/>
-                <line x1="18" y1="12" x2="18" y2="24" stroke="#83948f" stroke-width="2" stroke-linecap="round"/>
-                <line x1="12" y1="18" x2="24" y2="18" stroke="#83948f" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="18" cy="18" r="13" stroke="#8e8e95" stroke-width="1.8" stroke-dasharray="4 3" fill="none"/>
+                <line x1="18" y1="12" x2="18" y2="24" stroke="#8e8e95" stroke-width="2" stroke-linecap="round"/>
+                <line x1="12" y1="18" x2="24" y2="18" stroke="#8e8e95" stroke-width="2" stroke-linecap="round"/>
               </svg>
               <span class="goal-card-name">Custom goal</span>
               <span class="goal-card-desc">Name your own</span>
@@ -700,9 +718,9 @@
 
           <div class="warning-toast" id="warningToast">
             <svg viewBox="0 0 20 20" fill="none">
-              <path d="M10 2L1 18h18L10 2z" stroke="#ffb4ab" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
-              <line x1="10" y1="8" x2="10" y2="12" stroke="#ffb4ab" stroke-width="1.5" stroke-linecap="round"/>
-              <circle cx="10" cy="15" r="0.8" fill="#ffb4ab"/>
+              <path d="M10 2L1 18h18L10 2z" stroke="#f7525f" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+              <line x1="10" y1="8" x2="10" y2="12" stroke="#f7525f" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="10" cy="15" r="0.8" fill="#f7525f"/>
             </svg>
             <span class="warning-toast-text" id="warningText"></span>
           </div>
@@ -1188,8 +1206,8 @@
         ctx.lineTo(padL, H - padB);
         ctx.closePath();
         const grad = ctx.createLinearGradient(0, padT, 0, H - padB);
-        grad.addColorStop(0, 'rgba(154, 143, 208,0.22)');
-        grad.addColorStop(1, 'rgba(154, 143, 208,0.01)');
+        grad.addColorStop(0, 'rgba(34, 171, 148,0.22)');
+        grad.addColorStop(1, 'rgba(34, 171, 148,0.01)');
         ctx.fillStyle = grad;
         ctx.fill();
 
@@ -1199,7 +1217,7 @@
         for (let i = 1; i < drawCount; i++) {
           ctx.lineTo(x(i), y(points[i]));
         }
-        ctx.strokeStyle = '#9a8fd0';
+        ctx.strokeStyle = '#22ab94';
         ctx.lineWidth = 2.5;
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
@@ -1210,11 +1228,11 @@
           const lastI = drawCount - 1;
           ctx.beginPath();
           ctx.arc(x(lastI), y(points[lastI]), 4, 0, Math.PI * 2);
-          ctx.fillStyle = '#9a8fd0';
+          ctx.fillStyle = '#22ab94';
           ctx.fill();
           ctx.beginPath();
           ctx.arc(x(lastI), y(points[lastI]), 8, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(154, 143, 208,0.15)';
+          ctx.fillStyle = 'rgba(34, 171, 148,0.15)';
           ctx.fill();
         }
 
@@ -1284,7 +1302,7 @@
     function spawnParticle(container) {
       const p = document.createElement('div');
       p.className = 'particle';
-      const colors = ['#9a8fd0', '#cbc3e8', '#c2c6e4', '#dfe2eb'];
+      const colors = ['#22ab94', '#30c98a', '#7fe0cd', '#ececed'];
       p.style.background = colors[Math.floor(Math.random() * colors.length)];
       p.style.left = (40 + Math.random() * 60) + '%';
       p.style.top = (35 + Math.random() * 20) + '%';

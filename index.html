@@ -6,29 +6,27 @@
   <title>WealthVision</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #080a0e;
+      background: #000;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
     .device-frame {
       width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
-      position: relative; background: #10141a;
-      border: 1px solid rgba(255,255,255,0.06);
+      position: relative; background: #0c0c0e;
+      border: 1px solid rgba(255,255,255,0.07);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
     }
     .splash {
       position: absolute; inset: 0;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 26px;
-      background:
-        radial-gradient(120% 90% at 50% 12%, rgba(25, 184, 166,0.12), transparent 55%),
-        #080a0e;
+      background: #0c0c0e;
     }
     .logo-mark {
       width: 112px; height: 112px;
@@ -37,19 +35,19 @@
     }
     .logo-mark svg { width: 112px; height: 112px; overflow: visible; }
     .lm-curve {
-      fill: none; stroke: #19b8a6; stroke-width: 6;
+      fill: none; stroke: #22ab94; stroke-width: 6;
       stroke-linecap: round; stroke-linejoin: round;
       stroke-dasharray: 180; stroke-dashoffset: 180;
-      filter: drop-shadow(0 4px 14px rgba(25, 184, 166,0.45));
+      filter: drop-shadow(0 4px 14px rgba(34, 171, 148,0.45));
       animation: draw 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
     }
     .lm-dot {
-      fill: #19b8a6; opacity: 0; transform-origin: center;
-      filter: drop-shadow(0 0 8px rgba(25, 184, 166,0.7));
+      fill: #22ab94; opacity: 0; transform-origin: center;
+      filter: drop-shadow(0 0 8px rgba(34, 171, 148,0.7));
       animation: pop 0.4s cubic-bezier(0.16,1,0.3,1) 0.95s forwards;
     }
     .lm-ring {
-      fill: none; stroke: rgba(25, 184, 166,0.25); stroke-width: 2;
+      fill: none; stroke: rgba(34, 171, 148,0.25); stroke-width: 2;
       opacity: 0;
       animation: ring 0.7s ease-out 1s forwards;
     }
@@ -63,17 +61,17 @@
       text-align: center;
     }
     .wordmark .name {
-      font-size: 27px; font-weight: 800; letter-spacing: -0.02em; color: #f3fbf9;
+      font-size: 27px; font-weight: 800; letter-spacing: -0.02em; color: #ececed;
     }
-    .wordmark .name b { color: #19b8a6; font-weight: 800; }
+    .wordmark .name b { color: #22ab94; font-weight: 800; }
     .wordmark .tag {
-      margin-top: 7px; font-size: 13px; color: #8ea29c; letter-spacing: 0.01em;
+      margin-top: 7px; font-size: 13px; color: #8e8e95; letter-spacing: 0.01em;
     }
     @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 
     /* Fill real phone screens edge-to-edge (desktop keeps the mock) */
     @media (max-width: 600px) {
-      body { display: block; min-height: 100vh; min-height: 100dvh; background: #080a0e; }
+      body { display: block; min-height: 100vh; min-height: 100dvh; background: #000; }
       .device-frame {
         width: 100vw; height: 100vh; height: 100dvh;
         max-width: 100%; border-radius: 0; border: 0; box-shadow: none;

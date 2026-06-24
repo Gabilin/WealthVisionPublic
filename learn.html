@@ -6,70 +6,64 @@
   <title>WealthVision — Learn</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="proto-shell.css">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #080a0e;
+      background: #000;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
     .device-frame {
       width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
-      position: relative; background: #10141a;
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+      position: relative; background: #0c0c0e;
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 25px 60px rgba(0,0,0,0.55);
     }
 
     .progress-card {
-      border-radius: 18px; padding: 16px 18px; overflow: hidden;
-      background:
-        radial-gradient(120% 130% at 100% 0%, rgba(154, 143, 208,0.16), transparent 55%),
-        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-      -webkit-backdrop-filter: blur(16px) saturate(1.15); backdrop-filter: blur(16px) saturate(1.15);
-      border: 1px solid rgba(154, 143, 208,0.24);
-      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+      border-radius: 16px; padding: 16px 18px; overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
       display: flex; align-items: center; gap: 16px;
     }
     .ring { position: relative; width: 58px; height: 58px; flex: 0 0 auto; }
     .ring svg { transform: rotate(-90deg); }
     .ring .label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 800; color: var(--text-hi); }
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text-hi); }
     .progress-card .meta .big { font-size: 15px; font-weight: 700; color: var(--text-hi); }
     .progress-card .meta .sub { font-size: 12px; color: var(--text-mid); margin-top: 3px; }
 
     .lesson {
       display: flex; align-items: center; gap: 13px; text-decoration: none;
-      padding: 13px 14px; border-radius: 15px; margin-bottom: 9px;
-      background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      padding: 13px 14px; border-radius: 13px; margin-bottom: 8px;
+      background: var(--surface);
       border: 1px solid var(--hairline);
-      box-shadow: inset 0 1px 0 var(--hi-glow);
-      transition: transform 140ms ease;
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
     }
+    .lesson:hover { background: var(--surface-h); }
     .lesson:active { transform: scale(0.985); }
-    .lesson.done { border-color: rgba(154, 143, 208,0.24); background: rgba(154, 143, 208,0.08); }
-    .lesson.next { border-color: rgba(154, 143, 208,0.42); background: rgba(154, 143, 208,0.13); }
+    .lesson.done { background: var(--surface); }
+    .lesson.next { border-color: rgba(156,77,255,0.45); background: rgba(156,77,255,0.08); }
     .l-ic {
       width: 38px; height: 38px; flex: 0 0 auto; border-radius: 11px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 800; color: var(--text-mid);
-      background: var(--surface);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px; font-weight: 600; color: var(--text-mid);
+      background: var(--surface-2);
+      border: 1px solid var(--hairline);
     }
-    .lesson.done .l-ic { background: rgba(154, 143, 208,0.18); color: #bcb2e0; }
-    .lesson.next .l-ic { background: #9a8fd0; color: #1a1238; }
+    .lesson.done .l-ic { background: rgba(156,77,255,0.14); color: #c9a6ff; border-color: transparent; }
+    .lesson.next .l-ic { background: #9c4dff; color: #15101f; border-color: transparent; }
     .l-body { flex: 1; min-width: 0; }
-    .l-title { font-size: 14px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.01em; }
+    .l-title { font-size: 14px; font-weight: 600; color: var(--text-hi); letter-spacing: -0.01em; }
     .l-meta { font-size: 11.5px; color: var(--text-mid); margin-top: 2px; }
-    .l-status { font-size: 11px; font-weight: 700; color: var(--text-mid); }
-    .lesson.done .l-status { color: #bcb2e0; }
-    .lesson.next .l-status { color: #bcb2e0; }
-    .device-frame[data-theme="light"] .lesson.done .l-ic,
-    .device-frame[data-theme="light"] .lesson.done .l-status,
-    .device-frame[data-theme="light"] .lesson.next .l-status { color: #655ab0; }
+    .l-status { font-size: 11px; font-weight: 600; color: var(--text-lo); }
+    .lesson.done .l-status { color: #c9a6ff; }
+    .lesson.next .l-status { color: #c9a6ff; }
     .check { width: 18px; height: 18px; }
   </style>
 </head>
@@ -89,7 +83,7 @@
           <div class="ring">
             <svg width="58" height="58">
               <circle cx="29" cy="29" r="24" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="6"></circle>
-              <circle id="ringFg" cx="29" cy="29" r="24" fill="none" stroke="#9a8fd0" stroke-width="6"
+              <circle id="ringFg" cx="29" cy="29" r="24" fill="none" stroke="#9c4dff" stroke-width="6"
                       stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="150.8"></circle>
             </svg>
             <div class="label" id="ringLabel">0%</div>

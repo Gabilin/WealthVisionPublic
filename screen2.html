@@ -6,17 +6,17 @@
   <title>WealthVision — Screen 2: Your Scenario</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #080a0e;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -28,8 +28,8 @@
       border-radius: 47px;
       overflow: hidden;
       position: relative;
-      background: #10141a;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #0c0c0e;
+      border: 1px solid rgba(255, 255, 255, 0.07);
       box-shadow:
         0 0 0 1px rgba(0, 0, 0, 0.3),
         0 25px 60px rgba(0, 0, 0, 0.5),
@@ -51,14 +51,14 @@
       top: 58px;
       left: 24px;
       z-index: 10;
-      color: #83948f;
+      color: #8e8e95;
       font-size: 20px;
       cursor: pointer;
       padding: 8px 4px;
       line-height: 1;
       transition: color 0.2s ease-out;
     }
-    .back-arrow:active { color: #dfe2eb; }
+    .back-arrow:active { color: #ececed; }
 
     /* ── Top section: question ── */
     .question-area {
@@ -71,14 +71,14 @@
       line-height: 32px;
       font-weight: 700;
       letter-spacing: -0.01em;
-      color: #dfe2eb;
+      color: #ececed;
     }
 
     .subtext {
       font-size: 15px;
       line-height: 22px;
       font-weight: 400;
-      color: #83948f;
+      color: #8e8e95;
       margin-top: 8px;
     }
 
@@ -93,18 +93,19 @@
       display: flex;
       align-items: baseline;
       padding-bottom: 12px;
-      border-bottom: 2px solid rgba(25, 184, 166, 0.3);
+      border-bottom: 2px solid rgba(34, 171, 148, 0.3);
       transition: border-color 0.2s ease-out;
     }
     .amount-display.focused {
-      border-color: #19b8a6;
+      border-color: #22ab94;
     }
 
     .dollar-sign {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 40px;
-      font-weight: 900;
+      font-weight: 600;
       letter-spacing: -0.02em;
-      color: rgba(215, 255, 243, 0.4);
+      color: rgba(236, 236, 237, 0.4);
       line-height: 48px;
       margin-right: 4px;
     }
@@ -113,18 +114,18 @@
       background: transparent;
       border: none;
       outline: none;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 40px;
-      font-weight: 900;
+      font-weight: 600;
       letter-spacing: -0.02em;
-      color: #d7fff3;
+      color: #ececed;
       line-height: 48px;
       width: 100%;
-      caret-color: #19b8a6;
+      caret-color: #22ab94;
       font-variant-numeric: tabular-nums;
     }
     .amount-input::placeholder {
-      color: rgba(215, 255, 243, 0.15);
+      color: rgba(236, 236, 237, 0.15);
     }
 
     /* ── Quick-pick chips ── */
@@ -138,10 +139,10 @@
     .chip {
       padding: 10px 20px;
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.03);
-      color: #b9cac4;
-      font-family: 'Manrope', system-ui, sans-serif;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: #1b1b1f;
+      color: #c5c5c9;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
@@ -152,9 +153,9 @@
       transform: scale(0.96);
     }
     .chip.selected {
-      background: rgba(25, 184, 166, 0.12);
-      border-color: rgba(25, 184, 166, 0.3);
-      color: #19b8a6;
+      background: #ececed;
+      border-color: #ececed;
+      color: #0c0c0e;
     }
 
     /* ── Preview area ── */
@@ -194,16 +195,17 @@
     .preview-label {
       font-size: 13px;
       font-weight: 500;
-      color: #83948f;
+      color: #8e8e95;
       letter-spacing: 0.01em;
     }
 
     .preview-amount {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 28px;
       line-height: 36px;
-      font-weight: 900;
+      font-weight: 600;
       letter-spacing: -0.02em;
-      color: #d7fff3;
+      color: #ececed;
       margin-top: 2px;
       font-variant-numeric: tabular-nums;
     }
@@ -214,9 +216,9 @@
       top: 58px;
       left: 50%;
       transform: translateX(-50%) translateY(-20px);
-      background: rgba(25, 184, 166, 0.12);
-      border: 1px solid rgba(25, 184, 166, 0.25);
-      color: #19b8a6;
+      background: rgba(34, 171, 148, 0.12);
+      border: 1px solid rgba(34, 171, 148, 0.25);
+      color: #22ab94;
       font-size: 14px;
       font-weight: 600;
       padding: 10px 20px;
@@ -240,11 +242,11 @@
     .cta-button {
       width: 100%;
       height: 56px;
-      background: #19b8a6;
-      color: #0A0E14;
+      background: #22ab94;
+      color: #04201b;
       border: none;
       border-radius: 16px;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       font-size: 17px;
       font-weight: 700;
       letter-spacing: -0.01em;
@@ -255,8 +257,8 @@
       transform: scale(0.97);
     }
     .cta-button:disabled {
-      background: rgba(25, 184, 166, 0.2);
-      color: rgba(10, 14, 20, 0.4);
+      background: rgba(142, 142, 149, 0.16);
+      color: #8e8e95;
       cursor: default;
     }
 
@@ -273,9 +275,9 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(131, 148, 143, 0.35);
+      background: rgba(142, 142, 149, 0.35);
     }
-    .dot.active { background: #19b8a6; }
+    .dot.active { background: #22ab94; }
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
 </head>
@@ -319,7 +321,7 @@
       </div>
       <div class="preview-result visible" id="previewResult">
         <div class="preview-label">In 30 years</div>
-        <div class="preview-amount" id="previewAmount">~$227,413</div>
+        <div class="preview-amount" id="previewAmount">~$243,994</div>
       </div>
     </div>
 
@@ -418,9 +420,9 @@
     ctx.lineTo(xOf(drawN - 1), cB);
     ctx.closePath();
     const gI = ctx.createLinearGradient(0, cT, 0, cB);
-    gI.addColorStop(0,   'rgba(2, 49, 222, 0.45)');
-    gI.addColorStop(0.5, 'rgba(2, 49, 222, 0.18)');
-    gI.addColorStop(1,   'rgba(2, 49, 222, 0.04)');
+    gI.addColorStop(0,   'rgba(41, 98, 255, 0.45)');
+    gI.addColorStop(0.5, 'rgba(41, 98, 255, 0.18)');
+    gI.addColorStop(1,   'rgba(41, 98, 255, 0.04)');
     ctx.fillStyle = gI;
     ctx.fill();
 
@@ -435,9 +437,9 @@
     }
     ctx.closePath();
     const gT = ctx.createLinearGradient(0, cT, 0, cB);
-    gT.addColorStop(0,   'rgba(25, 184, 166, 0.30)');
-    gT.addColorStop(0.4, 'rgba(25, 184, 166, 0.12)');
-    gT.addColorStop(1,   'rgba(25, 184, 166, 0.02)');
+    gT.addColorStop(0,   'rgba(34, 171, 148, 0.30)');
+    gT.addColorStop(0.4, 'rgba(34, 171, 148, 0.12)');
+    gT.addColorStop(1,   'rgba(34, 171, 148, 0.02)');
     ctx.fillStyle = gT;
     ctx.fill();
 
@@ -447,7 +449,7 @@
       const x = xOf(i), y = yOf(data[i].contributions);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(187, 195, 255, 0.45)';
+    ctx.strokeStyle = 'rgba(120, 150, 255, 0.55)';
     ctx.lineWidth   = 1.5;
     ctx.stroke();
 
@@ -457,9 +459,9 @@
       const x = xOf(i), y = yOf(data[i].total);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(25, 184, 166, 0.15)';
+    ctx.strokeStyle = 'rgba(34, 171, 148, 0.15)';
     ctx.lineWidth   = 8;
-    ctx.shadowColor = 'rgba(25, 184, 166, 0.2)';
+    ctx.shadowColor = 'rgba(34, 171, 148, 0.2)';
     ctx.shadowBlur  = 12;
     ctx.stroke();
     ctx.shadowColor = 'transparent';
@@ -471,7 +473,7 @@
       const x = xOf(i), y = yOf(data[i].total);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = '#19b8a6';
+    ctx.strokeStyle = '#22ab94';
     ctx.lineWidth   = 2.5;
     ctx.stroke();
 
@@ -481,11 +483,11 @@
       const dx = xOf(li), dy = yOf(data[li].total);
       ctx.beginPath();
       ctx.arc(dx, dy, 6, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(25, 184, 166, 0.15)';
+      ctx.fillStyle = 'rgba(34, 171, 148, 0.15)';
       ctx.fill();
       ctx.beginPath();
       ctx.arc(dx, dy, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = '#19b8a6';
+      ctx.fillStyle = '#22ab94';
       ctx.fill();
     }
   }
@@ -609,6 +611,9 @@
   // ── Init ──
   function init() {
     sizeCanvas();
+    // Fill the actual input value (not just the placeholder) so the pre-selected
+    // $200 renders as solid, entered text instead of looking unfilled.
+    amountInput.value = '200';
     setAmount(200);
   }
 

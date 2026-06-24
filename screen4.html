@@ -6,17 +6,17 @@
   <title>WealthVision — Screen 4: Home</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #080a0e;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -28,8 +28,8 @@
       border-radius: 47px;
       overflow: hidden;
       position: relative;
-      background: #10141a;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #0c0c0e;
+      border: 1px solid rgba(255, 255, 255, 0.07);
       box-shadow:
         0 0 0 1px rgba(0, 0, 0, 0.3),
         0 25px 60px rgba(0, 0, 0, 0.5),
@@ -54,31 +54,31 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: #10141a;
+      background: #0c0c0e;
     }
 
     .app-name {
       font-size: 20px;
       font-weight: 700;
       letter-spacing: -0.01em;
-      color: #dfe2eb;
+      color: #ececed;
     }
 
     .settings-btn {
       width: 36px;
       height: 36px;
       border-radius: 10px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #1b1b1f;
+      border: 1px solid rgba(255, 255, 255, 0.07);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: background 0.15s ease-out;
-      color: #83948f;
+      color: #8e8e95;
     }
     .settings-btn:active {
-      background: rgba(255, 255, 255, 0.08);
+      background: #24242a;
     }
     .settings-btn svg {
       width: 18px;
@@ -89,15 +89,15 @@
     .hero-card {
       margin: 20px 24px 0;
       border-radius: 24px;
-      background: rgba(255, 255, 255, 0.025);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #1b1b1f;
+      border: 1px solid rgba(255, 255, 255, 0.07);
       overflow: hidden;
       cursor: pointer;
       transition: border-color 0.2s ease-out;
       position: relative;
     }
     .hero-card:active {
-      border-color: rgba(25, 184, 166, 0.2);
+      border-color: rgba(34, 171, 148, 0.2);
     }
 
     .hero-chart {
@@ -111,11 +111,12 @@
     }
 
     .hero-value {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 32px;
       line-height: 36px;
-      font-weight: 900;
+      font-weight: 600;
       letter-spacing: -0.02em;
-      color: #d7fff3;
+      color: #ececed;
       font-variant-numeric: tabular-nums;
     }
 
@@ -123,7 +124,7 @@
       font-size: 13px;
       line-height: 18px;
       font-weight: 400;
-      color: #83948f;
+      color: #8e8e95;
       margin-top: 4px;
     }
 
@@ -131,7 +132,7 @@
       font-size: 11px;
       line-height: 16px;
       font-weight: 500;
-      color: rgba(131, 148, 143, 0.6);
+      color: rgba(142, 142, 149, 0.6);
       margin-top: 10px;
       letter-spacing: 0.02em;
     }
@@ -142,7 +143,7 @@
       right: 16px;
       font-size: 11px;
       font-weight: 500;
-      color: rgba(131, 148, 143, 0.4);
+      color: rgba(142, 142, 149, 0.4);
       letter-spacing: 0.02em;
     }
 
@@ -157,7 +158,7 @@
       flex: 1;
       height: 48px;
       border-radius: 14px;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       font-size: 14px;
       font-weight: 600;
       letter-spacing: -0.005em;
@@ -173,14 +174,14 @@
     }
 
     .action-btn--primary {
-      background: #19b8a6;
-      color: #0A0E14;
+      background: #22ab94;
+      color: #04201b;
       border: none;
     }
 
     .action-btn--secondary {
       background: transparent;
-      color: #b9cac4;
+      color: #c5c5c9;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -204,14 +205,14 @@
       font-size: 18px;
       font-weight: 700;
       letter-spacing: -0.01em;
-      color: #dfe2eb;
+      color: #ececed;
     }
 
     .add-goal-btn {
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       font-size: 13px;
       font-weight: 600;
-      color: #19b8a6;
+      color: #22ab94;
       background: none;
       border: none;
       cursor: pointer;
@@ -238,14 +239,14 @@
 
     .goal-item {
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.025);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #1b1b1f;
+      border: 1px solid rgba(255, 255, 255, 0.07);
       padding: 16px 18px;
       cursor: pointer;
       transition: border-color 0.15s ease-out;
     }
     .goal-item:active {
-      border-color: rgba(25, 184, 166, 0.15);
+      border-color: rgba(34, 171, 148, 0.15);
     }
 
     .goal-item-top {
@@ -268,8 +269,8 @@
       height: 18px;
     }
 
-    .goal-item-icon--house { background: rgba(25, 184, 166, 0.12); color: #19b8a6; }
-    .goal-item-icon--freedom { background: rgba(187, 195, 255, 0.12); color: #c2c6e4; }
+    .goal-item-icon--house { background: rgba(34, 171, 148, 0.12); color: #22ab94; }
+    .goal-item-icon--freedom { background: rgba(156, 77, 255, 0.12); color: #9c4dff; }
 
     .goal-item-info {
       flex: 1;
@@ -279,23 +280,23 @@
     .goal-item-name {
       font-size: 15px;
       font-weight: 600;
-      color: #dfe2eb;
+      color: #ececed;
       letter-spacing: -0.005em;
     }
 
     .goal-item-status {
       font-size: 13px;
       font-weight: 400;
-      color: #83948f;
+      color: #8e8e95;
       margin-top: 2px;
     }
     .goal-item-status strong {
-      color: #19b8a6;
+      color: #22ab94;
       font-weight: 600;
     }
 
     .goal-item-arrow {
-      color: rgba(131, 148, 143, 0.4);
+      color: rgba(142, 142, 149, 0.4);
       flex-shrink: 0;
     }
 
@@ -304,7 +305,7 @@
       margin-top: 12px;
       height: 6px;
       border-radius: 3px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.07);
       overflow: hidden;
     }
 
@@ -313,8 +314,8 @@
       border-radius: 3px;
       transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .progress-fill--teal { background: #19b8a6; }
-    .progress-fill--lavender { background: #c2c6e4; }
+    .progress-fill--teal { background: #22ab94; }
+    .progress-fill--lavender { background: #9c4dff; }
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
 </head>
@@ -339,7 +340,7 @@
       <span class="hero-tap-hint">Tap to simulate</span>
       <canvas class="hero-chart" id="heroChart"></canvas>
       <div class="hero-content">
-        <div class="hero-value">$227,413</div>
+        <div class="hero-value">$243,994</div>
         <div class="hero-subtitle">$200/mo &times; 30 years &times; 7% avg return</div>
         <div class="hero-meta">Based on your inputs</div>
       </div>
@@ -438,7 +439,7 @@
   const YEARS      = 30;
   const MONTHS     = YEARS * 12;
   const monthlyRate = RATE / 12;
-  const FINAL_VALUE = 227413;
+  const FINAL_VALUE = 243994;
 
   const canvas = document.getElementById('heroChart');
   const ctx    = canvas.getContext('2d');
@@ -492,9 +493,9 @@
     ctx.lineTo(xOf(N - 1), cB);
     ctx.closePath();
     const gI = ctx.createLinearGradient(0, cT, 0, cB);
-    gI.addColorStop(0, 'rgba(2, 49, 222, 0.40)');
-    gI.addColorStop(0.5, 'rgba(2, 49, 222, 0.15)');
-    gI.addColorStop(1, 'rgba(2, 49, 222, 0.03)');
+    gI.addColorStop(0, 'rgba(41, 98, 255, 0.40)');
+    gI.addColorStop(0.5, 'rgba(41, 98, 255, 0.15)');
+    gI.addColorStop(1, 'rgba(41, 98, 255, 0.03)');
     ctx.fillStyle = gI;
     ctx.fill();
 
@@ -509,9 +510,9 @@
     }
     ctx.closePath();
     const gT = ctx.createLinearGradient(0, cT, 0, cB);
-    gT.addColorStop(0, 'rgba(25, 184, 166, 0.30)');
-    gT.addColorStop(0.4, 'rgba(25, 184, 166, 0.10)');
-    gT.addColorStop(1, 'rgba(25, 184, 166, 0.02)');
+    gT.addColorStop(0, 'rgba(34, 171, 148, 0.30)');
+    gT.addColorStop(0.4, 'rgba(34, 171, 148, 0.10)');
+    gT.addColorStop(1, 'rgba(34, 171, 148, 0.02)');
     ctx.fillStyle = gT;
     ctx.fill();
 
@@ -521,7 +522,7 @@
       const x = xOf(i), y = yOf(data[i].contributions);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(187, 195, 255, 0.35)';
+    ctx.strokeStyle = 'rgba(120, 150, 255, 0.35)';
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
@@ -531,9 +532,9 @@
       const x = xOf(i), y = yOf(data[i].total);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(25, 184, 166, 0.12)';
+    ctx.strokeStyle = 'rgba(34, 171, 148, 0.12)';
     ctx.lineWidth = 8;
-    ctx.shadowColor = 'rgba(25, 184, 166, 0.15)';
+    ctx.shadowColor = 'rgba(34, 171, 148, 0.15)';
     ctx.shadowBlur = 10;
     ctx.stroke();
     ctx.shadowColor = 'transparent';
@@ -545,7 +546,7 @@
       const x = xOf(i), y = yOf(data[i].total);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = '#19b8a6';
+    ctx.strokeStyle = '#22ab94';
     ctx.lineWidth = 2;
     ctx.stroke();
   }

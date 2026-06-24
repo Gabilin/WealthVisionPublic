@@ -6,83 +6,74 @@
   <title>WealthVision — Rewards</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="proto-shell.css">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #080a0e;
+      background: #000;
       display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
     .device-frame {
       width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
-      position: relative; background: #10141a;
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+      position: relative; background: #0c0c0e;
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 25px 60px rgba(0,0,0,0.55);
     }
 
     .level-card {
-      border-radius: 20px; padding: 20px; overflow: hidden;
-      background:
-        radial-gradient(120% 120% at 100% 0%, rgba(221, 154, 58,0.18), transparent 55%),
-        linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-      -webkit-backdrop-filter: blur(16px) saturate(1.15); backdrop-filter: blur(16px) saturate(1.15);
-      border: 1px solid rgba(221, 154, 58,0.26);
-      box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+      border-radius: 16px; padding: 20px; overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
     }
     .level-top { display: flex; align-items: center; justify-content: space-between; }
     .level-badge { display: flex; align-items: center; gap: 12px; }
     .level-badge .num {
-      width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
-      background: rgba(221, 154, 58,0.18); color: #f5b740; font-size: 22px; font-weight: 800;
+      width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      background: rgba(247,166,0,0.14); color: #f7a600; font-size: 22px; font-weight: 600;
     }
-    .level-badge .txt .big { font-size: 17px; font-weight: 800; color: var(--text-hi); }
+    .level-badge .txt .big { font-size: 17px; font-weight: 700; color: var(--text-hi); }
     .level-badge .txt .sub { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
     .level-xp { text-align: right; }
-    .level-xp .v { font-size: 20px; font-weight: 800; color: var(--text-hi); font-variant-numeric: tabular-nums; }
+    .level-xp .v { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 600; color: var(--text-hi); }
     .level-xp .k { font-size: 11px; color: var(--text-mid); }
-    .xp-bar { margin-top: 16px; height: 8px; border-radius: 99px; background: rgba(127,127,160,0.18); overflow: hidden; }
-    .xp-bar > i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg,#dd9a3a,#ffd27a); }
+    .xp-bar { margin-top: 16px; height: 8px; border-radius: 99px; background: rgba(255,255,255,0.07); overflow: hidden; }
+    .xp-bar > i { display: block; height: 100%; border-radius: 99px; background: #f7a600; }
     .xp-hint { margin-top: 8px; font-size: 11.5px; color: var(--text-mid); }
 
-    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
     .mini {
-      border-radius: 16px; padding: 16px;
-      background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-      border: 1px solid var(--hairline); box-shadow: inset 0 1px 0 var(--hi-glow);
+      border-radius: 14px; padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
     }
-    .mini .v { font-size: 22px; font-weight: 800; color: var(--text-hi); font-variant-numeric: tabular-nums; }
+    .mini .v { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; color: var(--text-hi); }
     .mini .k { font-size: 12px; color: var(--text-mid); margin-top: 4px; }
-    .mini.flame { background: rgba(255,138,76,0.10); border-color: rgba(255,138,76,0.24); }
-    .mini.flame .v { color: #ff9e63; }
+    .mini.flame { background: rgba(247,166,0,0.08); border-color: rgba(247,166,0,0.22); }
+    .mini.flame .v { color: var(--text-hi); }
 
-    .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .ach {
-      border-radius: 16px; padding: 16px; text-align: center;
-      background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-      border: 1px solid var(--hairline); box-shadow: inset 0 1px 0 var(--hi-glow);
+      border-radius: 14px; padding: 16px; text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
     }
-    .ach.earned { background: rgba(221, 154, 58,0.10); border-color: rgba(221, 154, 58,0.32); }
-    .ach .ic { width: 48px; height: 48px; margin: 0 auto 10px; border-radius: 14px;
+    .ach.earned { background: rgba(247,166,0,0.08); border-color: rgba(247,166,0,0.30); }
+    .ach .ic { width: 48px; height: 48px; margin: 0 auto 10px; border-radius: 13px;
       display: flex; align-items: center; justify-content: center;
-      background: var(--surface); color: var(--text-lo); }
-    .ach.earned .ic { background: rgba(221, 154, 58,0.18); color: #f5b740; }
+      background: var(--surface-2); color: var(--text-lo); border: 1px solid var(--hairline); }
+    .ach.earned .ic { background: rgba(247,166,0,0.16); color: #f7a600; border-color: transparent; }
     .ach .ic svg { width: 26px; height: 26px; }
-    .ach .t { font-size: 13px; font-weight: 700; color: var(--text-hi); }
-    .ach.earned .t { color: #f0c777; }
+    .ach .t { font-size: 13px; font-weight: 600; color: var(--text-hi); }
+    .ach.earned .t { color: #f0bf6e; }
     .ach .d { font-size: 11px; color: var(--text-mid); margin-top: 4px; line-height: 1.3; }
-    .ach .lock { font-size: 10px; font-weight: 700; color: var(--text-lo); margin-top: 8px;
+    .ach .lock { font-size: 10px; font-weight: 600; color: var(--text-lo); margin-top: 8px;
       text-transform: uppercase; letter-spacing: 0.05em; }
-    .ach.earned .lock { color: #f5b740; }
-    .device-frame[data-theme="light"] .ach.earned .t,
-    .device-frame[data-theme="light"] .ach.earned .lock,
-    .device-frame[data-theme="light"] .ach.earned .ic,
-    .device-frame[data-theme="light"] .level-badge .num { color: #8a6300; }
+    .ach.earned .lock { color: #f7a600; }
   </style>
 </head>
 <body data-wv-tab="rewards">

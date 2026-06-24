@@ -6,23 +6,20 @@
   <title>WealthVision — Screen 11: Inflation Explained</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
-    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
-    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
-    .device-frame{--act1:#9a8fd0;}
-    .device-frame[data-theme="light"]{--act1:#6a4fe0;}
-    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
-    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    .device-frame{--c-red:#f7525f;--c-amber:#f7a600;--c-peri:#ececed;--c-violet2:#9c4dff;--c-val:#ececed;--c-valb:#ececed}
+    .device-frame{--act1:#9c4dff;--green:#22ab94;}
+    .device-frame{--s-bg:#0c0c0e;--s-hi:#ececed;--s-mid:#8e8e95;--s-sec:#c5c5c9;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #080a0e;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -34,7 +31,7 @@
       overflow: hidden;
       position: relative;
       background: var(--s-bg);
-      border: 1px solid var(--wa6);
+      border: 1px solid var(--wa7);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
     }
 
@@ -124,7 +121,7 @@
     .dot.active {
       width: 24px;
       border-radius: 4px;
-      background: #9a8fd0;
+      background: #9c4dff;
     }
 
     /* ── Swipe hint ── */
@@ -155,7 +152,7 @@
       gap: 6px;
       padding: 4px 12px;
       border-radius: 8px;
-      background: rgba(154, 143, 208,0.10);
+      background: rgba(156, 77, 255,0.10);
       font-size: 11px;
       font-weight: 600;
       color:var(--act1);
@@ -198,7 +195,7 @@
       border: 1.5px solid var(--wa8);
       background: var(--wa3);
       color: var(--s-sec);
-      font-family: 'Manrope', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
@@ -209,15 +206,15 @@
       gap: 6px;
     }
     .item-tab.active {
-      background: rgba(154, 143, 208,0.10);
-      border-color: rgba(154, 143, 208,0.35);
-      color:var(--act1);
+      background: #ececed;
+      border-color: #ececed;
+      color: #0c0c0e;
     }
     .item-tab svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; fill: none; }
 
     .price-timeline {
-      background: var(--wa3);
-      border: 1px solid var(--wa6);
+      background: #1b1b1f;
+      border: 1px solid var(--wa7);
       border-radius: 16px;
       padding: 20px;
       flex: 1;
@@ -271,9 +268,10 @@
       display: flex;
       align-items: center;
       padding-left: 12px;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 14px;
-      font-weight: 700;
-      color: #0a0e14;
+      font-weight: 600;
+      color: #0c0c0e;
       transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
       min-width: 0;
     }
@@ -285,8 +283,8 @@
        Card 2: Your Money is Shrinking
        ════════════════════════════════ */
     .shrink-card {
-      background: var(--wa3);
-      border: 1px solid var(--wa6);
+      background: #1b1b1f;
+      border: 1px solid var(--wa7);
       border-radius: 16px;
       padding: 24px 20px;
       flex: 1;
@@ -317,15 +315,15 @@
       border: 1.5px solid var(--wa8);
       border-radius: 14px;
       padding: 0 16px 0 34px;
-      font-family: 'Manrope', sans-serif;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 24px;
-      font-weight: 900;
+      font-weight: 600;
       color: var(--s-hi);
       outline: none;
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
     }
-    .shrink-dollar input:focus { border-color: rgba(154, 143, 208,0.55); }
+    .shrink-dollar input:focus { border-color: rgba(156, 77, 255,0.55); }
 
     .inflation-slider-row {
       display: flex;
@@ -351,13 +349,14 @@
       -webkit-appearance: none;
       width: 22px; height: 22px;
       border-radius: 50%;
-      background: #ffb4ab;
+      background: #f7525f;
       cursor: pointer;
-      box-shadow: 0 0 10px rgba(255,180,171,0.3);
+      box-shadow: 0 0 10px rgba(247,82,95,0.3);
     }
     .inflation-rate-val {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 600;
       color:var(--c-red);
       min-width: 32px;
       text-align: right;
@@ -378,9 +377,10 @@
       margin-bottom: 6px;
     }
     .shrink-hero-val {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 48px;
-      font-weight: 900;
-      color:var(--c-red);
+      font-weight: 600;
+      color: var(--s-hi);
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.03em;
       line-height: 1;
@@ -399,8 +399,8 @@
     }
     .shrink-result {
       flex: 1;
-      background: var(--wa3);
-      border: 1px solid var(--wa6);
+      background: #1b1b1f;
+      border: 1px solid var(--wa7);
       border-radius: 12px;
       padding: 14px 10px;
       text-align: center;
@@ -411,9 +411,10 @@
       margin-bottom: 4px;
     }
     .shrink-value {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 16px;
-      font-weight: 900;
-      color:var(--c-red);
+      font-weight: 600;
+      color: var(--s-hi);
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
     }
@@ -427,8 +428,8 @@
        Card 3: The Hidden Race
        ════════════════════════════════ */
     .race-card {
-      background: var(--wa3);
-      border: 1px solid var(--wa6);
+      background: #1b1b1f;
+      border: 1px solid var(--wa7);
       border-radius: 16px;
       padding: 20px;
       flex: 1;
@@ -470,11 +471,12 @@
       color: var(--s-sec);
     }
     .race-val {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 600;
       font-variant-numeric: tabular-nums;
     }
-    .race-val.green { color:var(--act1); }
+    .race-val.green { color:var(--green); }
     .race-val.amber { color:var(--c-amber); }
     .race-val.red { color:var(--c-red); }
     .race-val.gray { color: var(--s-mid); }
@@ -482,8 +484,8 @@
     .race-insight {
       margin-top: 14px;
       padding: 14px;
-      background: rgba(154, 143, 208,0.07);
-      border: 1px solid rgba(154, 143, 208,0.14);
+      background: rgba(156, 77, 255,0.07);
+      border: 1px solid rgba(156, 77, 255,0.14);
       border-radius: 12px;
       font-size: 14px;
       color:var(--act1);
@@ -495,8 +497,8 @@
        Card 4: What This Means
        ════════════════════════════════ */
     .takeaway-card {
-      background: linear-gradient(135deg, rgba(2,49,222,0.12), rgba(154, 143, 208,0.07));
-      border: 1px solid rgba(154, 143, 208,0.16);
+      background: #1b1b1f;
+      border: 1px solid var(--wa7);
       border-radius: 16px;
       padding: 24px 20px;
       flex: 1;
@@ -520,8 +522,9 @@
       margin-bottom: 4px;
     }
     .rr-val {
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 22px;
-      font-weight: 900;
+      font-weight: 600;
       font-variant-numeric: tabular-nums;
     }
     .rr-minus, .rr-equals {
@@ -544,7 +547,7 @@
     .takeaway-num {
       width: 28px; height: 28px;
       border-radius: 50%;
-      background: rgba(154, 143, 208,0.16);
+      background: rgba(156, 77, 255,0.16);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -569,9 +572,9 @@
       height: 56px;
       border: none;
       border-radius: 14px;
-      background: linear-gradient(135deg, #9a8fd0, #8579c4);
-      color: #1a1238;
-      font-family: 'Manrope', sans-serif;
+      background: #22ab94;
+      color: #04201b;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
@@ -699,21 +702,21 @@
               <div class="race-legend">
                 <div class="race-row">
                   <div class="race-left">
-                    <div class="race-dot" style="background:#9a8fd0;"></div>
+                    <div class="race-dot" style="background:#22ab94;"></div>
                     <span class="race-name">Invested at 7%</span>
                   </div>
                   <span class="race-val green" id="raceInvest">$76,123</span>
                 </div>
                 <div class="race-row">
                   <div class="race-left">
-                    <div class="race-dot" style="background:#ffc107;"></div>
+                    <div class="race-dot" style="background:#f7a600;"></div>
                     <span class="race-name">Savings account (1%)</span>
                   </div>
                   <span class="race-val amber" id="raceSavings">$13,478</span>
                 </div>
                 <div class="race-row">
                   <div class="race-left">
-                    <div class="race-dot" style="background:#ffb4ab;"></div>
+                    <div class="race-dot" style="background:#f7525f;"></div>
                     <span class="race-name">Under the mattress</span>
                   </div>
                   <span class="race-val red" id="raceMattress">$10,000</span>
@@ -948,13 +951,13 @@
       document.getElementById('priceChangePct').textContent = `+${changePct}% in 30 years`;
 
       const colors = [
-        '#3a3358', '#4a3f78', '#594a92', '#6855ad',
-        '#7269b0', '#847bc0', '#9a8fd0'
+        '#2a1f3d', '#3a2a55', '#4d3570', '#5f3f8c',
+        '#7245ad', '#874ad0', '#9c4dff'
       ];
 
       const html = data.map((d, i) => {
         const pct = (d.price / maxPrice * 100).toFixed(1);
-        const color = colors[i] || '#9a8fd0';
+        const color = colors[i] || '#9c4dff';
         return `
           <div class="price-bar-row">
             <span class="price-year">${d.year}</span>
@@ -1053,7 +1056,7 @@
       for (let i = 1; i <= years; i++) ctx.lineTo(x(i), y(realData[i]));
       ctx.lineTo(x(years), y(base));
       ctx.closePath();
-      ctx.fillStyle = 'rgba(255,180,171,0.06)';
+      ctx.fillStyle = 'rgba(247,82,95,0.06)';
       ctx.fill();
 
       // Investment glow fill
@@ -1063,8 +1066,8 @@
       ctx.lineTo(x(years), y(base));
       ctx.closePath();
       const grd = ctx.createLinearGradient(0, padT, 0, padT + cH);
-      grd.addColorStop(0, 'rgba(154, 143, 208,0.10)');
-      grd.addColorStop(1, 'rgba(154, 143, 208,0)');
+      grd.addColorStop(0, 'rgba(34,171,148,0.10)');
+      grd.addColorStop(1, 'rgba(34,171,148,0)');
       ctx.fillStyle = grd;
       ctx.fill();
 
@@ -1081,12 +1084,12 @@
       ctx.setLineDash([4, 4]);
       drawCurve(realData, 'rgba(255,255,255,0.15)', 1.5);
       ctx.setLineDash([]);
-      drawCurve(mattressData, '#ffb4ab', 2);
-      drawCurve(savingsData, '#ffc107', 2.5);
-      drawCurve(investData, '#9a8fd0', 3);
+      drawCurve(mattressData, '#f7525f', 2);
+      drawCurve(savingsData, '#f7a600', 2.5);
+      drawCurve(investData, '#22ab94', 3);
 
       // Endpoint dots with glow
-      [[investData, '#9a8fd0'], [savingsData, '#ffc107'], [mattressData, '#ffb4ab']].forEach(([d, c]) => {
+      [[investData, '#22ab94'], [savingsData, '#f7a600'], [mattressData, '#f7525f']].forEach(([d, c]) => {
         ctx.beginPath();
         ctx.arc(x(years), y(d[years]), 5, 0, Math.PI * 2);
         ctx.fillStyle = c;
@@ -1097,8 +1100,8 @@
         ctx.fill();
       });
 
-      ctx.fillStyle = '#83948f';
-      ctx.font = '11px Manrope';
+      ctx.fillStyle = '#8e8e95';
+      ctx.font = '11px IBM Plex Mono';
       ctx.textAlign = 'center';
       ctx.fillText('Now', x(0), H - 6);
       ctx.fillText('15y', x(15), H - 6);

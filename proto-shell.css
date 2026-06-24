@@ -4,23 +4,26 @@
    DESIGN TOKENS — theme-aware (scoped to the device frame)
    ============================================================ */
 .device-frame {
-  --app-bg: #0a0d12;
-  --text-hi: #f1f5f4;
-  --text-mid: #93a39e;
-  --text-lo: #6f7c83;
-  --hairline: rgba(255, 255, 255, 0.08);
-  --glass-top: rgba(255, 255, 255, 0.07);
-  --glass-bot: rgba(255, 255, 255, 0.015);
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-2: rgba(255, 255, 255, 0.025);
-  --tab-bg: rgba(12, 16, 22, 0.86);
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  --hi-glow: rgba(255, 255, 255, 0.06);
+  --app-bg: #0c0c0e;
+  --text-hi: #ececed;
+  --text-mid: #8e8e95;
+  --text-lo: #5e5e66;
+  --hairline: rgba(255, 255, 255, 0.07);
+  --hairline-2: rgba(255, 255, 255, 0.14);
+  --glass-top: #1b1b1f;
+  --glass-bot: #1b1b1f;
+  --surface: #1b1b1f;
+  --surface-2: #16161a;
+  --surface-h: #24242a;
+  --tab-bg: rgba(12, 12, 14, 0.9);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --hi-glow: transparent;
+  --green: #22ab94; --green-rgb: 34, 171, 148;
+  --red: #f7525f; --red-rgb: 247, 82, 95;
+  --blue: #2962ff;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --app-gradient:
-    radial-gradient(135% 62% at 50% -6%, rgba(25, 184, 166, 0.18), transparent 56%),
-    radial-gradient(120% 70% at 80% 0%, rgba(99, 102, 241, 0.07), transparent 58%),
-    linear-gradient(180deg, #103a4f 0%, #0d1f33 24%, var(--app-bg) 54%);
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+  --app-gradient: var(--app-bg);
 }
 .device-frame[data-theme="light"] {
   --app-bg: #e9edf4;
@@ -41,14 +44,14 @@
     linear-gradient(180deg, #cfeef1 0%, #dce7f6 24%, var(--app-bg) 56%);
 }
 
-/* Domain accents — purpose-based color coding (theme-independent) */
-.dom-teal   { --accent: #19b8a6; --accent-rgb: 25, 184, 166; }
-.dom-sky    { --accent: #5a96d6; --accent-rgb: 90, 150, 214; }
-.dom-violet { --accent: #9a8fd0; --accent-rgb: 154, 143, 208; }
-.dom-green  { --accent: #3fae87; --accent-rgb: 63, 174, 135; }
-.dom-amber  { --accent: #dd9a3a; --accent-rgb: 221, 154, 58; }
-.dom-pink   { --accent: #dd7d99; --accent-rgb: 221, 125, 153; }
-.dom-gold   { --accent: #d9b551; --accent-rgb: 217, 181, 81; }
+/* Domain accents — purpose-based badge colours (dark-fintech palette) */
+.dom-teal   { --accent: #22ab94; --accent-rgb: 34, 171, 148; }
+.dom-sky    { --accent: #2962ff; --accent-rgb: 41, 98, 255; }
+.dom-violet { --accent: #9c4dff; --accent-rgb: 156, 77, 255; }
+.dom-green  { --accent: #30c98a; --accent-rgb: 48, 201, 138; }
+.dom-amber  { --accent: #f7a600; --accent-rgb: 247, 166, 0; }
+.dom-pink   { --accent: #f7525f; --accent-rgb: 247, 82, 95; }
+.dom-gold   { --accent: #ffce54; --accent-rgb: 255, 206, 84; }
 
 /* Light mode: accent used as text/icon needs a darker ink to stay readable on near-white.
    Only --accent (foreground) is darkened; --accent-rgb tints stay the same hue. */
@@ -71,7 +74,7 @@
   gap: 8px;
   padding: 9px 14px 9px 11px;
   border-radius: 12px;
-  font-family: 'Manrope', system-ui, sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -98,37 +101,31 @@
   .wv-reset-btn span { display: none; }
 }
 
-/* ---------- glass surfaces ---------- */
+/* ---------- flat surfaces ---------- */
 .wv-glass {
-  background: linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-  -webkit-backdrop-filter: blur(16px) saturate(1.15);
-  backdrop-filter: blur(16px) saturate(1.15);
+  background: var(--surface);
   border: 1px solid var(--hairline);
-  box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
+  border-radius: 14px;
 }
 
-/* purpose-tinted glass tile — the reusable card */
+/* flat Longview card — the reusable tile */
 .wv-tile {
   position: relative; display: block; text-decoration: none;
-  border-radius: 18px; padding: 16px; overflow: hidden;
-  background:
-    radial-gradient(130% 120% at 0% 0%, rgba(var(--accent-rgb), 0.10), transparent 52%),
-    linear-gradient(160deg, var(--glass-top), var(--glass-bot));
-  -webkit-backdrop-filter: blur(14px) saturate(1.1);
-  backdrop-filter: blur(14px) saturate(1.1);
-  border: 1px solid rgba(var(--accent-rgb), 0.18);
-  box-shadow: inset 0 1px 0 var(--hi-glow), var(--shadow);
-  transition: transform 180ms var(--ease-out), border-color 180ms var(--ease-out);
+  border-radius: 14px; padding: var(--sp-4); overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out), background 160ms var(--ease-out);
 }
-.wv-tile:active { transform: scale(0.97); }
+.wv-tile:active { transform: scale(0.98); }
+.wv-tile:hover { border-color: var(--hairline-2); }
 .wv-tile .ic {
-  width: 42px; height: 42px; border-radius: 12px; flex: 0 0 auto;
+  width: 38px; height: 38px; border-radius: 10px; flex: 0 0 auto;
   display: flex; align-items: center; justify-content: center;
   background: rgba(var(--accent-rgb), 0.16); color: var(--accent); margin-bottom: 12px;
 }
-.wv-tile .ic svg { width: 22px; height: 22px; }
-.wv-tile .t { font-size: 14.5px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.015em; }
-.wv-tile .d { font-size: 11.5px; color: var(--text-mid); margin-top: 4px; line-height: 1.35; }
+.wv-tile .ic svg { width: 21px; height: 21px; }
+.wv-tile .t { font-size: 14.5px; font-weight: 600; color: var(--text-hi); letter-spacing: -0.01em; }
+.wv-tile .d { font-size: 12px; color: var(--text-mid); margin-top: 4px; line-height: 1.35; }
 
 /* ---------- header actions + theme toggle ---------- */
 .wv-actions { display: flex; align-items: center; gap: 10px; }
@@ -141,26 +138,21 @@
 .wv-theme-toggle:active { transform: scale(0.9); }
 .wv-theme-toggle svg { width: 19px; height: 19px; }
 
-/* ---------- bottom tab bar — floating capsule (Revolut-style) ---------- */
+/* ---------- bottom tab bar — flat (TradingView-style) ---------- */
 .wv-tabbar {
   position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-  height: 66px;
-  padding: 8px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 9px 6px calc(11px + env(safe-area-inset-bottom, 0px));
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: stretch;
-  gap: 4px;
-  border-radius: 26px;
+  gap: 0;
   background: var(--tab-bg);
-  border: 1px solid var(--hairline);
-  box-shadow:
-    inset 0 1px 0 var(--hi-glow),
-    0 6px 20px rgba(0, 0, 0, 0.18);
-  backdrop-filter: blur(22px) saturate(1.2);
-  -webkit-backdrop-filter: blur(22px) saturate(1.2);
+  border-top: 1px solid var(--hairline);
+  backdrop-filter: blur(20px) saturate(1.1);
+  -webkit-backdrop-filter: blur(20px) saturate(1.1);
   z-index: 1200;
 }
 
@@ -172,8 +164,8 @@
   justify-content: center;
   gap: 4px;
   text-decoration: none;
-  color: var(--text-mid);
-  border-radius: 20px;
+  color: var(--text-lo);
+  border-radius: 0;
   padding: 4px 0;
   transition: color 200ms var(--ease-out), transform 180ms var(--ease-out), background 220ms var(--ease-out);
 }
@@ -200,25 +192,13 @@
   letter-spacing: 0.01em;
 }
 
-/* active item — filled rounded pill behind icon + label */
+/* active item — white, no pill (TradingView) */
 .wv-tab.active {
   color: var(--text-hi);
-  background:
-    radial-gradient(120% 120% at 50% 0%, rgba(25, 184, 166, 0.16), transparent 60%),
-    rgba(255, 255, 255, 0.07);
-  box-shadow: inset 0 1px 0 var(--hi-glow);
+  background: none;
+  box-shadow: none;
 }
-
-.device-frame[data-theme="light"] .wv-tab.active {
-  background:
-    radial-gradient(120% 120% at 50% 0%, rgba(0, 188, 163, 0.14), transparent 60%),
-    rgba(20, 32, 46, 0.06);
-}
-
-.wv-tab.active .wv-tab-ic { color: #19b8a6; }
-
-.device-frame[data-theme="light"] .wv-tab.active .wv-tab-ic { color: #00bca3; }
-
+.wv-tab.active .wv-tab-ic { color: var(--text-hi); }
 .wv-tab.active .wv-tab-ic svg { stroke-width: 2.1; }
 
 /* ---------- shared hub layout primitives ---------- */
@@ -226,7 +206,7 @@
   background: var(--app-gradient);
   background-attachment: local;
   color: var(--text-hi);
-  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -254,9 +234,9 @@
 }
 
 .wv-page-title {
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   color: var(--text-hi);
   margin-top: 2px;
 }
@@ -283,31 +263,153 @@
 }
 
 .wv-section-title {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--text-hi);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 .wv-see-all {
-  font-size: 12px;
-  font-weight: 600;
-  color: #19b8a6;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-mid);
   text-decoration: none;
 }
-.device-frame[data-theme="light"] .wv-see-all { color: #0c7568; }
 
 .wv-badge-new {
   display: inline-block;
   padding: 2px 7px;
-  border-radius: 999px;
-  background: #19b8a6;
-  color: #04201b;
+  border-radius: 5px;
+  background: rgba(34, 171, 148, 0.16);
+  color: var(--green);
   font-size: 9.5px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+
+/* ============================================================
+   LONGVIEW COMPONENT LIBRARY (.lv-*)
+   ============================================================ */
+.mono { font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; }
+.up { color: var(--green); }
+.dn { color: var(--red); }
+
+.lv-pills { display: flex; gap: var(--sp-2); overflow-x: auto; margin: 0 -18px var(--sp-3); padding: 0 18px 2px; }
+.lv-pills::-webkit-scrollbar { height: 0; }
+.lv-pill { flex: 0 0 auto; font-size: 13.5px; font-weight: 500; color: var(--text-mid); background: var(--surface); border: 1px solid var(--hairline); border-radius: 999px; padding: 8px 15px; cursor: pointer; white-space: nowrap; transition: background 140ms var(--ease-out); }
+.lv-pill.on { color: #0c0c0e; background: #ececed; border-color: #ececed; font-weight: 600; }
+
+.lv-badge { width: 30px; height: 30px; border-radius: 50%; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 10px; color: #0c0c0e; }
+
+.lv-mcard { position: relative; overflow: hidden; display: block; text-decoration: none; color: var(--text-hi); background: var(--surface); border: 1px solid var(--hairline); border-radius: 15px; padding: 14px 14px 0; height: 140px; transition: border-color 160ms var(--ease-out); }
+.lv-mcard:hover { border-color: var(--hairline-2); }
+.lv-mcard .mc-top { display: flex; align-items: center; justify-content: space-between; }
+.lv-mcard .mc-chg { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; }
+.lv-mcard .mc-name { position: relative; z-index: 1; font-size: 14px; font-weight: 600; margin-top: 10px; letter-spacing: -0.01em; }
+.lv-mcard .mc-val { position: relative; z-index: 1; font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; font-size: 17px; font-weight: 600; margin-top: 2px; }
+.lv-mcard .mc-sub { position: relative; z-index: 1; font-size: 11px; color: var(--text-mid); margin-top: 2px; }
+.lv-mcard .mc-spark { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 34px; display: block; z-index: 0; }
+
+.lv-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
+.lv-action { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); padding: 15px 6px; background: var(--surface); border: 1px solid var(--hairline); border-radius: 13px; text-decoration: none; color: var(--text-hi); transition: background 140ms var(--ease-out), transform 120ms var(--ease-out); }
+.lv-action:active { transform: scale(0.98); }
+.lv-action:hover { background: var(--surface-h); }
+.lv-action svg { width: 23px; height: 23px; stroke: currentColor; stroke-width: 1.7; fill: none; }
+.lv-action span { font-size: 12.5px; font-weight: 500; }
+
+.lv-promo { position: relative; border-radius: 16px; padding: 1.5px; background: linear-gradient(120deg, #f7525f, #9c4dff 50%, #2962ff); text-decoration: none; display: block; }
+.lv-promo .inner { background: #141418; border-radius: 14.5px; padding: 15px 16px; display: flex; align-items: center; gap: 13px; }
+.lv-promo .p-ic { width: 38px; height: 38px; border-radius: 10px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
+.lv-promo .p-ic svg { width: 21px; height: 21px; stroke-width: 1.8; fill: none; }
+.lv-promo .p-t { font-size: 14.5px; font-weight: 600; color: var(--text-hi); }
+.lv-promo .p-d { font-size: 12.5px; color: var(--text-mid); margin-top: 2px; line-height: 1.35; }
+.lv-promo .arr { margin-left: auto; color: var(--text-mid); font-size: 20px; }
+
+.lv-story { display: flex; gap: 13px; padding: 14px 2px; border-bottom: 1px solid var(--hairline); text-decoration: none; color: var(--text-hi); }
+.lv-story .s-ic { width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
+.lv-story .s-ic svg { width: 18px; height: 18px; stroke-width: 1.9; fill: none; }
+.lv-story .s-meta { font-size: 11.5px; color: var(--text-mid); }
+.lv-story .s-meta b { color: var(--green); font-weight: 600; }
+.lv-story .s-head { font-size: 14.5px; font-weight: 500; line-height: 1.3; margin-top: 3px; letter-spacing: -0.01em; }
+
+/* ── Buttons ───────────────────────────────────────────────── */
+.lv-cta { display: block; width: 100%; text-align: center; text-decoration: none; cursor: pointer;
+  border: none; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 15.5px;
+  color: #06120f; padding: 15px; border-radius: 12px; background: var(--green);
+  transition: transform 120ms var(--ease-out), filter 150ms var(--ease-out); }
+.lv-cta:hover { filter: brightness(1.08); }
+.lv-cta:active { transform: scale(0.98); }
+.lv-cta[disabled], .lv-cta.is-disabled { opacity: 0.4; pointer-events: none; }
+
+.lv-cta-framed { position: relative; display: block; width: 100%; border-radius: 13px; padding: 1.5px;
+  background: linear-gradient(120deg, #f7525f, #9c4dff 50%, #2962ff); text-decoration: none; cursor: pointer;
+  border: none; transition: transform 120ms var(--ease-out); }
+.lv-cta-framed:active { transform: scale(0.98); }
+.lv-cta-framed .inner { display: flex; align-items: center; justify-content: center; gap: 9px;
+  background: #141418; border-radius: 11.5px; padding: 14px; color: var(--text-hi); font-weight: 600; font-size: 15px; }
+.lv-cta-framed .inner svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.9; fill: none; }
+
+.lv-cta-ghost { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  text-align: center; text-decoration: none; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600; font-size: 15px; color: var(--text-hi); padding: 14px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--hairline); transition: background 140ms var(--ease-out), transform 120ms var(--ease-out); }
+.lv-cta-ghost:hover { background: var(--surface-h); }
+.lv-cta-ghost:active { transform: scale(0.98); }
+.lv-cta-ghost svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.9; fill: none; }
+
+.lv-cta-text { display: inline-block; background: none; border: none; cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: 14px; color: var(--text-mid);
+  padding: 8px; text-decoration: none; }
+.lv-cta-text:active { opacity: 0.6; }
+
+.lv-foot { position: sticky; bottom: 0; padding: 14px 0 calc(18px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--app-bg) 62%, transparent); display: flex; flex-direction: column; gap: 9px; }
+
+/* ── Segmented control (white = selected) ──────────────────── */
+.lv-seg { display: flex; gap: 4px; padding: 4px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 12px; }
+.lv-seg-btn { flex: 1; min-width: 0; padding: 9px 6px; border: none; background: none; cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-mid);
+  border-radius: 9px; transition: background 140ms var(--ease-out), color 140ms var(--ease-out); }
+.lv-seg-btn:active { transform: scale(0.97); }
+.lv-seg-btn.on { background: #ececed; color: #0c0c0e; font-weight: 600; }
+
+/* ── Input ─────────────────────────────────────────────────── */
+.lv-input { width: 100%; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 12px;
+  padding: 13px 14px; font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; color: var(--text-hi);
+  outline: none; transition: border-color 140ms var(--ease-out); }
+.lv-input::placeholder { color: var(--text-lo); }
+.lv-input:focus { border-color: var(--hairline-2); }
+
+/* ── Key-data rows ─────────────────────────────────────────── */
+.lv-data { display: flex; align-items: baseline; justify-content: space-between; padding: 13px 0; border-bottom: 1px solid var(--hairline); }
+.lv-data:last-child { border-bottom: none; }
+.lv-data .k { font-size: 14px; color: var(--text-mid); }
+.lv-data .v { font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; font-size: 15px; font-weight: 600; color: var(--text-hi); }
+.lv-data .v .u { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 500; color: var(--text-mid); margin-left: 4px; }
+
+/* ── Notice (tinted callout) ───────────────────────────────── */
+.lv-notice { display: flex; align-items: center; gap: 11px; padding: 12px 13px; border-radius: 14px;
+  background: rgba(var(--accent-rgb, 156, 77, 255), 0.10); border: 1px solid rgba(var(--accent-rgb, 156, 77, 255), 0.22);
+  text-decoration: none; }
+.lv-notice .n-ic { width: 30px; height: 30px; border-radius: 9px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+  background: rgba(var(--accent-rgb, 156, 77, 255), 0.16); color: var(--accent, #9c4dff); }
+.lv-notice .n-ic svg { width: 17px; height: 17px; stroke: currentColor; stroke-width: 1.9; fill: none; }
+.lv-notice .n-body { flex: 1; min-width: 0; }
+.lv-notice .n-meta { font-size: 11px; color: var(--text-mid); }
+.lv-notice .n-head { font-size: 13.5px; font-weight: 500; color: var(--text-hi); line-height: 1.35; margin-top: 1px; letter-spacing: -0.01em; }
+.lv-notice .n-arr { margin-left: auto; color: var(--text-mid); font-size: 19px; flex: 0 0 auto; }
+
+/* ── Modal sheet (create / add / full-screen task) ─────────── */
+@keyframes lv-sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.lv-sheet { position: absolute; inset: 0; z-index: 40; background: var(--app-bg); display: flex; flex-direction: column;
+  border-radius: 20px 20px 0 0; overflow: hidden; animation: lv-sheet-up 280ms var(--ease-out); }
+.lv-sheet-handle { width: 36px; height: 4px; border-radius: 99px; background: var(--hairline-2); margin: 8px auto 0; flex: 0 0 auto; }
+.lv-sheet-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 18px 6px; flex: 0 0 auto; }
+.lv-sheet-bar .step { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-mid); }
+.lv-sheet-close { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--hairline); background: var(--surface);
+  color: var(--text-mid); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.lv-sheet-close svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
 
 /* ============================================================
    RESPONSIVE — fill real phone screens (no floating frame)

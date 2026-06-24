@@ -6,23 +6,20 @@
   <title>WealthVision — Screen 13: Tax-Advantaged Accounts</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
-    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
-    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
-    .device-frame{--act1:#3fae87;}
-    .device-frame[data-theme="light"]{--act1:#0e8f63;}
-    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
-    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    .device-frame{--c-red:#f7525f;--c-amber:#f7a600;--c-peri:#2962ff;--c-violet2:#9c4dff;--c-val:#ececed;--c-valb:#ececed}
+    .device-frame{--act1:#22ab94;}
+    .device-frame{--s-bg:#0c0c0e;--s-hi:#ececed;--s-mid:#8e8e95;--s-sec:#c5c5c9;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    body{background:#080a0e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa6);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25)}
+    body{background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid rgba(255,255,255,0.07);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25)}
     .screen{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
     .top-nav{padding:56px 24px 12px;display:flex;align-items:center;gap:14px;flex-shrink:0}
     .back-btn{width:36px;height:36px;border-radius:50%;background:var(--wa6);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
     .back-btn svg{width:18px;height:18px;stroke:var(--s-sec);stroke-width:2;fill:none}
     .nav-title{flex:1;font-size:20px;font-weight:700;color:var(--s-hi)}
-    .nav-counter{font-size:13px;font-weight:600;color:var(--s-mid);font-variant-numeric:tabular-nums}
+    .nav-counter{font-size:13px;font-weight:600;color:var(--s-mid);font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
     .deck-viewport{flex:1;position:relative;overflow:hidden;touch-action:pan-y}
     .deck-track{display:flex;height:100%;will-change:transform;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
     .deck-track.dragging{transition:none}
@@ -30,34 +27,34 @@
     .card::-webkit-scrollbar{display:none}
     .pagination{display:flex;justify-content:center;align-items:center;gap:8px;padding:16px 0 36px;flex-shrink:0}
     .dot{width:8px;height:8px;border-radius:50%;background:var(--wa12);transition:all 0.35s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
-    .dot.active{width:24px;border-radius:4px;background:#3fae87}
-    .section-badge{display:inline-flex;padding:4px 12px;border-radius:8px;background:rgba(63, 174, 135,0.10);font-size:11px;font-weight:600;color:var(--act1);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
+    .dot.active{width:24px;border-radius:4px;background:#9c4dff}
+    .section-badge{display:inline-flex;padding:4px 12px;border-radius:8px;background:rgba(156,77,255,0.12);font-size:11px;font-weight:600;color:#9c4dff;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
     .section-title{font-size:22px;font-weight:800;color:var(--s-hi);line-height:1.25;margin-bottom:6px;letter-spacing:-0.02em}
     .section-sub{font-size:14px;color:var(--s-mid);line-height:1.5;margin-bottom:20px}
     .swipe-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:auto;padding:14px 0 4px;font-size:12px;color:var(--wa20);animation:hintPulse 2s ease-in-out infinite}
     .swipe-hint svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none}
     @keyframes hintPulse{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:.8;transform:translateX(4px)}}
 
-    .content-card{background:var(--wa3);border:1px solid var(--wa6);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .content-card{background:#1b1b1f;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
     .insight-box{margin-top:14px;padding:14px;border-radius:12px;font-size:14px;line-height:1.5;text-align:center}
-    .insight-box.red{background:rgba(255,180,171,0.06);border:1px solid rgba(255,180,171,0.12);color:var(--c-red)}
-    .insight-box.teal{background:rgba(63, 174, 135,0.07);border:1px solid rgba(63, 174, 135,0.14);color:var(--act1)}
+    .insight-box.red{background:rgba(247,82,95,0.08);border:1px solid rgba(247,82,95,0.18);color:var(--c-red)}
+    .insight-box.teal{background:rgba(34,171,148,0.08);border:1px solid rgba(34,171,148,0.18);color:var(--act1)}
 
     /* Tax leak waterfall */
     .waterfall{display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center;padding:8px 0}
     .wf-row{display:flex;align-items:center;gap:12px}
     .wf-label{width:80px;font-size:12px;color:var(--s-mid);text-align:right}
     .wf-bar-track{flex:1;height:36px;background:var(--wa4);border-radius:8px;overflow:hidden;position:relative}
-    .wf-bar{height:100%;border-radius:8px;display:flex;align-items:center;padding-left:12px;font-size:14px;font-weight:700;transition:width 0.8s cubic-bezier(0.16,1,0.3,1)}
-    .wf-bar.earned{background:#c2c6e4;color:#0a0e14}
-    .wf-bar.tax{background:#ffb4ab;color:#0a0e14}
-    .wf-bar.invested{background:#ffc107;color:#0a0e14}
-    .wf-bar.sheltered{background:#3fae87;color:#04231a}
+    .wf-bar{height:100%;border-radius:8px;display:flex;align-items:center;padding-left:12px;font-size:14px;font-weight:700;font-family:'IBM Plex Mono',monospace;transition:width 0.8s cubic-bezier(0.16,1,0.3,1)}
+    .wf-bar.earned{background:#ececed;color:#0c0c0e}
+    .wf-bar.tax{background:#f7525f;color:#0c0c0e}
+    .wf-bar.invested{background:#f7a600;color:#0c0c0e}
+    .wf-bar.sheltered{background:#22ab94;color:#04201b}
     .wf-arrow{text-align:center;font-size:16px;color:var(--s-mid);padding:2px 0}
 
     /* Account cards */
     .account-cards{display:flex;flex-direction:column;gap:12px;flex:1}
-    .acc-card{border-radius:14px;padding:16px;border:1px solid var(--wa6)}
+    .acc-card{border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,0.07)}
     .acc-card .acc-name{font-size:15px;font-weight:700;color:var(--s-hi);margin-bottom:4px;display:flex;align-items:center;gap:8px}
     .acc-card .acc-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px}
     .acc-card .acc-desc{font-size:13px;color:var(--s-mid);line-height:1.5;margin-bottom:8px}
@@ -72,17 +69,17 @@
     .legend-left{display:flex;align-items:center;gap:8px}
     .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
     .legend-name{font-size:13px;color:var(--s-sec)}
-    .legend-val{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+    .legend-val{font-size:15px;font-weight:700;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
 
     /* Takeaway */
-    .takeaway-card{background:linear-gradient(135deg,rgba(2,49,222,0.12),rgba(63, 174, 135,0.07));border:1px solid rgba(63, 174, 135,0.16);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .takeaway-card{background:#1b1b1f;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
     .order-list{display:flex;flex-direction:column;gap:10px;flex:1}
     .order-item{display:flex;align-items:center;gap:12px;padding:14px;background:var(--wa4);border-radius:12px}
-    .order-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+    .order-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:'IBM Plex Mono',monospace;flex-shrink:0}
     .order-info{flex:1}
     .order-name{font-size:14px;font-weight:600;color:var(--s-hi)}
     .order-why{font-size:12px;color:var(--s-mid);margin-top:2px}
-    .cta-btn{width:100%;height:56px;border:none;border-radius:14px;background:linear-gradient(135deg,#3fae87,#16a878);color:#04231a;font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:auto;flex-shrink:0}
+    .cta-btn{width:100%;height:56px;border:none;border-radius:14px;background:#22ab94;color:#04201b;font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:auto;flex-shrink:0}
     .cta-btn:active{transform:scale(0.98)}
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
@@ -139,18 +136,18 @@
         <div class="section-title">Three accounts<br>the IRS wants you<br>to ignore</div>
         <div class="section-sub">Each works differently. All save you thousands.</div>
         <div class="account-cards">
-          <div class="acc-card" style="background:rgba(187,195,255,0.06)">
-            <div class="acc-name">401(k) / 403(b) <span class="acc-tag" style="background:rgba(187,195,255,0.15);color:var(--c-peri)">Pre-tax</span></div>
+          <div class="acc-card" style="background:#1b1b1f">
+            <div class="acc-name">401(k) / 403(b) <span class="acc-tag" style="background:rgba(41,98,255,0.16);color:var(--c-peri)">Pre-tax</span></div>
             <div class="acc-desc">Invest BEFORE taxes are taken. Pay taxes later when you withdraw in retirement (likely at a lower rate).</div>
             <div class="acc-limit">2026 limit: <strong>$23,500/year</strong> + employer match (free money)</div>
           </div>
-          <div class="acc-card" style="background:rgba(63, 174, 135,0.05)">
-            <div class="acc-name">Roth IRA <span class="acc-tag" style="background:rgba(63, 174, 135,0.14);color:var(--act1)">Tax-free growth</span></div>
+          <div class="acc-card" style="background:#1b1b1f">
+            <div class="acc-name">Roth IRA <span class="acc-tag" style="background:rgba(34,171,148,0.16);color:var(--act1)">Tax-free growth</span></div>
             <div class="acc-desc">Invest AFTER taxes. All growth and withdrawals are 100% tax-free forever. Best for young earners.</div>
             <div class="acc-limit">2026 limit: <strong>$7,000/year</strong> (income limits apply)</div>
           </div>
-          <div class="acc-card" style="background:rgba(255,193,7,0.04)">
-            <div class="acc-name">HSA <span class="acc-tag" style="background:rgba(255,193,7,0.12);color:var(--c-amber)">Triple tax-free</span></div>
+          <div class="acc-card" style="background:#1b1b1f">
+            <div class="acc-name">HSA <span class="acc-tag" style="background:rgba(247,166,0,0.16);color:var(--c-amber)">Triple tax-free</span></div>
             <div class="acc-desc">Tax-free in, tax-free growth, tax-free out for medical. The most powerful account — if you have a high-deductible plan.</div>
             <div class="acc-limit">2026 limit: <strong>$4,300 individual</strong> / $8,550 family</div>
           </div>
@@ -166,11 +163,11 @@
           <div class="chart-wrap"><canvas id="taxChart"></canvas></div>
           <div class="legend">
             <div class="legend-row">
-              <div class="legend-left"><div class="legend-dot" style="background:#3fae87"></div><span class="legend-name">Tax-advantaged (Roth)</span></div>
+              <div class="legend-left"><div class="legend-dot" style="background:#22ab94"></div><span class="legend-name">Tax-advantaged (Roth)</span></div>
               <span class="legend-val" style="color:var(--act1)" id="rothVal">$566,764</span>
             </div>
             <div class="legend-row">
-              <div class="legend-left"><div class="legend-dot" style="background:#ffb4ab"></div><span class="legend-name">Taxable account</span></div>
+              <div class="legend-left"><div class="legend-dot" style="background:#f7525f"></div><span class="legend-name">Taxable account</span></div>
               <span class="legend-val" style="color:var(--c-red)" id="taxableVal">$425,073</span>
             </div>
             <div class="legend-row">
@@ -192,21 +189,21 @@
         <div class="takeaway-card">
           <div class="order-list">
             <div class="order-item">
-              <div class="order-num" style="background:rgba(187,195,255,0.15);color:var(--c-peri)">1</div>
+              <div class="order-num" style="background:rgba(41,98,255,0.16);color:var(--c-peri)">1</div>
               <div class="order-info">
                 <div class="order-name">401(k) up to employer match</div>
                 <div class="order-why">It's literally free money. 100% return on day 1.</div>
               </div>
             </div>
             <div class="order-item">
-              <div class="order-num" style="background:rgba(255,193,7,0.15);color:var(--c-amber)">2</div>
+              <div class="order-num" style="background:rgba(247,166,0,0.16);color:var(--c-amber)">2</div>
               <div class="order-info">
                 <div class="order-name">HSA (if eligible)</div>
                 <div class="order-why">Triple tax advantage. Unmatched by any other account.</div>
               </div>
             </div>
             <div class="order-item">
-              <div class="order-num" style="background:rgba(63, 174, 135,0.16);color:var(--act1)">3</div>
+              <div class="order-num" style="background:rgba(34,171,148,0.16);color:var(--act1)">3</div>
               <div class="order-info">
                 <div class="order-name">Roth IRA (max it out)</div>
                 <div class="order-why">Tax-free growth forever. Best while your income is low.</div>
@@ -265,12 +262,12 @@ function drawTaxChart(){
   ctx.beginPath();ctx.moveTo(x(0),y(rothData[0]));
   for(let i=1;i<=years;i++)ctx.lineTo(x(i),y(rothData[i]));
   for(let i=years;i>=0;i--)ctx.lineTo(x(i),y(taxableData[i]));
-  ctx.closePath();ctx.fillStyle='rgba(63, 174, 135,0.09)';ctx.fill();
+  ctx.closePath();ctx.fillStyle='rgba(34,171,148,0.09)';ctx.fill();
   // Curves
   function drawCurve(data,color,w){ctx.beginPath();ctx.moveTo(x(0),y(data[0]));for(let i=1;i<=years;i++)ctx.lineTo(x(i),y(data[i]));ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineJoin='round';ctx.stroke()}
-  drawCurve(taxableData,'#ffb4ab',2);drawCurve(rothData,'#3fae87',3);
-  [[rothData,'#3fae87'],[taxableData,'#ffb4ab']].forEach(([d,col])=>{ctx.beginPath();ctx.arc(x(years),y(d[years]),4,0,Math.PI*2);ctx.fillStyle=col;ctx.fill()});
-  ctx.fillStyle='#83948f';ctx.font='11px Manrope';ctx.textAlign='center';
+  drawCurve(taxableData,'#f7525f',2);drawCurve(rothData,'#22ab94',3);
+  [[rothData,'#22ab94'],[taxableData,'#f7525f']].forEach(([d,col])=>{ctx.beginPath();ctx.arc(x(years),y(d[years]),4,0,Math.PI*2);ctx.fillStyle=col;ctx.fill()});
+  ctx.fillStyle='#8e8e95';ctx.font='11px IBM Plex Mono';ctx.textAlign='center';
   ctx.fillText('Now',x(0),H-6);ctx.fillText('15y',x(15),H-6);ctx.fillText('30y',x(30),H-6);
   document.getElementById('rothVal').textContent='$'+Math.round(rothData[years]).toLocaleString('en-US');
   document.getElementById('taxableVal').textContent='$'+Math.round(taxableData[years]).toLocaleString('en-US');

@@ -6,17 +6,14 @@
   <title>WealthVision — Compound Interest</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
-    .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
-    .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
-    .device-frame{--act1:#19b8a6;}
-    .device-frame[data-theme="light"]{--act1:#058b78;}
-    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
-    .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
+    .device-frame{--c-red:#f7525f;--c-amber:#f7a600;--c-peri:#789bff;--c-violet2:#9c4dff;--c-val:#ececed;--c-valb:#f7a600}
+    .device-frame{--act1:#22ab94;}
+    .device-frame{--s-bg:#0c0c0e;--s-hi:#ececed;--s-mid:#8e8e95;--s-sec:#c5c5c9;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    body{background:#080a0e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa6);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25)}
+    body{background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid var(--wa7);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25)}
     .screen{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
     .top-nav{padding:56px 24px 12px;display:flex;align-items:center;gap:14px;flex-shrink:0}
     .back-btn{width:36px;height:36px;border-radius:50%;background:var(--wa6);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -30,18 +27,18 @@
     .card::-webkit-scrollbar{display:none}
     .pagination{display:flex;justify-content:center;align-items:center;gap:8px;padding:16px 0 36px;flex-shrink:0}
     .dot{width:8px;height:8px;border-radius:50%;background:var(--wa12);transition:all 0.35s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
-    .dot.active{width:24px;border-radius:4px;background:#19b8a6}
-    .section-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:8px;background:rgba(25, 184, 166,0.08);font-size:11px;font-weight:600;color:var(--act1);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
+    .dot.active{width:24px;border-radius:4px;background:#9c4dff}
+    .section-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:8px;background:rgba(156,77,255,0.10);font-size:11px;font-weight:600;color:#9c4dff;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px}
     .section-title{font-size:22px;font-weight:800;color:var(--s-hi);line-height:1.25;margin-bottom:6px;letter-spacing:-0.02em}
     .section-sub{font-size:14px;color:var(--s-mid);line-height:1.5;margin-bottom:20px}
     .swipe-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:auto;padding:14px 0 4px;font-size:12px;color:var(--wa20);animation:hintPulse 2s ease-in-out infinite}
     .swipe-hint svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none}
     @keyframes hintPulse{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:.8;transform:translateX(4px)}}
 
-    .content-card{background:var(--wa3);border:1px solid var(--wa6);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .content-card{background:#1b1b1f;border:1px solid var(--wa7);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
     .hero-stat{text-align:center;padding:16px 0;flex:1;display:flex;flex-direction:column;justify-content:center}
     .hero-stat .label{font-size:13px;color:var(--s-mid);margin-bottom:6px}
-    .hero-stat .value{font-size:48px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-0.03em;line-height:1}
+    .hero-stat .value{font-size:44px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-0.02em;line-height:1}
     .hero-stat .context{font-size:14px;color:var(--s-mid);line-height:1.4;margin-top:8px}
 
     .chart-wrap{flex:1;min-height:180px;margin-bottom:16px;position:relative}
@@ -52,33 +49,33 @@
     .legend-left{display:flex;align-items:center;gap:8px}
     .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
     .legend-name{font-size:13px;color:var(--s-sec)}
-    .legend-val{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+    .legend-val{font-size:15px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-variant-numeric:tabular-nums;color:var(--s-hi)}
 
     .insight-box{margin-top:14px;padding:14px;border-radius:12px;font-size:14px;line-height:1.5;text-align:center}
-    .insight-box.teal{background:rgba(25, 184, 166,0.06);border:1px solid rgba(25, 184, 166,0.12);color:var(--act1)}
-    .insight-box.amber{background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.12);color:var(--c-amber)}
+    .insight-box.teal{background:rgba(34,171,148,0.06);border:1px solid rgba(34,171,148,0.12);color:var(--act1)}
+    .insight-box.amber{background:rgba(247,166,0,0.06);border:1px solid rgba(247,166,0,0.12);color:var(--c-amber)}
 
     .visual-row{display:flex;gap:10px;margin-bottom:16px}
-    .visual-col{flex:1;background:var(--wa3);border:1px solid var(--wa6);border-radius:12px;padding:16px 12px;text-align:center}
+    .visual-col{flex:1;background:#1b1b1f;border:1px solid var(--wa7);border-radius:12px;padding:16px 12px;text-align:center}
     .visual-col .vc-label{font-size:11px;color:var(--s-mid);margin-bottom:6px}
-    .visual-col .vc-val{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+    .visual-col .vc-val{font-size:20px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-0.01em;color:var(--s-hi)}
     .visual-col .vc-sub{font-size:10px;color:var(--s-mid);margin-top:4px}
 
     .double-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:16px}
-    .double-cell{aspect-ratio:1;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#0a0e14}
+    .double-cell{aspect-ratio:1;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#04201b}
 
-    .takeaway-card{background:linear-gradient(135deg,rgba(2,49,222,0.12),rgba(25, 184, 166,0.06));border:1px solid rgba(25, 184, 166,0.15);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
+    .takeaway-card{background:#1b1b1f;border:1px solid var(--wa7);border-radius:16px;padding:24px 20px;flex:1;display:flex;flex-direction:column}
     .takeaway-list{display:flex;flex-direction:column;gap:16px;flex:1}
     .takeaway-item{display:flex;gap:12px;align-items:flex-start}
-    .takeaway-num{width:28px;height:28px;border-radius:50%;background:rgba(25, 184, 166,0.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--act1);flex-shrink:0}
+    .takeaway-num{width:28px;height:28px;border-radius:50%;background:rgba(34,171,148,0.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--act1);flex-shrink:0}
     .takeaway-text{font-size:15px;color:var(--s-sec);line-height:1.55}
     .takeaway-text strong{color:var(--s-hi);font-weight:600}
-    .formula{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--wa3);border:1px solid var(--wa6);border-radius:12px;padding:16px;margin-bottom:16px}
+    .formula{display:flex;align-items:center;justify-content:center;gap:10px;background:#16161a;border:1px solid var(--wa7);border-radius:12px;padding:16px;margin-bottom:16px}
     .formula .fterm{text-align:center}
-    .formula .fterm .fv{font-size:18px;font-weight:800;color:var(--act1);font-variant-numeric:tabular-nums}
+    .formula .fterm .fv{font-size:18px;font-weight:700;color:var(--act1);font-variant-numeric:tabular-nums}
     .formula .fterm .fl{font-size:10px;color:var(--s-mid);margin-top:2px}
     .formula .fop{font-size:18px;color:var(--s-mid);font-weight:700}
-    .cta-btn{width:100%;height:56px;border:none;border-radius:14px;background:#19b8a6;color:#0a0e14;font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:auto;flex-shrink:0;text-decoration:none;display:flex;align-items:center;justify-content:center}
+    .cta-btn{width:100%;height:56px;border:none;border-radius:14px;background:#22ab94;color:#04201b;font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:auto;flex-shrink:0;text-decoration:none;display:flex;align-items:center;justify-content:center}
     .cta-btn:hover{filter:brightness(1.08)}
     .cta-btn:active{transform:scale(0.98)}
   </style>
@@ -105,7 +102,7 @@
           <div class="double-grid" id="doubleGrid"></div>
           <div class="hero-stat" style="padding:8px 0">
             <div class="label">Day 30</div>
-            <div class="value" style="color:var(--act1)">$5.3M</div>
+            <div class="value" style="color:var(--s-hi)">$5.4M</div>
             <div class="context">From a single penny — because each gain compounds on the last.</div>
           </div>
           <div class="insight-box amber">
@@ -118,22 +115,22 @@
       <!-- Card 2: Contributions vs Growth -->
       <div class="card" data-card="1">
         <div class="section-badge">2 / 4 — The Snowball</div>
-        <div class="section-title">You put in $72K.<br>It became $227K.</div>
+        <div class="section-title">You put in $72K.<br>It became $244K.</div>
         <div class="section-sub">$200/month for 30 years at 7%. The gap between the two lines is free money.</div>
         <div class="content-card">
           <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
           <div class="legend">
             <div class="legend-row">
-              <div class="legend-left"><div class="legend-dot" style="background:#19b8a6"></div><span class="legend-name">Total balance</span></div>
-              <span class="legend-val" style="color:var(--act1)">$227,413</span>
+              <div class="legend-left"><div class="legend-dot" style="background:#22ab94"></div><span class="legend-name">Total balance</span></div>
+              <span class="legend-val" style="color:var(--s-hi)">$243,994</span>
             </div>
             <div class="legend-row">
-              <div class="legend-left"><div class="legend-dot" style="background:#c2c6e4"></div><span class="legend-name">What you put in</span></div>
-              <span class="legend-val" style="color:var(--c-peri)">$72,000</span>
+              <div class="legend-left"><div class="legend-dot" style="background:#789bff"></div><span class="legend-name">What you put in</span></div>
+              <span class="legend-val" style="color:var(--s-hi)">$72,000</span>
             </div>
           </div>
           <div class="insight-box teal">
-            <strong>$155,413</strong> of it is growth you never had to earn — interest stacking on interest, year after year.
+            <strong>$171,994</strong> of it is growth you never had to earn — interest stacking on interest, year after year.
           </div>
         </div>
       </div>
@@ -148,12 +145,12 @@
           <div class="visual-row">
             <div class="visual-col">
               <div class="vc-label">Emma · invests 25–35</div>
-              <div class="vc-val" style="color:var(--act1)">$263K</div>
+              <div class="vc-val" style="color:var(--s-hi)">$263K</div>
               <div class="vc-sub">put in just $24,000</div>
             </div>
             <div class="visual-col">
               <div class="vc-label">Liam · invests 35–65</div>
-              <div class="vc-val" style="color:var(--c-peri)">$244K</div>
+              <div class="vc-val" style="color:var(--s-hi)">$244K</div>
               <div class="vc-sub">put in $72,000</div>
             </div>
           </div>
@@ -225,8 +222,8 @@ document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')goToCard(current
     const intensity=Math.min(1,(d-1)/29);
     const cell=document.createElement('div');
     cell.className='double-cell';
-    cell.style.background=`rgba(0,${Math.round(120+intensity*135)},${Math.round(110+intensity*102)},${0.25+intensity*0.6})`;
-    cell.style.color=intensity>0.45?'#04201b':'#9fb0ab';
+    cell.style.background=`rgba(34,${Math.round(120+intensity*51)},${Math.round(110+intensity*38)},${0.25+intensity*0.6})`;
+    cell.style.color=intensity>0.45?'#04201b':'#8e8e95';
     cell.textContent=d;
     let label;
     if(dollars>=1e6)label='$'+(dollars/1e6).toFixed(1)+'M';
@@ -258,18 +255,18 @@ function drawGrowthChart(){
   ctx.beginPath();ctx.moveTo(x(0),y(total[0]));
   for(let i=1;i<=years;i++)ctx.lineTo(x(i),y(total[i]));
   ctx.lineTo(x(years),H-pB);ctx.lineTo(x(0),H-pB);ctx.closePath();
-  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'rgba(25, 184, 166,0.28)');g.addColorStop(1,'rgba(25, 184, 166,0)');
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'rgba(34,171,148,0.3)');g.addColorStop(1,'rgba(34,171,148,0)');
   ctx.fillStyle=g;ctx.fill();
   // contrib area
   ctx.beginPath();ctx.moveTo(x(0),y(contrib[0]));
   for(let i=1;i<=years;i++)ctx.lineTo(x(i),y(contrib[i]));
   ctx.lineTo(x(years),H-pB);ctx.lineTo(x(0),H-pB);ctx.closePath();
-  const g2=ctx.createLinearGradient(0,0,0,H);g2.addColorStop(0,'rgba(187,195,255,0.22)');g2.addColorStop(1,'rgba(187,195,255,0)');
+  const g2=ctx.createLinearGradient(0,0,0,H);g2.addColorStop(0,'rgba(120,150,255,0.22)');g2.addColorStop(1,'rgba(120,150,255,0)');
   ctx.fillStyle=g2;ctx.fill();
   function line(data,col,w){ctx.beginPath();ctx.moveTo(x(0),y(data[0]));for(let i=1;i<=years;i++)ctx.lineTo(x(i),y(data[i]));ctx.strokeStyle=col;ctx.lineWidth=w;ctx.lineJoin='round';ctx.stroke()}
-  line(contrib,'#c2c6e4',2);
-  line(total,'#19b8a6',2.8);
-  ctx.fillStyle='#83948f';ctx.font='11px Manrope';
+  line(contrib,'#789bff',2);
+  line(total,'#22ab94',2.8);
+  ctx.fillStyle='#8e8e95';ctx.font='11px IBM Plex Mono';
   ctx.textAlign='left';ctx.fillText('Now',pL,H-5);
   ctx.textAlign='center';ctx.fillText('15y',x(15),H-5);
   ctx.textAlign='right';ctx.fillText('30y',W-pR,H-5);
@@ -297,10 +294,10 @@ function drawEarlyChart(){
   function x(i){return pL+(i/span)*(W-pL-pR)}
   function y(v){return pT+(H-pT-pB)-(v/maxV)*(H-pT-pB)}
   function line(data,col,w){ctx.beginPath();ctx.moveTo(x(0),y(data[0]));for(let i=1;i<=span;i++)ctx.lineTo(x(i),y(data[i]));ctx.strokeStyle=col;ctx.lineWidth=w;ctx.lineJoin='round';ctx.stroke()}
-  line(liam,'#c2c6e4',2.4);
-  line(emma,'#19b8a6',2.8);
-  [[emma,'#19b8a6'],[liam,'#c2c6e4']].forEach(([d,col])=>{ctx.beginPath();ctx.arc(x(span),y(d[span]),4,0,Math.PI*2);ctx.fillStyle=col;ctx.fill()});
-  ctx.fillStyle='#83948f';ctx.font='11px Manrope';
+  line(liam,'#789bff',2.4);
+  line(emma,'#22ab94',2.8);
+  [[emma,'#22ab94'],[liam,'#789bff']].forEach(([d,col])=>{ctx.beginPath();ctx.arc(x(span),y(d[span]),4,0,Math.PI*2);ctx.fillStyle=col;ctx.fill()});
+  ctx.fillStyle='#8e8e95';ctx.font='11px IBM Plex Mono';
   ctx.textAlign='left';ctx.fillText('25',pL,H-5);
   ctx.textAlign='center';ctx.fillText('35',x(10),H-5);
   ctx.textAlign='right';ctx.fillText('65',W-pR,H-5);

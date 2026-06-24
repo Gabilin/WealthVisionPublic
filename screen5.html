@@ -6,23 +6,23 @@
   <title>WealthVision — Screen 5: Simulator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     .device-frame{--c-red:#ffb4ab;--c-amber:#ffc107;--c-peri:#c2c6e4;--c-violet2:#cbc3e8;--c-val:#d7fff3;--c-valb:#ffecd6}
     .device-frame[data-theme="light"]{--c-red:#c83a2a;--c-amber:#9a7400;--c-peri:#4c54bf;--c-violet2:#6a4fe0;--c-val:#0c6b5b;--c-valb:#b5651d}
-    .device-frame{--act1:#19b8a6;}
+    .device-frame{--act1:#22ab94;}
     .device-frame[data-theme="light"]{--act1:#058b78;}
-    .device-frame{--s-bg:#10141a;--s-hi:#dfe2eb;--s-mid:#83948f;--s-sec:#b9cac4;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
+    .device-frame{--s-bg:#0c0c0e;--s-hi:#ececed;--s-mid:#8e8e95;--s-sec:#c5c5c9;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     .device-frame[data-theme="light"]{--s-bg:#f3f5fa;--s-hi:#15212c;--s-mid:#5a6873;--s-sec:#2f3b45;--wa1:rgba(20,32,46,0.035);--wa2:rgba(20,32,46,0.04);--wa3:rgba(20,32,46,0.05);--wa3b:rgba(20,32,46,0.055);--wa4:rgba(20,32,46,0.06);--wa5:rgba(20,32,46,0.08);--wa6:rgba(20,32,46,0.1);--wa7:rgba(20,32,46,0.12);--wa8:rgba(20,32,46,0.14);--wa10:rgba(20,32,46,0.17);--wa12:rgba(20,32,46,0.2);--wa15:rgba(20,32,46,0.24);--wa20:rgba(20,32,46,0.32)}
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #080a0e;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -75,8 +75,8 @@
       cursor: pointer;
       padding: 6px 12px;
       border-radius: 8px;
-      border: 1px solid rgba(25, 184, 166, 0.2);
-      background: rgba(25, 184, 166, 0.06);
+      border: 1px solid rgba(34, 171, 148, 0.2);
+      background: rgba(34, 171, 148, 0.06);
       transition: all 0.15s ease-out;
     }
     .nav-toggle:active { opacity: 0.6; }
@@ -96,13 +96,29 @@
       cursor: crosshair;
     }
 
+    /* ── Collapsible chart (hidden by default; numbers are the hero) ── */
+    .chart-toggle {
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      width: calc(100% - 32px); margin: 8px 16px 2px; padding: 11px;
+      background: var(--wa3); border: 1px solid var(--wa6); border-radius: 10px;
+      color: var(--s-mid); font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.14s ease-out, transform 0.12s ease-out;
+    }
+    .chart-toggle:active { transform: scale(0.98); }
+    .chart-toggle .chev { width: 15px; height: 15px; stroke: currentColor; stroke-width: 2; fill: none; transition: transform 0.24s ease-out; }
+    .chart-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+    .chart-legend { display: flex; gap: 16px; flex-wrap: wrap; padding: 10px 18px 0; }
+    .chart-legend span { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--s-mid); }
+    .chart-legend i { width: 12px; height: 3px; border-radius: 2px; display: inline-block; }
+    .chart-legend i.dash { height: 0; width: 13px; border-radius: 0; border-top: 2px dashed #f7525f; }
+
     /* Tooltip */
     .chart-tooltip {
       position: absolute;
       top: 8px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(16, 20, 26, 0.92);
+      background: rgba(18, 18, 22, 0.95);
       border: 1px solid var(--wa10);
       border-radius: 12px;
       padding: 10px 14px;
@@ -121,9 +137,10 @@
     }
     .tooltip-total {
       font-size: 16px;
-      font-weight: 900;
-      color:var(--c-val);
+      font-weight: 600;
+      color: var(--s-hi);
       margin-top: 2px;
+      font-family: 'IBM Plex Mono', monospace;
       font-variant-numeric: tabular-nums;
     }
     .tooltip-detail {
@@ -159,8 +176,9 @@
     }
     .control-value {
       font-size: 15px;
-      font-weight: 700;
-      color:var(--c-val);
+      font-weight: 600;
+      color: var(--s-hi);
+      font-family: 'IBM Plex Mono', monospace;
       font-variant-numeric: tabular-nums;
     }
 
@@ -180,19 +198,19 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #19b8a6;
+      background: #22ab94;
       cursor: pointer;
       border: 3px solid var(--s-bg);
-      box-shadow: 0 0 0 1px rgba(25, 184, 166, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 0 1px rgba(34, 171, 148, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
     }
     .slider::-moz-range-thumb {
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #19b8a6;
+      background: #22ab94;
       cursor: pointer;
       border: 3px solid var(--s-bg);
-      box-shadow: 0 0 0 1px rgba(25, 184, 166, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 0 1px rgba(34, 171, 148, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     /* ── Segmented control ── */
@@ -209,7 +227,7 @@
       padding: 8px 0;
       border: none;
       background: transparent;
-      font-family: 'Manrope', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 13px;
       font-weight: 500;
       color: var(--s-mid);
@@ -218,8 +236,8 @@
       transition: all 0.15s ease-out;
     }
     .seg-btn.active {
-      background: rgba(25, 184, 166, 0.12);
-      color:var(--act1);
+      background: #ececed;
+      color: #0c0c0e;
       font-weight: 600;
     }
     .seg-btn:active { transform: scale(0.97); }
@@ -243,13 +261,14 @@
     }
     .result-value {
       font-size: 15px;
-      font-weight: 700;
-      color:var(--c-val);
+      font-weight: 600;
+      color: var(--s-hi);
+      font-family: 'IBM Plex Mono', monospace;
       font-variant-numeric: tabular-nums;
     }
     .result-value--hero {
       font-size: 24px;
-      font-weight: 900;
+      font-weight: 600;
       letter-spacing: -0.02em;
     }
     .result-value--earned {
@@ -269,17 +288,17 @@
       display: flex; align-items: center; gap: 8px;
       margin: 0 16px 4px; padding: 9px 12px;
       border-radius: 12px;
-      background: rgba(255, 180, 171, 0.10);
-      border: 1px solid rgba(255, 180, 171, 0.22);
+      background: rgba(34, 171, 148, 0.10);
+      border: 1px solid rgba(34, 171, 148, 0.22);
       font-size: 12.5px; font-weight: 600; color: var(--s-pri, #e8efec);
       letter-spacing: -0.01em;
     }
     .sim-context[hidden] { display: none; }
     .sim-context-dot {
       width: 7px; height: 7px; border-radius: 99px; flex: 0 0 auto;
-      background: #ffb4ab; box-shadow: 0 0 0 3px rgba(255,180,171,0.18);
+      background: #22ab94; box-shadow: 0 0 0 3px rgba(34,171,148,0.18);
     }
-    .sim-context b { color: #ffb4ab; font-weight: 800; }
+    .sim-context b { color: #22ab94; font-weight: 800; }
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
 </head>
@@ -291,7 +310,7 @@
     <div class="nav-bar">
       <span class="nav-back">&#8592;</span>
       <span class="nav-title">Simulator</span>
-      <span class="nav-toggle">Compare</span>
+      <span class="nav-back" style="visibility:hidden" aria-hidden="true">&#8592;</span>
     </div>
 
     <div class="sim-context" id="simContext" hidden>
@@ -299,12 +318,24 @@
       <span id="simContextText">Simulating your plan</span>
     </div>
 
-    <div class="chart-area">
-      <canvas class="chart-canvas" id="chart"></canvas>
-      <div class="chart-tooltip" id="tooltip">
-        <div class="tooltip-year" id="ttYear">Year 15</div>
-        <div class="tooltip-total" id="ttTotal">$89,412</div>
-        <div class="tooltip-detail" id="ttDetail">put in: $36,000 &middot; earned: $53,412</div>
+    <button class="chart-toggle" id="chartToggle" aria-expanded="true">
+      <span class="ct-label">Hide projection chart</span>
+      <svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+
+    <div class="chart-collapse" id="chartCollapse">
+      <div class="chart-legend">
+        <span><i style="background:#22ab94"></i>Projected value</span>
+        <span><i style="background:#789bff"></i>Money you put in</span>
+        <span><i class="dash"></i>Your goal</span>
+      </div>
+      <div class="chart-area">
+        <canvas class="chart-canvas" id="chart"></canvas>
+        <div class="chart-tooltip" id="tooltip">
+          <div class="tooltip-year" id="ttYear">Year 15</div>
+          <div class="tooltip-total" id="ttTotal">$89,412</div>
+          <div class="tooltip-detail" id="ttDetail">put in: $36,000 &middot; earned: $53,412</div>
+        </div>
       </div>
     </div>
 
@@ -356,7 +387,7 @@
       <div class="results" id="results">
         <div class="result-row">
           <span class="result-label">Final value</span>
-          <span class="result-value result-value--hero" id="resFinal">$227,413</span>
+          <span class="result-value result-value--hero" id="resFinal">$243,994</span>
         </div>
         <div class="result-row">
           <span class="result-label">Total contributed</span>
@@ -364,13 +395,13 @@
         </div>
         <div class="result-row">
           <span class="result-label">Total earned (interest)</span>
-          <span class="result-value result-value--earned" id="resEarned">$155,413</span>
+          <span class="result-value result-value--earned" id="resEarned">$171,994</span>
         </div>
         <div class="result-row">
           <span class="result-label">Growth multiple</span>
           <span class="result-value" id="resMultiple">3.16&times;</span>
         </div>
-        <div class="result-insight" id="resInsight">That's <strong>$155K</strong> you never had to earn.</div>
+        <div class="result-insight" id="resInsight">That's <strong>$172K</strong> you never had to earn.</div>
       </div>
 
     </div>
@@ -467,13 +498,17 @@
   function drawChart() {
     const w = canvas.width / dpr;
     const h = canvas.height / dpr;
+    if (w <= 0 || h <= 0) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
     if (!chartData.length) return;
 
     const N = chartData.length;
-    const maxV = chartData[N - 1].total * 1.08 || 1;
+    // Scale the Y-axis to include the goal target, so the dashed "Your goal" line is
+    // always visible — even when the plan doesn't reach the goal within the horizon.
+    const peakV = chartData[N - 1].total;
+    const maxV = (goalTarget > 0 ? Math.max(peakV, goalTarget) : peakV) * 1.08 || 1;
     const padL = 16, padR = 16, padT = 10, padB = 28;
     const cL = padL, cR = w - padR, cT = padT, cB = h - padB;
     const cW = cR - cL, cH = cB - cT;
@@ -485,7 +520,7 @@
     ctx.lineJoin = 'round';
 
     // ── X-axis labels ──
-    ctx.font = '500 10px Manrope, sans-serif';
+    ctx.font = '500 10px IBM Plex Mono, sans-serif';
     ctx.fillStyle = 'rgba(131, 148, 143, 0.4)';
     ctx.textAlign = 'center';
     const labelCount = years <= 10 ? years : (years <= 30 ? Math.ceil(years / 5) : Math.ceil(years / 10));
@@ -500,7 +535,7 @@
     if (goalTarget > 0 && goalTarget < maxV) {
       const gy = yOf(goalTarget);
       ctx.setLineDash([6, 4]);
-      ctx.strokeStyle = 'rgba(255, 180, 171, 0.35)';
+      ctx.strokeStyle = 'rgba(247, 82, 95, 0.4)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(cL, gy);
@@ -508,32 +543,40 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      ctx.font = '600 10px Manrope, sans-serif';
-      ctx.fillStyle = 'rgba(255, 180, 171, 0.6)';
-      ctx.textAlign = 'right';
-      ctx.fillText('Goal: ' + fmtShort(goalTarget), cR - 8, gy - 6);
-
-      // Find crossing point
+      // Find where the projection reaches the goal
+      let crossYear = null, cx = null;
       for (let i = 1; i < N; i++) {
         if (chartData[i - 1].total < goalTarget && chartData[i].total >= goalTarget) {
           const frac = (goalTarget - chartData[i - 1].total) / (chartData[i].total - chartData[i - 1].total);
-          const cx = xOf(i - 1) + frac * (xOf(i) - xOf(i - 1));
-          // Pulsing dot
-          ctx.beginPath();
-          ctx.arc(cx, gy, 8, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(255, 180, 171, 0.15)';
-          ctx.fill();
-          ctx.beginPath();
-          ctx.arc(cx, gy, 3, 0, Math.PI * 2);
-          ctx.fillStyle = '#ffb4ab';
-          ctx.fill();
-
-          const crossYear = Math.round(chartData[i - 1].year + frac * (chartData[i].year - chartData[i - 1].year));
-          ctx.textAlign = 'center';
-          ctx.fillStyle = 'rgba(255, 180, 171, 0.7)';
-          ctx.fillText(`Year ${crossYear}`, cx, gy - 14);
+          cx = xOf(i - 1) + frac * (xOf(i) - xOf(i - 1));
+          crossYear = Math.round(chartData[i - 1].year + frac * (chartData[i].year - chartData[i - 1].year));
           break;
         }
+      }
+
+      // Crossing dot stays on the line, where you hit the goal
+      if (cx !== null) {
+        ctx.beginPath();
+        ctx.arc(cx, gy, 8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(247, 82, 95, 0.15)';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx, gy, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#f7525f';
+        ctx.fill();
+      }
+
+      // Two-row label pinned to the far left, where the rising lines are lowest — so it
+      // never collides with the chart or the right edge.
+      ctx.font = '600 10px IBM Plex Mono, sans-serif';
+      ctx.fillStyle = 'rgba(247, 82, 95, 0.85)';
+      ctx.textAlign = 'left';
+      const lx = cL + 2;
+      if (crossYear !== null) {
+        ctx.fillText('Goal ' + fmtShort(goalTarget), lx, Math.max(cT + 9, gy - 19));
+        ctx.fillText('Year ' + crossYear, lx, Math.max(cT + 19, gy - 7));
+      } else {
+        ctx.fillText('Goal ' + fmtShort(goalTarget), lx, Math.max(cT + 9, gy - 7));
       }
     }
 
@@ -544,9 +587,9 @@
     ctx.lineTo(xOf(N - 1), cB);
     ctx.closePath();
     const gI = ctx.createLinearGradient(0, cT, 0, cB);
-    gI.addColorStop(0, 'rgba(2, 49, 222, 0.45)');
-    gI.addColorStop(0.5, 'rgba(2, 49, 222, 0.18)');
-    gI.addColorStop(1, 'rgba(2, 49, 222, 0.04)');
+    gI.addColorStop(0, 'rgba(41, 98, 255, 0.45)');
+    gI.addColorStop(0.5, 'rgba(41, 98, 255, 0.18)');
+    gI.addColorStop(1, 'rgba(41, 98, 255, 0.04)');
     ctx.fillStyle = gI;
     ctx.fill();
 
@@ -561,9 +604,9 @@
     }
     ctx.closePath();
     const gT = ctx.createLinearGradient(0, cT, 0, cB);
-    gT.addColorStop(0, 'rgba(25, 184, 166, 0.32)');
-    gT.addColorStop(0.4, 'rgba(25, 184, 166, 0.12)');
-    gT.addColorStop(1, 'rgba(25, 184, 166, 0.02)');
+    gT.addColorStop(0, 'rgba(34, 171, 148, 0.32)');
+    gT.addColorStop(0.4, 'rgba(34, 171, 148, 0.12)');
+    gT.addColorStop(1, 'rgba(34, 171, 148, 0.02)');
     ctx.fillStyle = gT;
     ctx.fill();
 
@@ -573,7 +616,7 @@
       const x = xOf(i), y = yOf(chartData[i].contributions);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(187, 195, 255, 0.45)';
+    ctx.strokeStyle = 'rgba(120, 150, 255, 0.5)';
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
@@ -583,9 +626,9 @@
       const x = xOf(i), y = yOf(chartData[i].total);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(25, 184, 166, 0.15)';
+    ctx.strokeStyle = 'rgba(34, 171, 148, 0.15)';
     ctx.lineWidth = 8;
-    ctx.shadowColor = 'rgba(25, 184, 166, 0.18)';
+    ctx.shadowColor = 'rgba(34, 171, 148, 0.18)';
     ctx.shadowBlur = 10;
     ctx.stroke();
     ctx.shadowColor = 'transparent';
@@ -597,7 +640,7 @@
       const x = xOf(i), y = yOf(chartData[i].total);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = '#19b8a6';
+    ctx.strokeStyle = '#22ab94';
     ctx.lineWidth = 2.5;
     ctx.stroke();
 
@@ -618,13 +661,13 @@
       // Dot on total line
       ctx.beginPath();
       ctx.arc(px, yOf(d.total), 5, 0, Math.PI * 2);
-      ctx.fillStyle = '#19b8a6';
+      ctx.fillStyle = '#22ab94';
       ctx.fill();
 
       // Dot on contributions line
       ctx.beginPath();
       ctx.arc(px, yOf(d.contributions), 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#c2c6e4';
+      ctx.fillStyle = '#789bff';
       ctx.fill();
     }
   }
@@ -690,6 +733,19 @@
       freq = btn.dataset.freq;
       update();
     });
+  });
+
+  // ── Collapsible chart (shown by default) ──
+  const chartToggle = document.getElementById('chartToggle');
+  const chartCollapse = document.getElementById('chartCollapse');
+  const ctLabel = chartToggle.querySelector('.ct-label');
+  let chartShown = true;
+  chartToggle.addEventListener('click', () => {
+    chartShown = !chartShown;
+    chartCollapse.hidden = !chartShown;
+    chartToggle.setAttribute('aria-expanded', chartShown ? 'true' : 'false');
+    ctLabel.textContent = chartShown ? 'Hide projection chart' : 'Show projection chart';
+    if (chartShown) { sizeCanvas(); drawChart(); }
   });
 
   // ── Chart interaction (playhead) ──

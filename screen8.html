@@ -6,17 +6,17 @@
   <title>WealthVision — Screen 8: Goal Detail</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #080a0e;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Manrope', system-ui, sans-serif;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -27,8 +27,8 @@
       border-radius: 47px;
       overflow: hidden;
       position: relative;
-      background: #10141a;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #0c0c0e;
+      border: 1px solid rgba(255, 255, 255, 0.07);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
     }
 
@@ -61,11 +61,11 @@
       transition: background 0.2s;
     }
     .back-btn:hover { background: rgba(255,255,255,0.12); }
-    .back-btn svg { width: 18px; height: 18px; stroke: #b9cac4; stroke-width: 2; fill: none; }
+    .back-btn svg { width: 18px; height: 18px; stroke: #c5c5c9; stroke-width: 2; fill: none; }
     .nav-title {
       font-size: 16px;
       font-weight: 600;
-      color: #dfe2eb;
+      color: #ececed;
     }
     .more-btn {
       width: 36px;
@@ -81,7 +81,7 @@
       position: relative;
     }
     .more-btn:hover { background: rgba(255,255,255,0.12); }
-    .more-btn svg { width: 18px; height: 18px; fill: #b9cac4; }
+    .more-btn svg { width: 18px; height: 18px; fill: #c5c5c9; }
 
     /* Scrollable content */
     .scroll-content {
@@ -112,18 +112,17 @@
     }
     .ring-bg {
       fill: none;
-      stroke: rgba(255,255,255,0.06);
+      stroke: rgba(255,255,255,0.07);
       stroke-width: 10;
     }
     .ring-fill {
       fill: none;
-      stroke: #19b8a6;
+      stroke: #22ab94;
       stroke-width: 10;
       stroke-linecap: round;
       stroke-dasharray: 471.24;
       stroke-dashoffset: 471.24;
       transition: stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1);
-      filter: drop-shadow(0 0 6px rgba(25, 184, 166,0.3));
     }
     .ring-center {
       position: absolute;
@@ -135,31 +134,32 @@
     }
     .ring-amount {
       font-size: 24px;
-      font-weight: 900;
-      color: #dfe2eb;
+      font-weight: 600;
+      color: #ececed;
+      font-family: 'IBM Plex Mono', monospace;
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
     }
     .ring-target {
       font-size: 13px;
-      color: #83948f;
+      color: #8e8e95;
       margin-top: 2px;
       font-variant-numeric: tabular-nums;
     }
     .ring-pct {
       font-size: 14px;
       font-weight: 700;
-      color: #19b8a6;
+      color: #22ab94;
       margin-top: 6px;
     }
     .status-line {
       font-size: 14px;
-      color: #b9cac4;
+      color: #c5c5c9;
       text-align: center;
       line-height: 1.5;
     }
     .status-line strong {
-      color: #19b8a6;
+      color: #22ab94;
       font-weight: 700;
     }
 
@@ -171,30 +171,32 @@
       margin-bottom: 28px;
     }
     .stat-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: #1b1b1f;
+      border: 1px solid rgba(255,255,255,0.07);
       border-radius: 14px;
       padding: 16px;
+      margin-bottom: 0;
     }
     .stat-label {
       font-size: 12px;
-      color: #83948f;
+      color: #8e8e95;
       margin-bottom: 6px;
     }
     .stat-value {
       font-size: 18px;
-      font-weight: 700;
-      color: #dfe2eb;
+      font-weight: 600;
+      color: #ececed;
+      font-family: 'IBM Plex Mono', monospace;
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.01em;
     }
-    .stat-value.teal { color: #19b8a6; }
+    .stat-value.teal { color: #22ab94; }
 
     /* Timeline */
     .section-header {
       font-size: 14px;
       font-weight: 600;
-      color: #b9cac4;
+      color: #c5c5c9;
       margin-bottom: 16px;
       letter-spacing: 0.01em;
     }
@@ -210,7 +212,7 @@
       top: 6px;
       bottom: 6px;
       width: 2px;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.07);
       border-radius: 1px;
     }
     .tl-item {
@@ -225,30 +227,30 @@
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      background: #10141a;
+      background: #0c0c0e;
       border: 2px solid rgba(255,255,255,0.15);
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .tl-dot.active {
-      border-color: #19b8a6;
-      background: rgba(25, 184, 166,0.15);
+      border-color: #22ab94;
+      background: rgba(34, 171, 148,0.15);
     }
     .tl-dot.active::after {
       content: '';
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #19b8a6;
+      background: #22ab94;
     }
     .tl-dot.future {
       border-color: rgba(255,255,255,0.1);
       border-style: dashed;
     }
     .tl-dot.goal {
-      border-color: #19b8a6;
-      background: #19b8a6;
+      border-color: #22ab94;
+      background: #22ab94;
     }
     .tl-dot.goal::after {
       content: '';
@@ -258,22 +260,22 @@
     .tl-dot.goal svg {
       width: 10px;
       height: 10px;
-      stroke: #0a0e14;
+      stroke: #04201b;
       stroke-width: 3;
       fill: none;
     }
     .tl-label {
       font-size: 13px;
       font-weight: 600;
-      color: #dfe2eb;
+      color: #ececed;
       margin-bottom: 2px;
     }
     .tl-sub {
       font-size: 12px;
-      color: #83948f;
+      color: #8e8e95;
       font-variant-numeric: tabular-nums;
     }
-    .tl-label.teal { color: #19b8a6; }
+    .tl-label.teal { color: #22ab94; }
 
     /* Action buttons */
     .action-section {
@@ -288,7 +290,7 @@
       border-radius: 14px;
       border: none;
       cursor: pointer;
-      font-family: 'Manrope', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 14px;
       font-weight: 600;
       display: flex;
@@ -299,18 +301,18 @@
     }
     .action-btn svg { width: 18px; height: 18px; }
     .action-btn.primary {
-      background: #19b8a6;
-      color: #0a0e14;
+      background: #22ab94;
+      color: #04201b;
     }
-    .action-btn.primary svg { stroke: #0a0e14; fill: none; stroke-width: 2; }
+    .action-btn.primary svg { stroke: #04201b; fill: none; stroke-width: 2; }
     .action-btn.primary:hover { filter: brightness(1.08); }
     .action-btn.secondary {
-      background: rgba(255,255,255,0.04);
-      border: 1.5px solid rgba(255,255,255,0.08);
-      color: #dfe2eb;
+      background: #1b1b1f;
+      border: 1.5px solid rgba(255,255,255,0.07);
+      color: #ececed;
     }
-    .action-btn.secondary svg { stroke: #b9cac4; fill: none; stroke-width: 2; }
-    .action-btn.secondary:hover { background: rgba(255,255,255,0.07); }
+    .action-btn.secondary svg { stroke: #c5c5c9; fill: none; stroke-width: 2; }
+    .action-btn.secondary:hover { background: #24242a; }
 
     /* Lump sum panel */
     .lump-panel {
@@ -331,7 +333,7 @@
     }
     .lump-label {
       font-size: 12px;
-      color: #83948f;
+      color: #8e8e95;
       margin-bottom: 6px;
     }
     .lump-input-wrap::before {
@@ -341,43 +343,43 @@
       bottom: 15px;
       font-size: 15px;
       font-weight: 600;
-      color: #83948f;
+      color: #8e8e95;
       pointer-events: none;
     }
     .lump-input {
       width: 100%;
       height: 48px;
-      background: rgba(255,255,255,0.04);
-      border: 1.5px solid rgba(255,255,255,0.08);
+      background: #16161a;
+      border: 1.5px solid rgba(255,255,255,0.07);
       border-radius: 12px;
       padding: 0 14px 0 28px;
-      font-family: 'Manrope', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 15px;
       font-weight: 600;
-      color: #dfe2eb;
+      color: #ececed;
       outline: none;
     }
-    .lump-input:focus { border-color: rgba(25, 184, 166,0.5); }
+    .lump-input:focus { border-color: rgba(34, 171, 148,0.5); }
     .lump-apply {
       height: 48px;
       padding: 0 20px;
-      background: rgba(25, 184, 166,0.15);
-      color: #19b8a6;
+      background: rgba(34, 171, 148,0.15);
+      color: #22ab94;
       border: none;
       border-radius: 12px;
-      font-family: 'Manrope', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
       white-space: nowrap;
     }
-    .lump-apply:hover { background: rgba(25, 184, 166,0.2); }
+    .lump-apply:hover { background: rgba(34, 171, 148,0.2); }
 
     .lump-result {
       padding: 10px 0;
       font-size: 13px;
-      color: #19b8a6;
+      color: #22ab94;
       display: none;
     }
     .lump-result.show { display: block; }
@@ -386,7 +388,7 @@
     .slider-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(16,20,26,0.9);
+      background: rgba(12,12,14,0.9);
       z-index: 50;
       display: none;
       flex-direction: column;
@@ -395,7 +397,7 @@
     }
     .slider-overlay.show { display: flex; }
     .slider-sheet {
-      background: #1a1f28;
+      background: #1b1b1f;
       border-radius: 20px 20px 0 0;
       padding: 28px 24px 48px;
       animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1);
@@ -407,7 +409,7 @@
     .slider-sheet-title {
       font-size: 18px;
       font-weight: 700;
-      color: #dfe2eb;
+      color: #ececed;
       margin-bottom: 24px;
     }
     .slider-sheet-row {
@@ -421,7 +423,7 @@
       height: 4px;
       -webkit-appearance: none;
       appearance: none;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.07);
       border-radius: 2px;
       outline: none;
     }
@@ -430,21 +432,22 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #19b8a6;
+      background: #22ab94;
       cursor: pointer;
-      box-shadow: 0 0 8px rgba(25, 184, 166,0.3);
+      box-shadow: 0 0 0 4px #0c0c0e;
     }
     .slider-sheet-value {
       font-size: 22px;
-      font-weight: 900;
-      color: #19b8a6;
+      font-weight: 600;
+      color: #ececed;
+      font-family: 'IBM Plex Mono', monospace;
       font-variant-numeric: tabular-nums;
       min-width: 80px;
       text-align: right;
     }
     .slider-sheet-sub {
       font-size: 13px;
-      color: #83948f;
+      color: #8e8e95;
       margin-bottom: 24px;
       line-height: 1.5;
     }
@@ -456,10 +459,10 @@
       flex: 1;
       height: 52px;
       border-radius: 14px;
-      background: rgba(255,255,255,0.06);
-      border: none;
-      color: #b9cac4;
-      font-family: 'Manrope', sans-serif;
+      background: #1b1b1f;
+      border: 1px solid rgba(255,255,255,0.07);
+      color: #c5c5c9;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
@@ -468,10 +471,10 @@
       flex: 1;
       height: 52px;
       border-radius: 14px;
-      background: #19b8a6;
+      background: #22ab94;
       border: none;
-      color: #0a0e14;
-      font-family: 'Manrope', sans-serif;
+      color: #04201b;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
@@ -482,8 +485,8 @@
       position: absolute;
       right: 24px;
       top: 96px;
-      background: #1a1f28;
-      border: 1px solid rgba(255,255,255,0.08);
+      background: #1b1b1f;
+      border: 1px solid rgba(255,255,255,0.07);
       border-radius: 14px;
       padding: 6px;
       z-index: 60;
@@ -502,15 +505,15 @@
       background: none;
       width: 100%;
       cursor: pointer;
-      font-family: 'Manrope', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 14px;
-      color: #dfe2eb;
+      color: #ececed;
       transition: background 0.15s;
     }
-    .dropdown-item:hover { background: rgba(255,255,255,0.06); }
-    .dropdown-item svg { width: 16px; height: 16px; stroke: #b9cac4; stroke-width: 2; fill: none; }
-    .dropdown-item.danger { color: #ffb4ab; }
-    .dropdown-item.danger svg { stroke: #ffb4ab; }
+    .dropdown-item:hover { background: rgba(255,255,255,0.07); }
+    .dropdown-item svg { width: 16px; height: 16px; stroke: #c5c5c9; stroke-width: 2; fill: none; }
+    .dropdown-item.danger { color: #f7525f; }
+    .dropdown-item.danger svg { stroke: #f7525f; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(-8px); }
