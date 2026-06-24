@@ -63,6 +63,16 @@
 .device-frame[data-theme="light"] .dom-pink   { --accent: #a84e69; }
 .device-frame[data-theme="light"] .dom-gold   { --accent: #806600; }
 
+/* ---------- base: form controls inherit the screen font ----------
+   Browsers do NOT inherit font-family on <button>/<input>/<select>/<textarea>;
+   they fall back to a UA default (e.g. Arial). Without this, any button that
+   doesn't explicitly set font-family renders in the wrong typeface (e.g. the
+   dashboard "Start learning" button). One rule keeps typography consistent
+   app-wide. Explicit per-button font-family still wins (higher specificity). */
+button, input, select, textarea, optgroup {
+  font-family: inherit;
+}
+
 /* ---------- dev reset control (floats outside the phone frame) ---------- */
 .wv-reset-btn {
   position: fixed;
