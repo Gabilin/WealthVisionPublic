@@ -151,6 +151,46 @@
     .tool-card .t { font-size: 14px; font-weight: 600; color: var(--text-hi); letter-spacing: -0.01em; }
     .tool-card .d { font-size: 11.5px; color: var(--text-mid); margin-top: 4px; line-height: 1.35; }
     .tool-card .wv-badge-new { position: absolute; top: 13px; right: 13px; }
+
+    /* ── Payday routine check-in ── */
+    .pd-card { position: relative; border-radius: 16px; padding: 15px 16px 14px; margin-bottom: 18px;
+      background: var(--surface); border: 1px solid var(--hairline); overflow: hidden; }
+    .pd-card.due { border-color: rgba(var(--accent-rgb),0.34);
+      background: linear-gradient(180deg, rgba(var(--accent-rgb),0.07), rgba(var(--accent-rgb),0) 62%), var(--surface); }
+    .pd-top { display: flex; align-items: center; gap: 9px; }
+    .pd-ic { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      background: rgba(var(--accent-rgb),0.16); color: var(--accent); flex-shrink: 0; }
+    .pd-ic svg { width: 19px; height: 19px; }
+    .pd-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .pd-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-left: auto; animation: pdPulse 2s infinite; }
+    @keyframes pdPulse { 0% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb),0.5); } 70% { box-shadow: 0 0 0 7px rgba(var(--accent-rgb),0); } 100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb),0); } }
+    .pd-title { font-size: 16px; font-weight: 700; color: var(--text-hi); letter-spacing: -0.01em; margin-top: 11px; }
+    .pd-sub { font-size: 12.5px; color: var(--text-mid); margin-top: 4px; line-height: 1.45; }
+    .pd-sub b { color: var(--text-hi); font-weight: 700; }
+    .pd-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .pd-chip { font-size: 11.5px; padding: 5px 9px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--hairline); }
+    .pd-chip .pl { color: var(--text-mid); margin-right: 5px; }
+    .pd-chip b { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--text-hi); }
+    .pd-actions { display: flex; gap: 8px; margin-top: 14px; }
+    .pd-btn { border: none; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 14px;
+      padding: 12px; border-radius: 11px; letter-spacing: -0.01em; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      transition: transform 140ms ease, filter 140ms ease; }
+    .pd-btn:active { transform: scale(0.98); }
+    .pd-btn svg { width: 16px; height: 16px; }
+    .pd-primary { flex: 1; background: var(--green); color: #04201b; }
+    .pd-primary:hover { filter: brightness(1.06); }
+    .pd-ghost { flex: 0 0 auto; background: var(--surface-2); color: var(--text-mid); border: 1px solid var(--hairline); }
+    .pd-ghost:hover { color: var(--text-hi); }
+    .pd-done { display: flex; align-items: center; gap: 11px; }
+    .pd-check { width: 30px; height: 30px; border-radius: 50%; background: rgba(var(--green-rgb),0.16); color: var(--green);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pd-check svg { width: 16px; height: 16px; }
+    .pd-done-txt { flex: 1; min-width: 0; }
+    .pd-done-title { font-size: 13.5px; font-weight: 700; color: var(--text-hi); }
+    .pd-done-sub { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
+    .pd-undo { background: none; border: none; cursor: pointer; font-family: inherit; color: var(--text-mid); font-size: 12px; font-weight: 600; padding: 4px; }
+    .pd-undo:hover { color: var(--text-hi); }
   </style>
 </head>
 <body data-wv-tab="home">
@@ -164,6 +204,7 @@
       </div>
 
       <div class="wv-scroll">
+        <div id="paydayReminder"></div>
         <div class="goal-carousel" id="goalCarousel">
           <div class="goal-track" id="goalTrack"></div>
           <div class="goal-dots" id="goalDots"></div>
@@ -199,6 +240,88 @@
       var hr = new Date().getHours();
       document.getElementById('greeting').textContent =
         hr < 12 ? 'Good morning' : (hr < 18 ? 'Good afternoon' : 'Good evening');
+
+      // ── Payday routine: a check-in the user actually acts on each payday ──
+      (function () {
+        var host = document.getElementById('paydayReminder');
+        if (!host) return;
+        if (!st.payday || !(st.payday.net > 0)) { host.style.display = 'none'; return; }
+
+        var money = function (n) { return '$' + Number(n || 0).toLocaleString('en-US'); };
+        var periodKey = function (d) { d = d || new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1); };
+        var monthName = function (d) { return d.toLocaleDateString('en-US', { month: 'long' }); };
+        var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+        var BUCKETS = [
+          { k: 'emergency', label: 'Emergency' },
+          { k: 'debt', label: 'Debt' },
+          { k: 'invest', label: 'Invest' },
+          { k: 'sinking', label: 'Sinking' }
+        ];
+
+        function render() {
+          var p = S.getState().payday || {};
+          var due = p.lastDone !== periodKey();
+          var count = p.doneCount || 0;
+
+          if (due) {
+            var alloc = p.alloc || {};
+            var moveTotal = BUCKETS.reduce(function (t, b) { return t + (alloc[b.k] || 0); }, 0);
+            var chips = BUCKETS.filter(function (b) { return (alloc[b.k] || 0) > 0; }).map(function (b) {
+              return '<span class="pd-chip"><span class="pl">' + b.label + '</span><b>' + money(alloc[b.k]) + '</b></span>';
+            }).join('');
+            host.innerHTML =
+              '<div class="pd-card due dom-gold">' +
+                '<div class="pd-top">' +
+                  '<div class="pd-ic">' + S.icon('wallet') + '</div>' +
+                  '<div class="pd-eyebrow">Payday routine</div>' +
+                  '<span class="pd-dot" aria-hidden="true"></span>' +
+                '</div>' +
+                '<div class="pd-title">Payday\'s here \u2014 run your plan</div>' +
+                '<div class="pd-sub">Move ' + (moveTotal > 0 ? '<b>' + money(moveTotal) + '</b> ' : '') + 'to your buckets <b>before</b> you spend, then check it off.</div>' +
+                (chips ? '<div class="pd-chips">' + chips + '</div>' : '') +
+                '<div class="pd-actions">' +
+                  '<button class="pd-btn pd-primary" id="pdDone">' + checkSvg + 'Mark as done</button>' +
+                  '<a class="pd-btn pd-ghost" href="payday.html">View plan</a>' +
+                '</div>' +
+              '</div>';
+            var db = document.getElementById('pdDone');
+            if (db) db.addEventListener('click', markDone);
+          } else {
+            var nxt = new Date(); nxt.setMonth(nxt.getMonth() + 1);
+            host.innerHTML =
+              '<div class="pd-card dom-gold">' +
+                '<div class="pd-done">' +
+                  '<div class="pd-check">' + checkSvg + '</div>' +
+                  '<div class="pd-done-txt">' +
+                    '<div class="pd-done-title">Payday plan done for ' + monthName(new Date()) + '</div>' +
+                    '<div class="pd-done-sub">' + count + ' payday' + (count === 1 ? '' : 's') + ' on track \u00b7 next check-in ' + monthName(nxt) + '</div>' +
+                  '</div>' +
+                  '<button class="pd-undo" id="pdUndo">Undo</button>' +
+                '</div>' +
+              '</div>';
+            var ub = document.getElementById('pdUndo');
+            if (ub) ub.addEventListener('click', undo);
+          }
+        }
+
+        function markDone() {
+          var p = S.getState().payday || {};
+          p.lastDone = periodKey();
+          p.lastDoneAt = Date.now();
+          p.doneCount = (p.doneCount || 0) + 1;
+          S.patchState({ payday: p });
+          render();
+        }
+        function undo() {
+          var p = S.getState().payday || {};
+          p.lastDone = '';
+          p.doneCount = Math.max(0, (p.doneCount || 0) - 1);
+          S.patchState({ payday: p });
+          render();
+        }
+
+        render();
+      })();
 
       // ── Goal: the dashboard's primary focus (inline stats, swipeable, + add slide) ──
       (function () {

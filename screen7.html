@@ -963,7 +963,60 @@
       window.location.href = 'dashboard.html';
     }
 
-    window.addEventListener('DOMContentLoaded', initEditMode);
+    // ── Prefill mode (deep-link to create a suggested new goal) ──
+    // Contract: screen7.html?create=1&type=custom&name=...&target=NNN&monthly=NNN&rate=7
+    // Pre-fills a NEW goal (editIndex stays null) and lands on step 2 so the user
+    // can review/adjust, then continues through the normal create flow.
+    function initPrefillMode() {
+      const params = new URLSearchParams(location.search);
+      const type = params.get('type');
+      selectedGoal = (type && GOALS[type]) ? type : 'custom';
+
+      const nameParam = (params.get('name') || '').slice(0, 60);
+      const nameGroup = document.getElementById('goalNameGroup');
+      const nameInput = document.getElementById('goalNameInput');
+      if (selectedGoal === 'custom' || nameParam) {
+        nameGroup.style.display = 'block';
+        nameInput.value = nameParam || (GOALS[selectedGoal] ? GOALS[selectedGoal].name : '');
+      } else {
+        nameGroup.style.display = 'none';
+        nameInput.value = GOALS[selectedGoal].name;
+      }
+
+      const targetInput = document.getElementById('targetAmountInput');
+      const targetParam = parseInt((params.get('target') || '').replace(/[^0-9]/g, ''), 10);
+      targetInput.value = formatNumber(targetParam > 0 ? targetParam : GOALS[selectedGoal].target);
+      const helper = document.getElementById('targetHelper');
+      if (helper && GOALS[selectedGoal]) helper.textContent = GOALS[selectedGoal].helper;
+
+      const monthlyParam = parseInt((params.get('monthly') || '').replace(/[^0-9]/g, ''), 10);
+      if (monthlyParam > 0) {
+        const monthly = Math.min(2000, Math.max(25, Math.round(monthlyParam / 25) * 25));
+        const ms = document.getElementById('monthlySlider');
+        ms.value = monthly;
+        document.getElementById('monthlyValue').textContent = '$' + formatNumber(monthly);
+      }
+
+      const rateParam = parseFloat(params.get('rate'));
+      setReturnRate(isNaN(rateParam) ? 7 : Math.round(rateParam));
+
+      const estimator = document.getElementById('freedomEstimator');
+      if (estimator) estimator.style.display = (selectedGoal === 'freedom') ? 'block' : 'none';
+
+      document.getElementById('configHeadline').textContent = 'Review your goal';
+      const sub = document.querySelector('#step2 .step-subtext');
+      if (sub) sub.textContent = "We've pre-filled a suggestion — adjust anything you like.";
+
+      goToStep(2);
+      updateProjection();
+    }
+
+    // Edit mode owns the flow when ?edit is present; otherwise ?create/?type prefill a new goal.
+    window.addEventListener('DOMContentLoaded', function () {
+      const params = new URLSearchParams(location.search);
+      if (params.get('edit') !== null) { initEditMode(); }
+      else if (params.get('create') !== null || params.get('type') !== null) { initPrefillMode(); }
+    });
 
     // ── Step 2 setup ──
     function setupStep2() {

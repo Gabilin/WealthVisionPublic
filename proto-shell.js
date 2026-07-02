@@ -62,7 +62,7 @@
   }
 
   function defaultState() {
-    return { visited: [], lessons: [], toolsUsed: [], xp: 0, streak: { count: 0, last: '' }, achievements: [], monthly: 0, goal: null, goals: [], activeGoal: 0, payday: null };
+    return { visited: [], lessons: [], toolsUsed: [], xp: 0, streak: { count: 0, last: '' }, achievements: [], monthly: 0, goal: null, goals: [], activeGoal: 0, payday: null, finances: null };
   }
 
   function readState() {
@@ -82,6 +82,7 @@
         s.goals = Array.isArray(p.goals) ? p.goals : [];
         s.activeGoal = typeof p.activeGoal === 'number' ? p.activeGoal : 0;
         s.payday = p.payday && typeof p.payday === 'object' ? p.payday : null;
+        s.finances = p.finances && typeof p.finances === 'object' ? p.finances : null;
       }
     } catch (err) { /* ignore */ }
     // Unify the goal model: goals[] is the source of truth; a legacy single goal
@@ -165,6 +166,22 @@
     goals.splice(index, 1);
     var idx = Math.max(0, Math.min(goals.length - 1, s.activeGoal));
     patchState({ goals: goals, activeGoal: goals.length ? idx : 0, goal: goals.length ? goals[idx] : null });
+  }
+
+  /* ---------- financial profile ----------
+     A small self-reported snapshot shared across tools (Peer Comparison self-eval,
+     future net-worth-aware screens). Shape:
+     { netWorth, ageBand, monthlyIncome, assets:{cash,investments,property}, debts, updatedAt } */
+  function getFinances() {
+    return readState().finances;
+  }
+  // Merge a partial update into the stored finances profile and stamp it.
+  function saveFinances(patch) {
+    if (!patch || typeof patch !== 'object') return null;
+    var cur = readState().finances || {};
+    var next = Object.assign({}, cur, patch, { updatedAt: Date.now() });
+    patchState({ finances: next });
+    return next;
   }
 
   function levelFromXp(xp) {
@@ -393,6 +410,8 @@
     saveGoal: saveGoal,
     setActiveGoal: setActiveGoal,
     removeGoal: removeGoal,
+    getFinances: getFinances,
+    saveFinances: saveFinances,
     levelFromXp: levelFromXp,
     nextLesson: nextLesson,
     icon: icon

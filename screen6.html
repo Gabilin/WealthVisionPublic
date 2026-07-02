@@ -54,12 +54,6 @@
     .nav-back { color: var(--s-mid); font-size: 20px; cursor: pointer; padding: 4px; line-height: 1; }
     .nav-back:active { color: var(--s-hi); }
     .nav-title { font-size: 17px; font-weight: 700; color: var(--s-hi); letter-spacing: -0.01em; }
-    .nav-toggle {
-      font-size: 13px; font-weight: 600; color: var(--s-mid); cursor: pointer;
-      padding: 6px 12px; border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.07); background: #1b1b1f;
-    }
-    .nav-toggle:active { opacity: 0.6; }
 
     /* ── Preset chips ── */
     .presets {
@@ -247,7 +241,7 @@
     <div class="nav-bar">
       <span class="nav-back">&#8592;</span>
       <span class="nav-title">Compare</span>
-      <span class="nav-toggle">Basic</span>
+      <span class="nav-back" style="visibility:hidden" aria-hidden="true">&#8592;</span>
     </div>
 
     <div class="presets" id="presets">

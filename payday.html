@@ -375,7 +375,7 @@
 
       <div class="bottom-area">
         <button class="cta-btn" id="saveBtn" disabled>Save my payday plan</button>
-        <div class="saved-note" id="savedNote">Saved ✓ — run it again next payday.</div>
+        <div class="saved-note" id="savedNote">Saved ✓ — we'll nudge you on your dashboard each payday.</div>
         <a class="ghost-link" href="learn.html">Learn the full 6-step system →</a>
       </div>
 
@@ -540,6 +540,7 @@
         var free = freeAmount();
         var gf = Math.max(0, free - allocSum());
         if (S && S.patchState) {
+          var prev = (S.getState && S.getState().payday) || {};
           S.patchState({
             payday: {
               net: net(),
@@ -547,7 +548,10 @@
               free: free,
               alloc: { emergency: alloc.emergency, debt: alloc.debt, invest: alloc.invest, sinking: alloc.sinking },
               guiltFree: gf,
-              savedAt: Date.now()
+              savedAt: Date.now(),
+              lastDone: prev.lastDone || '',
+              doneCount: prev.doneCount || 0,
+              lastDoneAt: prev.lastDoneAt || 0
             }
           });
         }

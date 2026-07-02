@@ -12,6 +12,7 @@
     .device-frame{--act1:var(--ac);}
     .device-frame{--s-bg:#0c0c0e;--s-hi:#ececed;--s-mid:#8e8e95;--s-sec:#c5c5c9;--wa1:rgba(255,255,255,0.02);--wa2:rgba(255,255,255,0.025);--wa3:rgba(255,255,255,0.03);--wa3b:rgba(255,255,255,0.038);--wa4:rgba(255,255,255,0.04);--wa5:rgba(255,255,255,0.05);--wa6:rgba(255,255,255,0.06);--wa7:rgba(255,255,255,0.07);--wa8:rgba(255,255,255,0.08);--wa10:rgba(255,255,255,0.1);--wa12:rgba(255,255,255,0.12);--wa15:rgba(255,255,255,0.15);--wa20:rgba(255,255,255,0.2)}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    [hidden]{display:none!important}
     body{background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
     .device-frame{width:393px;height:852px;border-radius:47px;overflow:hidden;position:relative;background:var(--s-bg);border:1px solid rgba(255,255,255,0.07);box-shadow:0 0 0 1px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.5),0 50px 120px rgba(0,0,0,0.25);--ac:#22ab94;--ac-rgb:34, 171, 148}
     .screen{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
@@ -105,6 +106,47 @@
 
     .cta-btn{width:100%;height:54px;border:none;border-radius:14px;background:var(--ac);color:#04201b;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px;flex-shrink:0}
     .cta-btn:active{transform:scale(0.98)}
+    .cta-btn.outline{background:transparent;border:1px solid rgba(var(--ac-rgb),0.5);color:var(--act1)}
+    .cta-btn.ghost{background:var(--wa6);color:var(--s-sec)}
+    .cta-btn.sm{height:46px;font-size:14px;margin-top:12px}
+
+    /* Card 2 — net-worth self-evaluation */
+    .nw-known{margin:4px 0 14px;padding:14px;border-radius:12px;background:rgba(var(--ac-rgb),0.06);border:1px solid rgba(var(--ac-rgb),0.16)}
+    .nw-known-row{display:flex;align-items:center;justify-content:space-between}
+    .nw-known-label{font-size:11px;color:var(--s-mid);margin-bottom:2px}
+    .nw-known-val{font-size:24px;font-weight:600;color:var(--s-hi);font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+    .nw-update-btn{height:32px;padding:0 14px;border-radius:8px;border:1px solid var(--wa10);background:var(--wa4);color:var(--s-sec);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;flex-shrink:0}
+    .nw-known-src{font-size:11px;color:var(--s-mid);margin-top:8px}
+
+    .nw-eval-lead{font-size:12.5px;color:var(--s-mid);line-height:1.5;margin:4px 0 14px}
+    .eval-group{margin-bottom:12px}
+    .eval-group-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--s-mid)}
+    .eval-group-sum{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;font-size:12px}
+    .eval-group-sum.pos{color:var(--act1)}
+    .eval-group-sum.neg{color:var(--c-red)}
+    .eval-field{margin-bottom:8px}
+    .eval-field label{display:block;font-size:12px;color:var(--s-sec);margin-bottom:5px}
+    .eval-prefill{color:var(--act1);font-weight:600}
+    .eval-net{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:12px;background:rgba(var(--ac-rgb),0.07);border:1px solid rgba(var(--ac-rgb),0.16);margin-top:6px}
+    .eval-net-label{font-size:13px;color:var(--s-sec);font-weight:600}
+    .eval-net-val{font-size:20px;font-weight:600;color:var(--s-hi);font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+    .pct-ring.muted{opacity:0.4;filter:grayscale(0.5)}
+
+    /* Card 4 — personalized path forward */
+    .plan-nudge{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:12px;background:#16161a;border:1px solid var(--wa7);text-align:center}
+    .plan-nudge-txt{font-size:13px;color:var(--s-sec);line-height:1.5}
+    .plan-proposal{display:flex;flex-direction:column;gap:12px}
+    .prop-lead{font-size:11px;color:var(--s-mid);text-transform:uppercase;letter-spacing:0.04em;font-weight:600}
+    .goal-prop{padding:14px;border-radius:14px;background:#16161a;border:1px solid var(--wa7)}
+    .goal-prop + .goal-prop{margin-top:10px}
+    .goal-prop-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .goal-prop-name{font-size:15px;font-weight:700;color:var(--s-hi)}
+    .goal-prop-badge{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--act1);background:rgba(var(--ac-rgb),0.12);padding:4px 8px;border-radius:6px}
+    .goal-prop-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+    .goal-prop-stats > div{display:flex;flex-direction:column;gap:3px}
+    .gp-l{font-size:10px;color:var(--s-mid)}
+    .gp-v{font-size:15px;font-weight:600;color:var(--s-hi);font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+    .goal-prop-note{font-size:11px;color:var(--s-mid);line-height:1.45;margin-bottom:12px}
   </style>
   <link rel="stylesheet" href="./proto-shell.css">
 </head>
@@ -151,7 +193,7 @@
       <div class="card" data-card="1">
         <div class="section-badge">2 / 4 - Your Position</div>
         <div class="section-title">Where do you<br>actually stand?</div>
-        <div class="section-sub">Enter your net worth and age to see your real percentile vs the Fed survey median.</div>
+        <div class="section-sub" id="card2Sub">Let's estimate your net worth so this comparison is honest — not a guess.</div>
         <div class="content-card">
           <div class="row-label">Age band</div>
           <div class="chip-row" id="ageChips">
@@ -162,30 +204,69 @@
             <button class="chip" data-age="65plus">65+</button>
           </div>
 
-          <div class="row-label">Your net worth (assets minus debts)</div>
-          <div class="input-grid">
-            <div>
-              <div class="money-field"><input id="networthInput" value="45000" inputmode="numeric"></div>
-              <div class="field-note">Total net worth</div>
+          <!-- Known: saved profile summary -->
+          <div class="nw-known" id="nwKnown" hidden>
+            <div class="nw-known-row">
+              <div>
+                <div class="nw-known-label">Your net worth</div>
+                <div class="nw-known-val" id="nwKnownVal">$0</div>
+              </div>
+              <button class="nw-update-btn" id="nwUpdateBtn" type="button">Update</button>
             </div>
-            <div>
-              <div class="money-field"><input id="incomeInput" value="4500" inputmode="numeric"></div>
-              <div class="field-note">Monthly income</div>
+            <div class="nw-known-src" id="nwKnownSrc">From your saved profile</div>
+          </div>
+
+          <!-- Unknown: mini net-worth calculator -->
+          <div class="nw-eval" id="nwEval">
+            <div class="nw-eval-lead">Add roughly what you own, subtract what you owe. Estimates are fine — you can refine later.</div>
+
+            <div class="eval-group">
+              <div class="eval-group-head"><span>What you own</span><span class="eval-group-sum pos" id="assetsSum">$0</span></div>
+              <div class="eval-field">
+                <label>Cash &amp; savings</label>
+                <div class="money-field"><input id="cashInput" inputmode="numeric" placeholder="0"></div>
+              </div>
+              <div class="eval-field">
+                <label>Investments &amp; retirement</label>
+                <div class="money-field"><input id="investInput" inputmode="numeric" placeholder="0"></div>
+              </div>
+              <div class="eval-field">
+                <label>Property &amp; other assets</label>
+                <div class="money-field"><input id="propertyInput" inputmode="numeric" placeholder="0"></div>
+              </div>
+            </div>
+
+            <div class="eval-group">
+              <div class="eval-group-head"><span>What you owe</span><span class="eval-group-sum neg" id="debtsSum">$0</span></div>
+              <div class="eval-field">
+                <label>Loans &amp; credit cards</label>
+                <div class="money-field"><input id="debtsInput" inputmode="numeric" placeholder="0"></div>
+              </div>
+            </div>
+
+            <div class="eval-net">
+              <span class="eval-net-label">Your net worth</span>
+              <span class="eval-net-val" id="evalNetVal">$0</span>
+            </div>
+
+            <div class="eval-field" style="margin-top:14px">
+              <label>Monthly income <span class="eval-prefill" id="incomePrefillNote" hidden>· from your Payday plan</span></label>
+              <div class="money-field"><input id="incomeInput" inputmode="numeric" placeholder="0"></div>
             </div>
           </div>
 
-          <div class="pct-ring">
+          <div class="pct-ring muted" id="pctRing">
             <svg viewBox="0 0 160 160">
               <circle class="bg" cx="80" cy="80" r="65"></circle>
               <circle class="fill" cx="80" cy="80" r="65" stroke-dasharray="408.4" stroke-dashoffset="408.4" id="pctFill"></circle>
             </svg>
             <div class="pct-center">
-              <div class="pct-value" id="pctValue">0th</div>
-              <div class="pct-label">Net worth percentile</div>
+              <div class="pct-value" id="pctValue">—</div>
+              <div class="pct-label" id="pctLabel">Add your numbers</div>
             </div>
           </div>
 
-          <div class="sample-badge" id="sampleBadge">Fed Survey — US household data</div>
+          <div class="sample-badge" id="sampleBadge">Source: Fed Survey of Consumer Finances (Fidelity)</div>
         </div>
       </div>
 
@@ -229,16 +310,24 @@
       <!-- Card 4 -->
       <div class="card" data-card="3">
         <div class="section-badge">4 / 4 - Your Path Forward</div>
-        <div class="section-title">Feeling behind<br>doesn't mean failing</div>
-        <div class="section-sub">The gap closes faster than you think. One system beats one big sacrifice.</div>
+        <div class="section-title" id="planTitle">Feeling behind<br>doesn't mean failing</div>
+        <div class="section-sub" id="planSub">The gap closes faster than you think. One system beats one big sacrifice.</div>
         <div class="content-card">
           <div class="plan-kpi">
-            <div class="k"><div class="l">Your percentile</div><div class="v" id="planCurrent">0th</div></div>
+            <div class="k"><div class="l">Your percentile</div><div class="v" id="planCurrent">—</div></div>
             <div class="k"><div class="l">Median target</div><div class="v" style="color:var(--c-violet2)" id="planTarget">50th</div></div>
-            <div class="k"><div class="l">Net worth gap</div><div class="v" style="color:var(--act1)" id="planGap">—</div></div>
+            <div class="k"><div class="l" id="planGapLabel">Net worth gap</div><div class="v" style="color:var(--act1)" id="planGap">—</div></div>
           </div>
-          <div class="plan-steps" id="planSteps"></div>
-          <button class="cta-btn" id="planCta" onclick="alert('Weekly plan saved')">Commit to Plan</button>
+
+          <div class="plan-nudge" id="planNudge" hidden>
+            <div class="plan-nudge-txt">We need your net worth to make this personal — it takes about a minute.</div>
+            <button class="cta-btn ghost" type="button" onclick="goToCard(1)">Estimate my net worth</button>
+          </div>
+
+          <div class="plan-proposal" id="planProposal">
+            <div class="prop-lead" id="propLead"></div>
+            <div id="propCards"></div>
+          </div>
         </div>
       </div>
 
@@ -275,14 +364,16 @@
     '65plus': {label:'65+',     medianNW:409900,avgNW:1790000,medianSavingsRate:15,p75SavingsRate:22,ageMultiple:10,trajectory:'Net worth is expected to draw down here. Asset-rich, cash-poor is very common at this stage.'}
   };
 
-  let state={age:'under35',monthlyIncome:4500,netWorth:45000};
+  let state={age:'under35',monthlyIncome:0,netWorth:0,provided:false,fromProfile:false,investCapacity:0,assets:{cash:0,investments:0,property:0},debts:0};
+  let evalOpen=true;
 
   function fmtMoney(n){
+    if(n<0)return '-'+fmtMoney(-n);
     if(n>=1000000)return '$'+(n/1000000).toFixed(1)+'M';
     if(n>=1000)return '$'+Math.round(n/1000)+'K';
     return '$'+Math.round(n).toLocaleString('en-US');
   }
-  function fmtFull(n){return '$'+Math.round(n).toLocaleString('en-US');}
+  function fmtFull(n){return (n<0?'-$':'$')+Math.abs(Math.round(n)).toLocaleString('en-US');}
   function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
 
   function estimateNWPercentile(nw,median,avg){
@@ -331,90 +422,249 @@
   function updatePeerModel(){
     const d=AGE_DATA[state.age]||AGE_DATA['under35'];
     const sr=SR_BY_AGE[state.age]||SR_BY_AGE['under35'];
+    const known=state.provided;
     const nw=state.netWorth;
     const annualIncome=state.monthlyIncome*12;
     const pct=estimateNWPercentile(nw,d.medianNW,d.avgNW);
-    // Derive savings rate from 15% of income as default proxy (user hasn't set it)
-    const savingsRate=Math.max(1,Math.min(50,(nw/(Math.max(1,annualIncome)*3))*15+5));
 
-    // Card 2
-    updateRing(pct);
     document.getElementById('sampleBadge').textContent='Source: Fed Survey of Consumer Finances (Fidelity)';
 
-    // Card 3 — net worth bars (scale to 1.2× average to give room)
+    // Card 2 — percentile ring (muted until we actually know their net worth)
+    if(known){
+      updateRing(pct);
+      const lbl=document.getElementById('pctLabel');if(lbl)lbl.textContent='Net worth percentile';
+    }else{
+      const c=2*Math.PI*65;
+      document.getElementById('pctFill').style.strokeDasharray=c.toFixed(1);
+      document.getElementById('pctFill').style.strokeDashoffset=c.toFixed(1);
+      document.getElementById('pctValue').textContent='—';
+      const lbl=document.getElementById('pctLabel');if(lbl)lbl.textContent='Add your numbers';
+    }
+
+    // Card 3 — net worth bars (median/average always shown; "You" only once known)
     const nwScale=d.avgNW*1.2;
-    document.getElementById('youNWLabel').textContent=fmtMoney(nw);
-    document.getElementById('valNWYou').textContent=fmtMoney(nw);
     document.getElementById('valNWMed').textContent=fmtMoney(d.medianNW);
     document.getElementById('valNWAvg').textContent=fmtMoney(d.avgNW);
-    setBar('barNWYou',nw,nwScale);
     setBar('barNWMed',d.medianNW,nwScale);
     setBar('barNWAvg',d.avgNW,nwScale);
+    document.getElementById('youNWLabel').textContent=known?fmtMoney(nw):'—';
+    document.getElementById('valNWYou').textContent=known?fmtMoney(nw):'—';
+    setBar('barNWYou',known?nw:0,nwScale);
 
-    // Savings rate bars
-    document.getElementById('youSavingsRate').textContent=savingsRate.toFixed(1)+'%';
-    document.getElementById('valSavingsYou').textContent=savingsRate.toFixed(1)+'%';
+    // Savings rate bars (rough "you" proxy derived from net worth, shown only when known)
+    const savingsRate=clamp((nw/(Math.max(1,annualIncome)*3))*15+5,1,50);
     document.getElementById('valSavingsMed').textContent=sr.medianSavingsRate+'%';
     document.getElementById('valSavingsTop').textContent=sr.p75SavingsRate+'%';
-    setBar('barSavingsYou',savingsRate,35);
     setBar('barSavingsMed',sr.medianSavingsRate,35);
     setBar('barSavingsTop',sr.p75SavingsRate,35);
+    document.getElementById('youSavingsRate').textContent=known?savingsRate.toFixed(1)+'%':'—';
+    document.getElementById('valSavingsYou').textContent=known?savingsRate.toFixed(1)+'%':'—';
+    setBar('barSavingsYou',known?savingsRate:0,35);
 
     // NW / income ratio
     const ratio=annualIncome>0?(nw/annualIncome):0;
     const targetRatio=d.ageMultiple;
-    document.getElementById('youNWRatio').textContent=ratio.toFixed(1)+'×';
-    document.getElementById('valRatioYou').textContent=ratio.toFixed(1)+'×';
     document.getElementById('valRatioMed').textContent=targetRatio+'×';
-    setBar('barRatioYou',ratio,targetRatio*2||1);
     setBar('barRatioMed',targetRatio,targetRatio*2||1);
+    document.getElementById('youNWRatio').textContent=known?ratio.toFixed(1)+'×':'—';
+    document.getElementById('valRatioYou').textContent=known?ratio.toFixed(1)+'×':'—';
+    setBar('barRatioYou',known?ratio:0,targetRatio*2||1);
 
-    // Insight
+    // Card 3 insight
     const nwGap=d.medianNW-nw;
-    let insight='';
-    if(nwGap>5000){
+    let insight;
+    if(!known){
+      insight=`Median net worth for ${d.label} is ${fmtMoney(d.medianNW)} — while the headline average is ${fmtMoney(d.avgNW)}. Add your number to see where you really land.`;
+    }else if(nwGap>5000){
       insight=`Your net worth is ${fmtMoney(nwGap)} below the median for ${d.label}. ${d.trajectory}`;
     }else if(nwGap<-5000){
       insight=`You are above the median for ${d.label}. ${d.trajectory}`;
     }else{
-      insight=`You are near the median for ${d.label}. ${d.trajectory}`;
+      insight=`You are right around the median for ${d.label}. ${d.trajectory}`;
     }
     document.getElementById('benchmarkInsight').textContent=insight;
 
-    // Card 4 plan
-    const pctGap=Math.max(0,50-pct);
-    // $5/day = $150/month → $170K in 30y at 7%. Scale that insight to the gap.
-    const monthlyGap=Math.max(0,nwGap);
-    const weeklyBoost=nwGap>0?Math.max(20,Math.round((monthlyGap/(12*30))/5)*5):0;
-    const dailyEquiv=Math.round(weeklyBoost/7);
-
-    document.getElementById('planCurrent').textContent=ordinal(pct);
-    document.getElementById('planGap').textContent=nwGap>0?fmtMoney(nwGap):'On track';
-
-    const steps=[];
-    if(nwGap>5000){
-      steps.push(`Save an extra <strong>${fmtFull(weeklyBoost)}/week</strong> (~$${dailyEquiv}/day). At 7%, that compounds to <strong>${fmtMoney(weeklyBoost*52*10*1.97)}</strong> in 10 years.`);
-      steps.push(`The $5/day principle: even <strong>$150/month</strong> invested at 7% for 30 years = $170,000. Small amounts, compounded, change everything.`);
-      steps.push(`Recheck this screen monthly. Every $1K of net worth growth moves you closer. ${d.trajectory.split('.')[0]}.`);
-    }else{
-      steps.push('You are at or above median for your age band. Keep your wealth-building habits consistent.');
-      steps.push(`Your NW/income ratio target is ${targetRatio}×. At ${ratio.toFixed(1)}×, you are ${ratio>=targetRatio?'on track':'building toward that'}. Keep compounding.`);
-      steps.push('Strengthen your buffer: ensure emergency fund covers 3–6 months of essentials, separate from investments.');
-    }
-
-    const stepsWrap=document.getElementById('planSteps');
-    stepsWrap.innerHTML='';
-    steps.forEach((s,i)=>{
-      const el=document.createElement('div');
-      el.className='step';
-      el.innerHTML=`<div class="step-num">${i+1}</div><div class="step-text">${s}</div>`;
-      stepsWrap.appendChild(el);
-    });
-
-    document.getElementById('planCta').textContent=nwGap>0?`Save +${fmtFull(weeklyBoost)}/week`:'See My Goals';
+    renderPlan(d,nw,pct,nwGap);
+    if(known)persistFinances();
   }
 
-  // Controls
+  // Card 4 — turn the comparison into a personalized, actionable goal.
+  function renderPlan(d,nw,pct,nwGap){
+    const planCurrent=document.getElementById('planCurrent');
+    const planTarget=document.getElementById('planTarget');
+    const planGap=document.getElementById('planGap');
+    const planGapLabel=document.getElementById('planGapLabel');
+    const planTitle=document.getElementById('planTitle');
+    const planSub=document.getElementById('planSub');
+    const nudge=document.getElementById('planNudge');
+    const proposal=document.getElementById('planProposal');
+    const propLead=document.getElementById('propLead');
+    const propCards=document.getElementById('propCards');
+    planTarget.textContent='50th';
+
+    // We can't say whether they're on track without a net worth — ask, don't guess.
+    if(!state.provided){
+      planCurrent.textContent='—';
+      planGapLabel.textContent='Net worth gap';
+      planGap.textContent='—';
+      planTitle.innerHTML='Your personal<br>path forward';
+      planSub.textContent="Add your net worth on the previous card and we'll build a plan around your real numbers — not a default.";
+      nudge.hidden=false;
+      proposal.hidden=true;
+      return;
+    }
+
+    nudge.hidden=true;
+    proposal.hidden=false;
+    planCurrent.textContent=ordinal(pct);
+
+    if(nwGap>2000){
+      // Below median — propose a personalized catch-up goal.
+      planTitle.innerHTML="Feeling behind<br>doesn't mean failing";
+      planSub.textContent='The gap closes faster than you think — one steady system beats one big sacrifice.';
+      planGapLabel.textContent='Net worth gap';
+      planGap.textContent=fmtMoney(nwGap);
+
+      const incomeAnchor=Math.round((state.monthlyIncome*0.12)/25)*25;
+      let monthly=Math.max(state.investCapacity||0,incomeAnchor,50);
+      monthly=Math.min(2000,Math.max(25,Math.round(monthly/25)*25));
+      const years=yearsToAccumulate(nwGap,monthly,0.07);
+
+      propLead.textContent='A goal built to close your gap';
+      propCards.innerHTML=goalPropCard({
+        name:'Catch up to median',badge:'Suggested',primary:true,
+        target:nwGap,monthly:monthly,timeline:years,
+        note:'Reaches the '+d.label+' median. Based on a 7% historical average — not a guarantee.',
+        cta:'Create this goal',
+        url:goalUrl('custom','Catch up to median ('+d.label+')',nwGap,monthly)
+      });
+    }else{
+      // At or above median — reinforce, then propose the next worthwhile goals.
+      planTitle.innerHTML="You're on track —<br>build the next win";
+      planSub.textContent='You are at or above the median for '+d.label+'. Strong base — here is where momentum compounds next.';
+      planGapLabel.textContent='Vs median';
+      planGap.textContent='On track';
+
+      const st=(window.WVShell&&window.WVShell.getState)?window.WVShell.getState():{};
+      const payday=st.payday||null;
+      const essentials=(payday&&payday.essentials>0)?payday.essentials:Math.round(state.monthlyIncome*0.55);
+      const emergencyTarget=Math.max(3000,Math.round((essentials*6)/500)*500);
+      const freedomTarget=Math.max(100000,Math.round((essentials*12*25)/5000)*5000);
+      let cap=Math.max(state.investCapacity||0,Math.round((state.monthlyIncome*0.1)/25)*25,50);
+      cap=Math.min(2000,Math.max(25,Math.round(cap/25)*25));
+      let emMonthly=Math.min(cap,Math.max(50,Math.round((essentials/2)/25)*25));
+      emMonthly=Math.max(25,emMonthly);
+
+      propLead.textContent='Two goals worth locking in next';
+      propCards.innerHTML=
+        goalPropCard({name:'Emergency fund',badge:'Safety first',primary:false,
+          target:emergencyTarget,monthly:emMonthly,timeline:yearsToAccumulate(emergencyTarget,emMonthly,0.01),
+          note:'3–6 months of essentials, kept in cash — separate from your investments.',
+          cta:'Plan this goal',url:goalUrl('emergency','',emergencyTarget,emMonthly)})+
+        goalPropCard({name:'Financial freedom',badge:'Long game',primary:false,
+          target:freedomTarget,monthly:cap,timeline:yearsToAccumulate(freedomTarget,cap,0.07),
+          note:'Your work-optional number — annual essentials × 25 (the 4% rule).',
+          cta:'Plan this goal',url:goalUrl('freedom','',freedomTarget,cap)});
+    }
+  }
+
+  // ── Helpers ──
+  function parseMoney(el){const raw=String(el.value).replace(/[^0-9]/g,'');return raw?parseInt(raw,10):0;}
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function yearsToAccumulate(target,monthly,annualRate){
+    if(monthly<=0)return 99;
+    const r=annualRate/12;let bal=0,m=0;
+    while(bal<target&&m<720){bal=bal*(1+r)+monthly;m++;}
+    return Math.max(1,Math.round(m/12));
+  }
+  // Deep-link into the Goal Builder pre-filled with a suggested new goal (user reviews & confirms).
+  function goalUrl(type,name,target,monthly){
+    const p=new URLSearchParams();
+    p.set('create','1');p.set('type',type);
+    if(name)p.set('name',name);
+    if(target>0)p.set('target',Math.round(target));
+    if(monthly>0)p.set('monthly',Math.round(monthly));
+    p.set('rate','7');
+    return 'screen7.html?'+p.toString();
+  }
+  function goalPropCard(o){
+    return '<div class="goal-prop">'+
+      '<div class="goal-prop-top"><span class="goal-prop-name">'+esc(o.name)+'</span><span class="goal-prop-badge">'+esc(o.badge)+'</span></div>'+
+      '<div class="goal-prop-stats">'+
+        '<div><span class="gp-l">Target</span><span class="gp-v">'+fmtMoney(o.target)+'</span></div>'+
+        '<div><span class="gp-l">Monthly</span><span class="gp-v">'+fmtFull(o.monthly)+'</span></div>'+
+        '<div><span class="gp-l">Timeline</span><span class="gp-v">'+o.timeline+' yr'+(o.timeline===1?'':'s')+'</span></div>'+
+      '</div>'+
+      '<div class="goal-prop-note">'+esc(o.note)+'</div>'+
+      '<button class="cta-btn sm'+(o.primary?'':' outline')+'" type="button" data-goal-url="'+esc(o.url)+'">'+esc(o.cta)+'</button>'+
+    '</div>';
+  }
+
+  function updateEvalReadouts(){
+    const a=state.assets.cash+state.assets.investments+state.assets.property;
+    const as=document.getElementById('assetsSum');if(as)as.textContent=fmtFull(a);
+    const ds=document.getElementById('debtsSum');if(ds)ds.textContent=state.debts>0?'−'+fmtFull(state.debts):'$0';
+    const en=document.getElementById('evalNetVal');if(en)en.textContent=fmtFull(state.netWorth);
+    const kv=document.getElementById('nwKnownVal');if(kv)kv.textContent=fmtFull(state.netWorth);
+  }
+  function recomputeNetWorth(){
+    const a=state.assets.cash+state.assets.investments+state.assets.property;
+    state.netWorth=a-state.debts;
+    if(a>0||state.debts>0)state.provided=true;
+  }
+  function persistFinances(){
+    const S=window.WVShell;
+    if(!S||!S.saveFinances||!state.provided)return;
+    S.saveFinances({
+      netWorth:state.netWorth,ageBand:state.age,monthlyIncome:state.monthlyIncome,
+      assets:{cash:state.assets.cash,investments:state.assets.investments,property:state.assets.property},
+      debts:state.debts
+    });
+  }
+  function renderMode(){
+    const known=state.provided;
+    const showEval=(!known)||evalOpen;
+    const knownEl=document.getElementById('nwKnown');
+    const evalEl=document.getElementById('nwEval');
+    if(knownEl)knownEl.hidden=!(known&&!evalOpen);
+    if(evalEl)evalEl.hidden=!showEval;
+    const sub=document.getElementById('card2Sub');
+    if(sub)sub.textContent=known
+      ? "Here's where you stand versus the Fed-survey median for your age."
+      : "Let's estimate your net worth so this comparison is honest — not a guess.";
+    const src=document.getElementById('nwKnownSrc');
+    if(src)src.textContent=state.fromProfile?'From your saved profile':'Based on the numbers you entered';
+    const ring=document.getElementById('pctRing');
+    if(ring)ring.classList.toggle('muted',!known);
+  }
+  function setInput(id,val){const el=document.getElementById(id);if(el)el.value=val>0?val.toLocaleString('en-US'):'';}
+  function setActiveAgeChip(age){
+    const wrap=document.getElementById('ageChips');if(!wrap)return;
+    wrap.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.getAttribute('data-age')===age));
+  }
+
+  // Pull everything we already know about the user before asking anything.
+  function hydrate(){
+    const S=window.WVShell;
+    const st=(S&&S.getState)?S.getState():{};
+    const f=st.finances||null;
+    const payday=st.payday||null;
+    if(f){
+      if(typeof f.ageBand==='string')state.age=f.ageBand;
+      if(f.assets)state.assets={cash:+f.assets.cash||0,investments:+f.assets.investments||0,property:+f.assets.property||0};
+      if(typeof f.debts==='number')state.debts=f.debts;
+      if(typeof f.monthlyIncome==='number'&&f.monthlyIncome>0)state.monthlyIncome=f.monthlyIncome;
+      if(typeof f.netWorth==='number'){state.netWorth=f.netWorth;state.provided=true;state.fromProfile=true;}
+    }
+    const hadSavedIncome=!!(f&&typeof f.monthlyIncome==='number'&&f.monthlyIncome>0);
+    if(!state.monthlyIncome&&payday&&payday.net>0)state.monthlyIncome=payday.net;
+    state.investCapacity=(payday&&payday.alloc)?(+payday.alloc.invest||0):0;
+    if(!state.provided)recomputeNetWorth();
+    const note=document.getElementById('incomePrefillNote');
+    if(note)note.hidden=!(payday&&payday.net>0&&!hadSavedIncome);
+  }
+
+  // ── Wiring ──
   function wireChipGroup(containerId,stateKey,attr){
     const wrap=document.getElementById(containerId);
     if(!wrap)return;
@@ -427,25 +677,50 @@
       });
     });
   }
-  wireChipGroup('ageChips','age','data-age');
-
-  function wireMoney(id,key){
-    const input=document.getElementById(id);
-    if(!input)return;
+  function wireAssetField(id,path){
+    const input=document.getElementById(id);if(!input)return;
     input.addEventListener('input',()=>{
-      const raw=input.value.replace(/[^0-9]/g,'');
-      const n=raw?parseInt(raw,10):0;
-      input.value=n?n.toLocaleString('en-US'):'';
-      state[key]=n;
+      const n=parseMoney(input);input.value=n?n.toLocaleString('en-US'):'';
+      if(path==='debts')state.debts=n;else state.assets[path]=n;
+      recomputeNetWorth();updateEvalReadouts();
+      const ring=document.getElementById('pctRing');if(ring)ring.classList.toggle('muted',!state.provided);
       updatePeerModel();
     });
   }
-  wireMoney('networthInput','netWorth');
-  wireMoney('incomeInput','monthlyIncome');
 
-  // Initial
-  viewport.scrollLeft=0;
-  updatePeerModel();
+  function startPeer(){
+    wireChipGroup('ageChips','age','data-age');
+    wireAssetField('cashInput','cash');
+    wireAssetField('investInput','investments');
+    wireAssetField('propertyInput','property');
+    wireAssetField('debtsInput','debts');
+
+    const incomeEl=document.getElementById('incomeInput');
+    if(incomeEl)incomeEl.addEventListener('input',()=>{
+      const n=parseMoney(incomeEl);incomeEl.value=n?n.toLocaleString('en-US'):'';
+      state.monthlyIncome=n;updatePeerModel();
+    });
+
+    const updBtn=document.getElementById('nwUpdateBtn');
+    if(updBtn)updBtn.addEventListener('click',()=>{evalOpen=true;renderMode();const c=document.getElementById('cashInput');if(c)c.focus();});
+
+    const pc=document.getElementById('propCards');
+    if(pc)pc.addEventListener('click',e=>{const b=e.target.closest('[data-goal-url]');if(b)window.location.href=b.getAttribute('data-goal-url');});
+
+    hydrate();
+    evalOpen=!state.provided;
+    setActiveAgeChip(state.age);
+    setInput('cashInput',state.assets.cash);
+    setInput('investInput',state.assets.investments);
+    setInput('propertyInput',state.assets.property);
+    setInput('debtsInput',state.debts);
+    setInput('incomeInput',state.monthlyIncome);
+    updateEvalReadouts();
+    renderMode();
+    viewport.scrollLeft=0;
+    updatePeerModel();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',startPeer);else startPeer();
 </script>
   <script src="./proto-shell.js"></script>
 </body>
