@@ -191,6 +191,26 @@
     .pd-done-sub { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
     .pd-undo { background: none; border: none; cursor: pointer; font-family: inherit; color: var(--text-mid); font-size: 12px; font-weight: 600; padding: 4px; }
     .pd-undo:hover { color: var(--text-hi); }
+
+    /* ── Goal contribution check-in (amount entry) ── */
+    .gc-entry { display: flex; align-items: stretch; gap: 8px; margin-top: 13px; width: 100%; }
+    .gc-field { flex: 1; min-width: 0; display: flex; align-items: center; gap: 2px; padding: 0 13px; border-radius: 11px;
+      background: var(--surface-2); border: 1px solid var(--hairline);
+      transition: border-color 140ms ease, box-shadow 140ms ease; }
+    .gc-field:focus-within { border-color: rgba(var(--accent-rgb),0.55); box-shadow: 0 0 0 3px rgba(var(--accent-rgb),0.14); }
+    .gc-cur { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--text-mid); }
+    .gc-input { flex: 1; min-width: 0; border: none; background: none; outline: none; font-family: 'IBM Plex Mono', monospace;
+      font-size: 18px; font-weight: 600; color: var(--text-hi); padding: 12px 0; letter-spacing: -0.01em; -moz-appearance: textfield; }
+    .gc-input::-webkit-outer-spin-button, .gc-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .gc-log { flex: 0 0 auto; border: none; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 14px;
+      padding: 0 18px; border-radius: 11px; background: var(--green); color: #04201b; letter-spacing: -0.01em;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      transition: transform 140ms ease, filter 140ms ease; }
+    .gc-log:hover { filter: brightness(1.06); }
+    .gc-log:active { transform: scale(0.98); }
+    .gc-log svg { width: 16px; height: 16px; }
+    .gc-hint { font-size: 11.5px; color: var(--text-mid); margin-top: 9px; line-height: 1.4; }
+    .gc-hint b { color: var(--text-hi); font-weight: 700; }
   </style>
 </head>
 <body data-wv-tab="home">
@@ -205,6 +225,7 @@
 
       <div class="wv-scroll">
         <div id="paydayReminder"></div>
+        <div id="goalCheckin"></div>
         <div class="goal-carousel" id="goalCarousel">
           <div class="goal-track" id="goalTrack"></div>
           <div class="goal-dots" id="goalDots"></div>
@@ -323,6 +344,119 @@
         render();
       })();
 
+      // ── Goal check-in: log this month's contribution against the active goal ──
+      (function () {
+        var host = document.getElementById('goalCheckin');
+        if (!host) return;
+
+        var money = function (n) { return '$' + Number(n || 0).toLocaleString('en-US'); };
+        var monthName = function (d) { return d.toLocaleDateString('en-US', { month: 'long' }); };
+        var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+        var plusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
+
+        var idx = (S.getActiveGoalIndex) ? S.getActiveGoalIndex() : -1;
+        var g = (S.getActiveGoal) ? S.getActiveGoal() : null;
+        // Only meaningful once there's a goal with a monthly plan to track against.
+        if (idx < 0 || !g || !g.target || !(g.monthly > 0)) { host.style.display = 'none'; return; }
+
+        var prog = S.goalProgress(g);
+        var thisPeriod = S.goalPeriodKey();
+        var monthsOnTrack = (function () {
+          var seen = {};
+          (g.checkins || []).forEach(function (c) { seen[c.period] = 1; });
+          return Object.keys(seen).length;
+        })();
+
+        if (prog.complete) {
+          // Goal reached — nothing left to log, celebrate instead.
+          host.innerHTML =
+            '<div class="pd-card dom-teal">' +
+              '<div class="pd-done">' +
+                '<div class="pd-check">' + checkSvg + '</div>' +
+                '<div class="pd-done-txt">' +
+                  '<div class="pd-done-title">' + esc0(g.name) + ' is fully funded</div>' +
+                  '<div class="pd-done-sub">You\u2019ve contributed ' + money(prog.contributed) + ' \u00b7 goal reached</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+          return;
+        }
+
+        var due = (g.lastCheckIn || '') !== thisPeriod;
+
+        if (due) {
+          var plan = g.monthly || 0;
+          host.innerHTML =
+            '<div class="pd-card due dom-teal">' +
+              '<div class="pd-top">' +
+                '<div class="pd-ic">' + S.icon('target') + '</div>' +
+                '<div class="pd-eyebrow">Goal check-in</div>' +
+                '<span class="pd-dot" aria-hidden="true"></span>' +
+              '</div>' +
+              '<div class="pd-title">Log this month toward ' + esc0(g.name) + '</div>' +
+              '<div class="pd-sub">You planned <b>' + money(plan) + '/mo</b>. Put in more or less \u2014 we\u2019ll recalc your finish line.</div>' +
+              '<div class="gc-entry">' +
+                '<div class="gc-field"><span class="gc-cur">$</span>' +
+                  '<input class="gc-input" id="gcInput" type="number" inputmode="decimal" min="0" step="10" value="' + plan + '" aria-label="Contribution amount" />' +
+                '</div>' +
+                '<button class="gc-log" id="gcLog">' + checkSvg + 'Log</button>' +
+              '</div>' +
+              '<div class="gc-hint" id="gcHint">' + money(prog.contributed) + ' of ' + money(g.target) + ' so far' +
+                (prog.monthsLeft ? ' \u00b7 about ' + Math.round(prog.years) + ' yr' + (Math.round(prog.years) === 1 ? '' : 's') + ' to go at this pace' : '') +
+              '</div>' +
+            '</div>';
+
+          var input = document.getElementById('gcInput');
+          var hint = document.getElementById('gcHint');
+          var logBtn = document.getElementById('gcLog');
+
+          // Live preview: recompute the finish line as the user edits the amount.
+          function preview() {
+            var amt = Number(input.value);
+            if (!isFinite(amt) || amt <= 0) { hint.innerHTML = 'Enter what you set aside this month'; return; }
+            var sim = S.goalProgress(Object.assign({}, g, { contributed: (g.contributed || 0) + amt }));
+            var line = money(sim.contributed) + ' of ' + money(g.target);
+            if (sim.complete) line += ' \u00b7 that completes your goal';
+            else if (sim.monthsLeft) line += ' \u00b7 about ' + Math.round(sim.years) + ' yr' + (Math.round(sim.years) === 1 ? '' : 's') + ' to go';
+            hint.innerHTML = line;
+          }
+          input.addEventListener('input', preview);
+          input.addEventListener('focus', function () { input.select(); });
+          input.addEventListener('keydown', function (e) { if (e.key === 'Enter') logBtn.click(); });
+
+          logBtn.addEventListener('click', function () {
+            var amt = Number(input.value);
+            if (!isFinite(amt) || amt <= 0) { input.focus(); return; }
+            S.checkInGoal(idx, amt);
+            location.reload(); // refresh the card + carousel progress from fresh state
+          });
+        } else {
+          // Already logged this month — slim confirmation with streak + undo.
+          var loggedThis = (g.checkins || []).filter(function (c) { return c.period === thisPeriod; })
+            .reduce(function (t, c) { return t + (c.amount || 0); }, 0);
+          var nxt = new Date(); nxt.setMonth(nxt.getMonth() + 1);
+          host.innerHTML =
+            '<div class="pd-card dom-teal">' +
+              '<div class="pd-done">' +
+                '<div class="pd-check">' + checkSvg + '</div>' +
+                '<div class="pd-done-txt">' +
+                  '<div class="pd-done-title">Logged ' + money(loggedThis) + ' for ' + monthName(new Date()) + '</div>' +
+                  '<div class="pd-done-sub">' + monthsOnTrack + ' month' + (monthsOnTrack === 1 ? '' : 's') + ' on track \u00b7 next check-in ' + monthName(nxt) + '</div>' +
+                '</div>' +
+                '<button class="pd-undo" id="gcUndo">Undo</button>' +
+              '</div>' +
+            '</div>';
+          var ub = document.getElementById('gcUndo');
+          if (ub) ub.addEventListener('click', function () { S.undoLastCheckIn(idx); location.reload(); });
+        }
+
+        function esc0(s) {
+          return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+          });
+        }
+      })();
+
       // ── Goal: the dashboard's primary focus (inline stats, swipeable, + add slide) ──
       (function () {
         var esc = function (s) {
@@ -368,17 +502,18 @@
         // Derive per-goal display data once.
         var data = goals.map(function (g) {
           var monthly = g.monthly || st.monthly || 0;
-          var years = g.years || null;
-          var contributed = monthly; // one month in (prototype has no real balance yet)
-          // True progress for the label; the bar floors to a min width for visibility.
-          var pct = g.target > 0 ? Math.max(0, Math.min(100, contributed / g.target * 100)) : 0;
+          // Real progress from what's actually been contributed; finish line recalculated.
+          var prog = S.goalProgress(Object.assign({}, g, { monthly: monthly }));
+          var contributed = prog.contributed;
+          var pct = prog.pct;
+          var years = prog.complete ? 0 : (prog.years != null ? prog.years : (g.years || null));
           var completion = '—';
-          if (years && isFinite(years)) {
-            var d = new Date();
-            d.setMonth(d.getMonth() + Math.round(years * 12));
-            completion = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+          if (prog.complete) {
+            completion = 'Reached';
+          } else if (prog.completion) {
+            completion = prog.completion.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
           }
-          return { g: g, monthly: monthly, years: years, contributed: contributed, pct: pct, completion: completion };
+          return { g: g, monthly: monthly, years: years, contributed: contributed, pct: pct, completion: completion, complete: prog.complete };
         });
 
         function statCard(k, v) {
@@ -410,7 +545,7 @@
             '<div class="gh-meta">' + money(d.contributed) + ' of ' + money(d.g.target) + ' · ' + pctLabel(d.pct) + '</div>' +
             '<div class="gh-stats">' +
               statCard('Monthly', d.monthly > 0 ? money(d.monthly) : 'Not set') +
-              statCard('Time to goal', d.years ? '~' + Math.round(d.years) + ' yrs' : '—') +
+              statCard('Time to goal', d.complete ? 'Reached' : (d.years ? '~' + Math.round(d.years) + ' yrs' : '—')) +
               statCard('Expected return', ratePct + '%') +
               statCard('Est. completion', d.completion) +
             '</div>';

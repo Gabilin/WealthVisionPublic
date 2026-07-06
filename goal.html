@@ -229,20 +229,26 @@
         years = isFinite(yt) ? Math.round(yt) : null;
       }
 
-      // "Where you are" — assume one month in (prototype has no real balance yet)
-      var monthsIn = 1;
-      var contributed = monthly > 0 ? fvAt(monthly, monthsIn) : 0;
-      var pct = g.target > 0 ? Math.max(0, Math.min(100, contributed / g.target * 100)) : 0;
+      // "Where you are" — real progress from logged contributions (recalculated).
+      var prog = (S.goalProgress) ? S.goalProgress(Object.assign({}, g, { monthly: monthly })) : null;
+      var contributed = prog ? prog.contributed : 0;
+      var pct = prog ? prog.pct : 0;
+      if (prog && !prog.complete && prog.years != null) years = prog.years;
 
       // Estimated completion date
       var completion = '—';
-      if (years && isFinite(years)) {
+      if (prog && prog.complete) {
+        completion = 'Reached';
+      } else if (prog && prog.completion) {
+        completion = prog.completion.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      } else if (years && isFinite(years)) {
         var d = new Date();
         d.setMonth(d.getMonth() + Math.round(years * 12));
         completion = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
       }
 
-      var timeline = years ? ('~' + Math.round(years) + ' years') : 'Set a monthly amount';
+      var timeline = (prog && prog.complete) ? 'Reached'
+        : (years ? ('~' + Math.round(years) + ' years') : 'Set a monthly amount');
       var monthlyLabel = monthly > 0 ? (money(monthly) + '/mo') : 'Not set';
 
       var eyebrowLabel = payoff ? 'Your new goal' : 'Savings goal';

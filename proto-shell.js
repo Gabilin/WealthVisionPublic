@@ -168,6 +168,84 @@
     patchState({ goals: goals, activeGoal: goals.length ? idx : 0, goal: goals.length ? goals[idx] : null });
   }
 
+  /* ---------- goal progression / monthly check-ins ----------
+     Each goal tracks the money the user has ACTUALLY set aside:
+       contributed  running total that's been logged
+       lastCheckIn  "YYYY-M" of the last logged month (monthly cadence)
+       checkins     [{ period, amount, at }] log (enables undo + history)
+     Progress and time-to-goal are recomputed from `contributed`, so logging
+     more than planned in a month pulls the finish line in (and less pushes it
+     out). These live on the goal object, which is persisted whole, so no
+     readState() whitelist change is needed. */
+  function goalPeriodKey(d) {
+    d = d || new Date();
+    return d.getFullYear() + '-' + (d.getMonth() + 1);
+  }
+  // Is a check-in owed this month? (goal has a plan, isn't reached, not logged yet)
+  function goalCheckInDue(g) {
+    if (!g || !g.target || !(g.monthly > 0)) return false;
+    if ((g.contributed || 0) >= g.target) return false;
+    return (g.lastCheckIn || '') !== goalPeriodKey();
+  }
+  // Log a contribution against a goal. `amount` defaults to the planned monthly.
+  function checkInGoal(index, amount) {
+    var s = readState();
+    if (index < 0 || index >= s.goals.length) return null;
+    var goals = s.goals.slice();
+    var g = Object.assign({}, goals[index]);
+    var amt = Number(amount);
+    if (!isFinite(amt) || amt <= 0) amt = g.monthly || 0;
+    amt = Math.max(0, Math.round(amt * 100) / 100);
+    g.contributed = Math.max(0, (g.contributed || 0) + amt);
+    g.checkins = (g.checkins || []).concat([{ period: goalPeriodKey(), amount: amt, at: Date.now() }]);
+    g.lastCheckIn = goalPeriodKey();
+    goals[index] = g;
+    patchState({ goals: goals, goal: (index === s.activeGoal ? g : s.goal) });
+    return g;
+  }
+  // Undo the most recent check-in (re-arms this month's reminder).
+  function undoLastCheckIn(index) {
+    var s = readState();
+    if (index < 0 || index >= s.goals.length) return null;
+    var goals = s.goals.slice();
+    var g = Object.assign({}, goals[index]);
+    var log = (g.checkins || []).slice();
+    var last = log.pop();
+    if (!last) return g;
+    g.checkins = log;
+    g.contributed = Math.max(0, (g.contributed || 0) - (last.amount || 0));
+    g.lastCheckIn = log.length ? log[log.length - 1].period : '';
+    goals[index] = g;
+    patchState({ goals: goals, goal: (index === s.activeGoal ? g : s.goal) });
+    return g;
+  }
+  // Recompute progress and a fresh finish line from what's actually been contributed.
+  // Returns { contributed, remaining, pct, complete, monthsLeft, years, completion(Date) }.
+  function goalProgress(g) {
+    var target = (g && g.target) || 0;
+    var contributed = (g && g.contributed) || 0;
+    var monthly = (g && g.monthly) || 0;
+    var rate = (g && g.returnRate > 0) ? g.returnRate : 0.07;
+    var remaining = Math.max(0, target - contributed);
+    var pct = target > 0 ? Math.max(0, Math.min(100, contributed / target * 100)) : 0;
+    var complete = target > 0 && contributed >= target;
+    var monthsLeft = null, years = null, completion = null;
+    if (complete) {
+      monthsLeft = 0; years = 0;
+    } else if (monthly > 0 && target > 0) {
+      var mr = rate / 12;
+      // Solve target = contributed*(1+mr)^n + monthly*((1+mr)^n - 1)/mr for n.
+      var n = Math.log((target * mr + monthly) / (contributed * mr + monthly)) / Math.log(1 + mr);
+      if (isFinite(n) && n > 0) {
+        monthsLeft = Math.ceil(n);
+        years = n / 12;
+        var d = new Date(); d.setMonth(d.getMonth() + monthsLeft);
+        completion = d;
+      }
+    }
+    return { contributed: contributed, remaining: remaining, pct: pct, complete: complete, monthsLeft: monthsLeft, years: years, completion: completion };
+  }
+
   /* ---------- financial profile ----------
      A small self-reported snapshot shared across tools (Peer Comparison self-eval,
      future net-worth-aware screens). Shape:
@@ -410,6 +488,11 @@
     saveGoal: saveGoal,
     setActiveGoal: setActiveGoal,
     removeGoal: removeGoal,
+    goalPeriodKey: goalPeriodKey,
+    goalCheckInDue: goalCheckInDue,
+    checkInGoal: checkInGoal,
+    undoLastCheckIn: undoLastCheckIn,
+    goalProgress: goalProgress,
     getFinances: getFinances,
     saveFinances: saveFinances,
     levelFromXp: levelFromXp,
