@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WealthVision — a private, offline money coach</title>
+  <meta name="description" content="A privacy-first money coach and goal planner. Interactive simulators, a pay-yourself-first payday routine, honest benchmarks, and an offline Kid Mode — 100% on-device, no accounts, no tracking. A one-time unlock, never a subscription." />
+  <meta name="theme-color" content="#0c0c0e" />
+
+  <!-- Open Graph / Twitter (generate og-cover.png — see README) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="WealthVision — a private, offline money coach" />
+  <meta property="og:description" content="Learn how money grows with hands-on tools. 100% offline, no accounts, no tracking. A one-time unlock, never a subscription." />
+  <meta property="og:image" content="og-cover.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="WealthVision — a private, offline money coach" />
+  <meta name="twitter:description" content="Learn how money grows with hands-on tools. 100% offline, no accounts. One-time unlock, never a subscription." />
+  <meta name="twitter:image" content="og-cover.png" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c0c0e'/%3E%3Cpath d='M6 21 L13 14 L18 18 L26 9' fill='none' stroke='%2322ab94' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='26' cy='9' r='2.4' fill='%2322ab94'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <!-- Privacy-friendly analytics (optional). Uncomment and set your domain.
+       Use a cookieless provider (Plausible / Umami) to stay consistent with the brand.
+  <script defer data-domain="YOUR_DOMAIN" src="https://plausible.io/js/script.js"></script>
+  -->
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ───────────────────────── Nav ───────────────────────── -->
+  <header class="nav" id="top">
+    <a class="nav-brand" href="#top" aria-label="WealthVision home">
+      <svg class="brand-mark" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
+        <path d="M5 22 L13 13 L18 17 L27 7" fill="none" stroke="#22ab94" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="27" cy="7" r="2.6" fill="#22ab94" />
+      </svg>
+      <span>Wealth<b>Vision</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#try">Try it live</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <a class="btn btn-primary nav-cta" href="#get" data-cta>Get the app</a>
+  </header>
+
+  <main>
+    <!-- ───────────────────────── Hero ───────────────────────── -->
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Money coach &amp; goal planner</span>
+        <h1>The finance app that never asks for your&nbsp;bank&nbsp;login.</h1>
+        <p class="lede">
+          WealthVision teaches how money actually grows — with hands-on simulators, a
+          judgment-free "can I buy it?" check, and a family Kid Mode. Everything runs
+          <b>100% on your device</b>. No accounts. No tracking. No ads.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="#get" data-cta>Get the app</a>
+          <a class="btn btn-ghost btn-lg" href="#try">Try it in your browser ↓</a>
+        </div>
+        <ul class="trust-row" aria-label="Highlights">
+          <li>✈️ Works offline</li>
+          <li>🔒 No accounts</li>
+          <li>♾️ One-time unlock</li>
+          <li>🚫 No ads or tracking</li>
+        </ul>
+      </div>
+      <div class="hero-phone" aria-hidden="true">
+        <div class="phone-glow"></div>
+        <div class="phone" data-stage>
+          <iframe data-src="../dashboard.html" title="WealthVision dashboard preview" loading="lazy" scrolling="no"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────── Try it live (real app) ───────────────────── -->
+    <section class="section try" id="try">
+      <div class="section-head">
+        <span class="eyebrow">Play with the real thing</span>
+        <h2>This isn't a mockup. It's the actual app, running in your browser.</h2>
+        <p class="section-sub">
+          No install, no sign-up, nothing leaves your device. Drag the sliders and see for yourself.
+        </p>
+      </div>
+
+      <div class="playground">
+        <div class="tabs" role="tablist" aria-label="Try a tool">
+          <button class="tab is-active" role="tab" data-tab="sim" aria-selected="true">📈 Growth Simulator</button>
+          <button class="tab" role="tab" data-tab="path" aria-selected="false">🎯 Path to Goal</button>
+          <button class="tab" role="tab" data-tab="buy" aria-selected="false">🛒 Can I Buy It?</button>
+          <button class="tab" role="tab" data-tab="kid" aria-selected="false">🧒 Kid Mode</button>
+        </div>
+
+        <div class="stage-wrap">
+          <div class="phone big" data-stage>
+            <iframe id="playFrame" title="Interactive WealthVision tool" src="../screen5.html"></iframe>
+          </div>
+          <div class="stage-caption">
+            <h3 data-cap-title>See what steady investing becomes</h3>
+            <p data-cap-body>
+              At a 7% historical average, $200/month for 30 years grows to about
+              <b>$244,000</b> — roughly <b>$72,000</b> of that is what you put in, the rest is
+              compounding. Move the sliders to make it yours.
+              <span class="fineprint">Illustrative only. Past performance doesn't guarantee future results.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── Three wedges ───────────────────────── -->
+    <section class="section wedges">
+      <div class="wedge">
+        <div class="wedge-ic" style="--wc:#22ab94">🔒</div>
+        <h3>Private by design</h3>
+        <p>No bank linking, no cloud, no analytics. Every calculation runs on-device — turn on airplane mode and it still works. There's no account to breach.</p>
+      </div>
+      <div class="wedge">
+        <div class="wedge-ic" style="--wc:#f7a600">🧒</div>
+        <h3>A Kid Mode you can trust</h3>
+        <p>An offline allowance piggy-bank for ages 5–12. Save or spend each week, watch the jar fill. No ads, no links, and nothing about your kid ever leaves the phone.</p>
+      </div>
+      <div class="wedge">
+        <div class="wedge-ic" style="--wc:#9c4dff">🧭</div>
+        <h3>Understand the math</h3>
+        <p>Payday routine, honest median benchmarks, and a "can I actually afford this?" check — the intentional planning tools, minus the jargon and the subscription.</p>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── Privacy proof ───────────────────────── -->
+    <section class="section privacy" id="privacy">
+      <div class="section-head">
+        <span class="eyebrow">The airplane-mode test</span>
+        <h2>Most finance apps want your bank logins and your attention. This one wants&nbsp;neither.</h2>
+      </div>
+      <ul class="proof-grid">
+        <li><b>On-device only</b><span>Every calculation runs locally and offline.</span></li>
+        <li><b>No accounts</b><span>No sign-up, no login, no user identity at all.</span></li>
+        <li><b>No cloud</b><span>No backend and no sync — nothing is transmitted off your phone.</span></li>
+        <li><b>No bank linking</b><span>No Plaid, no aggregation. The app never sees your money.</span></li>
+        <li><b>No tracking</b><span>No analytics SDKs, no ads, no profiling.</span></li>
+        <li><b>Kid-safe</b><span>Kid Mode has no ads, no links, and stores nothing off-device.</span></li>
+      </ul>
+    </section>
+
+    <!-- ───────────────────────── Pricing ───────────────────────── -->
+    <section class="section pricing" id="pricing">
+      <div class="section-head">
+        <span class="eyebrow">Buy once. Keep forever.</span>
+        <h2>No subscription. Not now, not ever.</h2>
+        <p class="section-sub">
+          The core tools are free. Unlock the advanced planners once and they're yours for good —
+          because a tool that keeps nothing and runs on your phone shouldn't bill you every month.
+        </p>
+      </div>
+
+      <div class="price-grid">
+        <div class="price-card">
+          <div class="price-name">Free</div>
+          <div class="price-amt"><span class="amt">$0</span></div>
+          <p class="price-tag">Genuinely useful on its own.</p>
+          <ul class="price-list">
+            <li>Growth Simulator</li>
+            <li>Path-to-Goal planner</li>
+            <li>Payday Routine</li>
+            <li>"Can I Buy It?" check</li>
+            <li>All 8 interactive lessons</li>
+            <li>Kid Mode for one child</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="#get" data-cta-free>Start free</a>
+        </div>
+
+        <div class="price-card featured">
+          <div class="price-flag">Founding price</div>
+          <div class="price-name">Lifetime unlock</div>
+          <div class="price-amt">
+            <span class="amt" data-price-founding>$9.99</span>
+            <span class="amt-was" data-price-reg>$19.99</span>
+          </div>
+          <p class="price-tag">One payment. Yours forever. No subscription.</p>
+          <ul class="price-list">
+            <li><b>Everything in Free, plus:</b></li>
+            <li>Peer Comparison (honest median)</li>
+            <li>Goal Builder — unlimited goals</li>
+            <li>Scenario Compare</li>
+            <li>Advanced goal-acceleration</li>
+            <li>Multi-child Kid Mode</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="#get" data-cta>Get the lifetime unlock</a>
+          <p class="price-foot">Founding price for early users — going up at launch.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── Get / waitlist ───────────────────────── -->
+    <section class="section get" id="get">
+      <!-- LIVE variant (shown when CONFIG.LAUNCH_STATE === 'live') -->
+      <div class="get-card" data-when="live" hidden>
+        <span class="eyebrow">Available now</span>
+        <h2>Get WealthVision</h2>
+        <p class="section-sub">One-time unlock, no subscription. 100% offline, no accounts.</p>
+        <div class="store-row">
+          <a class="btn btn-primary btn-lg" data-store="ios" href="#">Download for iOS</a>
+          <a class="btn btn-primary btn-lg" data-store="android" href="#">Get it on Android</a>
+        </div>
+      </div>
+
+      <!-- PRE-LAUNCH variant (shown when CONFIG.LAUNCH_STATE === 'prelaunch') -->
+      <div class="get-card" data-when="prelaunch">
+        <span class="eyebrow">Launching soon</span>
+        <h2>Lock in the founding price</h2>
+        <p class="section-sub">
+          Join the launch list and get the lifetime unlock for
+          <b><span data-price-founding>$9.99</span></b> (regularly <span data-price-reg>$19.99</span>).
+          One email when we launch — then nothing unless you ask.
+        </p>
+        <form class="waitlist" id="waitlistForm" novalidate>
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-label="Your email" />
+          <button class="btn btn-primary" type="submit">Lock in the founding price</button>
+          <!-- Form-provider helpers (Formspree/Formspark). Honeypot traps bots; hidden fields label the email. -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
+          <input type="hidden" name="_subject" value="New WealthVision founding-list signup" />
+          <input type="hidden" name="source" value="teaser-waitlist" />
+        </form>
+        <p class="form-note" id="formNote">No tracking pixels. We hate spam as much as you do.</p>
+        <div class="store-row secondary" data-testflight hidden>
+          <a class="btn btn-ghost" data-store="testflight" href="#">Try the iOS beta (TestFlight)</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── FAQ ───────────────────────── -->
+    <section class="section faq">
+      <div class="section-head">
+        <span class="eyebrow">Straight answers</span>
+        <h2>Questions people actually ask</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>How do you make money with no ads and no subscription?</summary>
+          <p>A one-time unlock. You pay once for the advanced planning tools and keep them forever. The free tier is genuinely useful; Pro is the power-planner upgrade. No ads, no data selling.</p>
+        </details>
+        <details>
+          <summary>Is it really offline?</summary>
+          <p>Yes. Turn on airplane mode and everything still works, because every calculation runs on-device. There are no accounts and no backend — nothing to phone home.</p>
+        </details>
+        <details>
+          <summary>Is this a budgeting app that tracks my spending?</summary>
+          <p>No — and we want to be upfront. WealthVision doesn't link your bank or import transactions. It's a coach and planner: simulators, a payday routine, affordability checks, lessons, and honest benchmarks. It pairs well next to a tracker, but it's a different job.</p>
+        </details>
+        <details>
+          <summary>Are the projected returns guaranteed?</summary>
+          <p>Never. Projections use historical averages shown with a risk band, and it's an educational tool — not financial advice. Past performance doesn't guarantee future results.</p>
+        </details>
+        <details>
+          <summary>What about my child's data in Kid Mode?</summary>
+          <p>Nothing about your child leaves the phone. No ads, no external links, no purchases inside the kid experience. It's designed so you can hand over your phone without worrying.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- ───────────────────────── Footer ───────────────────────── -->
+  <footer class="footer">
+    <div class="foot-brand">
+      <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
+        <path d="M5 22 L13 13 L18 17 L27 7" fill="none" stroke="#22ab94" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="27" cy="7" r="2.6" fill="#22ab94" />
+      </svg>
+      <span>Wealth<b>Vision</b></span>
+    </div>
+    <p class="disclaimer">
+      WealthVision is an educational tool, not financial advice. Projections are illustrative and use
+      historical averages with risk bands; past performance does not guarantee future results.
+      Built with care by a solo developer in Warsaw. 🇵🇱
+    </p>
+    <p class="copyright">© <span id="year">2026</span> WealthVision · 100% on-device · no accounts · no tracking</p>
+  </footer>
+
+  <script src="teaser.js"></script>
+</body>
+</html>
