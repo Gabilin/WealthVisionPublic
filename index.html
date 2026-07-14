@@ -1,117 +1,821 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WealthVision</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="WealthVision is a privacy-first, offline money coach. Simulate your future, build a plan you control, and learn to invest without the jargon. No accounts, no tracking, works offline." />
+  <meta name="theme-color" content="#0c0c0e" />
+  <title>WealthVision | Watch your future unfold</title>
+
+  <link rel="canonical" href="https://www.wealthvision.space/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.wealthvision.space/" />
+  <meta property="og:title" content="WealthVision — a private, offline money coach" />
+  <meta property="og:description" content="Learn how money actually grows with hands-on tools. 100% offline, no accounts, no tracking. A one-time unlock, never a subscription." />
+  <meta property="og:image" content="https://www.wealthvision.space/images/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="WealthVision — a private, offline money coach" />
+  <meta name="twitter:description" content="Learn how money actually grows with hands-on tools. 100% offline, no accounts. One-time unlock, never a subscription." />
+  <meta name="twitter:image" content="https://www.wealthvision.space/images/og-cover.png" />
+
+  <link rel="icon" type="image/svg+xml" href="images/app_icon.svg" />
+  <link rel="apple-touch-icon" href="images/icon-180.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: "#0c0c0e",
+            surface: "#1b1b1f",
+            "surface-2": "#16161a",
+            "surface-h": "#24242a",
+            hi: "#ececed",
+            mid: "#8e8e95",
+            lo: "#5e5e66",
+            green: "#22ab94",
+            "green-bright": "#3ad9bf",
+            red: "#f7525f",
+            blue: "#2962ff",
+            amber: "#f7a600",
+            violet: "#9c4dff",
+          },
+          fontFamily: {
+            sans: ["IBM Plex Sans", "system-ui", "sans-serif"],
+            mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
+          },
+        },
+      },
+    };
+  </script>
+
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0c0c0e; --surface: #1b1b1f; --surface-2: #16161a; --surface-h: #24242a;
+      --hair: rgba(255, 255, 255, 0.07); --hair-2: rgba(255, 255, 255, 0.14);
+      --hi: #ececed; --mid: #8e8e95; --lo: #5e5e66;
+      --green: #22ab94; --green-bright: #3ad9bf; --red: #f7525f;
+      --blue: #2962ff; --amber: #f7a600; --violet: #9c4dff;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      background: #000;
-      display: flex; justify-content: center; align-items: center;
-      min-height: 100vh;
-      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      background: var(--bg); color: var(--hi);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
-    .device-frame {
-      width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
-      position: relative; background: #0c0c0e;
-      border: 1px solid rgba(255,255,255,0.07);
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    ::selection { background: rgba(34, 171, 148, 0.28); color: #fff; }
+    .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+    .eyebrow {
+      font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid);
     }
-    .splash {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 26px;
-      background: #0c0c0e;
+
+    /* Ambient teal field behind the hero, single quiet source of colour */
+    .aura {
+      position: absolute; pointer-events: none; border-radius: 999px;
+      filter: blur(90px); opacity: 0.5;
     }
-    .logo-mark {
-      width: 112px; height: 112px;
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      font-weight: 600; font-size: 15px; border-radius: 12px; padding: 13px 22px;
+      text-decoration: none; cursor: pointer; transition: transform 0.12s var(--ease), background 0.2s var(--ease), border-color 0.2s var(--ease); }
+    .btn:active { transform: scale(0.98); }
+    .btn-cta { background: var(--green); color: #06120f; }
+    .btn-cta:hover { background: #27c0a6; }
+    .btn-ghost { background: var(--surface); color: var(--hi); border: 1px solid var(--hair); }
+    .btn-ghost:hover { border-color: var(--hair-2); background: var(--surface-h); }
+
+    /* Store badges */
+    .store {
+      display: inline-flex; align-items: center; gap: 11px; padding: 10px 16px;
+      border-radius: 12px; background: var(--surface); border: 1px solid var(--hair);
+      color: var(--hi); text-decoration: none; transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+    }
+    .store:hover { border-color: var(--hair-2); background: var(--surface-h); }
+    .store .k { font-size: 10px; color: var(--mid); line-height: 1; margin-bottom: 3px; }
+    .store .v { font-size: 15px; font-weight: 600; line-height: 1; letter-spacing: -0.01em; }
+
+    /* Cards */
+    .card { background: var(--surface); border: 1px solid var(--hair); border-radius: 16px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px;
+      font-size: 12px; font-weight: 600; border: 1px solid var(--hair); color: var(--mid);
+      font-family: "IBM Plex Mono", monospace; letter-spacing: 0.02em;
+    }
+
+    /* Hairline divider */
+    .rule { height: 1px; background: var(--hair); border: 0; }
+
+    /* Phone mockup — real screenshot in a device frame */
+    .phone {
+      width: 300px; aspect-ratio: 393 / 852; border-radius: 46px;
+      background: #17171b; padding: 9px;
+      border: 1px solid var(--hair-2);
+      box-shadow: 0 40px 90px -34px rgba(0,0,0,0.95), 0 0 0 1px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset;
       position: relative;
-      display: flex; align-items: center; justify-content: center;
     }
-    .logo-mark svg { width: 112px; height: 112px; overflow: visible; }
-    .lm-curve {
-      fill: none; stroke: #22ab94; stroke-width: 6;
-      stroke-linecap: round; stroke-linejoin: round;
-      stroke-dasharray: 180; stroke-dashoffset: 180;
-      filter: drop-shadow(0 4px 14px rgba(34, 171, 148,0.45));
-      animation: draw 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
-    }
-    .lm-dot {
-      fill: #22ab94; opacity: 0; transform-origin: center;
-      filter: drop-shadow(0 0 8px rgba(34, 171, 148,0.7));
-      animation: pop 0.4s cubic-bezier(0.16,1,0.3,1) 0.95s forwards;
-    }
-    .lm-ring {
-      fill: none; stroke: rgba(34, 171, 148,0.25); stroke-width: 2;
-      opacity: 0;
-      animation: ring 0.7s ease-out 1s forwards;
-    }
+    .phone-screen { width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: #0c0c0e; }
+    .phone-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+    .phone-glare { position: absolute; inset: 9px; border-radius: 38px; pointer-events: none;
+      background: linear-gradient(150deg, rgba(255,255,255,0.055), transparent 30%); }
+
+    /* Data row */
+    .drow { display: flex; align-items: baseline; justify-content: space-between; padding: 9px 0; }
+    .drow + .drow { border-top: 1px solid var(--hair); }
+    .drow .l { font-size: 13px; color: var(--mid); }
+    .drow .val { font-size: 13px; color: var(--hi); }
+    .up { color: var(--green); } .dn { color: var(--red); }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* Logo curve draw */
+    .lm-curve { fill: none; stroke: var(--green); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 180; stroke-dashoffset: 180; animation: draw 1s var(--ease) 0.2s forwards; }
+    .lm-dot { fill: var(--green); opacity: 0; transform-origin: center; animation: pop 0.4s var(--ease) 1s forwards; }
     @keyframes draw { to { stroke-dashoffset: 0; } }
     @keyframes pop { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(1); } }
-    @keyframes ring { 0% { opacity: 0.6; transform: scale(0.7); transform-origin: 84px 30px; } 100% { opacity: 0; transform: scale(1.7); transform-origin: 84px 30px; } }
 
-    .wordmark {
-      opacity: 0; transform: translateY(8px);
-      animation: rise 0.6s cubic-bezier(0.16,1,0.3,1) 1.35s forwards;
-      text-align: center;
-    }
-    .wordmark .name {
-      font-size: 27px; font-weight: 800; letter-spacing: -0.02em; color: #ececed;
-    }
-    .wordmark .name b { color: #22ab94; font-weight: 800; }
-    .wordmark .tag {
-      margin-top: 7px; font-size: 13px; color: #8e8e95; letter-spacing: 0.01em;
-    }
-    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+    /* Chart path draw */
+    .draw-line { stroke-dasharray: 620; stroke-dashoffset: 620; }
+    .in .draw-line { animation: draw2 1.4s var(--ease) 0.15s forwards; }
+    @keyframes draw2 { to { stroke-dashoffset: 0; } }
 
-    /* Fill real phone screens edge-to-edge (desktop keeps the mock) */
-    @media (max-width: 600px) {
-      body { display: block; min-height: 100vh; min-height: 100dvh; background: #000; }
-      .device-frame {
-        width: 100vw; height: 100vh; height: 100dvh;
-        max-width: 100%; border-radius: 0; border: 0; box-shadow: none;
-      }
+    /* FAQ */
+    details.faq { border-bottom: 1px solid var(--hair); }
+    details.faq summary { list-style: none; cursor: pointer; padding: 20px 2px; display: flex;
+      align-items: center; justify-content: space-between; gap: 16px; font-weight: 600; font-size: 17px; }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary .plus { color: var(--mid); transition: transform 0.25s var(--ease); flex: none; }
+    details.faq[open] summary .plus { transform: rotate(45deg); color: var(--green); }
+    details.faq .a { padding: 0 2px 22px; color: var(--mid); font-size: 15px; line-height: 1.7; max-width: 62ch; }
+
+    .link-quiet { color: var(--mid); text-decoration: none; transition: color 0.2s var(--ease); }
+    .link-quiet:hover { color: var(--hi); }
+
+    /* Product Hunt coming-soon badge */
+    .ph-badge { display:inline-flex; align-items:center; gap:12px; padding:9px 15px 9px 10px; border-radius:13px;
+      background:var(--surface); border:1px solid var(--hair); text-decoration:none; text-align:left;
+      transition:border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.12s var(--ease); }
+    .ph-badge:hover { border-color:rgba(218,85,47,0.55); background:var(--surface-h); }
+    .ph-badge:active { transform:scale(0.98); }
+    .ph-badge-logo { display:flex; flex:none; }
+    .ph-badge-copy { display:flex; flex-direction:column; line-height:1.32; }
+    .ph-badge-copy b { font-size:13.5px; font-weight:600; color:var(--hi); letter-spacing:-0.01em; }
+    .ph-badge-copy > span { font-size:12.5px; color:var(--mid); transition:color 0.2s var(--ease); }
+    .ph-badge:hover .ph-badge-copy > span { color:var(--hi); }
+
+    /* Try it live — the real app embedded */
+    .demo-stage { display:flex; justify-content:center; overflow:hidden; }
+    .demo-phone { width:393px; flex:none; will-change:transform; }
+    .demo-phone iframe { width:393px; height:812px; border:0; border-radius:30px; background:#000; display:block;
+      box-shadow:0 40px 90px -40px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.05); }
+    .try-tab { font-family:"IBM Plex Sans", system-ui, sans-serif; font-size:14px; font-weight:600; color:var(--mid);
+      background:var(--surface); border:1px solid var(--hair); border-radius:11px; padding:9px 13px; cursor:pointer;
+      transition:color 0.2s var(--ease), background 0.2s var(--ease), border-color 0.2s var(--ease); }
+    .try-tab:hover { color:var(--hi); border-color:var(--hair-2); }
+    .try-tab.is-active { color:#06120f; background:var(--green); border-color:var(--green); }
+    [data-cap-body] .fine { display:block; margin-top:10px; font-size:12px; color:var(--lo); }
+    #waitlistForm.sent input, #waitlistForm.sent button { opacity:0.6; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { transition: none; opacity: 1; transform: none; }
+      .lm-curve, .lm-dot, .draw-line, .in .draw-line { animation: none; stroke-dashoffset: 0; opacity: 1; }
     }
   </style>
 </head>
-<body>
-  <div class="device-frame">
-    <div class="splash">
-      <div class="logo-mark">
-        <svg viewBox="0 0 112 112">
-          <path class="lm-curve" d="M14 86 C 36 84, 50 70, 60 52 S 78 20, 96 14" />
-          <circle class="lm-ring" cx="96" cy="14" r="9" />
-          <circle class="lm-dot" cx="96" cy="14" r="6.5" />
-        </svg>
-      </div>
-      <div class="wordmark">
-        <div class="name">Wealth<b>Vision</b></div>
-        <div class="tag">Watch your future unfold</div>
-      </div>
+
+<body class="font-sans">
+  <!-- Top ribbon -->
+  <div class="w-full border-b border-white/[0.06] bg-[#0c0c0e]">
+    <div class="max-w-[1160px] mx-auto px-5 h-9 flex items-center justify-center">
+      <a href="../index.html" class="eyebrow hover:text-hi transition-colors flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+        Part of The 100 Apps Project
+      </a>
     </div>
   </div>
 
+  <!-- Nav -->
+  <nav class="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[#0c0c0e]/85 backdrop-blur-md">
+    <div class="max-w-[1160px] mx-auto px-5 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <svg width="30" height="30" viewBox="0 0 112 112" aria-hidden="true">
+          <path class="lm-curve" d="M14 86 C 36 84, 50 70, 60 52 S 78 20, 96 14" />
+          <circle class="lm-dot" cx="96" cy="14" r="7" />
+        </svg>
+        <span class="text-[19px] font-bold tracking-[-0.02em]">Wealth<span class="text-green">Vision</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#features" class="text-sm font-medium text-mid hover:text-hi transition-colors">Features</a>
+        <a href="#honest" class="text-sm font-medium text-mid hover:text-hi transition-colors">Honest by design</a>
+        <a href="#family" class="text-sm font-medium text-mid hover:text-hi transition-colors">Kid Mode</a>
+        <a href="pricing.html" class="text-sm font-medium text-mid hover:text-hi transition-colors">Pricing</a>
+      </div>
+      <a href="#get" class="btn btn-cta !py-2 !px-4 !text-sm">Join the waitlist</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden">
+      <div class="aura" style="width:560px;height:420px;top:-120px;left:-80px;background:radial-gradient(circle,rgba(34,171,148,0.16),transparent 70%);"></div>
+      <div class="aura" style="width:520px;height:520px;top:60px;right:-160px;background:radial-gradient(circle,rgba(41,98,255,0.08),transparent 70%);"></div>
+
+      <div class="max-w-[1160px] mx-auto px-5 pt-16 pb-20 md:pt-24 md:pb-28 grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-8 items-center relative">
+        <!-- Copy -->
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.02] mb-7 reveal in">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green opacity-60"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-green"></span>
+            </span>
+            <span class="eyebrow !text-[10.5px] !text-hi">Finance &amp; Education, private by design</span>
+          </div>
+
+          <h1 class="text-[42px] leading-[1.02] md:text-[62px] md:leading-[0.98] font-bold tracking-[-0.03em] mb-6" style="text-wrap:balance;">
+            Watch your future <span class="text-green">unfold.</span>
+          </h1>
+
+          <p class="text-lg md:text-xl text-mid leading-relaxed max-w-[38ch] mb-9" style="text-wrap:pretty;">
+            WealthVision is the money coach for anyone who finds investing intimidating.
+            Simulate decades in seconds, turn a daunting timeline into levers you control,
+            and learn the ropes without the jargon. All on your device.
+          </p>
+
+          <!-- Pre-launch: waitlist + Product Hunt -->
+          <div class="flex flex-wrap items-center gap-3 mb-5">
+            <a href="#get" class="btn btn-cta">Join the waitlist<span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+            <span class="chip">In review · iOS &amp; Android soon</span>
+          </div>
+
+          <a href="https://www.producthunt.com/products/wealthvision" target="_blank" rel="noopener" class="ph-badge mb-6" aria-label="WealthVision is coming soon on Product Hunt — get notified">
+            <span class="ph-badge-logo" aria-hidden="true"><svg viewBox="0 0 40 40" width="22" height="22" role="img"><circle cx="20" cy="20" r="20" fill="#da552f"/><text x="20" y="28" font-family="'IBM Plex Sans',Arial,sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">P</text></svg></span>
+            <span class="ph-badge-copy"><b>Coming soon on Product Hunt</b><span>Launching Aug 4 — get notified →</span></span>
+          </a>
+
+          <div class="flex items-center gap-2 text-sm text-lo">
+            <span class="material-symbols-outlined text-[17px] text-green">lock</span>
+            No account. No tracking. Works fully offline.
+          </div>
+        </div>
+
+        <!-- Phone mockup: real production dashboard screenshot -->
+        <div class="flex justify-center lg:justify-end reveal in">
+          <div class="phone" role="img" aria-label="WealthVision home screen showing an Emergency fund goal of 6,000 dollars with a monthly plan, today's lesson, and quick tools">
+            <div class="phone-screen">
+              <img src="images/dashboard.png" alt="WealthVision app home screen: an Emergency fund goal, today's lesson, and the tools strip" width="393" height="852" loading="eager" />
+            </div>
+            <div class="phone-glare"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust strip -->
+    <section class="border-y border-white/[0.06] bg-[#0a0a0c]">
+      <div class="max-w-[1160px] mx-auto px-5 py-8 grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4">
+        <div class="reveal">
+          <div class="flex items-center gap-2 mb-1.5"><span class="material-symbols-outlined text-[19px] text-green">smartphone</span><span class="mono text-[22px] font-semibold">100%</span></div>
+          <div class="text-sm text-mid">On device. Your numbers never leave your phone.</div>
+        </div>
+        <div class="reveal" style="transition-delay:60ms">
+          <div class="flex items-center gap-2 mb-1.5"><span class="material-symbols-outlined text-[19px] text-green">person_off</span><span class="mono text-[22px] font-semibold">0</span></div>
+          <div class="text-sm text-mid">Accounts, logins, or emails required.</div>
+        </div>
+        <div class="reveal" style="transition-delay:120ms">
+          <div class="flex items-center gap-2 mb-1.5"><span class="material-symbols-outlined text-[19px] text-green">wifi_off</span><span class="mono text-[22px] font-semibold">Offline</span></div>
+          <div class="text-sm text-mid">Every tool works with no connection.</div>
+        </div>
+        <div class="reveal" style="transition-delay:180ms">
+          <div class="flex items-center gap-2 mb-1.5"><span class="material-symbols-outlined text-[19px] text-green">block</span><span class="mono text-[22px] font-semibold">No</span></div>
+          <div class="text-sm text-mid">Ads, trackers, or third-party analytics.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="max-w-[1160px] mx-auto px-5 py-20 md:py-28">
+      <div class="max-w-[640px] mb-12 reveal">
+        <div class="eyebrow mb-3">The toolkit</div>
+        <h2 class="text-[32px] md:text-[44px] font-bold tracking-[-0.03em] leading-[1.05] mb-4">
+          Six tools that turn worry into a plan.
+        </h2>
+        <p class="text-lg text-mid leading-relaxed">
+          Not another article to skim. WealthVision is interactive: move a slider, see the future move with it.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-6 gap-4 auto-rows-[minmax(0,auto)]">
+        <!-- Growth Simulator (wide, with chart) -->
+        <div class="card p-6 md:col-span-4 reveal">
+          <div class="flex items-start justify-between gap-4 mb-5">
+            <div>
+              <div class="flex items-center gap-2 mb-2.5">
+                <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,171,148,0.12);"><span class="material-symbols-outlined text-[19px] text-green">show_chart</span></span>
+                <h3 class="text-xl font-bold">Growth Simulator</h3>
+              </div>
+              <p class="text-mid text-[15px] leading-relaxed max-w-[46ch]">
+                See how small, steady contributions compound over decades. Compare what you put in against what
+                growth adds, side by side.
+              </p>
+            </div>
+            <span class="chip !text-green flex-none" style="border-color:rgba(34,171,148,0.3);">Free</span>
+          </div>
+          <div class="rounded-xl border border-white/[0.06] bg-[#16161a] p-4">
+            <div class="flex items-end justify-between mb-3">
+              <div>
+                <div class="eyebrow !text-[9.5px] mb-1">In 30 years</div>
+                <div class="mono text-[26px] font-semibold leading-none">$243,994</div>
+              </div>
+              <div class="text-right text-[12px]">
+                <div class="text-mid">You put in <span class="mono text-blue">$72,000</span></div>
+                <div class="text-mid">Growth adds <span class="mono up">$171,994</span></div>
+              </div>
+            </div>
+            <svg viewBox="0 0 500 120" class="w-full h-[110px]" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="g-area2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#22ab94" stop-opacity="0.24"/>
+                  <stop offset="1" stop-color="#22ab94" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <line x1="0" y1="16" x2="500" y2="16" stroke="#f7525f" stroke-width="1" stroke-dasharray="4 5" opacity="0.6"/>
+              <text x="6" y="12" class="mono" fill="#8e8e95" font-size="9">Goal $200k</text>
+              <path d="M0 112 C 120 106 210 92 280 72 C 360 48 430 30 500 14 L 500 120 L 0 120 Z" fill="url(#g-area2)"/>
+              <path class="draw-line" d="M0 112 C 120 106 210 92 280 72 C 360 48 430 30 500 14" fill="none" stroke="#22ab94" stroke-width="2.4" stroke-linecap="round"/>
+              <path class="draw-line" d="M0 112 L 500 66" fill="none" stroke="#2962ff" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Path to Goal -->
+        <div class="card p-6 md:col-span-2 reveal" style="transition-delay:60ms">
+          <div class="flex items-center gap-2 mb-2.5">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,171,148,0.12);"><span class="material-symbols-outlined text-[19px] text-green">route</span></span>
+            <h3 class="text-xl font-bold">Path to Goal</h3>
+          </div>
+          <p class="text-mid text-[15px] leading-relaxed mb-5">
+            "25 years" feels like a verdict. Here it becomes three levers you control.
+          </p>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-[12px] mb-1.5"><span class="text-mid">Add $50 / month</span><span class="mono up">-4 yrs</span></div>
+              <div class="h-1.5 rounded-full bg-white/[0.07]"><div class="h-1.5 rounded-full bg-green" style="width:72%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-[12px] mb-1.5"><span class="text-mid">Start with $1,000</span><span class="mono up">-2 yrs</span></div>
+              <div class="h-1.5 rounded-full bg-white/[0.07]"><div class="h-1.5 rounded-full bg-green" style="width:48%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-[12px] mb-1.5"><span class="text-mid">Trim the target 10%</span><span class="mono up">-3 yrs</span></div>
+              <div class="h-1.5 rounded-full bg-white/[0.07]"><div class="h-1.5 rounded-full bg-green" style="width:60%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payday Routine -->
+        <div class="card p-6 md:col-span-2 reveal">
+          <div class="flex items-center gap-2 mb-2.5">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(247,166,0,0.12);"><span class="material-symbols-outlined text-[19px] text-amber">account_balance_wallet</span></span>
+            <h3 class="text-xl font-bold">Payday Routine</h3>
+          </div>
+          <p class="text-mid text-[15px] leading-relaxed mb-5">
+            Safety first, then spend freely. Split each paycheque before it slips away.
+          </p>
+          <div class="space-y-2.5">
+            <div class="flex items-center gap-3"><span class="text-[12px] text-mid w-20">Emergency</span><div class="flex-1 h-2 rounded-full bg-white/[0.07]"><div class="h-2 rounded-full bg-green" style="width:35%"></div></div></div>
+            <div class="flex items-center gap-3"><span class="text-[12px] text-mid w-20">Invest</span><div class="flex-1 h-2 rounded-full bg-white/[0.07]"><div class="h-2 rounded-full bg-blue" style="width:28%"></div></div></div>
+            <div class="flex items-center gap-3"><span class="text-[12px] text-mid w-20">Debt</span><div class="flex-1 h-2 rounded-full bg-white/[0.07]"><div class="h-2 rounded-full bg-amber" style="width:18%"></div></div></div>
+            <div class="flex items-center gap-3"><span class="text-[12px] text-mid w-20">Guilt-free</span><div class="flex-1 h-2 rounded-full bg-white/[0.07]"><div class="h-2 rounded-full bg-violet" style="width:19%"></div></div></div>
+          </div>
+        </div>
+
+        <!-- Can I Buy It -->
+        <div class="card p-6 md:col-span-2 reveal" style="transition-delay:60ms">
+          <div class="flex items-center gap-2 mb-2.5">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(41,98,255,0.12);"><span class="material-symbols-outlined text-[19px] text-blue">calculate</span></span>
+            <h3 class="text-xl font-bold">Can I Buy It?</h3>
+          </div>
+          <p class="text-mid text-[15px] leading-relaxed mb-5">
+            A judgment-free gut check. It frames the choice as math, never morality.
+          </p>
+          <div class="rounded-xl border border-white/[0.06] bg-[#16161a] p-4">
+            <div class="drow !pt-0"><span class="l">The thing</span><span class="val mono">$180</span></div>
+            <div class="drow"><span class="l">Set aside first</span><span class="val mono up">$0 impact</span></div>
+            <div class="drow !pb-0"><span class="l">Verdict</span><span class="val up font-semibold">Go for it</span></div>
+          </div>
+        </div>
+
+        <!-- Peer Comparison -->
+        <div class="card p-6 md:col-span-2 reveal" style="transition-delay:120ms">
+          <div class="flex items-center gap-2 mb-2.5">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(156,77,255,0.12);"><span class="material-symbols-outlined text-[19px] text-violet">groups</span></span>
+            <h3 class="text-xl font-bold">Peer Comparison</h3>
+          </div>
+          <p class="text-mid text-[15px] leading-relaxed mb-5">
+            Where you stand versus the median for your age. Honest, and never a leaderboard.
+          </p>
+          <div class="rounded-xl border border-white/[0.06] bg-[#16161a] p-4 flex items-center gap-4">
+            <div class="mono text-[28px] font-semibold up">62%</div>
+            <div class="text-[12px] text-mid leading-snug">of the way to the median for<br>ages 25 to 34. Steady wins.</div>
+          </div>
+        </div>
+
+        <!-- Goal Builder -->
+        <div class="card p-6 md:col-span-2 reveal">
+          <div class="flex items-center gap-2 mb-2.5">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,171,148,0.12);"><span class="material-symbols-outlined text-[19px] text-green">flag</span></span>
+            <h3 class="text-xl font-bold">Goal Builder</h3>
+          </div>
+          <p class="text-mid text-[15px] leading-relaxed mb-5">
+            A guided five-step flow: emergency fund, a home, or financial freedom via the 4% rule.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="chip">Emergency fund</span>
+            <span class="chip">First home</span>
+            <span class="chip">Freedom</span>
+            <span class="chip">Custom</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Try it live -->
+    <section id="try" class="border-y border-white/[0.06] bg-[#0a0a0c]">
+      <div class="max-w-[1160px] mx-auto px-5 py-20 md:py-28">
+        <div class="max-w-[660px] mb-12 reveal">
+          <div class="eyebrow mb-3">Play with the real thing</div>
+          <h2 class="text-[32px] md:text-[44px] font-bold tracking-[-0.03em] leading-[1.05] mb-4">
+            Not a mockup. The <span class="text-green">actual app</span>, in your browser.
+          </h2>
+          <p class="text-lg text-mid leading-relaxed">
+            No install, no sign-up, nothing leaves your device. Pick a tool, drag the sliders, and watch the numbers move in real time.
+          </p>
+        </div>
+        <div class="grid lg:grid-cols-[0.82fr_1.18fr] gap-12 lg:gap-10 items-center">
+          <div class="demo-stage reveal">
+            <div class="demo-phone" data-stage>
+              <iframe id="playFrame" title="Interactive WealthVision tool" src="demo/screen5.html" loading="lazy"></iframe>
+            </div>
+          </div>
+          <div class="reveal">
+            <div class="flex flex-wrap gap-2 mb-7" role="tablist" aria-label="Try a tool">
+              <button class="try-tab is-active" role="tab" aria-selected="true" data-tab="sim">📈 Growth Simulator</button>
+              <button class="try-tab" role="tab" aria-selected="false" data-tab="path">🎯 Path to Goal</button>
+              <button class="try-tab" role="tab" aria-selected="false" data-tab="buy">🛒 Can I Buy It?</button>
+              <button class="try-tab" role="tab" aria-selected="false" data-tab="kid">🧒 Kid Mode</button>
+            </div>
+            <h3 class="text-2xl md:text-[28px] font-bold tracking-[-0.02em] mb-3" data-cap-title>See what steady investing becomes</h3>
+            <p class="text-[15px] md:text-base text-mid leading-relaxed max-w-[46ch]" data-cap-body>
+              At a 7% historical average, $200/month for 30 years grows to about <b class="text-hi">$244,000</b> — about
+              <b class="text-hi">$72,000</b> of that is what you put in, the rest is compounding. Move the sliders to make it yours.
+              <span class="fine">Illustrative only. Past performance doesn't guarantee future results.</span>
+            </p>
+            <div class="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-lo">
+              <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-green">bolt</span>Runs entirely on device</span>
+              <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-green">wifi_off</span>Works offline</span>
+              <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-green">lock</span>Nothing is uploaded</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Honest by design -->
+    <section id="honest" class="relative border-y border-white/[0.06] bg-[#0a0a0c] overflow-hidden">
+      <div class="aura" style="width:520px;height:360px;bottom:-140px;left:20%;background:radial-gradient(circle,rgba(34,171,148,0.10),transparent 70%);"></div>
+      <div class="max-w-[1160px] mx-auto px-5 py-20 md:py-28 grid lg:grid-cols-2 gap-14 items-center relative">
+        <div class="reveal">
+          <div class="eyebrow mb-3">Honest by design</div>
+          <h2 class="text-[32px] md:text-[44px] font-bold tracking-[-0.03em] leading-[1.05] mb-5">
+            No hype. No guaranteed 13%. Just the real range.
+          </h2>
+          <p class="text-lg text-mid leading-relaxed mb-6 max-w-[52ch]">
+            Most finance apps sell a single, flattering number. WealthVision shows the honest spread:
+            projections use long-run historical averages and always draw the risk band around them, so
+            you plan for the dips as well as the climbs.
+          </p>
+          <ul class="space-y-3.5">
+            <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[20px] text-green mt-0.5">check_circle</span><span class="text-[15px] text-hi">Historical averages, not cherry-picked bull runs.</span></li>
+            <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[20px] text-green mt-0.5">check_circle</span><span class="text-[15px] text-hi">A shaded range shows better and worse outcomes.</span></li>
+            <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[20px] text-green mt-0.5">check_circle</span><span class="text-[15px] text-hi">Benchmarks use the median, so nobody looks fake-rich.</span></li>
+          </ul>
+        </div>
+
+        <div class="card p-6 reveal" style="transition-delay:80ms">
+          <div class="flex items-center justify-between mb-4">
+            <div class="eyebrow !text-[10px]">Projected value, with range</div>
+            <span class="chip !text-[10px]">30 yr · 7% avg</span>
+          </div>
+          <svg viewBox="0 0 520 220" class="w-full" aria-hidden="true">
+            <defs>
+              <linearGradient id="band" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#22ab94" stop-opacity="0.20"/>
+                <stop offset="1" stop-color="#22ab94" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <g stroke="rgba(255,255,255,0.05)" stroke-width="1">
+              <line x1="0" y1="50" x2="520" y2="50"/>
+              <line x1="0" y1="105" x2="520" y2="105"/>
+              <line x1="0" y1="160" x2="520" y2="160"/>
+            </g>
+            <!-- risk band -->
+            <path d="M0 190 C 140 176 250 150 340 112 C 410 82 470 54 520 30 L 520 92 C 470 108 410 128 340 150 C 250 178 140 192 0 198 Z" fill="url(#band)"/>
+            <!-- upper / lower edges -->
+            <path d="M0 190 C 140 176 250 150 340 112 C 410 82 470 54 520 30" fill="none" stroke="#22ab94" stroke-width="1.4" opacity="0.5" stroke-dasharray="4 4"/>
+            <path d="M0 198 C 140 192 250 178 340 150 C 410 128 470 108 520 92" fill="none" stroke="#22ab94" stroke-width="1.4" opacity="0.5" stroke-dasharray="4 4"/>
+            <!-- median line -->
+            <path class="draw-line" d="M0 194 C 140 184 250 164 340 131 C 410 105 470 81 520 61" fill="none" stroke="#22ab94" stroke-width="2.6" stroke-linecap="round"/>
+            <circle cx="520" cy="61" r="4" fill="#3ad9bf"/>
+          </svg>
+          <div class="grid grid-cols-3 gap-3 mt-4">
+            <div class="rounded-lg border border-white/[0.06] bg-[#16161a] p-3">
+              <div class="eyebrow !text-[9px] mb-1">Cautious</div>
+              <div class="mono text-[15px] font-semibold">$168k</div>
+            </div>
+            <div class="rounded-lg border p-3" style="border-color:rgba(34,171,148,0.3);background:rgba(34,171,148,0.06);">
+              <div class="eyebrow !text-[9px] mb-1 !text-green">Expected</div>
+              <div class="mono text-[15px] font-semibold">$244k</div>
+            </div>
+            <div class="rounded-lg border border-white/[0.06] bg-[#16161a] p-3">
+              <div class="eyebrow !text-[9px] mb-1">Strong</div>
+              <div class="mono text-[15px] font-semibold">$331k</div>
+            </div>
+          </div>
+          <p class="text-[11px] text-lo mt-4 leading-relaxed">
+            Illustrative. Past performance does not guarantee future results. WealthVision is an educational
+            tool, not financial advice.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kid Mode -->
+    <section id="family" class="max-w-[1160px] mx-auto px-5 py-20 md:py-28">
+      <div class="grid lg:grid-cols-2 gap-14 items-center">
+        <div class="order-2 lg:order-1 reveal">
+          <div class="card p-7 md:p-9" style="background:linear-gradient(160deg,rgba(156,77,255,0.08),rgba(34,171,148,0.05)),#1b1b1f;">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-11 h-11 rounded-2xl flex items-center justify-center" style="background:rgba(156,77,255,0.16);"><span class="material-symbols-outlined text-[24px] text-violet">child_care</span></div>
+              <div>
+                <div class="text-lg font-bold">Piggy's savings jar</div>
+                <div class="text-[12px] text-mid">Kid Mode · ages 5 to 12</div>
+              </div>
+            </div>
+            <div class="rounded-2xl bg-[#16161a] border border-white/[0.06] p-5 mb-4">
+              <div class="flex items-baseline justify-between mb-2"><span class="text-sm text-mid">Saved so far</span><span class="mono text-[24px] font-semibold text-violet">$18.50</span></div>
+              <div class="h-3 rounded-full bg-white/[0.07] overflow-hidden"><div class="h-3 rounded-full" style="width:74%;background:linear-gradient(90deg,#9c4dff,#22ab94);"></div></div>
+              <div class="text-[12px] text-mid mt-2">$6.50 to the new skateboard</div>
+            </div>
+            <div class="flex gap-2">
+              <span class="chip">⭐ 12 day streak</span>
+              <span class="chip">🏅 First $10</span>
+            </div>
+          </div>
+        </div>
+        <div class="order-1 lg:order-2 reveal">
+          <div class="eyebrow mb-3 !text-violet">Whole family</div>
+          <h2 class="text-[32px] md:text-[44px] font-bold tracking-[-0.03em] leading-[1.05] mb-5">
+            Raise savers, not spenders.
+          </h2>
+          <p class="text-lg text-mid leading-relaxed mb-6 max-w-[50ch]">
+            Kid Mode gives children their own gentle, playful savings world: goals they can see, streaks that
+            reward patience, and small wins that make the habit stick. Same app, same privacy, no data collected
+            on your kids ever.
+          </p>
+          <div class="flex flex-wrap gap-x-8 gap-y-3">
+            <div class="flex items-center gap-2 text-[15px] text-hi"><span class="material-symbols-outlined text-[19px] text-violet">savings</span>Visual savings goals</div>
+            <div class="flex items-center gap-2 text-[15px] text-hi"><span class="material-symbols-outlined text-[19px] text-violet">emoji_events</span>Streaks &amp; badges</div>
+            <div class="flex items-center gap-2 text-[15px] text-hi"><span class="material-symbols-outlined text-[19px] text-violet">shield</span>Fully private</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learning Academy -->
+    <section class="border-y border-white/[0.06] bg-[#0a0a0c]">
+      <div class="max-w-[1160px] mx-auto px-5 py-20 md:py-24">
+        <div class="flex flex-wrap items-end justify-between gap-6 mb-10 reveal">
+          <div class="max-w-[560px]">
+            <div class="eyebrow mb-3">Learning Academy</div>
+            <h2 class="text-[32px] md:text-[44px] font-bold tracking-[-0.03em] leading-[1.05] mb-4">Learn the words the pros hide behind.</h2>
+            <p class="text-lg text-mid leading-relaxed">Eight bite-size lessons, three minutes each. Earn a streak, unlock a badge, and finally understand what compound interest actually does.</p>
+          </div>
+          <div class="flex items-center gap-6">
+            <div class="text-center"><div class="mono text-[34px] font-semibold up">8</div><div class="eyebrow !text-[9.5px] mt-1">Lessons</div></div>
+            <div class="w-px h-12 bg-white/[0.08]"></div>
+            <div class="text-center"><div class="mono text-[34px] font-semibold">3<span class="text-[16px] text-mid">min</span></div><div class="eyebrow !text-[9.5px] mt-1">Each</div></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="card p-4 reveal"><div class="flex items-center justify-between mb-3"><span class="mono text-[12px] text-lo">01</span><span class="material-symbols-outlined text-[18px] up">check_circle</span></div><div class="font-semibold text-[15px]">Inflation</div><div class="text-[12px] text-mid mt-0.5">Why cash quietly shrinks</div></div>
+          <div class="card p-4 reveal" style="transition-delay:50ms"><div class="flex items-center justify-between mb-3"><span class="mono text-[12px] text-lo">02</span><span class="material-symbols-outlined text-[18px] up">check_circle</span></div><div class="font-semibold text-[15px]">Compounding</div><div class="text-[12px] text-mid mt-0.5">Growth on your growth</div></div>
+          <div class="card p-4 reveal" style="transition-delay:100ms"><div class="flex items-center justify-between mb-3"><span class="mono text-[12px] text-lo">03</span><span class="material-symbols-outlined text-[18px] text-green">play_circle</span></div><div class="font-semibold text-[15px]">Risk &amp; reward</div><div class="text-[12px] text-mid mt-0.5">The trade you can't skip</div></div>
+          <div class="card p-4 reveal" style="transition-delay:150ms"><div class="flex items-center justify-between mb-3"><span class="mono text-[12px] text-lo">04</span><span class="material-symbols-outlined text-[18px] text-lo">lock</span></div><div class="font-semibold text-[15px]">Diversification</div><div class="text-[12px] text-mid mt-0.5">Don't bet on one horse</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing teaser -->
+    <section class="max-w-[1160px] mx-auto px-5 py-20 md:py-28">
+      <div class="max-w-[560px] mx-auto text-center mb-10 reveal">
+        <div class="eyebrow mb-3">Pricing</div>
+        <h2 class="text-[32px] md:text-[44px] font-bold tracking-[-0.03em] leading-[1.05] mb-4">Own it once. No subscription, ever.</h2>
+        <p class="text-lg text-mid leading-relaxed">The whole core is free. Unlock the advanced planning tools with a single, one-time purchase that fits the no-tracking, no-server ethos.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 max-w-[820px] mx-auto">
+        <div class="card p-7 reveal">
+          <div class="flex items-baseline justify-between mb-1"><h3 class="text-xl font-bold">Free</h3><span class="mono text-[15px] text-mid">$0</span></div>
+          <p class="text-[13px] text-mid mb-5">Everything you need to start.</p>
+          <ul class="space-y-2.5 text-[14px]">
+            <li class="flex gap-2.5"><span class="material-symbols-outlined text-[18px] up">done</span>Growth Simulator &amp; Payday Routine</li>
+            <li class="flex gap-2.5"><span class="material-symbols-outlined text-[18px] up">done</span>All 8 lessons, streaks &amp; rewards</li>
+            <li class="flex gap-2.5"><span class="material-symbols-outlined text-[18px] up">done</span>Can I Buy It? &amp; Kid Mode for one child</li>
+          </ul>
+        </div>
+        <div class="card p-7 reveal" style="transition-delay:70ms;border-color:rgba(34,171,148,0.35);background:linear-gradient(180deg,rgba(34,171,148,0.06),transparent),#1b1b1f;">
+          <div class="flex items-baseline justify-between mb-1">
+            <h3 class="text-xl font-bold flex items-center gap-2">Pro <span class="chip !text-green !text-[10px]" style="border-color:rgba(34,171,148,0.3);">One-time</span></h3>
+            <span class="mono text-[15px] text-hi">unlock</span>
+          </div>
+          <p class="text-[13px] text-mid mb-5">Advanced planning, paid once.</p>
+          <ul class="space-y-2.5 text-[14px]">
+            <li class="flex gap-2.5"><span class="material-symbols-outlined text-[18px] up">done</span>Scenario Compare &amp; unlimited goals</li>
+            <li class="flex gap-2.5"><span class="material-symbols-outlined text-[18px] up">done</span>Advanced Goal Acceleration</li>
+            <li class="flex gap-2.5"><span class="material-symbols-outlined text-[18px] up">done</span>Peer Comparison &amp; multi-child Kid Mode</li>
+          </ul>
+        </div>
+      </div>
+      <div class="text-center mt-8 reveal">
+        <a href="pricing.html" class="btn btn-ghost">See full pricing<span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="border-t border-white/[0.06]">
+      <div class="max-w-[820px] mx-auto px-5 py-20 md:py-24">
+        <div class="mb-8 reveal">
+          <div class="eyebrow mb-3">Questions</div>
+          <h2 class="text-[32px] md:text-[40px] font-bold tracking-[-0.03em]">Good to know.</h2>
+        </div>
+        <div class="reveal">
+          <details class="faq" open><summary>Is my financial data really private?<span class="material-symbols-outlined plus">add</span></summary><div class="a">Yes. WealthVision has no backend and no accounts. Everything you enter stays in local storage on your device. Nothing is uploaded, and there are no third-party trackers or analytics.</div></details>
+          <details class="faq"><summary>Does it work offline?<span class="material-symbols-outlined plus">add</span></summary><div class="a">Completely. Every simulator, lesson, and tool runs on device. Currency formatting is read from your device locale with no network calls.</div></details>
+          <details class="faq"><summary>Is WealthVision financial advice?<span class="material-symbols-outlined plus">add</span></summary><div class="a">No. It is an educational and planning tool. All figures are illustrative and based on historical averages, which never guarantee future results.</div></details>
+          <details class="faq"><summary>Do you link my bank account?<span class="material-symbols-outlined plus">add</span></summary><div class="a">Never. WealthVision does not connect to banks, hold money, or take a cut of assets. You type in the numbers you want to explore, and nothing leaves the app.</div></details>
+          <details class="faq"><summary>How does Kid Mode handle children's data?<span class="material-symbols-outlined plus">add</span></summary><div class="a">The same way as the rest of the app: it collects nothing. Kid Mode is a local, offline savings world with no profiles, no sign-in, and no data collection.</div></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Get the app -->
+    <section id="get" class="relative overflow-hidden border-t border-white/[0.06] bg-[#0a0a0c]">
+      <div class="aura" style="width:640px;height:360px;top:-120px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(34,171,148,0.14),transparent 70%);"></div>
+      <div class="max-w-[720px] mx-auto px-5 py-24 md:py-28 text-center relative reveal">
+        <svg width="52" height="52" viewBox="0 0 112 112" class="mx-auto mb-7" aria-hidden="true">
+          <path class="lm-curve" d="M14 86 C 36 84, 50 70, 60 52 S 78 20, 96 14" />
+          <circle class="lm-dot" cx="96" cy="14" r="7" />
+        </svg>
+        <h2 class="text-[34px] md:text-[52px] font-bold tracking-[-0.03em] leading-[1.02] mb-5">Start watching your future unfold.</h2>
+        <p class="text-lg text-mid leading-relaxed max-w-[50ch] mx-auto mb-8">It's in review on the App Store and Google Play right now. Join the waitlist to lock in the founding price — <b class="text-hi">$9.99</b> one-time (regularly $19.99), never a subscription.</p>
+
+        <form id="waitlistForm" action="https://formspree.io/f/mgogvond" method="POST" class="flex flex-col sm:flex-row gap-3 max-w-[440px] mx-auto mb-4">
+          <input type="email" id="email" name="email" required placeholder="you@email.com" autocomplete="email" class="flex-1 rounded-xl bg-[#16161a] border border-white/[0.1] px-4 py-3 text-[15px] text-hi placeholder:text-lo focus:outline-none focus:border-green transition-colors" />
+          <input type="text" name="_gotcha" tabindex="-1" aria-hidden="true" class="hidden" />
+          <input type="hidden" name="source" value="wealthvision.space" />
+          <button type="submit" class="btn btn-cta whitespace-nowrap">Get the founding price</button>
+        </form>
+        <p id="formNote" class="text-[13px] text-mid min-h-[1.2em] mb-9" role="status" aria-live="polite"></p>
+
+        <a href="https://www.producthunt.com/products/wealthvision" target="_blank" rel="noopener" class="ph-badge mx-auto mb-9" aria-label="WealthVision is coming soon on Product Hunt — get notified">
+          <span class="ph-badge-logo" aria-hidden="true"><svg viewBox="0 0 40 40" width="22" height="22" role="img"><circle cx="20" cy="20" r="20" fill="#da552f"/><text x="20" y="28" font-family="'IBM Plex Sans',Arial,sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">P</text></svg></span>
+          <span class="ph-badge-copy"><b>Coming soon on Product Hunt</b><span>Launching Aug 4 — get notified →</span></span>
+        </a>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 opacity-40 grayscale pointer-events-none select-none" aria-hidden="true">
+          <span class="store"><svg width="20" height="24" viewBox="0 0 384 512" fill="currentColor" class="flex-none"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg><span class="text-left"><span class="k block">Coming soon</span><span class="v block">App Store</span></span></span>
+          <span class="store"><svg width="20" height="22" viewBox="0 0 512 512" fill="currentColor" class="flex-none"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c17.4-10.2 17.4-28.7 0-39zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg><span class="text-left"><span class="k block">Coming soon</span><span class="v block">Google Play</span></span></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/[0.06]">
+    <div class="max-w-[1160px] mx-auto px-5 py-12">
+      <div class="flex flex-col md:flex-row justify-between gap-8">
+        <div class="max-w-[300px]">
+          <a href="index.html" class="flex items-center gap-2.5 mb-3">
+            <svg width="26" height="26" viewBox="0 0 112 112" aria-hidden="true"><path d="M14 86 C 36 84, 50 70, 60 52 S 78 20, 96 14" fill="none" stroke="#22ab94" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="96" cy="14" r="7" fill="#22ab94"/></svg>
+            <span class="text-[17px] font-bold tracking-[-0.02em]">Wealth<span class="text-green">Vision</span></span>
+          </a>
+          <p class="text-[13px] text-mid leading-relaxed">The privacy-first money coach. Watch your future unfold, right on your device.</p>
+        </div>
+        <div class="flex gap-16">
+          <div>
+            <div class="eyebrow !text-[10px] mb-4">App</div>
+            <ul class="space-y-2.5 text-[14px]">
+              <li><a href="#features" class="link-quiet">Features</a></li>
+              <li><a href="#family" class="link-quiet">Kid Mode</a></li>
+              <li><a href="pricing.html" class="link-quiet">Pricing</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="eyebrow !text-[10px] mb-4">Legal</div>
+            <ul class="space-y-2.5 text-[14px]">
+              <li><a href="privacy-policy.html" class="link-quiet">Privacy Policy</a></li>
+              <li><a href="../index.html" class="link-quiet">The 100 Apps Project</a></li>
+              <li><a href="mailto:tised.gabilin@gmail.com" class="link-quiet">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr class="rule my-9" />
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <span class="text-[13px] text-lo">© 2026 WealthVision. All rights reserved.</span>
+        <span class="text-[12px] text-lo max-w-[52ch] sm:text-right">Educational tool, not financial advice. Figures are illustrative; past performance does not guarantee future results.</span>
+      </div>
+    </div>
+  </footer>
+
   <script>
+    // Reveal on scroll
     (function () {
-      function hasProgress() {
-        try {
-          var raw = localStorage.getItem('wv_state');
-          if (raw) {
-            var p = JSON.parse(raw);
-            if (p && Array.isArray(p.visited) && p.visited.length > 0) return true;
-          }
-          var legacy = localStorage.getItem('wv_proto_visited');
-          if (legacy && JSON.parse(legacy).length > 0) return true;
-        } catch (e) { /* ignore */ }
-        return false;
+      var els = document.querySelectorAll(".reveal");
+      if (!("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("in"); }); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.14, rootMargin: "0px 0px -40px 0px" });
+      els.forEach(function (e) { io.observe(e); });
+    })();
+
+    // Try-it-live: swap the embedded tool + scale the phone to fit its column
+    (function () {
+      var TOOLS = {
+        sim:  { file: "demo/screen5.html",    title: "See what steady investing becomes",           body: "At a 7% historical average, $200/month for 30 years grows to about <b class='text-hi'>$244,000</b> — about <b class='text-hi'>$72,000</b> of that is what you put in, the rest is compounding. Move the sliders to make it yours.<span class='fine'>Illustrative only. Past performance doesn’t guarantee future results.</span>" },
+        path: { file: "demo/accelerate.html", title: "Turn “25 years” into a plan you control",       body: "A scary timeline isn’t a verdict. Pull the levers — save a little more, start now, adjust the growth assumption — and watch the years drop in real time." },
+        buy:  { file: "demo/screen10a.html",  title: "A judgment-free “Can I Buy It?” check",         body: "Enter a purchase and get an honest read using the 50/30/20 rule and debt-to-income — framed as simple math, never morality." },
+        kid:  { file: "demo/kidmode.html",    title: "Teach your kid to save — offline",              body: "An allowance piggy-bank for ages 5–12: save or spend each week, watch the jar fill toward a goal. No ads, no links, and nothing about your kid leaves the phone." }
+      };
+      var frame = document.getElementById("playFrame");
+      var capT = document.querySelector("[data-cap-title]");
+      var capB = document.querySelector("[data-cap-body]");
+      Array.prototype.forEach.call(document.querySelectorAll(".try-tab"), function (tab) {
+        tab.addEventListener("click", function () {
+          var t = TOOLS[tab.getAttribute("data-tab")]; if (!t) return;
+          Array.prototype.forEach.call(document.querySelectorAll(".try-tab"), function (x) {
+            var on = x === tab; x.classList.toggle("is-active", on); x.setAttribute("aria-selected", on ? "true" : "false");
+          });
+          if (frame) frame.src = t.file;
+          if (capT) capT.textContent = t.title;
+          if (capB) capB.innerHTML = t.body;
+        });
+      });
+      function fit() {
+        var ph = document.querySelector(".demo-phone"); if (!ph) return;
+        var stage = ph.parentNode; var avail = stage.clientWidth;
+        var scale = Math.min(1, avail / 393);
+        ph.style.transformOrigin = "top center";
+        ph.style.transform = "scale(" + scale + ")";
+        stage.style.height = (812 * scale) + "px";
       }
-      var dest = hasProgress() ? 'dashboard.html' : 'screen1.html';
-      setTimeout(function () { window.location.href = dest; }, 2200);
+      window.addEventListener("load", fit); window.addEventListener("resize", fit); fit();
+    })();
+
+    // Waitlist → Formspree
+    (function () {
+      var form = document.getElementById("waitlistForm"); if (!form) return;
+      var input = document.getElementById("email"); var note = document.getElementById("formNote");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = (input.value || "").trim();
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { if (note) note.textContent = "Please enter a valid email address."; input.focus(); return; }
+        var done = function () {
+          form.classList.add("sent"); input.value = ""; input.disabled = true;
+          var btn = form.querySelector("button"); if (btn) { btn.disabled = true; btn.textContent = "You’re on the list ✓"; }
+          if (note) note.textContent = "Founding price is yours at launch — see you soon. 🎉";
+        };
+        var data = new FormData(form);
+        fetch(form.action, { method: "POST", headers: { Accept: "application/json" }, body: data })
+          .then(function (r) { if (!r.ok) throw new Error("bad"); done(); })
+          .catch(function () { if (note) note.textContent = "Hmm, that didn’t go through — please try again in a moment."; });
+      });
     })();
   </script>
 </body>

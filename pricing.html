@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="WealthVision pricing. A free core, plus an optional one-time unlock for advanced planning. No subscriptions, ever." />
+  <meta name="theme-color" content="#0c0c0e" />
+  <title>Pricing | WealthVision</title>
+
+  <link rel="icon" type="image/svg+xml" href="images/app_icon.svg" />
+  <link rel="apple-touch-icon" href="images/icon-180.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #0c0c0e; --surface: #1b1b1f; --surface-2: #16161a; --surface-h: #24242a;
+      --hair: rgba(255, 255, 255, 0.07); --hair-2: rgba(255, 255, 255, 0.14);
+      --hi: #ececed; --mid: #8e8e95; --lo: #5e5e66; --green: #22ab94; --amber: #f7a600; --ease: cubic-bezier(0.22,1,0.36,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--hi); margin: 0;
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden;
+    }
+    ::selection { background: rgba(34,171,148,0.28); color: #fff; }
+    a { text-decoration: none; }
+    .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+    .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); }
+
+    nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--hair); background: rgba(12,12,14,0.85); backdrop-filter: blur(12px); }
+    .nav-inner { max-width: 1000px; margin: 0 auto; padding: 0 20px; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--hi); }
+    .brand span { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+    .brand b { color: var(--green); }
+    .nav-links { display: flex; gap: 30px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--mid); }
+    .nav-links a:hover { color: var(--hi); }
+    @media (max-width: 680px) { .nav-links { display: none; } }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-weight: 600; font-size: 15px; border-radius: 12px; padding: 13px 22px; cursor: pointer; transition: transform 0.12s var(--ease), background 0.2s var(--ease), border-color 0.2s var(--ease); }
+    .btn:active { transform: scale(0.98); }
+    .btn-cta { background: var(--green); color: #06120f; }
+    .btn-cta:hover { background: #27c0a6; }
+    .btn-ghost { background: var(--surface); color: var(--hi); border: 1px solid var(--hair); }
+    .btn-ghost:hover { border-color: var(--hair-2); background: var(--surface-h); }
+    .btn.sm { padding: 8px 16px; font-size: 14px; }
+
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+    .hero { text-align: center; padding: 72px 20px 20px; }
+    .hero h1 { font-size: 46px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.03; margin: 16px 0 14px; }
+    .hero h1 .g { color: var(--green); }
+    .hero p { color: var(--mid); font-size: 18px; line-height: 1.6; max-width: 46ch; margin: 0 auto; }
+    @media (max-width: 560px) { .hero h1 { font-size: 34px; } }
+
+    /* Stub banner */
+    .stub { max-width: 1000px; margin: 26px auto 0; }
+    .stub-inner { display: flex; align-items: center; gap: 12px; border: 1px solid rgba(247,166,0,0.28); background: rgba(247,166,0,0.05); border-radius: 14px; padding: 14px 18px; }
+    .stub-inner .material-symbols-outlined { color: var(--amber); font-size: 20px; flex: none; }
+    .stub-inner p { margin: 0; font-size: 14px; color: var(--hi); }
+    .stub-inner b { color: var(--amber); font-weight: 600; }
+
+    .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 40px 0 12px; }
+    @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
+    .plan { border: 1px solid var(--hair); border-radius: 18px; background: var(--surface); padding: 30px; position: relative; }
+    .plan.pro { border-color: rgba(34,171,148,0.35); background: linear-gradient(180deg, rgba(34,171,148,0.06), transparent), var(--surface); }
+    .plan .tag { position: absolute; top: 22px; right: 22px; font-family: "IBM Plex Mono", monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); border: 1px solid rgba(34,171,148,0.3); border-radius: 999px; padding: 4px 10px; }
+    .plan h3 { font-size: 22px; font-weight: 700; margin: 0 0 6px; }
+    .plan .sub { color: var(--mid); font-size: 14px; margin: 0 0 20px; }
+    .price { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+    .price .amt { font-family: "IBM Plex Mono", monospace; font-size: 42px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+    .price .per { color: var(--mid); font-size: 14px; }
+    .price .amt.tba { color: var(--mid); letter-spacing: 0.06em; }
+    .price-note { color: var(--lo); font-size: 12.5px; margin: 0 0 22px; min-height: 18px; }
+    .rule { height: 1px; background: var(--hair); border: 0; margin: 0 0 20px; }
+    .plan ul { list-style: none; padding: 0; margin: 0 0 26px; }
+    .plan ul li { display: flex; gap: 11px; align-items: flex-start; color: var(--hi); font-size: 14.5px; margin-bottom: 12px; }
+    .plan ul li .material-symbols-outlined { font-size: 19px; color: var(--green); flex: none; margin-top: 1px; }
+    .plan ul li.off { color: var(--lo); }
+    .plan ul li.off .material-symbols-outlined { color: var(--lo); }
+    .plan .btn { width: 100%; }
+
+    .assure { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 26px; padding: 30px 0 8px; }
+    .assure span { display: inline-flex; align-items: center; gap: 8px; color: var(--mid); font-size: 14px; }
+    .assure .material-symbols-outlined { font-size: 19px; color: var(--green); }
+
+    .faq { max-width: 720px; margin: 0 auto; padding: 30px 0 20px; }
+    details { border-bottom: 1px solid var(--hair); }
+    details summary { list-style: none; cursor: pointer; padding: 18px 2px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-weight: 600; font-size: 16px; }
+    details summary::-webkit-details-marker { display: none; }
+    details summary .plus { color: var(--mid); transition: transform 0.25s var(--ease); }
+    details[open] summary .plus { transform: rotate(45deg); color: var(--green); }
+    details .a { padding: 0 2px 20px; color: var(--mid); font-size: 14.5px; line-height: 1.7; max-width: 62ch; }
+
+    footer { border-top: 1px solid var(--hair); margin-top: 40px; }
+    .foot-inner { max-width: 1000px; margin: 0 auto; padding: 26px 20px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; }
+    .foot-inner a { color: var(--mid); font-size: 13px; }
+    .foot-inner a:hover { color: var(--hi); }
+    .foot-inner .c { color: var(--lo); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <svg width="26" height="26" viewBox="0 0 112 112" aria-hidden="true"><path d="M14 86 C 36 84, 50 70, 60 52 S 78 20, 96 14" fill="none" stroke="#22ab94" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="96" cy="14" r="7" fill="#22ab94"/></svg>
+        <span>Wealth<b>Vision</b></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#family">Kid Mode</a>
+        <a href="privacy-policy.html">Privacy</a>
+      </div>
+      <a href="index.html#get" class="btn btn-cta sm">Get the app</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">Pricing</div>
+    <h1>Own it once.<br><span class="g">No subscription, ever.</span></h1>
+    <p>The entire core of WealthVision is free. Advanced planning is an optional one-time unlock, in keeping with our no-tracking, no-server promise.</p>
+  </header>
+
+  <!-- STUB NOTICE: final pricing to be set by owner. TODO: replace placeholder price + wire real purchase. -->
+  <div class="stub">
+    <div class="stub-inner">
+      <span class="material-symbols-outlined">construction</span>
+      <p><b>Placeholder pricing.</b> The one-time Pro price is being finalized and will be confirmed here soon.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="cards">
+      <!-- Free -->
+      <div class="plan">
+        <h3>Free</h3>
+        <p class="sub">Everything you need to start planning today.</p>
+        <div class="price"><span class="amt">$0</span><span class="per">forever</span></div>
+        <p class="price-note">No card required. No trial timer.</p>
+        <hr class="rule" />
+        <ul>
+          <li><span class="material-symbols-outlined">check</span>Growth Simulator</li>
+          <li><span class="material-symbols-outlined">check</span>Path to Goal accelerator</li>
+          <li><span class="material-symbols-outlined">check</span>Payday Routine</li>
+          <li><span class="material-symbols-outlined">check</span>Can I Buy It?</li>
+          <li><span class="material-symbols-outlined">check</span>All 8 lessons, streaks &amp; rewards</li>
+          <li><span class="material-symbols-outlined">check</span>Kid Mode for one child</li>
+        </ul>
+        <a href="index.html#get" class="btn btn-ghost">Download free</a>
+      </div>
+
+      <!-- Pro -->
+      <div class="plan pro">
+        <span class="tag">One-time</span>
+        <h3>Pro</h3>
+        <p class="sub">Advanced planning, unlocked forever with a single purchase.</p>
+        <!-- TODO: Replace the placeholder amount below with the final one-time price. -->
+        <div class="price"><span class="amt tba">$0.00</span><span class="per">one time</span></div>
+        <p class="price-note">Final price to be announced. Pay once, keep it for life.</p>
+        <hr class="rule" />
+        <ul>
+          <li><span class="material-symbols-outlined">check</span>Everything in Free</li>
+          <li><span class="material-symbols-outlined">check</span>Scenario Compare</li>
+          <li><span class="material-symbols-outlined">check</span>Goal Builder with unlimited goals</li>
+          <li><span class="material-symbols-outlined">check</span>Advanced Goal Acceleration</li>
+          <li><span class="material-symbols-outlined">check</span>Peer Comparison</li>
+          <li><span class="material-symbols-outlined">check</span>Multi-child Kid Mode</li>
+        </ul>
+        <!-- TODO: Wire to the real store purchase / app deep link. -->
+        <a href="index.html#get" class="btn btn-cta">Get WealthVision</a>
+      </div>
+    </div>
+
+    <div class="assure">
+      <span><span class="material-symbols-outlined">block</span>No subscription</span>
+      <span><span class="material-symbols-outlined">lock</span>Private by default</span>
+      <span><span class="material-symbols-outlined">wifi_off</span>Works offline</span>
+      <span><span class="material-symbols-outlined">devices</span>Buy once per store</span>
+    </div>
+
+    <div class="faq">
+      <details open><summary>Is there really no subscription?<span class="material-symbols-outlined plus">add</span></summary><div class="a">Correct. WealthVision is a one-time purchase to unlock Pro, with no recurring charges. The core app is free and stays free.</div></details>
+      <details><summary>What do I get for free?<span class="material-symbols-outlined plus">add</span></summary><div class="a">The Growth Simulator, Path to Goal accelerator, Payday Routine, Can I Buy It?, all eight lessons with streaks and rewards, and Kid Mode for one child. It is a complete learning and planning experience on its own.</div></details>
+      <details><summary>How is the purchase handled?<span class="material-symbols-outlined plus">add</span></summary><div class="a">Through the Apple App Store or Google Play as a one-time, non-consumable purchase. We never see your payment details, in line with our privacy policy.</div></details>
+      <details><summary>Will the price change?<span class="material-symbols-outlined plus">add</span></summary><div class="a">The final one-time price is being confirmed and will appear here. Once you own Pro, it is yours for life regardless of future pricing.</div></details>
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot-inner">
+      <span class="c">© 2026 WealthVision · Educational tool, not financial advice.</span>
+      <div style="display:flex; gap:22px;">
+        <a href="index.html">Home</a>
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="../index.html">The 100 Apps Project</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

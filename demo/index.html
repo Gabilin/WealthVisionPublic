@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthVision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    .device-frame {
+      width: 393px; height: 852px; border-radius: 47px; overflow: hidden;
+      position: relative; background: #0c0c0e;
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 25px 60px rgba(0,0,0,0.5), 0 50px 120px rgba(0,0,0,0.25);
+    }
+    .splash {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 26px;
+      background: #0c0c0e;
+    }
+    .logo-mark {
+      width: 112px; height: 112px;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark svg { width: 112px; height: 112px; overflow: visible; }
+    .lm-curve {
+      fill: none; stroke: #22ab94; stroke-width: 6;
+      stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 180; stroke-dashoffset: 180;
+      filter: drop-shadow(0 4px 14px rgba(34, 171, 148,0.45));
+      animation: draw 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
+    }
+    .lm-dot {
+      fill: #22ab94; opacity: 0; transform-origin: center;
+      filter: drop-shadow(0 0 8px rgba(34, 171, 148,0.7));
+      animation: pop 0.4s cubic-bezier(0.16,1,0.3,1) 0.95s forwards;
+    }
+    .lm-ring {
+      fill: none; stroke: rgba(34, 171, 148,0.25); stroke-width: 2;
+      opacity: 0;
+      animation: ring 0.7s ease-out 1s forwards;
+    }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes pop { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes ring { 0% { opacity: 0.6; transform: scale(0.7); transform-origin: 84px 30px; } 100% { opacity: 0; transform: scale(1.7); transform-origin: 84px 30px; } }
+
+    .wordmark {
+      opacity: 0; transform: translateY(8px);
+      animation: rise 0.6s cubic-bezier(0.16,1,0.3,1) 1.35s forwards;
+      text-align: center;
+    }
+    .wordmark .name {
+      font-size: 27px; font-weight: 800; letter-spacing: -0.02em; color: #ececed;
+    }
+    .wordmark .name b { color: #22ab94; font-weight: 800; }
+    .wordmark .tag {
+      margin-top: 7px; font-size: 13px; color: #8e8e95; letter-spacing: 0.01em;
+    }
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+    /* Fill real phone screens edge-to-edge (desktop keeps the mock) */
+    @media (max-width: 600px) {
+      body { display: block; min-height: 100vh; min-height: 100dvh; background: #000; }
+      .device-frame {
+        width: 100vw; height: 100vh; height: 100dvh;
+        max-width: 100%; border-radius: 0; border: 0; box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="device-frame">
+    <div class="splash">
+      <div class="logo-mark">
+        <svg viewBox="0 0 112 112">
+          <path class="lm-curve" d="M14 86 C 36 84, 50 70, 60 52 S 78 20, 96 14" />
+          <circle class="lm-ring" cx="96" cy="14" r="9" />
+          <circle class="lm-dot" cx="96" cy="14" r="6.5" />
+        </svg>
+      </div>
+      <div class="wordmark">
+        <div class="name">Wealth<b>Vision</b></div>
+        <div class="tag">Watch your future unfold</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function hasProgress() {
+        try {
+          var raw = localStorage.getItem('wv_state');
+          if (raw) {
+            var p = JSON.parse(raw);
+            if (p && Array.isArray(p.visited) && p.visited.length > 0) return true;
+          }
+          var legacy = localStorage.getItem('wv_proto_visited');
+          if (legacy && JSON.parse(legacy).length > 0) return true;
+        } catch (e) { /* ignore */ }
+        return false;
+      }
+      var dest = hasProgress() ? 'dashboard.html' : 'screen1.html';
+      setTimeout(function () { window.location.href = dest; }, 2200);
+    })();
+  </script>
+</body>
+</html>
