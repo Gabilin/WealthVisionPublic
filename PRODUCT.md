@@ -35,6 +35,15 @@ linking, ads, or tracking. Financial plans remain on the user's device.
 - Preserve static deployment and the homepage, pricing, and privacy routes.
 - Remove waitlist and Product Hunt promotion, as confirmed by the owner.
 
+## November Promotion
+
+The owner requested a US$1 one-time Pro promotion through November 30, 2026.
+The Free tier stays free and purchased Pro remains unlocked after the offer ends.
+Show the USD price and deadline on the homepage and pricing page, retaining the
+existing design. Store checkout shows the final local-currency price. Website
+copy does not configure store pricing; the owner must set the offer in both stores.
+Remove the promotional website pricing when the campaign ends.
+
 ## Brand Commitments
 
 Name: WealthVision. Tagline: Watch your future unfold.

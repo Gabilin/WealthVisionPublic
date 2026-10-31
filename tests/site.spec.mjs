@@ -65,6 +65,24 @@ for (const route of routes) {
   });
 }
 
+test('November promotion has a consistent USD price and deadline', async ({ page }) => {
+  for (const route of ['/', '/pricing.html']) {
+    await page.goto(route);
+    await expect(page.locator('[data-pro-price]')).toHaveText('US$1');
+    const promotions = page.locator('[data-promotion]');
+    expect(await promotions.count()).toBeGreaterThanOrEqual(2);
+    for (const promotion of await promotions.all()) {
+      await promotion.scrollIntoViewIfNeeded();
+      await expect(promotion).toBeVisible();
+      await expect(promotion).toContainText('US$1');
+      await expect(promotion).toContainText(/one-time|No recurring charge/);
+      await expect(promotion.locator('time')).toHaveAttribute('datetime', '2026-11-30');
+      await expect(promotion.locator('time')).toHaveText('November 30, 2026');
+    }
+    await expect(page.getByRole('heading', { name: 'Free', exact: true }).locator('..')).toContainText('$0');
+  }
+});
+
 test('store buttons match in size, style, and visible badge height', async ({ page }) => {
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
