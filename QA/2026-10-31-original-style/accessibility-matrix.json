@@ -1,0 +1,180 @@
+[
+  {
+    "project": "chromium",
+    "title": "/ accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 3,
+      "label": 4
+    },
+    "current": {
+      "color-contrast": 3,
+      "label": 4
+    },
+    "originalViolationRules": 2,
+    "currentViolationRules": 2,
+    "originalNodes": 7,
+    "currentNodes": 7
+  },
+  {
+    "project": "chromium",
+    "title": "/pricing.html accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 2
+    },
+    "current": {
+      "color-contrast": 2
+    },
+    "originalViolationRules": 1,
+    "currentViolationRules": 1,
+    "originalNodes": 2,
+    "currentNodes": 2
+  },
+  {
+    "project": "chromium",
+    "title": "/privacy-policy.html accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 1,
+      "link-in-text-block": 1
+    },
+    "current": {
+      "color-contrast": 1,
+      "link-in-text-block": 1
+    },
+    "originalViolationRules": 2,
+    "currentViolationRules": 2,
+    "originalNodes": 2,
+    "currentNodes": 2
+  },
+  {
+    "project": "firefox",
+    "title": "/ accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 3
+    },
+    "current": {
+      "color-contrast": 3
+    },
+    "originalViolationRules": 1,
+    "currentViolationRules": 1,
+    "originalNodes": 3,
+    "currentNodes": 3
+  },
+  {
+    "project": "firefox",
+    "title": "/pricing.html accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 2
+    },
+    "current": {
+      "color-contrast": 2
+    },
+    "originalViolationRules": 1,
+    "currentViolationRules": 1,
+    "originalNodes": 2,
+    "currentNodes": 2
+  },
+  {
+    "project": "firefox",
+    "title": "/privacy-policy.html accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 1,
+      "link-in-text-block": 1
+    },
+    "current": {
+      "color-contrast": 1,
+      "link-in-text-block": 1
+    },
+    "originalViolationRules": 2,
+    "currentViolationRules": 2,
+    "originalNodes": 2,
+    "currentNodes": 2
+  },
+  {
+    "project": "webkit",
+    "title": "/ accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 3
+    },
+    "current": {
+      "color-contrast": 3
+    },
+    "originalViolationRules": 1,
+    "currentViolationRules": 1,
+    "originalNodes": 3,
+    "currentNodes": 3
+  },
+  {
+    "project": "webkit",
+    "title": "/pricing.html accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 2
+    },
+    "current": {
+      "color-contrast": 2
+    },
+    "originalViolationRules": 1,
+    "currentViolationRules": 1,
+    "originalNodes": 2,
+    "currentNodes": 2
+  },
+  {
+    "project": "webkit",
+    "title": "/privacy-policy.html accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 1,
+      "link-in-text-block": 1
+    },
+    "current": {
+      "color-contrast": 1,
+      "link-in-text-block": 1
+    },
+    "originalViolationRules": 2,
+    "currentViolationRules": 2,
+    "originalNodes": 2,
+    "currentNodes": 2
+  },
+  {
+    "project": "mobile-safari",
+    "title": "/ accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 3
+    },
+    "current": {
+      "color-contrast": 2
+    },
+    "originalViolationRules": 1,
+    "currentViolationRules": 1,
+    "originalNodes": 3,
+    "currentNodes": 2
+  },
+  {
+    "project": "mobile-safari",
+    "title": "/pricing.html accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 2
+    },
+    "current": {
+      "color-contrast": 2
+    },
+    "originalViolationRules": 1,
+    "currentViolationRules": 1,
+    "originalNodes": 2,
+    "currentNodes": 2
+  },
+  {
+    "project": "mobile-safari",
+    "title": "/privacy-policy.html accessibility has no regressions from the original design",
+    "original": {
+      "color-contrast": 1,
+      "link-in-text-block": 1
+    },
+    "current": {
+      "color-contrast": 1,
+      "link-in-text-block": 1
+    },
+    "originalViolationRules": 2,
+    "currentViolationRules": 2,
+    "originalNodes": 2,
+    "currentNodes": 2
+  }
+]

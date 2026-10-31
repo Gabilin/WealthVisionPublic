@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-31T07:45:28.584Z",
+  "report": "/Users/oleksii/Code/WealthVisionPublic/QA/2026-10-31-original-style/README.md",
+  "reportLinksChecked": 62,
+  "brokenLinks": [],
+  "suite": {
+    "passed": 80,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0
+  },
+  "independent": {
+    "attempts": 19,
+    "passed": 17,
+    "failed": 2,
+    "journeysPassed": 5
+  },
+  "fullAccessibilityAttachments": 12,
+  "sourceFilesRechecked": 320,
+  "sourceDifferences": [],
+  "websiteHeadUnchanged": true
+}

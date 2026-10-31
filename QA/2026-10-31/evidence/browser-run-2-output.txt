@@ -1,0 +1,318 @@
+[Output too large (26KB). Full output saved to: /Users/oleksii/Library/Application Support/Code/copilot-terminal-output/copilot-terminal-output-5f542f30-b9fa-422d-9258-4722a95b8761.txt]
+[Use readFile or grep to examine the full output.]
+
+oleksii@EPPLWARWABBD WealthVisionPublic % >....                                 
+  const provenance=JSON.parse(await readFile('images/provenance.json','utf8'));c
+onst records=[];
+  for(const [filename,entry]of Object.entries(provenance).filter(([name])=>name.
+startsWith('screens/'))){
+    const source=`/Users/oleksii/Code/${entry.source}`;const expected=await shar
+p(source).resize({width:660}).webp({quality:85}).toBuffer();const actual=await r
+eadFile(`images/${filename}`);
+    const matches=exp
+
+[... middle of output truncated ...]
+
+er 65px; mobile menu"}
+{"id":"firefox:layout:/privacy-policy.html:320x900","result":"PASS","detail":"32
+0px; header 65px; mobile menu"}
+{"id":"firefox:layout:/:390x844","result":"PASS","detail":"390px; header 65px; m
+obile menu"}
+{"id":"firefox:layout:/pricing.html:390x844","result":"PASS","detail":"390px; he
+ader 65px; mobile menu"}
+{"id":"firefox:layout:/privacy-policy.html:390x844","result":"PASS","detail":"39
+0px; header 65px; mobile menu"}
+{"id":"firefox:layout:/:768x900","result":"PASS","detail":"768px; header 77px; m
+obile menu"}
+{"id":"firefox:layout:/pricing.html:768x900","result":"PASS","detail":"768px; he
+ader 77px; mobile menu"}
+{"id":"firefox:layout:/privacy-policy.html:768x900","result":"PASS","detail":"76
+8px; header 77px; mobile menu"}
+{"id":"firefox:layout:/:1024x900","result":"PASS","detail":"1024px; header 77px;
+ desktop nav"}
+{"id":"firefox:layout:/pricing.html:1024x900","result":"PASS","detail":"1024px;
+header 77px; desktop nav"}
+{"id":"firefox:layout:/privacy-policy.html:1024x900","result":"PASS","detail":"1
+024px; header 77px; desktop nav"}
+{"id":"firefox:layout:/:1440x900","result":"PASS","detail":"1440px; header 77px;
+ desktop nav"}
+{"id":"firefox:layout:/pricing.html:1440x900","result":"PASS","detail":"1440px;
+header 77px; desktop nav"}
+{"id":"firefox:layout:/privacy-policy.html:1440x900","result":"PASS","detail":"1
+440px; header 77px; desktop nav"}
+{"id":"firefox:layout:/:1920x900","result":"PASS","detail":"1920px; header 77px;
+ desktop nav"}
+{"id":"firefox:layout:/pricing.html:1920x900","result":"PASS","detail":"1920px;
+header 77px; desktop nav"}
+{"id":"firefox:layout:/privacy-policy.html:1920x900","result":"PASS","detail":"1
+920px; header 77px; desktop nav"}
+{"id":"firefox:layout:/:900x600","result":"PASS","detail":"900px; header 77px; d
+esktop nav"}
+{"id":"firefox:layout:/pricing.html:900x600","result":"PASS","detail":"900px; he
+ader 77px; desktop nav"}
+{"id":"firefox:layout:/privacy-policy.html:900x600","result":"PASS","detail":"90
+0px; header 77px; desktop nav"}
+{"id":"firefox:layout:/:1024x400","result":"PASS","detail":"1024px; header 77px;
+ desktop nav"}
+{"id":"firefox:layout:/pricing.html:1024x400","result":"PASS","detail":"1024px;
+header 77px; desktop nav"}
+{"id":"firefox:layout:/privacy-policy.html:1024x400","result":"PASS","detail":"1
+024px; header 77px; desktop nav"}
+{"id":"firefox:layout:/:844x390","result":"PASS","detail":"844px; header 77px; m
+obile menu"}
+{"id":"firefox:layout:/pricing.html:844x390","result":"PASS","detail":"844px; he
+ader 77px; mobile menu"}
+{"id":"firefox:layout:/privacy-policy.html:844x390","result":"PASS","detail":"84
+4px; header 77px; mobile menu"}
+{"id":"firefox:JS-reduced-motion","result":"PASS","detail":{"scroll":"auto","ani
+mations":0,"transition":"0s"}}
+{"id":"firefox:file-URL-static-navigation-and-tabs","result":"FAIL","detail":"lo
+cator.click: Timeout 7000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locat
+or('#navigation a[href=\"pricing.html\"]')\u001b[22m\n\u001b[2m    - locator res
+olved to <a href=\"pricing.html\">Pricing</a>\u001b[22m\n\u001b[2m  - attempting
+ click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, ena
+bled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u
+001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[
+22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001
+b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retryin
+g click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m
+ 14 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m
+       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action
+\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"}
+{"id":"firefox:no-JS:/","result":"PASS","detail":"Visible navigation/downloads,
+no overflow, native FAQ usable"}
+{"id":"firefox:no-JS:/pricing.html","result":"PASS","detail":"Visible navigation
+/downloads, no overflow, native FAQ usable"}
+{"id":"firefox:no-JS:/privacy-policy.html","result":"PASS","detail":"Visible nav
+igation/downloads, no overflow, native FAQ usable"}
+{"id":"firefox:network-hosts-and-runtime","result":"PASS","detail":{"requests":[
+"127.0.0.1"],"errors":[]}}
+{"id":"webkit:layout:/:320x900","result":"PASS","detail":"320px; header 65px; mo
+bile menu"}
+{"id":"webkit:layout:/pricing.html:320x900","result":"PASS","detail":"320px; hea
+der 65px; mobile menu"}
+{"id":"webkit:layout:/privacy-policy.html:320x900","result":"PASS","detail":"320
+px; header 65px; mobile menu"}
+{"id":"webkit:layout:/:390x844","result":"PASS","detail":"390px; header 65px; mo
+bile menu"}
+{"id":"webkit:layout:/pricing.html:390x844","result":"PASS","detail":"390px; hea
+der 65px; mobile menu"}
+{"id":"webkit:layout:/privacy-policy.html:390x844","result":"PASS","detail":"390
+px; header 65px; mobile menu"}
+{"id":"webkit:layout:/:768x900","result":"PASS","detail":"768px; header 77px; mo
+bile menu"}
+{"id":"webkit:layout:/pricing.html:768x900","result":"PASS","detail":"768px; hea
+der 77px; mobile menu"}
+{"id":"webkit:layout:/privacy-policy.html:768x900","result":"PASS","detail":"768
+px; header 77px; mobile menu"}
+{"id":"webkit:layout:/:1024x900","result":"PASS","detail":"1024px; header 77px;
+desktop nav"}
+{"id":"webkit:layout:/pricing.html:1024x900","result":"PASS","detail":"1024px; h
+eader 77px; desktop nav"}
+{"id":"webkit:layout:/privacy-policy.html:1024x900","result":"PASS","detail":"10
+24px; header 77px; desktop nav"}
+{"id":"webkit:layout:/:1440x900","result":"PASS","detail":"1440px; header 77px;
+desktop nav"}
+{"id":"webkit:layout:/pricing.html:1440x900","result":"PASS","detail":"1440px; h
+eader 77px; desktop nav"}
+{"id":"webkit:layout:/privacy-policy.html:1440x900","result":"PASS","detail":"14
+40px; header 77px; desktop nav"}
+{"id":"webkit:layout:/:1920x900","result":"PASS","detail":"1920px; header 77px;
+desktop nav"}
+{"id":"webkit:layout:/pricing.html:1920x900","result":"PASS","detail":"1920px; h
+eader 77px; desktop nav"}
+{"id":"webkit:layout:/privacy-policy.html:1920x900","result":"PASS","detail":"19
+20px; header 77px; desktop nav"}
+{"id":"webkit:layout:/:900x600","result":"PASS","detail":"900px; header 77px; de
+sktop nav"}
+{"id":"webkit:layout:/pricing.html:900x600","result":"PASS","detail":"900px; hea
+der 77px; desktop nav"}
+{"id":"webkit:layout:/privacy-policy.html:900x600","result":"PASS","detail":"900
+px; header 77px; desktop nav"}
+{"id":"webkit:layout:/:1024x400","result":"PASS","detail":"1024px; header 77px;
+desktop nav"}
+{"id":"webkit:layout:/pricing.html:1024x400","result":"PASS","detail":"1024px; h
+eader 77px; desktop nav"}
+{"id":"webkit:layout:/privacy-policy.html:1024x400","result":"PASS","detail":"10
+24px; header 77px; desktop nav"}
+{"id":"webkit:layout:/:844x390","result":"PASS","detail":"844px; header 77px; mo
+bile menu"}
+{"id":"webkit:layout:/pricing.html:844x390","result":"PASS","detail":"844px; hea
+der 77px; mobile menu"}
+{"id":"webkit:layout:/privacy-policy.html:844x390","result":"PASS","detail":"844
+px; header 77px; mobile menu"}
+{"id":"webkit:JS-reduced-motion","result":"PASS","detail":{"scroll":"auto","anim
+ations":0,"transition":"0s"}}
+{"id":"webkit:file-URL-static-navigation-and-tabs","result":"FAIL","detail":"loc
+ator.click: Timeout 7000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locato
+r('#navigation a[href=\"pricing.html\"]')\u001b[22m\n\u001b[2m    - locator reso
+lved to <a href=\"pricing.html\">Pricing</a>\u001b[22m\n\u001b[2m  - attempting
+click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enab
+led and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u0
+01b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[2
+2m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b
+[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying
+ click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m
+13 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m
+      - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\
+u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"}
+{"id":"webkit:no-JS:/","result":"PASS","detail":"Visible navigation/downloads, n
+o overflow, native FAQ usable"}
+{"id":"webkit:no-JS:/pricing.html","result":"PASS","detail":"Visible navigation/
+downloads, no overflow, native FAQ usable"}
+{"id":"webkit:no-JS:/privacy-policy.html","result":"PASS","detail":"Visible navi
+gation/downloads, no overflow, native FAQ usable"}
+{"id":"webkit:network-hosts-and-runtime","result":"PASS","detail":{"requests":["
+127.0.0.1",""],"errors":[]}}
+{"id":"mobile-safari:layout:/:320x900","result":"PASS","detail":"320px; header 6
+5px; mobile menu"}
+{"id":"mobile-safari:layout:/pricing.html:320x900","result":"PASS","detail":"320
+px; header 65px; mobile menu"}
+{"id":"mobile-safari:layout:/privacy-policy.html:320x900","result":"PASS","detai
+l":"320px; header 65px; mobile menu"}
+{"id":"mobile-safari:layout:/:390x844","result":"PASS","detail":"390px; header 6
+5px; mobile menu"}
+{"id":"mobile-safari:layout:/pricing.html:390x844","result":"PASS","detail":"390
+px; header 65px; mobile menu"}
+{"id":"mobile-safari:layout:/privacy-policy.html:390x844","result":"PASS","detai
+l":"390px; header 65px; mobile menu"}
+{"id":"mobile-safari:layout:/:768x900","result":"PASS","detail":"768px; header 7
+7px; mobile menu"}
+{"id":"mobile-safari:layout:/pricing.html:768x900","result":"PASS","detail":"768
+px; header 77px; mobile menu"}
+{"id":"mobile-safari:layout:/privacy-policy.html:768x900","result":"PASS","detai
+l":"768px; header 77px; mobile menu"}
+{"id":"mobile-safari:layout:/:1024x900","result":"PASS","detail":"1024px; header
+ 77px; desktop nav"}
+{"id":"mobile-safari:layout:/pricing.html:1024x900","result":"PASS","detail":"10
+24px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/privacy-policy.html:1024x900","result":"PASS","deta
+il":"1024px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/:1440x900","result":"PASS","detail":"1440px; header
+ 77px; desktop nav"}
+{"id":"mobile-safari:layout:/pricing.html:1440x900","result":"PASS","detail":"14
+40px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/privacy-policy.html:1440x900","result":"PASS","deta
+il":"1440px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/:1920x900","result":"PASS","detail":"1920px; header
+ 77px; desktop nav"}
+{"id":"mobile-safari:layout:/pricing.html:1920x900","result":"PASS","detail":"19
+20px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/privacy-policy.html:1920x900","result":"PASS","deta
+il":"1920px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/:900x600","result":"PASS","detail":"900px; header 7
+7px; desktop nav"}
+{"id":"mobile-safari:layout:/pricing.html:900x600","result":"PASS","detail":"900
+px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/privacy-policy.html:900x600","result":"PASS","detai
+l":"900px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/:1024x400","result":"PASS","detail":"1024px; header
+ 77px; desktop nav"}
+{"id":"mobile-safari:layout:/pricing.html:1024x400","result":"PASS","detail":"10
+24px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/privacy-policy.html:1024x400","result":"PASS","deta
+il":"1024px; header 77px; desktop nav"}
+{"id":"mobile-safari:layout:/:844x390","result":"PASS","detail":"844px; header 7
+7px; mobile menu"}
+{"id":"mobile-safari:layout:/pricing.html:844x390","result":"PASS","detail":"844
+px; header 77px; mobile menu"}
+{"id":"mobile-safari:layout:/privacy-policy.html:844x390","result":"PASS","detai
+l":"844px; header 77px; mobile menu"}
+{"id":"mobile-safari:JS-reduced-motion","result":"PASS","detail":{"scroll":"auto
+","animations":0,"transition":"0s"}}
+{"id":"mobile-safari:file-URL-static-navigation-and-tabs","result":"FAIL","detai
+l":"locator.click: Timeout 7000ms exceeded.\nCall log:\n\u001b[2m  - waiting for
+ locator('#navigation a[href=\"pricing.html\"]')\u001b[22m\n\u001b[2m    - locat
+or resolved to <a href=\"pricing.html\">Pricing</a>\u001b[22m\n\u001b[2m  - atte
+mpting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visibl
+e, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[2
+2m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\
+u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stabl
+e\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - r
+etrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b
+[2m    13 × waiting for element to be visible, enabled and stable\u001b[22m\n\u0
+01b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click
+action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"}
+{"id":"mobile-safari:no-JS:/","result":"PASS","detail":"Visible navigation/downl
+oads, no overflow, native FAQ usable"}
+{"id":"mobile-safari:no-JS:/pricing.html","result":"PASS","detail":"Visible navi
+gation/downloads, no overflow, native FAQ usable"}
+{"id":"mobile-safari:no-JS:/privacy-policy.html","result":"PASS","detail":"Visib
+le navigation/downloads, no overflow, native FAQ usable"}
+{"id":"mobile-safari:network-hosts-and-runtime","result":"PASS","detail":{"reque
+sts":["127.0.0.1",""],"errors":[]}}
+{"id":"all-seven-app-screens-exact-source-conversion","result":"PASS","detail":[
+{"filename":"screens/home.webp","source":"WealthVision/Requirements/store_screen
+shots/appstore/raw/iphone/home2.png","captured":"2026-10-22","sha256":"13d56b2ae
+cc1c368f0b2e3b98ff8a2b51f52062a595d10aa74129fdf5816dbcb"},{"filename":"screens/g
+oal.webp","source":"WealthVision/Requirements/store_screenshots/appstore/raw/iph
+one/goal-review.png","captured":"2026-10-22","sha256":"d1ca699c467dcab3509a4ed35
+35e8c0edbccdcb0fa5bf27b42b521e5c538288d"},{"filename":"screens/payday.webp","sou
+rce":"WealthVision/Requirements/store_screenshots/appstore/raw/iphone/payday-spl
+it-3.png","captured":"2026-10-22","sha256":"41d2f7391e3ca38160839c26909f45f89263
+4b3c9019d64ebf6df060174e6620"},{"filename":"screens/buy.webp","source":"WealthVi
+sion/Requirements/store_screenshots/appstore/raw/iphone/buy-verdict.png","captur
+ed":"2026-10-22","sha256":"8f540cdaccf1a78230d6b914766bbbff4a0416310ceca9c69f716
+915b7e2b8a2"},{"filename":"screens/growth.webp","source":"WealthVision/Requireme
+nts/store_screenshots/appstore/raw/iphone/sim-free-2.png","captured":"2026-10-22
+","sha256":"5c9981b861eef27a9d230ac6e514c40e091cf6f12624a8086ef5efafc2b657f2"},{
+"filename":"screens/lesson.webp","source":"WealthVision/Requirements/store_scree
+nshots/appstore/raw/iphone/lesson-4.png","captured":"2026-10-22","sha256":"b9b4e
+2327fa0a74642e77696c853bce473d3cc7cb36e0cfea7510705965cded4"},{"filename":"scree
+ns/kids.webp","source":"WealthVision/Requirements/store_screenshots/appstore/raw
+/iphone/kid-main.png","captured":"2026-10-22","sha256":"cd9566459df090d0a165d84c
+0f6743c86b00b9de9aaaca5ebf4a09766327ea4f"}]}
+{"id":"live-store:apple","result":"PASS","detail":{"status":200,"url":"https://a
+pps.apple.com/us/app/wealthvision/id6786717388","title":"‎WealthVision App - App
+Store","body":"Search\nToday\nGames\nApps\nArcade\nPlatform\niPhone\niPad\nMac\n
+Vision\nWatch\nTV\nWealthVision\n\nMoney coach & goal planner\n\nFree · In‑App P
+urchases · Designed for iPad. Not verified for macOS.\n\nShare\nAGE RATING\n4+\n
+Years\nCATEGORY\nFinance\nDEVELOPER\nOleksii Vashchenko\nLANGUAGE\nEN\nEnglish\n
+SIZE\n24.2\nMB\niPhone, iPad\n\nPlan payday before it disappears. Build goals an
+d money confidence — offline, no bank link, no subscription. WealthVision is the
+ privacy-first money coach that turns confusing financial advice into simple, in
+teractive tools. Learn how investing works, plan real goals, and build confidenc
+e with money — all on your device, fully offline. No accounts. No tracking. No a
+ds. Your data never leaves your phone. WHY WEALTHVISION Most finance apps want y
+our bank logins and your attention. WealthVision wants neither. It is a calm, ju
+dgment-free coach that teaches with hands-on simulators instead of jargon — and
+it is built for the whole family. WHAT YOU CAN DO ▸ SEE YOUR FUTURE GROW (Free)
+The Growth Simulator shows how steady contributions can compound over time. Adju
+st the amount, the rate, and the years, and watch the projection update instantl
+y. ▸ PLAN GOALS YOU CAN REACH (Free) Set a goal — a home deposit, a trip, an eme
+rgency fund — and get a clear monthly plan. The Path-to-Goal accelerator turns a
+ daunting timeline into levers you control. ▸ PAY YOURSELF FIRST (Free) The Payd
+ay Routine helps you split every payday — safety first, then spend the rest free
+ly and guilt-free. Build the habit that quietly grows your savings. ▸ CAN I BUY
+IT? (Free) A judgment-free affordability check that frames a purchase as simple
+math, not morality. ▸ LEARN BY DOING (Free) Eleven short lessons across two cour
+ses — money basics and investing — cover your safety cushion, payday priorities,
+ debt, co"}}
+{"id":"live-store:google","result":"PASS","detail":{"status":200,"url":"https://
+play.google.com/store/apps/details?id=com.tgdev.wealthvision","title":"WealthVis
+ion: Money Coach - Apps on Google Play","body":"google_logo Play\nGames\nApps\nB
+ooks\nKids\nsearch\nhelp_outline\nWealthVision: Money Coach\nT&G Studio\nIn-app
+purchases\n1+\nDownloads\nInstall\nShare\nAbout this app\narrow_forward\nWealthV
+ision is the privacy-first money coach that turns confusing financial advice int
+o simple, interactive tools. Learn how investing works, plan real goals, and bui
+ld confidence with money — all on your device, fully offline.\n\nNo accounts. No
+ tracking. No ads. Your data never leaves your phone.\n\nWHY WEALTHVISION\nMost
+finance apps want your bank logins and your attention. WealthVision wants neithe
+r. It is a calm, judgment-free coach that teaches with hands-on simulators inste
+ad of jargon — and it is built for the whole family.\n\nWHAT YOU CAN DO\n\n▸ SEE
+ YOUR FUTURE GROW (Free)\nThe Growth Simulator shows how steady contributions ca
+n compound over time. Adjust the amount, the rate, and the years, and watch the
+projection update instantly.\n\n▸ PLAN GOALS YOU CAN REACH (Free)\nSet a goal —
+a home deposit, a trip, an emergency fund — and get a clear monthly plan. The Pa
+th-to-Goal accelerator turns a daunting timeline into levers you control.\n\n▸ P
+AY YOURSELF FIRST (Free)\nThe Payday Routine helps you split every payday — safe
+ty first, then spend the rest freely and guilt-free. Build the habit that quietl
+y grows your savings.\n\n▸ CAN I BUY IT? (Free)\nA judgment-free affordability c
+heck that frames a purchase as simple math, not morality.\n\n▸ LEARN BY DOING (F
+ree)\nEight bite-size lessons cover budgeting, compound growth, inflation, risk,
+ and more — with streaks and rewards to keep you motivated.\n\n▸ HONEST BENCHMAR
+KS (Pro)\nPeer Comparison uses the median, never averages — no leaderboards, no
+hype. See where you stand and a realistic way forward.\n\n▸ BUILD ANY PLAN (Pro)
+\nGoal Builder with unlimited goals, scenario compar"}}
+{"total":135,"passed":131,"failed":4}
+oleksii@EPPLWARWABBD WealthVisionPublic % 

@@ -1,0 +1,280 @@
+[
+  {
+    "file": "accessibility-1.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.2.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      },
+      {
+        "id": "label",
+        "impact": "critical",
+        "nodes": 4
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      },
+      {
+        "id": "label",
+        "impact": "critical",
+        "nodes": 4
+      }
+    ]
+  },
+  {
+    "file": "accessibility-2.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.6.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "file": "accessibility-3.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.10.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "link-in-text-block",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "link-in-text-block",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "file": "accessibility-4.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.22.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ]
+  },
+  {
+    "file": "accessibility-5.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.26.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "file": "accessibility-6.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.30.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "link-in-text-block",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "link-in-text-block",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "file": "accessibility-7.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.42.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ]
+  },
+  {
+    "file": "accessibility-8.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.46.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "file": "accessibility-9.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.50.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "link-in-text-block",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "link-in-text-block",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "file": "accessibility-10.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.62.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ]
+  },
+  {
+    "file": "accessibility-11.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.66.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "file": "accessibility-12.json",
+    "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+    "location": "892f01ebe3c3cd11efb8.json.tests.70.results.0",
+    "current": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "link-in-text-block",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "original": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "link-in-text-block",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ]
+  }
+]

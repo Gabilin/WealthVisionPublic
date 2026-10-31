@@ -1,0 +1,804 @@
+{
+  "recordedAt": "2026-10-31T07:40:49.467Z",
+  "classification": "Diagnostic observations only; the original independent run remains 17 passed, 2 failed. No rerun of the failed grouped probes.",
+  "styles": [
+    {
+      "file": "index.html",
+      "removedRules": [
+        ".ph-badge { display: inline-flex; align-items: center; gap: 12px; padding: 9px 15px 9px 10px; border-radius: 13px; background: var(--surface); border: 1px solid var(--hair); text-decoration: none; text-align: left; transition: border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.12s var(--ease); }",
+        ".ph-badge:hover { border-color: rgba(218, 85, 47, 0.55); background: var(--surface-h); }",
+        ".ph-badge:active { transform: scale(0.98); }",
+        ".ph-badge-logo { display: flex; flex: 0 0 auto; }",
+        ".ph-badge-copy { display: flex; flex-direction: column; line-height: 1.32; }",
+        ".ph-badge-copy b { font-size: 13.5px; font-weight: 600; color: var(--hi); letter-spacing: -0.01em; }",
+        ".ph-badge-copy > span { font-size: 12.5px; color: var(--mid); transition: color 0.2s var(--ease); }",
+        ".ph-badge:hover .ph-badge-copy > span { color: var(--hi); }",
+        "#waitlistForm.sent input, #waitlistForm.sent button { opacity: 0.6; }"
+      ],
+      "addedRules": [],
+      "originalStructuralClasses": [
+        {
+          "tag": "NAV",
+          "id": "",
+          "class": "sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[#0c0c0e]/85 backdrop-blur-md"
+        },
+        {
+          "tag": "MAIN",
+          "id": "",
+          "class": ""
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "relative overflow-hidden"
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "border-y border-white/[0.06] bg-[#0a0a0c]"
+        },
+        {
+          "tag": "SECTION",
+          "id": "features",
+          "class": "max-w-[1160px] mx-auto px-5 py-20 md:py-28"
+        },
+        {
+          "tag": "SECTION",
+          "id": "try",
+          "class": "border-y border-white/[0.06] bg-[#0a0a0c]"
+        },
+        {
+          "tag": "SECTION",
+          "id": "honest",
+          "class": "relative border-y border-white/[0.06] bg-[#0a0a0c] overflow-hidden"
+        },
+        {
+          "tag": "SECTION",
+          "id": "family",
+          "class": "max-w-[1160px] mx-auto px-5 py-20 md:py-28"
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "border-y border-white/[0.06] bg-[#0a0a0c]"
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "max-w-[1160px] mx-auto px-5 py-20 md:py-28"
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "border-t border-white/[0.06]"
+        },
+        {
+          "tag": "SECTION",
+          "id": "get",
+          "class": "relative overflow-hidden border-t border-white/[0.06] bg-[#0a0a0c]"
+        }
+      ],
+      "currentStructuralClasses": [
+        {
+          "tag": "NAV",
+          "id": "",
+          "class": "sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[#0c0c0e]/85 backdrop-blur-md"
+        },
+        {
+          "tag": "MAIN",
+          "id": "",
+          "class": ""
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "relative overflow-hidden"
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "border-y border-white/[0.06] bg-[#0a0a0c]"
+        },
+        {
+          "tag": "SECTION",
+          "id": "features",
+          "class": "max-w-[1160px] mx-auto px-5 py-20 md:py-28"
+        },
+        {
+          "tag": "SECTION",
+          "id": "try",
+          "class": "border-y border-white/[0.06] bg-[#0a0a0c]"
+        },
+        {
+          "tag": "SECTION",
+          "id": "honest",
+          "class": "relative border-y border-white/[0.06] bg-[#0a0a0c] overflow-hidden"
+        },
+        {
+          "tag": "SECTION",
+          "id": "family",
+          "class": "max-w-[1160px] mx-auto px-5 py-20 md:py-28"
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "border-y border-white/[0.06] bg-[#0a0a0c]"
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "max-w-[1160px] mx-auto px-5 py-20 md:py-28"
+        },
+        {
+          "tag": "SECTION",
+          "id": "",
+          "class": "border-t border-white/[0.06]"
+        },
+        {
+          "tag": "SECTION",
+          "id": "get",
+          "class": "relative overflow-hidden border-t border-white/[0.06] bg-[#0a0a0c]"
+        }
+      ],
+      "bodyColor": "rgb(12, 12, 14)",
+      "font": "\"IBM Plex Sans\", system-ui, sans-serif",
+      "loadedFont": true,
+      "structuralClassesIdentical": true,
+      "onlyRetiredPromotionRulesRemoved": true
+    },
+    {
+      "file": "pricing.html",
+      "removedRules": [],
+      "addedRules": [],
+      "originalStructuralClasses": [
+        {
+          "tag": "NAV",
+          "id": "",
+          "class": ""
+        },
+        {
+          "tag": "HEADER",
+          "id": "",
+          "class": "hero"
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "wrap"
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "cards"
+        }
+      ],
+      "currentStructuralClasses": [
+        {
+          "tag": "NAV",
+          "id": "",
+          "class": ""
+        },
+        {
+          "tag": "HEADER",
+          "id": "",
+          "class": "hero"
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "wrap"
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "cards"
+        }
+      ],
+      "bodyColor": "rgb(12, 12, 14)",
+      "font": "\"IBM Plex Sans\", system-ui, sans-serif",
+      "loadedFont": true,
+      "structuralClassesIdentical": true,
+      "onlyRetiredPromotionRulesRemoved": true
+    },
+    {
+      "file": "privacy-policy.html",
+      "removedRules": [],
+      "addedRules": [],
+      "originalStructuralClasses": [
+        {
+          "tag": "NAV",
+          "id": "",
+          "class": ""
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "wrap"
+        }
+      ],
+      "currentStructuralClasses": [
+        {
+          "tag": "NAV",
+          "id": "",
+          "class": ""
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "wrap"
+        }
+      ],
+      "bodyColor": "rgb(12, 12, 14)",
+      "font": "\"IBM Plex Sans\", system-ui, sans-serif",
+      "loadedFont": true,
+      "structuralClassesIdentical": true,
+      "onlyRetiredPromotionRulesRemoved": true
+    }
+  ],
+  "assets": [
+    {
+      "file": "images/og-cover.png",
+      "currentSHA256": "234e61babbff57694718dba0c032bd66f6b143c3f94c2b3a93c8a03c21ddc096",
+      "headSHA256": "234e61babbff57694718dba0c032bd66f6b143c3f94c2b3a93c8a03c21ddc096",
+      "byteIdentical": true
+    },
+    {
+      "file": "images/screens/home.webp",
+      "source": "/Users/oleksii/Code/WealthVision/Requirements/store_screenshots/appstore/raw/iphone/home2.png",
+      "declaredCaptureDate": "2026-10-22",
+      "sourceSHA256": "b36b35407290e0c57a021bf04151f5fe75241f75bd7f0cf579d5725b17960e83",
+      "actualSHA256": "13d56b2aecc1c368f0b2e3b98ff8a2b51f52062a595d10aa74129fdf5816dbcb",
+      "conversionSHA256": "13d56b2aecc1c368f0b2e3b98ff8a2b51f52062a595d10aa74129fdf5816dbcb",
+      "byteIdentical": true,
+      "width": 660,
+      "height": 1434
+    },
+    {
+      "file": "images/screens/kids.webp",
+      "source": "/Users/oleksii/Code/WealthVision/Requirements/store_screenshots/appstore/raw/iphone/kid-main.png",
+      "declaredCaptureDate": "2026-10-22",
+      "sourceSHA256": "49109fc0291ce69465c7f367172a0046c585f776c307bdb5425747498cf4cf29",
+      "actualSHA256": "cd9566459df090d0a165d84c0f6743c86b00b9de9aaaca5ebf4a09766327ea4f",
+      "conversionSHA256": "cd9566459df090d0a165d84c0f6743c86b00b9de9aaaca5ebf4a09766327ea4f",
+      "byteIdentical": true,
+      "width": 660,
+      "height": 1434
+    }
+  ],
+  "suiteAttachments": [
+    {
+      "file": "accessibility-1.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.2.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 4
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "file": "accessibility-2.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.6.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "file": "accessibility-3.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.10.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "accessibility-4.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.22.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "file": "accessibility-5.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.26.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "file": "accessibility-6.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.30.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "accessibility-7.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.42.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "file": "accessibility-8.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.46.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "file": "accessibility-9.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.50.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "accessibility-10.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.62.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "file": "accessibility-11.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.66.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "file": "accessibility-12.json",
+      "sourceArchiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.70.results.0",
+      "current": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "original": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    }
+  ],
+  "suiteSummary": {
+    "stats": {
+      "total": 80,
+      "expected": 80,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "topLevelKeys": [
+      "metadata",
+      "startTime",
+      "duration",
+      "files",
+      "projectNames",
+      "stats",
+      "errors",
+      "options",
+      "machines"
+    ]
+  },
+  "remainingIframeEvidence": [
+    "remaining-iframe-buy-observed.png",
+    "remaining-iframe-kid-observed.png"
+  ],
+  "screenshots": [],
+  "attachmentMetadata": [
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.2.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.6.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.10.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.22.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.26.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.30.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.42.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.46.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.50.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.62.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.66.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "892f01ebe3c3cd11efb8.json",
+      "location": "892f01ebe3c3cd11efb8.json.tests.70.results.0",
+      "keys": [
+        "name",
+        "contentType",
+        "body"
+      ],
+      "bodyType": "string"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.2.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.6.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.10.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.22.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.26.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.30.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.42.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.46.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.50.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.62.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.66.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    },
+    {
+      "archiveEntry": "report.json",
+      "location": "report.json.files.0.tests.70.results.0",
+      "keys": [
+        "name",
+        "contentType"
+      ],
+      "bodyType": "undefined"
+    }
+  ]
+}

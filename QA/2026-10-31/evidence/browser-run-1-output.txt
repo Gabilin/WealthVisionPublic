@@ -1,0 +1,606 @@
+[Output too large (24KB). Full output saved to: /Users/oleksii/Library/Application Support/Code/copilot-terminal-output/copilot-terminal-output-f0c39db4-86a8-49ff-8455-7f121cd857d2.txt]
+[Use readFile or grep to examine the full output.]
+
+oleksii@EPPLWARWABBD WealthVisionPublic % >....                                 
+    await page.goto(base); await page.locator('.menu-toggle').click();
+    const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'w
+cag21aa']).analyze();
+    requireCondition(axe.violations.length === 0, JSON.stringify(axe.violations.
+map(issue => ({ id: issue.id, impact: issue.impact }))));
+    await page.keyboard.press('Escape');
+    await page.locator('.skip-link').focus(); await page.keyboard
+
+[... middle of output truncated ...]
+
+e,\"menuExpanded\":\"true\"}"
+    },
+    {
+      "id": "chromium:parent-family-pricing-restore",
+      "result": "PASS",
+      "detail": {
+        "familyBoundary": "one child Free; multiple children Pro",
+        "restore": "Use Restore purchases in the app while signed in to the same
+ Apple or Google account used for your purchase. Store validation requires an in
+ternet connection."
+      }
+    },
+    {
+      "id": "chromium:privacy-anchors-contact-FAQ",
+      "result": "PASS",
+      "detail": {
+        "sections": [
+          "#collection",
+          "#storage",
+          "#network",
+          "#children",
+          "#purchases",
+          "#website",
+          "#contact"
+        ],
+        "mail": "mailto:tised.gabilin@gmail.com",
+        "FAQs": 10
+      }
+    },
+    {
+      "id": "chromium:local-links-fixed-page-base",
+      "result": "PASS",
+      "detail": {
+        "total": 28,
+        "checked": [
+          "/ -> #main",
+          "/ -> index.html",
+          "/ -> #features",
+          "/ -> #family",
+          "/ -> pricing.html",
+          "/ -> privacy-policy.html",
+          "/ -> #get",
+          "/pricing.html -> #main",
+          "/pricing.html -> index.html",
+          "/pricing.html -> index.html#features",
+          "/pricing.html -> index.html#family",
+          "/pricing.html -> pricing.html",
+          "/pricing.html -> privacy-policy.html",
+          "/pricing.html -> #get",
+          "/privacy-policy.html -> #main",
+          "/privacy-policy.html -> index.html",
+          "/privacy-policy.html -> index.html#features",
+          "/privacy-policy.html -> index.html#family",
+          "/privacy-policy.html -> pricing.html",
+          "/privacy-policy.html -> privacy-policy.html",
+          "/privacy-policy.html -> #get",
+          "/privacy-policy.html -> #collection",
+          "/privacy-policy.html -> #storage",
+          "/privacy-policy.html -> #network",
+          "/privacy-policy.html -> #children",
+          "/privacy-policy.html -> #purchases",
+          "/privacy-policy.html -> #website",
+          "/privacy-policy.html -> #contact"
+        ]
+      }
+    },
+    {
+      "id": "chromium:keyboard-tab-sequence-and-open-menu-axe",
+      "result": "PASS",
+      "detail": "Skip link, arrow wrapping, Home/End, focus and open-menu axe pa
+ss"
+    },
+    {
+      "id": "chromium:runtime-and-local-response-errors",
+      "result": "PASS",
+      "detail": {
+        "errors": [],
+        "failedLocal": []
+      }
+    },
+    {
+      "id": "firefox:lazy-images-after-scroll",
+      "result": "PASS",
+      "detail": {
+        "before": [
+          {
+            "src": "images/screens/goal.webp",
+            "loaded": true
+          },
+          {
+            "src": "images/screens/lesson.webp",
+            "loaded": false
+          },
+          {
+            "src": "images/screens/home.webp",
+            "loaded": false
+          },
+          {
+            "src": "images/screens/kids.webp",
+            "loaded": false
+          }
+        ],
+        "totalLoaded": 29,
+        "localErrors": []
+      }
+    },
+    {
+      "id": "firefox:adult-goal-payday-growth-and-other-proof",
+      "result": "PASS",
+      "detail": [
+        {
+          "decision": "goal",
+          "src": "images/screens/goal.webp",
+          "title": "Make the someday plan a monthly plan.",
+          "alt": "Goal Builder review for Trip to Japan: target $6,000, $375 a m
+onth, an illustrative 5% return assumption."
+        },
+        {
+          "decision": "payday",
+          "src": "images/screens/payday.webp",
+          "title": "Give this payday a plan.",
+          "alt": "Payday Routine showing a planned split between essentials, saf
+ety, debt, investing, and free spending."
+        },
+        {
+          "decision": "growth",
+          "src": "images/screens/growth.webp",
+          "title": "See what time changes.",
+          "alt": "Growth Simulator with a compound-growth chart and editable con
+tribution and return assumptions."
+        },
+        {
+          "decision": "buy",
+          "src": "images/screens/buy.webp",
+          "title": "A purchase check without the guilt.",
+          "alt": "Can I Buy It affordability result for a purchase using the exa
+mple income and costs entered in the app."
+        },
+        {
+          "decision": "lesson",
+          "src": "images/screens/lesson.webp",
+          "title": "Learn one thing. Try it with your numbers.",
+          "alt": "A real WealthVision visual lesson explaining how to turn goals
+ into a practical savings plan."
+        },
+        {
+          "decision": "kids",
+          "src": "images/screens/kids.webp",
+          "title": "Small allowance. Big first lessons.",
+          "alt": "Kid Mode displaying a local allowance balance and savings prog
+ress for a child."
+        }
+      ]
+    },
+    {
+      "id": "firefox:menu-open-close-Escape-link",
+      "result": "PASS",
+      "detail": "Open, toggle-close, Escape/focus restore, same-page family link
+, cross-page Pricing link pass"
+    },
+    {
+      "id": "firefox:menu-forward-keyboard-path",
+      "result": "FAIL",
+      "detail": "Forward Tab bypasses open navigation: {\"tag\":\"A\",\"text\":\
+"Download WealthVision on the App Store\",\"href\":\"https://apps.apple.com/app/
+id6786717388\",\"inNavigation\":false,\"menuExpanded\":\"true\"}"
+    },
+    {
+      "id": "firefox:parent-family-pricing-restore",
+      "result": "PASS",
+      "detail": {
+        "familyBoundary": "one child Free; multiple children Pro",
+        "restore": "Use Restore purchases in the app while signed in to the same
+ Apple or Google account used for your purchase. Store validation requires an in
+ternet connection."
+      }
+    },
+    {
+      "id": "firefox:privacy-anchors-contact-FAQ",
+      "result": "PASS",
+      "detail": {
+        "sections": [
+          "#collection",
+          "#storage",
+          "#network",
+          "#children",
+          "#purchases",
+          "#website",
+          "#contact"
+        ],
+        "mail": "mailto:tised.gabilin@gmail.com",
+        "FAQs": 10
+      }
+    },
+    {
+      "id": "firefox:local-links-fixed-page-base",
+      "result": "PASS",
+      "detail": {
+        "total": 28,
+        "checked": [
+          "/ -> #main",
+          "/ -> index.html",
+          "/ -> #features",
+          "/ -> #family",
+          "/ -> pricing.html",
+          "/ -> privacy-policy.html",
+          "/ -> #get",
+          "/pricing.html -> #main",
+          "/pricing.html -> index.html",
+          "/pricing.html -> index.html#features",
+          "/pricing.html -> index.html#family",
+          "/pricing.html -> pricing.html",
+          "/pricing.html -> privacy-policy.html",
+          "/pricing.html -> #get",
+          "/privacy-policy.html -> #main",
+          "/privacy-policy.html -> index.html",
+          "/privacy-policy.html -> index.html#features",
+          "/privacy-policy.html -> index.html#family",
+          "/privacy-policy.html -> pricing.html",
+          "/privacy-policy.html -> privacy-policy.html",
+          "/privacy-policy.html -> #get",
+          "/privacy-policy.html -> #collection",
+          "/privacy-policy.html -> #storage",
+          "/privacy-policy.html -> #network",
+          "/privacy-policy.html -> #children",
+          "/privacy-policy.html -> #purchases",
+          "/privacy-policy.html -> #website",
+          "/privacy-policy.html -> #contact"
+        ]
+      }
+    },
+    {
+      "id": "firefox:keyboard-tab-sequence-and-open-menu-axe",
+      "result": "PASS",
+      "detail": "Skip link, arrow wrapping, Home/End, focus and open-menu axe pa
+ss"
+    },
+    {
+      "id": "firefox:runtime-and-local-response-errors",
+      "result": "PASS",
+      "detail": {
+        "errors": [],
+        "failedLocal": []
+      }
+    },
+    {
+      "id": "webkit:lazy-images-after-scroll",
+      "result": "PASS",
+      "detail": {
+        "before": [
+          {
+            "src": "images/screens/goal.webp",
+            "loaded": false
+          },
+          {
+            "src": "images/screens/lesson.webp",
+            "loaded": false
+          },
+          {
+            "src": "images/screens/home.webp",
+            "loaded": false
+          },
+          {
+            "src": "images/screens/kids.webp",
+            "loaded": false
+          }
+        ],
+        "totalLoaded": 29,
+        "localErrors": []
+      }
+    },
+    {
+      "id": "webkit:adult-goal-payday-growth-and-other-proof",
+      "result": "PASS",
+      "detail": [
+        {
+          "decision": "goal",
+          "src": "images/screens/goal.webp",
+          "title": "Make the someday plan a monthly plan.",
+          "alt": "Goal Builder review for Trip to Japan: target $6,000, $375 a m
+onth, an illustrative 5% return assumption."
+        },
+        {
+          "decision": "payday",
+          "src": "images/screens/payday.webp",
+          "title": "Give this payday a plan.",
+          "alt": "Payday Routine showing a planned split between essentials, saf
+ety, debt, investing, and free spending."
+        },
+        {
+          "decision": "growth",
+          "src": "images/screens/growth.webp",
+          "title": "See what time changes.",
+          "alt": "Growth Simulator with a compound-growth chart and editable con
+tribution and return assumptions."
+        },
+        {
+          "decision": "buy",
+          "src": "images/screens/buy.webp",
+          "title": "A purchase check without the guilt.",
+          "alt": "Can I Buy It affordability result for a purchase using the exa
+mple income and costs entered in the app."
+        },
+        {
+          "decision": "lesson",
+          "src": "images/screens/lesson.webp",
+          "title": "Learn one thing. Try it with your numbers.",
+          "alt": "A real WealthVision visual lesson explaining how to turn goals
+ into a practical savings plan."
+        },
+        {
+          "decision": "kids",
+          "src": "images/screens/kids.webp",
+          "title": "Small allowance. Big first lessons.",
+          "alt": "Kid Mode displaying a local allowance balance and savings prog
+ress for a child."
+        }
+      ]
+    },
+    {
+      "id": "webkit:menu-open-close-Escape-link",
+      "result": "PASS",
+      "detail": "Open, toggle-close, Escape/focus restore, same-page family link
+, cross-page Pricing link pass"
+    },
+    {
+      "id": "webkit:menu-forward-keyboard-path",
+      "result": "FAIL",
+      "detail": "Forward Tab bypasses open navigation: {\"tag\":\"DIV\",\"text\"
+:\"Actual app screen. Example numbers.\\n            Make the someday plan a mon
+thly plan.A trip, a home deposit, a little breathing room. Put a name and a numb
+er on it, include what you have already saved, and find a monthly contribution t
+hat works for you.Leave with a saved goal, a contribution, and an estimated time
+line you can revisit.You choose the assumptions. Estimated completion is a proje
+ction, not a guarantee.\",\"href\":null,\"inNavigation\":false,\"menuExpanded\":
+\"true\"}"
+    },
+    {
+      "id": "webkit:parent-family-pricing-restore",
+      "result": "PASS",
+      "detail": {
+        "familyBoundary": "one child Free; multiple children Pro",
+        "restore": "Use Restore purchases in the app while signed in to the same
+ Apple or Google account used for your purchase. Store validation requires an in
+ternet connection."
+      }
+    },
+    {
+      "id": "webkit:privacy-anchors-contact-FAQ",
+      "result": "PASS",
+      "detail": {
+        "sections": [
+          "#collection",
+          "#storage",
+          "#network",
+          "#children",
+          "#purchases",
+          "#website",
+          "#contact"
+        ],
+        "mail": "mailto:tised.gabilin@gmail.com",
+        "FAQs": 10
+      }
+    },
+    {
+      "id": "webkit:local-links-fixed-page-base",
+      "result": "PASS",
+      "detail": {
+        "total": 28,
+        "checked": [
+          "/ -> #main",
+          "/ -> index.html",
+          "/ -> #features",
+          "/ -> #family",
+          "/ -> pricing.html",
+          "/ -> privacy-policy.html",
+          "/ -> #get",
+          "/pricing.html -> #main",
+          "/pricing.html -> index.html",
+          "/pricing.html -> index.html#features",
+          "/pricing.html -> index.html#family",
+          "/pricing.html -> pricing.html",
+          "/pricing.html -> privacy-policy.html",
+          "/pricing.html -> #get",
+          "/privacy-policy.html -> #main",
+          "/privacy-policy.html -> index.html",
+          "/privacy-policy.html -> index.html#features",
+          "/privacy-policy.html -> index.html#family",
+          "/privacy-policy.html -> pricing.html",
+          "/privacy-policy.html -> privacy-policy.html",
+          "/privacy-policy.html -> #get",
+          "/privacy-policy.html -> #collection",
+          "/privacy-policy.html -> #storage",
+          "/privacy-policy.html -> #network",
+          "/privacy-policy.html -> #children",
+          "/privacy-policy.html -> #purchases",
+          "/privacy-policy.html -> #website",
+          "/privacy-policy.html -> #contact"
+        ]
+      }
+    },
+    {
+      "id": "webkit:keyboard-tab-sequence-and-open-menu-axe",
+      "result": "PASS",
+      "detail": "Skip link, arrow wrapping, Home/End, focus and open-menu axe pa
+ss"
+    },
+    {
+      "id": "webkit:runtime-and-local-response-errors",
+      "result": "PASS",
+      "detail": {
+        "errors": [],
+        "failedLocal": []
+      }
+    },
+    {
+      "id": "mobile-safari:lazy-images-after-scroll",
+      "result": "PASS",
+      "detail": {
+        "before": [
+          {
+            "src": "images/screens/goal.webp",
+            "loaded": false
+          },
+          {
+            "src": "images/screens/lesson.webp",
+            "loaded": false
+          },
+          {
+            "src": "images/screens/home.webp",
+            "loaded": false
+          },
+          {
+            "src": "images/screens/kids.webp",
+            "loaded": false
+          }
+        ],
+        "totalLoaded": 29,
+        "localErrors": []
+      }
+    },
+    {
+      "id": "mobile-safari:adult-goal-payday-growth-and-other-proof",
+      "result": "PASS",
+      "detail": [
+        {
+          "decision": "goal",
+          "src": "images/screens/goal.webp",
+          "title": "Make the someday plan a monthly plan.",
+          "alt": "Goal Builder review for Trip to Japan: target $6,000, $375 a m
+onth, an illustrative 5% return assumption."
+        },
+        {
+          "decision": "payday",
+          "src": "images/screens/payday.webp",
+          "title": "Give this payday a plan.",
+          "alt": "Payday Routine showing a planned split between essentials, saf
+ety, debt, investing, and free spending."
+        },
+        {
+          "decision": "growth",
+          "src": "images/screens/growth.webp",
+          "title": "See what time changes.",
+          "alt": "Growth Simulator with a compound-growth chart and editable con
+tribution and return assumptions."
+        },
+        {
+          "decision": "buy",
+          "src": "images/screens/buy.webp",
+          "title": "A purchase check without the guilt.",
+          "alt": "Can I Buy It affordability result for a purchase using the exa
+mple income and costs entered in the app."
+        },
+        {
+          "decision": "lesson",
+          "src": "images/screens/lesson.webp",
+          "title": "Learn one thing. Try it with your numbers.",
+          "alt": "A real WealthVision visual lesson explaining how to turn goals
+ into a practical savings plan."
+        },
+        {
+          "decision": "kids",
+          "src": "images/screens/kids.webp",
+          "title": "Small allowance. Big first lessons.",
+          "alt": "Kid Mode displaying a local allowance balance and savings prog
+ress for a child."
+        }
+      ]
+    },
+    {
+      "id": "mobile-safari:menu-open-close-Escape-link",
+      "result": "PASS",
+      "detail": "Open, toggle-close, Escape/focus restore, same-page family link
+, cross-page Pricing link pass"
+    },
+    {
+      "id": "mobile-safari:menu-forward-keyboard-path",
+      "result": "FAIL",
+      "detail": "Forward Tab bypasses open navigation: {\"tag\":\"DIV\",\"text\"
+:\"Actual app screen. Example numbers.\\n            Make the someday plan a mon
+thly plan.A trip, a home deposit, a little breathing room. Put a name and a numb
+er on it, include what you have already saved, and find a monthly contribution t
+hat works for you.Leave with a saved goal, a contribution, and an estimated time
+line you can revisit.You choose the assumptions. Estimated completion is a proje
+ction, not a guarantee.\",\"href\":null,\"inNavigation\":false,\"menuExpanded\":
+\"true\"}"
+    },
+    {
+      "id": "mobile-safari:parent-family-pricing-restore",
+      "result": "PASS",
+      "detail": {
+        "familyBoundary": "one child Free; multiple children Pro",
+        "restore": "Use Restore purchases in the app while signed in to the same
+ Apple or Google account used for your purchase. Store validation requires an in
+ternet connection."
+      }
+    },
+    {
+      "id": "mobile-safari:privacy-anchors-contact-FAQ",
+      "result": "PASS",
+      "detail": {
+        "sections": [
+          "#collection",
+          "#storage",
+          "#network",
+          "#children",
+          "#purchases",
+          "#website",
+          "#contact"
+        ],
+        "mail": "mailto:tised.gabilin@gmail.com",
+        "FAQs": 10
+      }
+    },
+    {
+      "id": "mobile-safari:local-links-fixed-page-base",
+      "result": "PASS",
+      "detail": {
+        "total": 28,
+        "checked": [
+          "/ -> #main",
+          "/ -> index.html",
+          "/ -> #features",
+          "/ -> #family",
+          "/ -> pricing.html",
+          "/ -> privacy-policy.html",
+          "/ -> #get",
+          "/pricing.html -> #main",
+          "/pricing.html -> index.html",
+          "/pricing.html -> index.html#features",
+          "/pricing.html -> index.html#family",
+          "/pricing.html -> pricing.html",
+          "/pricing.html -> privacy-policy.html",
+          "/pricing.html -> #get",
+          "/privacy-policy.html -> #main",
+          "/privacy-policy.html -> index.html",
+          "/privacy-policy.html -> index.html#features",
+          "/privacy-policy.html -> index.html#family",
+          "/privacy-policy.html -> pricing.html",
+          "/privacy-policy.html -> privacy-policy.html",
+          "/privacy-policy.html -> #get",
+          "/privacy-policy.html -> #collection",
+          "/privacy-policy.html -> #storage",
+          "/privacy-policy.html -> #network",
+          "/privacy-policy.html -> #children",
+          "/privacy-policy.html -> #purchases",
+          "/privacy-policy.html -> #website",
+          "/privacy-policy.html -> #contact"
+        ]
+      }
+    },
+    {
+      "id": "mobile-safari:keyboard-tab-sequence-and-open-menu-axe",
+      "result": "PASS",
+      "detail": "Skip link, arrow wrapping, Home/End, focus and open-menu axe pa
+ss"
+    },
+    {
+      "id": "mobile-safari:runtime-and-local-response-errors",
+      "result": "PASS",
+      "detail": {
+        "errors": [],
+        "failedLocal": []
+      }
+    }
+  ],
+  "totals": {
+    "pass": 32,
+    "fail": 4
+  }
+}
+oleksii@EPPLWARWABBD WealthVisionPublic % 

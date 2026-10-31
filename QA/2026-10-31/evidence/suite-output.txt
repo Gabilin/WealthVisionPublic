@@ -1,0 +1,515 @@
+[Output too large (25KB). Full output saved to: /Users/oleksii/Library/Application Support/Code/copilot-terminal-output/copilot-terminal-output-3aabe2db-75a9-499f-bd04-cba591d58ad7.txt]
+[Use readFile or grep to examine the full output.]
+
+
+> test
+> playwright test
+
+
+Running 72 tests using 5 workers
+
+  ✓   1 …6:3 › /pricing.html download destinations and retired promotion (465ms)
+  ✓   2 [chromium] › tests/site.spec.mjs:32:3 › / accessibility (972ms)
+  ✓   3 ….spec.mjs:19:3 › / loads local assets and has no runtime errors (494ms)
+  ✓   4 …te.spec.mjs:6:3 › / download destinations and retired promotion (532ms)
+  ✓   5 …s/site.spec.mjs:38:3 › / responsive without horizontal overflow (720ms)
+  ✓   6 …:3 › /pricing.html loads local as
+
+[... middle of output truncated ...]
+
+reenshot tabs support keyboard navigation (317ms)
+  ✓  70 …sts/site.spec.mjs:87:1 › FAQ opens and closes from the keyboard (232ms)
+  ✘  71 …e.spec.mjs:107:1 › local links resolve and section anchors exist (5.6s)
+  ✓  72 …97:1 › reduced motion and JavaScript-free content remain usable (348ms)
+  ✘  38 ….spec.mjs:19:3 › / loads local assets and has no runtime errors (30.1s)
+
+
+  1) [chromium] › tests/site.spec.mjs:73:1 › mobile navigation opens, follows li
+nks, and closes with Escape 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('button', { name: 'Open navigation' })
+    Expected: "true"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('button', { name: 'Open navigation' }
+) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Open navigation' })
+
+
+      76 |   const menu = page.getByRole('button', { name: 'Open navigation' });
+      77 |   await menu.click();
+    > 78 |   await expect(menu).toHaveAttribute('aria-expanded', 'true');
+         |                      ^
+      79 |   await page.keyboard.press('Escape');
+      80 |   await expect(menu).toHaveAttribute('aria-expanded', 'false');
+      81 |   await menu.click();
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:78:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site-mobile-navigation-ope-65153-inks-and-closes-with-Escape-ch
+romium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site-mobile-navigation-ope-65153-inks-and-closes
+-with-Escape-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site-mobile-navigation-ope-65153-inks-and-closes-with-Escape-ch
+romium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/site-mobile-navigation-ope-65153-
+inks-and-closes-with-Escape-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/site.spec.mjs:107:1 › local links resolve and section an
+chors exist 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('#collection')
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('#collection') with timeout 5000ms
+      - waiting for locator('#collection')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      115 |       if (url.hash) {
+      116 |         await page.goto(url.href);
+    > 117 |         await expect(page.locator(url.hash)).toHaveCount(1);
+          |                                              ^
+      118 |       }
+      119 |     }
+      120 |   }
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:117:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site-local-links-resolve-and-section-anchors-exist-chromium/tes
+t-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site-local-links-resolve-and-section-anchors-exi
+st-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site-local-links-resolve-and-section-anchors-exist-chromium/tra
+ce.zip
+    Usage:
+
+        npx playwright show-trace test-results/site-local-links-resolve-and-sect
+ion-anchors-exist-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  3) [firefox] › tests/site.spec.mjs:19:3 › / loads local assets and has no runt
+ime errors 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      27 |     });
+      28 |     expect(errors).toEqual([]);
+    > 29 |     expect(await page.locator('img').evaluateAll(images => images.eve
+ry(image => image.complete && image.naturalWidth > 0))).toBe(true);
+         |
+                                                        ^
+      30 |   });
+      31 |
+      32 |   test(`${route} accessibility`, async ({ page }) => {
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:29:126
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site--loads-local-assets-and-has-no-runtime-errors-firefox/test
+-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site--loads-local-assets-and-has-no-runtime-erro
+rs-firefox/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site--loads-local-assets-and-has-no-runtime-errors-firefox/trac
+e.zip
+    Usage:
+
+        npx playwright show-trace test-results/site--loads-local-assets-and-has-
+no-runtime-errors-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  4) [firefox] › tests/site.spec.mjs:73:1 › mobile navigation opens, follows lin
+ks, and closes with Escape 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('button', { name: 'Open navigation' })
+    Expected: "true"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('button', { name: 'Open navigation' }
+) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Open navigation' })
+
+
+      76 |   const menu = page.getByRole('button', { name: 'Open navigation' });
+      77 |   await menu.click();
+    > 78 |   await expect(menu).toHaveAttribute('aria-expanded', 'true');
+         |                      ^
+      79 |   await page.keyboard.press('Escape');
+      80 |   await expect(menu).toHaveAttribute('aria-expanded', 'false');
+      81 |   await menu.click();
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:78:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site-mobile-navigation-ope-65153-inks-and-closes-with-Escape-fi
+refox/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site-mobile-navigation-ope-65153-inks-and-closes
+-with-Escape-firefox/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site-mobile-navigation-ope-65153-inks-and-closes-with-Escape-fi
+refox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/site-mobile-navigation-ope-65153-
+inks-and-closes-with-Escape-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  5) [firefox] › tests/site.spec.mjs:107:1 › local links resolve and section anc
+hors exist 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('#collection')
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('#collection') with timeout 5000ms
+      - waiting for locator('#collection')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      115 |       if (url.hash) {
+      116 |         await page.goto(url.href);
+    > 117 |         await expect(page.locator(url.hash)).toHaveCount(1);
+          |                                              ^
+      118 |       }
+      119 |     }
+      120 |   }
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:117:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site-local-links-resolve-and-section-anchors-exist-firefox/test
+-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site-local-links-resolve-and-section-anchors-exi
+st-firefox/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site-local-links-resolve-and-section-anchors-exist-firefox/trac
+e.zip
+    Usage:
+
+        npx playwright show-trace test-results/site-local-links-resolve-and-sect
+ion-anchors-exist-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  6) [webkit] › tests/site.spec.mjs:19:3 › / loads local assets and has no runti
+me errors 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.evaluate: Test timeout of 30000ms exceeded.
+
+      22 |     page.on('response', response => { if (response.url().startsWith('
+http://127.0.0.1:4173') && response.status() >= 400) errors.push(`${response.sta
+tus()} ${response.url()}`); });
+      23 |     await page.goto(route);
+    > 24 |     await page.evaluate(async () => {
+         |                ^
+      25 |       await document.fonts.ready;
+      26 |       await Promise.all([...document.images].map(image => image.decod
+e().catch(() => {})));
+      27 |     });
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:24:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site--loads-local-assets-and-has-no-runtime-errors-webkit/test-
+failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site--loads-local-assets-and-has-no-runtime-erro
+rs-webkit/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site--loads-local-assets-and-has-no-runtime-errors-webkit/trace
+.zip
+    Usage:
+
+        npx playwright show-trace test-results/site--loads-local-assets-and-has-
+no-runtime-errors-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  7) [webkit] › tests/site.spec.mjs:73:1 › mobile navigation opens, follows link
+s, and closes with Escape 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('button', { name: 'Open navigation' })
+    Expected: "true"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('button', { name: 'Open navigation' }
+) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Open navigation' })
+
+
+      76 |   const menu = page.getByRole('button', { name: 'Open navigation' });
+      77 |   await menu.click();
+    > 78 |   await expect(menu).toHaveAttribute('aria-expanded', 'true');
+         |                      ^
+      79 |   await page.keyboard.press('Escape');
+      80 |   await expect(menu).toHaveAttribute('aria-expanded', 'false');
+      81 |   await menu.click();
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:78:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site-mobile-navigation-ope-65153-inks-and-closes-with-Escape-we
+bkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site-mobile-navigation-ope-65153-inks-and-closes
+-with-Escape-webkit/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site-mobile-navigation-ope-65153-inks-and-closes-with-Escape-we
+bkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/site-mobile-navigation-ope-65153-
+inks-and-closes-with-Escape-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  8) [webkit] › tests/site.spec.mjs:107:1 › local links resolve and section anch
+ors exist 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('#collection')
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('#collection') with timeout 5000ms
+      - waiting for locator('#collection')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      115 |       if (url.hash) {
+      116 |         await page.goto(url.href);
+    > 117 |         await expect(page.locator(url.hash)).toHaveCount(1);
+          |                                              ^
+      118 |       }
+      119 |     }
+      120 |   }
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:117:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site-local-links-resolve-and-section-anchors-exist-webkit/test-
+failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site-local-links-resolve-and-section-anchors-exi
+st-webkit/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site-local-links-resolve-and-section-anchors-exist-webkit/trace
+.zip
+    Usage:
+
+        npx playwright show-trace test-results/site-local-links-resolve-and-sect
+ion-anchors-exist-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  9) [mobile-safari] › tests/site.spec.mjs:19:3 › / loads local assets and has n
+o runtime errors 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.evaluate: Test timeout of 30000ms exceeded.
+
+      22 |     page.on('response', response => { if (response.url().startsWith('
+http://127.0.0.1:4173') && response.status() >= 400) errors.push(`${response.sta
+tus()} ${response.url()}`); });
+      23 |     await page.goto(route);
+    > 24 |     await page.evaluate(async () => {
+         |                ^
+      25 |       await document.fonts.ready;
+      26 |       await Promise.all([...document.images].map(image => image.decod
+e().catch(() => {})));
+      27 |     });
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:24:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site--loads-local-assets-and-has-no-runtime-errors-mobile-safar
+i/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site--loads-local-assets-and-has-no-runtime-erro
+rs-mobile-safari/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site--loads-local-assets-and-has-no-runtime-errors-mobile-safar
+i/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/site--loads-local-assets-and-has-
+no-runtime-errors-mobile-safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  10) [mobile-safari] › tests/site.spec.mjs:73:1 › mobile navigation opens, foll
+ows links, and closes with Escape 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('button', { name: 'Open navigation' })
+    Expected: "true"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('button', { name: 'Open navigation' }
+) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Open navigation' })
+
+
+      76 |   const menu = page.getByRole('button', { name: 'Open navigation' });
+      77 |   await menu.click();
+    > 78 |   await expect(menu).toHaveAttribute('aria-expanded', 'true');
+         |                      ^
+      79 |   await page.keyboard.press('Escape');
+      80 |   await expect(menu).toHaveAttribute('aria-expanded', 'false');
+      81 |   await menu.click();
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:78:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site-mobile-navigation-ope-65153-inks-and-closes-with-Escape-mo
+bile-safari/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site-mobile-navigation-ope-65153-inks-and-closes
+-with-Escape-mobile-safari/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site-mobile-navigation-ope-65153-inks-and-closes-with-Escape-mo
+bile-safari/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/site-mobile-navigation-ope-65153-
+inks-and-closes-with-Escape-mobile-safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  11) [mobile-safari] › tests/site.spec.mjs:107:1 › local links resolve and sect
+ion anchors exist 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('#collection')
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('#collection') with timeout 5000ms
+      - waiting for locator('#collection')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      115 |       if (url.hash) {
+      116 |         await page.goto(url.href);
+    > 117 |         await expect(page.locator(url.hash)).toHaveCount(1);
+          |                                              ^
+      118 |       }
+      119 |     }
+      120 |   }
+        at /Users/oleksii/Code/WealthVisionPublic/tests/site.spec.mjs:117:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────
+    test-results/site-local-links-resolve-and-section-anchors-exist-mobile-safar
+i/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site-local-links-resolve-and-section-anchors-exi
+st-mobile-safari/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────
+    test-results/site-local-links-resolve-and-section-anchors-exist-mobile-safar
+i/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/site-local-links-resolve-and-sect
+ion-anchors-exist-mobile-safari/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────
+
+  11 failed
+    [chromium] › tests/site.spec.mjs:73:1 › mobile navigation opens, follows lin
+ks, and closes with Escape 
+    [chromium] › tests/site.spec.mjs:107:1 › local links resolve and section anc
+hors exist 
+    [firefox] › tests/site.spec.mjs:19:3 › / loads local assets and has no runti
+me errors 
+    [firefox] › tests/site.spec.mjs:73:1 › mobile navigation opens, follows link
+s, and closes with Escape 
+    [firefox] › tests/site.spec.mjs:107:1 › local links resolve and section anch
+ors exist 
+    [webkit] › tests/site.spec.mjs:19:3 › / loads local assets and has no runtim
+e errors 
+    [webkit] › tests/site.spec.mjs:73:1 › mobile navigation opens, follows links
+, and closes with Escape 
+    [webkit] › tests/site.spec.mjs:107:1 › local links resolve and section ancho
+rs exist 
+    [mobile-safari] › tests/site.spec.mjs:19:3 › / loads local assets and has no
+ runtime errors 
+    [mobile-safari] › tests/site.spec.mjs:73:1 › mobile navigation opens, follow
+s links, and closes with Escape 
+    [mobile-safari] › tests/site.spec.mjs:107:1 › local links resolve and sectio
+n anchors exist 
+  61 passed (49.0s)
+
+To open last HTML report run:
+
+  npx playwright show-report
+
+oleksii@EPPLWARWABBD WealthVisionPublic % 

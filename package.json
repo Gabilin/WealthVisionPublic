@@ -1,0 +1,16 @@
+{
+  "name": "wealthvision-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/serve.mjs",
+    "test": "playwright test",
+    "test:smoke": "playwright test --project=chromium tests/site.spec.mjs --grep 'download destinations'",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.56.1",
+    "sharp": "^0.34.4"
+  }
+}

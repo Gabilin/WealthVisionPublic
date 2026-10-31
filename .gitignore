@@ -1,0 +1,6 @@
+node_modules/
+playwright-report/
+test-results/
+.impeccable/review/
+.impeccable/context-cache.json
+.DS_Store

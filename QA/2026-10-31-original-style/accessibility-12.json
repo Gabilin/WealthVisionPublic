@@ -1,0 +1,248 @@
+{
+  "current": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#5e5e66",
+                "bgColor": "#0c0c0e",
+                "contrastRatio": 3.04,
+                "fontSize": "9.8pt (13px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<body>",
+                  "target": [
+                    "body"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.04 (foreground color: #5e5e66, background color: #0c0c0e, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"c\">© 2026 WealthVision</span>",
+          "target": [
+            ".c"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.04 (foreground color: #5e5e66, background color: #0c0c0e, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    },
+    {
+      "id": "link-in-text-block",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2a",
+        "wcag141",
+        "TTv5",
+        "TT13.a",
+        "EN-301-549",
+        "EN-9.1.4.1",
+        "RGAAv4",
+        "RGAA-10.6.1"
+      ],
+      "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
+      "help": "Links must be distinguishable without relying on color",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "link-in-text-block",
+              "data": {
+                "messageKey": "fgContrast",
+                "contrastRatio": 1.13,
+                "requiredContrastRatio": 3,
+                "nodeColor": "#22ab94",
+                "parentColor": "#8e8e95"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<p>\n      Questions about privacy? Reach us at\n      <a href=\"mailto:tised.gabilin@gmail.com\">tised.gabilin@gmail.com</a>.\n    </p>",
+                  "target": [
+                    "p:nth-child(29)"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "The link has insufficient color contrast of 1.13:1 with the surrounding text. (Minimum contrast is 3:1, link text: #22ab94, surrounding text: #8e8e95)"
+            },
+            {
+              "id": "link-in-text-block-style",
+              "data": null,
+              "relatedNodes": [
+                {
+                  "html": "<p>\n      Questions about privacy? Reach us at\n      <a href=\"mailto:tised.gabilin@gmail.com\">tised.gabilin@gmail.com</a>.\n    </p>",
+                  "target": [
+                    "p:nth-child(29)"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "The link has no styling (such as underline) to distinguish it from the surrounding text"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"mailto:tised.gabilin@gmail.com\">tised.gabilin@gmail.com</a>",
+          "target": [
+            "a[href=\"mailto:tised.gabilin@gmail.com\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 1.13:1 with the surrounding text. (Minimum contrast is 3:1, link text: #22ab94, surrounding text: #8e8e95)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+        }
+      ]
+    }
+  ],
+  "original": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#5e5e66",
+                "bgColor": "#0c0c0e",
+                "contrastRatio": 3.04,
+                "fontSize": "9.8pt (13px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<body>",
+                  "target": [
+                    "body"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.04 (foreground color: #5e5e66, background color: #0c0c0e, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"c\">© 2026 WealthVision</span>",
+          "target": [
+            ".c"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.04 (foreground color: #5e5e66, background color: #0c0c0e, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    },
+    {
+      "id": "link-in-text-block",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2a",
+        "wcag141",
+        "TTv5",
+        "TT13.a",
+        "EN-301-549",
+        "EN-9.1.4.1",
+        "RGAAv4",
+        "RGAA-10.6.1"
+      ],
+      "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
+      "help": "Links must be distinguishable without relying on color",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "link-in-text-block",
+              "data": {
+                "messageKey": "fgContrast",
+                "contrastRatio": 1.13,
+                "requiredContrastRatio": 3,
+                "nodeColor": "#22ab94",
+                "parentColor": "#8e8e95"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<p>\n      Questions about privacy? Reach us at\n      <a href=\"mailto:tised.gabilin@gmail.com\">tised.gabilin@gmail.com</a>.\n    </p>",
+                  "target": [
+                    "p:nth-child(24)"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "The link has insufficient color contrast of 1.13:1 with the surrounding text. (Minimum contrast is 3:1, link text: #22ab94, surrounding text: #8e8e95)"
+            },
+            {
+              "id": "link-in-text-block-style",
+              "data": null,
+              "relatedNodes": [
+                {
+                  "html": "<p>\n      Questions about privacy? Reach us at\n      <a href=\"mailto:tised.gabilin@gmail.com\">tised.gabilin@gmail.com</a>.\n    </p>",
+                  "target": [
+                    "p:nth-child(24)"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "The link has no styling (such as underline) to distinguish it from the surrounding text"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"mailto:tised.gabilin@gmail.com\">tised.gabilin@gmail.com</a>",
+          "target": [
+            "a[href=\"mailto:tised.gabilin@gmail.com\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 1.13:1 with the surrounding text. (Minimum contrast is 3:1, link text: #22ab94, surrounding text: #8e8e95)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+        }
+      ]
+    }
+  ]
+}
