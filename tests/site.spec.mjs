@@ -65,6 +65,35 @@ for (const route of routes) {
   });
 }
 
+test('honesty headline keeps each sentence on its own fitting line', async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    const heading = page.locator('#honest h2');
+    await heading.scrollIntoViewIfNeeded();
+    await expect(heading.locator('span')).toHaveText(['No hype.', 'No guaranteed 13%.', 'Just the real range.']);
+    const lines = await heading.locator('span').evaluateAll(spans => spans.map(span => {
+      const range = document.createRange();
+      range.selectNodeContents(span);
+      const rectangles = [...range.getClientRects()];
+      return {
+        fragments: rectangles.length,
+        width: rectangles[0].width,
+        availableWidth: span.clientWidth,
+        top: span.getBoundingClientRect().top,
+        bottom: span.getBoundingClientRect().bottom,
+      };
+    }));
+    for (const line of lines) {
+      expect(line.fragments, `sentence wraps at ${width}px`).toBe(1);
+      expect(line.width, `sentence overflows at ${width}px`).toBeLessThanOrEqual(line.availableWidth);
+    }
+    expect(lines[1].top + 0.1).toBeGreaterThanOrEqual(lines[0].bottom);
+    expect(lines[2].top + 0.1).toBeGreaterThanOrEqual(lines[1].bottom);
+  }
+});
+
 test('November promotion has a consistent USD price and deadline', async ({ page }) => {
   for (const route of ['/', '/pricing.html']) {
     await page.goto(route);
